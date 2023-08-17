@@ -1,12 +1,11 @@
 require("dotenv/config");
 import env from "./utility/validateEnv";
 import mongoose from "mongoose";
-import express from "express";
 import logger from "./config/logger";
+import server from "./utility/server";
 
-const app = express();
+const app = server();
 const port = env.SERVER_PORT || 5000;
-
 
 mongoose
 .connect(env.MONGO_CONNECTION_STRING)

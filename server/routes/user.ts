@@ -8,7 +8,13 @@ const router = express.Router()
 
 router.get('/login', User.login)
 
+router.get('/googleLogin', User.googleLogin)
+
 router.get('/register', User.register)
+
+router.get('/otp', User.otp)
+
+router.put('/password', User.password)
 
 router.get('/google', passport.authenticate('google', {
     scope: ['profile']

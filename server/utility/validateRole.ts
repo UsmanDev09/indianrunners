@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction} from 'express'
-import { user } from '../interfaces/user';
+import { User } from '../interfaces/user';
 
 export const checkIsinRole = (...roles: []) => (req: Request, res: Response, next: NextFunction) => {
-    const user = req.user as user;
+    const user = req.user as User;
 
     if (!user) {
         return res.send('Please login to proceed')
