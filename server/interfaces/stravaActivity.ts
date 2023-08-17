@@ -1,0 +1,16 @@
+export interface StravaActivity {
+    sport_type: number,
+    start_date: Date,
+    start_time: Date,
+    end_time: Date,
+    elapsed_time: number,
+    moving_time: number,
+    distance: number,
+    average_speed: number,
+    average_moving_speed: number,
+    max_speed: number,
+    total_ascent: number,
+    calories: number,
+    elev_high: number,
+    elev_low: number,
+}
