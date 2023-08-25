@@ -1,4 +1,5 @@
-require("dotenv/config");
+import "dotenv/config"
+import "./auth/index"
 import env from "./utility/validateEnv";
 import mongoose from "mongoose";
 import logger from "./config/logger";

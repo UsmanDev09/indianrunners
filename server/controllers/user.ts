@@ -25,12 +25,10 @@ let transporter = nodemailer.createTransport({
 } as SMTPTransport.Options)
 
 export const login: RequestHandler<unknown, unknown, User, unknown> = async (req, res, next) => {
-   const { name, email, password, role } = req?.body
+   const { email, password } = req?.body
 
    try {
-        if (!(name || email || password || role))
-            throw createHttpError(StatusCodes.BAD_REQUEST, Constants.requiredParameters)
-
+       
         const user = await UserModel.findOne({
             email
         })
@@ -52,7 +50,9 @@ export const login: RequestHandler<unknown, unknown, User, unknown> = async (req
             data: { user, token },
             message: Constants.userLoggedInSuccessfully
         })
+        
     } catch(error) {
+        logger.error(error)
         next(error)
     }
 
@@ -65,24 +65,28 @@ export const googleLogin: RequestHandler = async (req, res, next) => {
 
 
 export const register: RequestHandler = async (req, res, next) => {
-    const { name, email, password, role } = req?.body
     try {
         
-        if(!(name || email || password || role))
-        throw createHttpError(StatusCodes.BAD_GATEWAY, Constants.requiredParameters)
-    
+        const { email, password, firstName, lastName, userName } = req?.body
+        const clubs = ["Spartans", "Vikings", "Avengers", "Ninjas"]
+
         const existingUser = await UserModel.findOne({ email })
         
         if(existingUser)
-        throw createHttpError(StatusCodes.BAD_REQUEST, Constants.userExists)
+            throw createHttpError(StatusCodes.BAD_REQUEST, Constants.userExists)
 
         const hashedPassword = await bcrypt.hash(password, 10)
 
+        const assignClubRandomly = clubs[Math.random() * clubs.length]
 
-        const newUser = await new UserModel({
-            name: name,
-            email: email,
+        const newUser = new UserModel({
+            firstName,
+            lastName,
+            userName,
+            email,
             password: hashedPassword,
+            club: assignClubRandomly,
+            profileCompleted: 6/16 * 100
         })
 
         await newUser.save()
@@ -111,9 +115,9 @@ export const register: RequestHandler = async (req, res, next) => {
 }
 
 export const otp: RequestHandler<unknown, unknown, User, unknown> = async (req, res, next) => {
-    const { email } = req?.body
-
+    
     try {
+        const { email } = req?.body
         const user = UserModel.findOne({ email : email })
 
         if(!user) throw createHttpError(StatusCodes.NOT_FOUND, Constants.userNotFound)
@@ -141,34 +145,89 @@ export const otp: RequestHandler<unknown, unknown, User, unknown> = async (req, 
         })
 
     } catch (error) {
-
+        logger.error(error)
+        next(error)
     }
 }
 
 export const password: RequestHandler<unknown, unknown, User, unknown> = async (req, res, next) => {
-    const { email, otp, password } = req?.body
-
-    const otpNumber = Otp.findOne({ email: email, otp: otp })
-
-    if(!otpNumber) throw createHttpError(StatusCodes.BAD_REQUEST, Constants.incorrectOtp)
-
-    const user = await UserModel.findOne({ email: email })
-    const hash = await bcrypt.hash(password, 10)
     
-    if(!user) throw createHttpError(StatusCodes.BAD_REQUEST, Constants.userNotFound)
+    try {
+        const { email, otp, password } = req?.body
 
-    await UserModel.findOneAndUpdate(
-        { email: email }, 
-        { password: hash }
-    )
+        const otpNumber = Otp.findOne({ email: email, otp: otp })
 
-    res.status(StatusCodes.OK).json({
-        success: true,
-        data: user,
-        messages: Constants.changedPasswordSuccessfully,
-    })
+        if(!otpNumber) throw createHttpError(StatusCodes.BAD_REQUEST, Constants.incorrectOtp)
+
+        const user = await UserModel.findOne({ email: email })
+        const hashPassword = await bcrypt.hash(password, 10)
+        
+        if(!user) throw createHttpError(StatusCodes.BAD_REQUEST, Constants.userNotFound)
+
+        await UserModel.findOneAndUpdate(
+            { email: email }, 
+            { password: hashPassword }
+        )
+
+        res.status(StatusCodes.OK).json({
+            success: true,
+            data: user,
+            messages: Constants.changedPasswordSuccessfully,
+        })
+    } catch (error) {
+        logger.error(error)
+        next(error)
+    }
 
 }
 
-export const profile: RequestHandler<unknown, unknown, User, unknown> = async (req, res, next) => {
+export const getProfile: RequestHandler<unknown, unknown, User, unknown> = async (req, res, next) => {
+
+    try {
+        const loggedInUser = req.user as User
+        
+        const user = await UserModel.findById(loggedInUser._id)
+
+        res.status(StatusCodes.OK).json({
+            success: true, 
+            data: user
+        })
+    } catch (error) {
+        logger.error(error)
+        next(error)
+    }
+}
+
+export const updateProfile: RequestHandler<unknown, unknown, User, unknown> = async (req, res, next) => {
+    
+    try {
+        
+        const { dob, gender, weight, height, contact, country, state, city, role, profilePicture } = req?.body
+        
+        const user = req.user as User
+
+        const profile : (keyof User)[]= ['dob', 'gender', 'weight', 'height', 'contact', 'country', 'state', 'city', 'role', 'profilePicture'];
+        
+        let profileCompletedAttributes = 5
+        profile.map((attribute) => {
+            if(req?.body[attribute]) 
+                profileCompletedAttributes++
+        })
+
+        let profileCompleted = profileCompletedAttributes/16 * 100
+
+        await UserModel.findByIdAndUpdate(
+            user._id, 
+            { ...req.body, profileCompleted  }        
+        )
+
+        res.status(StatusCodes.OK).json({
+            success: true,
+            data: profileCompleted
+        })
+
+    } catch (error) {
+        logger.error(error)
+        next(error)
+    }
 }

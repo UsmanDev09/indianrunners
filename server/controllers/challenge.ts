@@ -3,19 +3,14 @@ import createHttpError from "http-errors"
 import { StatusCodes } from "http-status-codes"
 import { Challenge } from "../interfaces/challenge"
 import ChallengeModel from "../models/challenge"
-import CategoryModel from "../models/category"
+import CategoryModel from "../models/challengeCategory"
 import mongoose from "mongoose"
 import { Constants } from "../utility/constants"
 import { User } from "../interfaces/user"
 
 export const createChallenge: RequestHandler<unknown, unknown, Challenge, unknown> = async (req, res, next) => {
-    
     try {
-
-        const { type, name, image, startDate, endDate, logic, sport, tags, bibNumber, featured, verified, organizationName, categoryId } = req?.body
-
-        if (!(type || name || image || startDate || endDate || logic || sport || tags || bibNumber || featured || verified || organizationName))
-            throw createHttpError(StatusCodes.BAD_REQUEST, Constants.requiredParameters)
+        const { type, name, activity, knockout, knockoutType, lowerLimit, upperLimit, fixedLimit, cutOffDays, cutOffHours, image, startDate, endDate, logic, sport, tags, bibNumber, featured, verified, organizationName, categoryId } = req?.body
 
         const category = await CategoryModel.findById(categoryId)
 
@@ -28,14 +23,13 @@ export const createChallenge: RequestHandler<unknown, unknown, Challenge, unknow
             data: challenge,
             message: Constants.challengeCreatedSuccessfully
         })
-     } catch(error) {
+    } catch(error) {
         next(error)
-     }
- 
- }
+    }
+}
 
 
-export const updateChallenge: RequestHandler<unknown, unknown, Challenge, { id: number }> = async (req, res, next) => { 
+export const updateChallenge: RequestHandler<unknown, unknown, Challenge, unknown> = async (req, res, next) => { 
     const { type, name, image, startDate, endDate, logic, sport, tags, bibNumber, featured, verified, organizationName } = req?.body
     const { _id } = req.user as User;
     
@@ -58,17 +52,17 @@ export const updateChallenge: RequestHandler<unknown, unknown, Challenge, { id: 
 }
 
 export const deleteChallenge: RequestHandler<unknown, unknown, Challenge, unknown> = async (req, res, next) => { 
-    const { _id } = req.user as User;
+    const { id } = req.body;
 
-    if (!mongoose?.Types.ObjectId.isValid(_id)) {
+    if (!mongoose?.Types.ObjectId.isValid(id)) {
         throw createHttpError(StatusCodes.BAD_REQUEST, Constants.invalidId)
     }
 
-    const challenge = await ChallengeModel.findById(_id)
+    const challenge = await ChallengeModel.findById(id)
 
     if(!challenge) throw createHttpError(StatusCodes.NOT_FOUND, Constants.notFound)
 
-    await ChallengeModel.findByIdAndDelete(_id)
+    await ChallengeModel.findByIdAndDelete(id)
 
     res.status(StatusCodes.OK).json({
         success: true,

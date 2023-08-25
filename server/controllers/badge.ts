@@ -12,9 +12,6 @@ export const createBadge: RequestHandler<unknown, unknown, Badge, unknown> = asy
     const { name, description, criteria } = req?.body
  
     try {
-        if (!(name || criteria || description))
-            throw createHttpError(StatusCodes.BAD_REQUEST, Constants.requiredParameters)
-
         const badge = await BadgeModel.create(req.body)        
  
         res.status(StatusCodes.OK).json({
@@ -29,17 +26,17 @@ export const createBadge: RequestHandler<unknown, unknown, Badge, unknown> = asy
 
 
 export const deleteBadge: RequestHandler<unknown, unknown, Badge, unknown> = async (req, res, next) => { 
-    const { _id } = req.user as User;
+    const { id } = req.body;
 
-    if (!mongoose?.Types.ObjectId.isValid(_id)) {
+    if (!mongoose?.Types.ObjectId.isValid(id)) {
         throw createHttpError(StatusCodes.BAD_REQUEST, Constants.invalidId)
     }
 
-    const badge = await BadgeModel.findById(_id)
+    const badge = await BadgeModel.findById(id)
 
     if(!badge) throw createHttpError(StatusCodes.NOT_FOUND, Constants.notFound)
 
-    await BadgeModel.findByIdAndDelete(_id)
+    await BadgeModel.findByIdAndDelete(id)
 
     res.status(StatusCodes.OK).json({
         success: true,

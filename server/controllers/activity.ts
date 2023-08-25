@@ -8,6 +8,7 @@ import UserModel from "../models/user"
 import { StravaInterface } from "../interfaces/strava"
 import { StravaActivity } from "../interfaces/stravaActivity"
 import { Constants } from "../utility/constants"
+import { User } from "../interfaces/user"
 
 export const postActivity: RequestHandler<unknown, unknown, StravaInterface, unknown> = async (req, res, next) => {
     try {
@@ -45,7 +46,7 @@ export const postActivity: RequestHandler<unknown, unknown, StravaInterface, unk
                 date: activity.start_date,   // start time can be calculated from date, and end time by subtracting moving time
             })
             
-            user.activities.push([userActivity])
+            // user.activities.push([userActivity])
         })
 
         res.status(StatusCodes.OK).json({
@@ -86,7 +87,7 @@ export const postManualActivity: RequestHandler<unknown, unknown, StravaActivity
 
         if(!user) throw createHttpError(StatusCodes.UNAUTHORIZED, Constants.loginToProceed)
 
-        user.activities.push([activity])
+        // user.activities.push([activity])
 
 
     } catch (error) {
@@ -96,16 +97,16 @@ export const postManualActivity: RequestHandler<unknown, unknown, StravaActivity
 
 export const getActivitiesByUser: RequestHandler<unknown, unknown, StravaInterface, unknown> = async(req, res, next) => {
     try {
-        const { id } = req?.headers;
-        const user = await UserModel.findById(id)
+        const { _id } = req?.user as User;
+        const user = await UserModel.findById(_id)
 
         if(!user) throw createHttpError(StatusCodes.NOT_FOUND, Constants.userNotFound)
 
-        const activities = user.activities
+        // const activities = user.activities
 
         return res.json(StatusCodes.OK).json({
             success: true,
-            data: activities,
+            // data: activities,
         })
 
 

@@ -1,17 +1,17 @@
 import express from 'express'
 
-import * as Challange from '../controllers/challenge'
+import * as Challenge from '../controllers/challenge'
 import { checkIsinRole } from "../utility/checkIsInRoles"
 import { ROLES } from "../utility/constants"
 
 const router = express.Router()
 
-router.post('/challenge', checkIsinRole(ROLES.ADMIN), Challange.createChallenge)
+router.post('/', checkIsinRole(ROLES.ADMIN), Challenge.createChallenge)
 
-router.put('/challenge', checkIsinRole(ROLES.ADMIN), Challange.updateChallenge)
+router.put('/', checkIsinRole(ROLES.ADMIN), Challenge.updateChallenge)
 
-router.delete('/challenge', checkIsinRole(ROLES.ADMIN), Challange.deleteChallenge)
+router.delete('/', checkIsinRole(ROLES.ADMIN), Challenge.deleteChallenge)
 
-router.get('/challenge', Challange.getAllChallenges)
+router.get('/', Challenge.getAllChallenges)
 
 export default router

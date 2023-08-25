@@ -27,6 +27,12 @@ export const Constants = {
     badgeDeletedSuccessfully: 'Badge has been deleted successfully',
     badgesFetchedSuccessfully: 'Badge has been fetched successfully',
 
+    // products
+    productAddedToCategorySuccessfully: 'Product has been added to category successfully',
+    productCreatedSuccessfully: 'Product has been created successfully',
+    productUpdatedSuccessfully: 'Product has been updated successfully',
+    productDeletedSuccessfully: 'Product has been deleted successfully',
+    
     invalidId: 'Invalid id',
     notFound: 'Not found',
     recordFound: 'Record found',
@@ -51,9 +57,7 @@ export const Constants = {
     emailRequired: 'Email is required',
     passwordRequired: 'Password is required',
     codeRequired: 'Code is required',
-
 }
-
 
 export const ROLES = {
     ADMIN : 'admin',

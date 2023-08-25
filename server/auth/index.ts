@@ -1,7 +1,10 @@
-// import passport from 'passport'
+import passport from 'passport'
 // const GoogleStrategy = require('passport-google-oauth20').Strategy
-// import { Strategy as JWTStrategy, ExtractJwt, VerifiedCallback } from 'passport-jwt';
-// import env from '../utility/validateEnv'
+import { Strategy as JWTStrategy, ExtractJwt, VerifiedCallback } from 'passport-jwt';
+import env from '../utility/validateEnv'
+import UserModel from '../models/user';
+import logger from "../config/logger";
+import { User } from '../interfaces/user';
 
 // passport.use(new GoogleStrategy({
 //     clientID: env.GOOGLE_CLIENT_ID,
@@ -12,22 +15,25 @@
 //     // save to db
 // }))
 
-// type JWTToken = { 
-//     user: {
-//         id: number,
-//         name: string,
-//         email: string,
-//         password: string,
-//         role: string
-//     }
-// }
-// passport.use(new JWTStrategy({
-//     secretOrKey: env.JWT_SECRET_KEY,
-//     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-// }, async(token: JWTToken, done: VerifiedCallback) => {
-//     try {
-//         return done(null, token.user)
-//     } catch (error) {
-//         done(error)
-//     }
-// }))
+type JWTToken = { 
+    user: User
+}
+
+const options = {
+    secretOrKey: env.JWT_SECRET_KEY,
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+}
+
+export default passport.use(new JWTStrategy(options, async(token: JWTToken, done: VerifiedCallback) => {
+    try {
+
+        const user = await UserModel.findById(token.user._id)
+        if (user) done(null, token.user) 
+        else done(null, false)
+
+    } catch (error) {
+        logger.error(error)
+        done(error)
+    }
+}))
+

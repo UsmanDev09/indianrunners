@@ -1,3 +1,5 @@
+import ('../auth/index')
+
 import { Request, Response } from "express"
 
 import express from 'express'
@@ -6,17 +8,21 @@ import * as User from '../controllers/user'
 
 const router = express.Router()
 
-router.get('/login', User.login)
+router.post('/login', User.login)
 
-router.get('/googleLogin', User.googleLogin)
+router.post('/googleLogin', User.googleLogin)
 
-router.get('/register', User.register)
+router.post('/register', User.register)
 
 router.get('/otp', User.otp)
 
+router.put('/profile', passport.authenticate('jwt', { session: false }), User.updateProfile)
+
+router.get('/profile', passport.authenticate('jwt', { session: false }), User.getProfile)
+
 router.put('/password', User.password)
 
-router.get('/google', passport.authenticate('google', {
+router.post('/google', passport.authenticate('google', {
     scope: ['profile']
 }))
 

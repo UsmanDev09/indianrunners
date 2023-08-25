@@ -1,6 +1,15 @@
 export interface Challenge {
+    id: number,
     type: string,
     name: string,
+    activity: string,
+    knockout: boolean,
+    knockoutType: string,
+    lowerLimit: number,
+    upperLimit: number,
+    fixedLimit: number,
+    cutOffDays: number,
+    cutOffHours: number,
     image: string, // 1920 * 1080
     startDate: Date,
     endDate: Date,

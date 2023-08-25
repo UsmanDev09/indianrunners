@@ -1,7 +1,7 @@
 import { InferSchemaType, model, Schema } from 'mongoose'
 
 const activitySchema = new Schema({
-    activityType: { type: String, required: true },
+    activityType: { type: String, required: true, enum: ['run', 'virtualRun', 'trailRun', 'treadmil', 'walk', 'hike', 'ride', 'mountainBikeRide', 'gravelBikeRide', 'veloMobile', 'virtialRide', 'handcycle', 'swim', 'crossfit', 'elliptical', 'stairStepper', 'weightTraining', 'workout', 'hiit', 'pilates', 'yoga'] },
     date: { type: Date, required: true },
     startTime: { type: Date, required: true },
     endTime: { type: Date, required: true },
@@ -19,4 +19,4 @@ const activitySchema = new Schema({
 type Activity = InferSchemaType<typeof activitySchema>
 
 
-export default model<Activity>('activity', activitySchema)
+export default model<Activity>('Activity', activitySchema)
