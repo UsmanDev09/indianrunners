@@ -64,7 +64,7 @@ const LoginForm = () => {
           title="Login"
           className=" rounded text-white bg-pink p-2 w-60 mt-3"
         />
-        <div className="mt-2">Don't have an account?</div>
+        <div className="mt-2">Don&apos;t have an account?</div>
         <Link
           href={"/SignUp"}
           className="rounded text-center text-white bg-pink p-2 w-40"
