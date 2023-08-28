@@ -20,5 +20,6 @@ export interface Challenge {
     featured: boolean,
     verified: boolean,
     organizationName: string,
-    categoryId: number,
+    price: number,
+    categories: [number],
 } 

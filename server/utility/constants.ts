@@ -14,6 +14,18 @@ export const Constants = {
     challengeUpdatedSuccessfully: 'Challenge has been updated successfully',
     challengeDeletedSuccessfully: 'Challenge has been deleted successfully',
     challengesFetchedSuccessfully: 'Challenges has been fetched successfully',
+    challengeFetchedSuccessfully: 'Challenge has been fetched successfully',
+    openChallengesShouldHaveLowerLimit: 'Open Challenges must have lower cut off limit',
+    openChallengesWrongOptions: 'Wrong Options have been provided to open challenge',
+    fixedChallengesShouldHaveUpperLimitAndFixedLimit: 'Fixed Challenges should have upper limit and a fixed limit',
+    fixedChallengesWrongOptions: 'Wrong Options have been provided to fixed challenge', 
+    challengesWrongOptions: 'Wrong Options have been provided to challenge',
+    singleCategoryShouldBeProvided: 'Only one category should be provided',
+    multipleCategoriesShouldBeProvided: 'More than one categories should be provided',
+    knockoutTypeShouldBeProvided: 'Knockout type should be provided',
+    hourlyKnockoutChallengesMustHaveCutOffHours: 'Hourly Knockout Challenges must have Cut Off Hours', 
+    dailyKnockoutChallengesMustHaveCutOffDays: 'Daily Knockout Challenges must have Cut Off Days',
+    challengeNotFound: 'Challenge not found',
 
     // category
     categoryCreatedSuccessfully: 'Category has been created successfully',
@@ -33,6 +45,11 @@ export const Constants = {
     productUpdatedSuccessfully: 'Product has been updated successfully',
     productDeletedSuccessfully: 'Product has been deleted successfully',
     
+    // cart
+    cartCreatedSuccessfully: 'Cart has been created successfully',
+    cartUpdatedSuccessfully: 'Cart has been updated successfully',
+    cartFetchedSuccessfully: 'Cart has been fetched successfully',
+     
     invalidId: 'Invalid id',
     notFound: 'Not found',
     recordFound: 'Record found',

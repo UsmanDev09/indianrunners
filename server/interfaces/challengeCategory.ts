@@ -1,4 +1,4 @@
-export interface Category {
+export interface ChallengeCategory {
     id: number,
     activity: string,
     distance: number,

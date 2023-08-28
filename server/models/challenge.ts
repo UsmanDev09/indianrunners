@@ -2,14 +2,14 @@ import { InferSchemaType, model, Schema } from 'mongoose'
 import challengeCategorySchema from './challengeCategory'
 
 const challengeSchema = new Schema({
-    name: { type: String, required: [true, 'Challange name is required']},
-    type: { type: String, enum: ['open', 'fixed']},
-    activity: { type: String, enum: ['single', 'multiple']},
-    knockout: { type: Boolean },
+    name: { type: String, required: [true, 'Challange name is required'], unique: [true, 'Challenge name is already taken']},
+    type: { type: String, enum: ['open', 'fixed'], required: [true, 'Challenge type is required']},
+    activity: { type: String, enum: ['single', 'multiple'], required: [true, 'Challenge activity is required']},
+    knockout: { type: Boolean, required: [true, 'Is the challenge knockout ot not?'] },
     knockoutType: { type: String, enum: ['daily', 'hourly']},
     lowerLimit: { type: Number },
     upperLimit: { type: Number },
-    fixedlimit: { type: Number },
+    fixedLimit: { type: Number },
     cutOffDays: { type: Number },
     cutOffHours: { type: Number },
     image: { type: String }, // 1920 * 1080
@@ -23,7 +23,7 @@ const challengeSchema = new Schema({
     organizationName: { type: String },
     price: { type: Number, required: [true, 'Challenge price is required']},
     categories: { type: [challengeCategorySchema.schema], default: [] }
-
+ 
 }, { timestamps: true })
 
 type Challenge = InferSchemaType<typeof challengeSchema>

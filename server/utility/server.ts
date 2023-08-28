@@ -16,6 +16,7 @@ import badgeRoutes from '../routes/badge'
 const app = express()
 
 const server = () => {
+    console.log('here')
     app.use(express.json())
     app.use(express.urlencoded( { extended: false} ))
     app.use(cors())
@@ -43,7 +44,10 @@ const server = () => {
             errorMessage = error.message
             statusCode = error.status
         }
-        res.status(statusCode).json( { error: error } )
+        res.status(statusCode).json( { 
+            success: false,
+            message: error 
+        } )
     })
     return app
 }
