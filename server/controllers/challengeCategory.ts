@@ -45,18 +45,18 @@ export const updateCategory: RequestHandler<unknown, unknown, ChallengeCategory,
 
 }
 
-export const deleteCategory: RequestHandler<unknown, unknown, ChallengeCategory, unknown> = async (req, res, next) => { 
-    const { id } = req.body;
+export const deleteCategory: RequestHandler<{_id: number}, unknown, ChallengeCategory, unknown> = async (req, res, next) => { 
+    const { _id } = req.params;
 
-    if (!mongoose?.Types.ObjectId.isValid(id)) {
+    if (!mongoose?.Types.ObjectId.isValid(_id)) {
         throw createHttpError(StatusCodes.BAD_REQUEST, Constants.invalidId)
     }
 
-    const category = await CategoryModel.findById(id)
+    const category = await CategoryModel.findById(_id)
 
     if(!category) throw createHttpError(StatusCodes.NOT_FOUND, Constants.notFound)
 
-    await CategoryModel.findByIdAndDelete(id)
+    await CategoryModel.findByIdAndDelete(_id)
 
     res.status(StatusCodes.OK).json({
         success: true,
@@ -67,6 +67,7 @@ export const deleteCategory: RequestHandler<unknown, unknown, ChallengeCategory,
 }
 
 export const getAllCategories: RequestHandler<unknown, unknown, ChallengeCategory, unknown> = async (req, res, next) => { 
+    console.log(req.body)
     const categories = await CategoryModel.find()
 
     res.status(StatusCodes.OK).json({

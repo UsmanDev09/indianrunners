@@ -42,6 +42,8 @@ export const addProductsToCategory: RequestHandler<unknown, unknown, productCate
             category.products.push([singleProduct])     
         })
             
+        await category.save()
+        
         res.status(StatusCodes.OK).json({
             success: true,
             data: category,

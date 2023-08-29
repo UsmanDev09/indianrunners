@@ -60,7 +60,18 @@ const filterRequestBody : RequestHandler<unknown, unknown, unknown, unknown> = (
     else if (req.method === 'PUT' && req.originalUrl.startsWith(`${prefix}/product/category`)) {
         optionalParams = ['name', 'description', 'products']
     }
-
+    else if(req.method === 'POST' && req.originalUrl.startsWith(`${prefix}/cart`)){
+        requiredParams = ['itemType']
+        optionalParams = ['itemDetails']
+    }
+    else if(req.method === 'PUT' && req.originalUrl.startsWith(`${prefix}/cart`)){
+        requiredParams = ['itemType']
+        optionalParams = ['itemDetails']
+    }
+    else if(req.method === 'POST' && req.originalUrl.startsWith(`${prefix}/shippingDetails`)){
+        requiredParams = ['address', 'city', 'state']
+    }
+    
     // filter extra parameters
     if (requiredParams.length > 0 || optionalParams.length > 0) {
         const requestParams = _.keysIn(req.body)

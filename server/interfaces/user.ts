@@ -1,5 +1,6 @@
 import { StravaActivity } from "./stravaActivity"
 import { Cart } from "./cart"
+import { ShippingDetails } from "./shippingDetail"
 
 enum Roles { 
     Admin = 'admin',
@@ -26,5 +27,6 @@ export interface User {
     otp: number,
     role: Roles,
     activities: StravaActivity[]
-    cart: Cart[]
+    cart: Cart[],
+    shippingDetails: ShippingDetails 
 }

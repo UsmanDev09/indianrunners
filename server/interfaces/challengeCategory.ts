@@ -1,5 +1,5 @@
 export interface ChallengeCategory {
-    id: number,
+    _id: number,
     activity: string,
     distance: number,
     description: string,

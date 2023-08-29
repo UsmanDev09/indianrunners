@@ -1,6 +1,7 @@
 import { InferSchemaType, model, Schema } from 'mongoose'
 import activitySchema from './activity'
 import cartSchema from './cart'
+import shippingDetail from './shippingDetail'
 
 const userSchema = new Schema({
     email: { type: String, required: true, unique: true },
@@ -17,13 +18,13 @@ const userSchema = new Schema({
     state: { type: String },
     city: {type: String },
     role: { type: String, enum: ["admin", "user"], default: 'user' },
-    profileCompleted: { type: Number, default: '0%' },
+    profileCompleted: { type: Number },
     profilePicture: { type: String },
     club: { type: String, enum: ["Spartans", "Vikings", "Avengers", "Ninjas"] },
     appsConnected: {type: String, enum: ["Strava", "Garmin", "Runtastic"]},
     activities: { type: [activitySchema.schema], default: [] },
-    cart: { type: [cartSchema.schema], default: []}
-    
+    cart: { type: [cartSchema.schema], default: []},
+    shippingDetail: { type: [shippingDetail.schema], default: []},
 }, { timestamps: true })
 
 type User = InferSchemaType<typeof userSchema>

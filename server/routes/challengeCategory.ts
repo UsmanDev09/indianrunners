@@ -10,7 +10,7 @@ router.post('/', checkIsinRole(ROLES.ADMIN), Category.createCategory)
 
 router.put('/', checkIsinRole(ROLES.ADMIN), Category.updateCategory)
 
-router.delete('/', checkIsinRole(ROLES.ADMIN), Category.deleteCategory)
+// router.delete('/', checkIsinRole(ROLES.ADMIN), Category.deleteCategory)
 
 router.get('/', Category.getAllCategories)
 

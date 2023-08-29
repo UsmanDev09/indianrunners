@@ -1,5 +1,5 @@
 export interface Challenge {
-    id: number,
+    _id: number,
     type: string,
     name: string,
     activity: string,
