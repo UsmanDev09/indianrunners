@@ -1,25 +1,22 @@
 import { RequestHandler } from "express"
 import createHttpError from "http-errors"
 import { StatusCodes } from "http-status-codes"
-import { Cart, ChallengeType } from "../interfaces/cart"
-import { Response } from "../interfaces/response"
+import { Cart } from "../interfaces/cart"
 import CartModel from "../models/cart"
 import UserModel from "../models/user"
 import ChallengeModel from "../models/challenge"
 import ChallengeCategoryModel from "../models/challengeCategory"
 import mongoose from "mongoose"
-import { Document } from "mongoose"
 import { Constants } from "../utility/constants"
 import logger from "../config/logger"
 import { User } from "../interfaces/user"
-import { ChallengeCategory } from "../interfaces/challengeCategory"
 
 export const addChallengeToCart: RequestHandler<unknown, unknown, Cart, unknown> = async (req, res, next) => {
     try {
         const { _id } = req.user as User
 
         const { itemType, itemDetails } = req.body
-        console.log(itemType, itemDetails)
+
         const user = await UserModel.findById(_id)
 
         if(!user) 
@@ -28,13 +25,18 @@ export const addChallengeToCart: RequestHandler<unknown, unknown, Cart, unknown>
         const itemDetailDocuments : any = []
 
         for (const itemDetail of itemDetails ) {
+            
             const challenge = await ChallengeModel.findById(itemDetails[0].challenge._id)
+            
             const { challengeCategories } : any = itemDetail
+            
             const challengeCategoryDocuments: any = []
+            
             for (const challengeCategory of challengeCategories) {
                 const challengeCategoryDocument = await ChallengeCategoryModel.findById(challengeCategory._id)
                 challengeCategoryDocuments.push(challengeCategoryDocument)
             }
+            
             itemDetailDocuments.push({
                 challenge, 
                 challengeCategories: challengeCategoryDocuments
@@ -46,6 +48,8 @@ export const addChallengeToCart: RequestHandler<unknown, unknown, Cart, unknown>
             itemType, 
             itemDetails: itemDetailDocuments
         })
+
+        
 
         user.cart.push(cart)
 
@@ -63,28 +67,35 @@ export const addChallengeToCart: RequestHandler<unknown, unknown, Cart, unknown>
 }
 
 
-export const updateCart: RequestHandler<{ id: number }, unknown, Cart, Cart> = async (req, res, next) => { 
+export const removeChallengeFromCart: RequestHandler<{ id: number }, unknown, Cart, unknown> = async (req, res, next) => { 
     try {
 
         const { _id } = req.user as User
-    
+        
+        const { itemType, itemDetails } = req.body
+
+        const cartId = req.body._id
+
         const user = await UserModel.findById(_id)
 
         if(!user) 
             throw createHttpError(StatusCodes.NOT_FOUND, Constants.notFound)
 
-        const { id } = req?.params
+        if( user.cart.length === 0)
+            throw createHttpError(StatusCodes.NOT_FOUND, Constants.notFound)
 
-        const updatedCart = await CartModel.findByIdAndUpdate(id, req.body)
+        const deletecart = await CartModel.findByIdAndDelete(cartId)
         
-        
-        user.cart.push([updatedCart])
-        
-        await user.save()
-        
+        const challenge = await UserModel.updateOne({_id: user._id, 'cart.itemDetails.challenge._id': itemDetails[0].challenge._id}, { $pull: {'cart.$.itemDetails': {'challenge._id' : itemDetails[0].challenge._id}}})
+
+        // check if itemDetails is empty and remove the object
+        await UserModel.updateOne(
+            { _id: user._id, 'cart.itemDetails': { $size: 0 } }, { $pull: { cart: { 'itemDetails': { $size: 0 } } } }
+        );
+             
         res.status(StatusCodes.OK).json({
             success: true,
-            data: updatedCart,
+            data: challenge,
             message: Constants.cartUpdatedSuccessfully
         })
     } catch (error) {

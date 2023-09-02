@@ -7,7 +7,7 @@ const router = express.Router()
 
 router.post('/', passport.authenticate('jwt', { session: false }), Cart.addChallengeToCart)
 
-router.put('/', passport.authenticate('jwt', { session: false }), Cart.updateCart)
+router.delete('/', passport.authenticate('jwt', { session: false }), Cart.removeChallengeFromCart)
 
 router.get('/', passport.authenticate('jwt', { session: false }), Cart.getCart)
 
