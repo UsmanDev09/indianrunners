@@ -1,8 +1,13 @@
+import { MyGlobalContext } from "@/Hooks/useGlobalContext";
+import setAccount from "@/lib/setAccount";
 import { Josefin_Sans } from "next/font/google";
 import Link from "next/link";
-
+import { useRouter } from "next/router";
+import { useContext } from "react";
 const josef = Josefin_Sans({ subsets: ["latin"] });
 const LoginForm = () => {
+  const router = useRouter();
+  const { state, dispatch } = useContext(MyGlobalContext);
   const submitForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -33,7 +38,27 @@ const LoginForm = () => {
         return res.json();
       })
       .then(function (data) {
-        alert(JSON.stringify(data));
+        console.log(data);
+
+        if (data?.success) {
+          console.log(state);
+          dispatch({
+            type: "ACCOUNT_UPDATE",
+            payload: {
+              firstName: data?.data?.user?.firstName,
+              lastName: data?.data?.user?.lastName,
+              userName: data?.data?.user?.userName,
+              profile: data?.data?.user?.profileCompleted,
+            },
+          });
+          setAccount(
+            state.account.firstName,
+            state.account.lastName,
+            state.account.userName,
+            state.account.profile
+          );
+          router.replace("/Profile");
+        }
       });
   };
   return (
