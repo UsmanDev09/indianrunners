@@ -16,6 +16,7 @@ type Props = {
 const Layout = ({ children, title = "SEMASTORE" }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [email, setEmail] = useState("Email");
+
   return (
     <div>
       <Head>
@@ -52,7 +53,9 @@ const Layout = ({ children, title = "SEMASTORE" }: Props) => {
                 </div>
 
                 <div className="flex flex-row justify-end ">
-                  <div className="text-base">Log In&nbsp;</div>
+                  <Link href="/Login" className="text-base">
+                    Log In&nbsp;
+                  </Link>
                   <div>
                     <Image
                       src={user}
@@ -86,7 +89,7 @@ const Layout = ({ children, title = "SEMASTORE" }: Props) => {
                       <div
                         className="absolute z-10 w-48 mt-0.5 py-4 px-3 focus:outline-none rounded shadow-lg hover:bg-grey bg-white"
                         role="menu"
-                        tabIndex={-1} 
+                        tabIndex={-1}
                       >
                         <Link
                           className="transition ease-in-out py-4 hover:-translate-y-1 hover:scale-110 hover:text-pink duration-150"
