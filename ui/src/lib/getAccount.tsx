@@ -3,10 +3,10 @@ import { AccountContextType } from "@/Interfaces";
 const getAccount = (): AccountContextType => {
   const account = {
     account: {
-      firstName: sessionStorage.getItem("firstName"),
-      lastName: sessionStorage.getItem("lastName"),
-      userName: sessionStorage.getItem("userName"),
-      profile: sessionStorage.getItem("profile"),
+      firstName: localStorage.getItem("firstName"),
+      lastName: localStorage.getItem("lastName"),
+      userName: localStorage.getItem("userName"),
+      profile: localStorage.getItem("profile"),
     },
   };
   return account;

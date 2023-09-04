@@ -13,19 +13,18 @@ type ProfilePage_Props = {
 
 const ProfilePage = ({ picture }: ProfilePage_Props) => {
   const { state, dispatch } = useContext(MyGlobalContext);
-  // useEffect(() => {
-  //   const { account } = getAccount();
-  //   dispatch({
-  //     type: "ACCOUNT_UPDATE",
-  //     payload: {
-  //       firstName: account.firstName,
-  //       lastName: account.lastName,
-  //       userName: account.userName,
-  //       profile: account.profile,
-  //     },
-  //   });
-  // }, []);
-  // const { account } = getAccount();
+  useEffect(() => {
+    const { account } = getAccount();
+    dispatch({
+      type: "ACCOUNT_UPDATE",
+      payload: {
+        firstName: account.firstName,
+        lastName: account.lastName,
+        userName: account.userName,
+        profile: account.profile,
+      },
+    });
+  }, []);
   return (
     <div className={` p-16`}>
       <div className="p-8 mt-24">

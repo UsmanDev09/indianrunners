@@ -41,7 +41,6 @@ const LoginForm = () => {
         console.log(data);
 
         if (data?.success) {
-          console.log(state);
           dispatch({
             type: "ACCOUNT_UPDATE",
             payload: {

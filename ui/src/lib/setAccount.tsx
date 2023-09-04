@@ -4,10 +4,10 @@ const setAccount = (
   userName: string | null,
   profile: number | string | null
 ): void => {
-  sessionStorage.setItem("firstName", firstName!);
-  sessionStorage.setItem("lastName", lastName!);
-  sessionStorage.setItem("userName", userName!);
-  sessionStorage.setItem("profile", profile as string);
+  localStorage.setItem("firstName", firstName!);
+  localStorage.setItem("lastName", lastName!);
+  localStorage.setItem("userName", userName!);
+  localStorage.setItem("profile", profile as string);
 };
 
 export default setAccount;
