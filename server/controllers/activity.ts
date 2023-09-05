@@ -12,24 +12,27 @@ import { User } from "../interfaces/user"
 
 export const postActivity: RequestHandler<unknown, unknown, StravaInterface, unknown> = async (req, res, next) => {
     try {
-       const code  = 'd9b5005d6e3986d4305b7604f75b885f8285362e'
-       const { id } = req?.headers;
-
+        const { code }  = req.body
+        const { _id } = req.user as User;
 
         if (!(code))
             throw createHttpError(StatusCodes.BAD_REQUEST, Constants.requiredParameters('code'))
 
-        const response = await axios.post(`http://www.strava.com/oauth/token?client_id=31900&client_secret=9e59e63414d00fc900c368fbd3dbb77f37eaf053&code=${code}&grant_type=authorization_code`)
+        const response = await axios.post(`http://www.strava.com/oauth/token?client_id=113257&client_secret=37c1602c284ad0fcf8fec326198e60e2d84a2a38&code=${code}&grant_type=authorization_code`)
         const { refresh_token, access_token } = response.data;
-
-        const activitiesResponse = await axios.get('https://www.strava.com/api/v3/athlete/activities', {
-            headers: {
-                Authorization: `Bearer ${access_token}`,
-            }
-        })
-
+        console.log('response',response.data, access_token)
+        const activitiesResponse = await axios.get(`https://www.strava.com/api/v3/athlete/activities?access_token=${access_token}`, 
+        
+        // {
+            // headers: {
+            //     Authorization: `Bearer ${access_token}`,
+            // }
+        // }
+        )
+        
+        console.log('data', activitiesResponse )
         const { data } = activitiesResponse 
-        const user = await UserModel.findById(id)
+        const user = await UserModel.findById(_id)
 
         if(!user) throw createHttpError(StatusCodes.UNAUTHORIZED, Constants.loginToProceed)
 
@@ -46,7 +49,7 @@ export const postActivity: RequestHandler<unknown, unknown, StravaInterface, unk
                 date: activity.start_date,   // start time can be calculated from date, and end time by subtracting moving time
             })
             
-            // user.activities.push([userActivity])
+            user.activities.push([userActivity])
         })
 
         res.status(StatusCodes.OK).json({
@@ -55,6 +58,7 @@ export const postActivity: RequestHandler<unknown, unknown, StravaInterface, unk
             message: Constants.userLoggedInSuccessfully
         })
     } catch(error) {
+        console.log(error)
         next(error)
     }
 

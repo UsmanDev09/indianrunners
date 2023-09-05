@@ -14,6 +14,7 @@ import badgeRoutes from '../routes/badge'
 import cartRoutes from '../routes/cart'
 import shippingDetailRoutes from '../routes/shippingDetails'
 import orderSummaryRoutes from '../routes/orderSummary'
+import paymentRoutes from '../routes/payment'
 
 const app = express()
 
@@ -34,6 +35,7 @@ const server = () => {
     app.use('/api/shippingDetails', shippingDetailRoutes)
     app.use('/api/orderSummary', orderSummaryRoutes)
     app.use('/api/product/category', productCategoryRoutes)
+    app.use('/api/payment', paymentRoutes)
 
     // no endpoint
     app.use((req, res, next) => {

@@ -20,5 +20,7 @@ export interface Challenge {
     verified: boolean,
     organizationName: string,
     price: number,
+    minPrice: number,
+    maxPrice: number,
     categories: [number],
 } 

@@ -7,6 +7,7 @@ import Prod2 from "../Assets/Prod2.png";
 import Prod3 from "../Assets/Prod3.png";
 import Prod4 from "../Assets/Prod4.png";
 import CardList from "@/components/CardList";
+
 const josef = Josefin_Sans({ subsets: ["latin"] });
 
 const ItemCards = [

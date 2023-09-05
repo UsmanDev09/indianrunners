@@ -9,6 +9,8 @@ import ChallengeModel from "../models/challenge"
 import CategoryModel from "../models/challengeCategory"
 import { Constants } from "../utility/constants"
 import { User } from "../interfaces/user"
+import { filter } from "lodash"
+import { bool } from "envalid"
 
 export const createChallenge: RequestHandler<unknown, Response, Challenge, unknown> = async (req, res, next) => {
     try {
@@ -116,8 +118,49 @@ export const deleteChallenge: RequestHandler< { id:number }, unknown, Challenge,
 }
 
 export const getAllChallenges: RequestHandler<unknown, Responses, Challenge, Challenge> = async (req, res, next) => { 
+    interface PriceFilter {
+        $gte?: number;
+        $lte?: number;
+    }
 
-    const challenges = await ChallengeModel.find()
+    const { name, type, activity, knockout, knockoutType, sport, featured, verified, minPrice, maxPrice } = req.query
+    
+
+    const filters: { [key: string]: RegExp | boolean | PriceFilter  } = {}; 
+    const sort: { [key: string]: 'asc' | 'desc' } = {}; 
+
+    if (type) 
+        filters.type = new RegExp(type, 'i') 
+
+    if (activity)
+        filters.activity = new RegExp(activity, 'i')
+
+    if (knockout) 
+        filters.knockout = knockout
+
+    if (knockoutType)
+        filters.knockoutType = new RegExp(knockoutType, 'i')
+    
+    if (sport)
+        filters.sport = new RegExp(sport, 'i')
+
+    if (featured)
+        filters.featured = featured
+
+    if (verified)
+        filters.verified = verified
+
+    if (minPrice && !isNaN(minPrice)) 
+    filters.price = { $gte: minPrice }
+
+    if (maxPrice && !isNaN(maxPrice)) {
+        filters.price = { $lte: maxPrice };
+    }
+
+    if (name === 'asc' || name === 'desc')
+        sort.name = name
+
+    const challenges = await ChallengeModel.find(filters).sort(sort)
 
     res.status(StatusCodes.OK).json({
         success: true,
@@ -128,7 +171,7 @@ export const getAllChallenges: RequestHandler<unknown, Responses, Challenge, Cha
 }
 
 export const getChallenge: RequestHandler<{ id: number }, Response, Challenge, Challenge> = async (req, res, next) => { 
-    const { id } = req.params;
+    const { id } = req.params
 
     const challenge = await ChallengeModel.findById(id)
 
