@@ -19,10 +19,11 @@ import paymentRoutes from '../routes/payment'
 const app = express()
 
 const server = () => {
-    console.log('here')
     app.use(express.json())
     app.use(express.urlencoded( { extended: false} ))
-    app.use(cors())
+    app.use(cors({
+        origin: 'http://localhost:3000'
+    }))
     app.use(passport.initialize())
     // app.use(whitelistRequestBodyParams)
     app.use('/api/user', userRoutes)

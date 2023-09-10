@@ -1,6 +1,8 @@
 export interface StravaActivity {
-    sport_type: number,
+    id: number,
+    sport_type: string,
     start_date: Date,
+    start_date_local: Date,
     start_time: Date,
     end_time: Date,
     elapsed_time: number,

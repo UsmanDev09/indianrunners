@@ -45,22 +45,27 @@ export const createChallenge: RequestHandler<unknown, Response, Challenge, unkno
 
         if (knockoutType === 'daily' && cutOffDays === undefined)
             throw createHttpError(StatusCodes.BAD_REQUEST, Constants.dailyKnockoutChallengesMustHaveCutOffDays)
+        
+        let categoryDocument: any = []
+
+        if (categories) {
+            for (let category of categories) {
+                const categoryRecord = await CategoryModel.findById(category)
+                categoryDocument.push(categoryRecord)
+            }
+        }
+
+        console.log(categoryDocument)
 
         const challenge = await ChallengeModel.create(
             { 
               type, name, activity, knockout, knockoutType, lowerLimit, upperLimit, fixedLimit, 
               cutOffDays, cutOffHours,price, image, startDate, endDate, tags, bibNumber, featured, 
-              verified, organizationName 
+              verified, organizationName, categories: categoryDocument
             }
         )        
 
-        if(categories) {
-            categories.map(async (category: number) => {
-                const categoryRecord = await CategoryModel.findById((category))
-                challenge.categories.push([categoryRecord])
-            })
-        }
-
+        
         await challenge.save()
         
         res.status(StatusCodes.OK).json({
@@ -68,6 +73,7 @@ export const createChallenge: RequestHandler<unknown, Response, Challenge, unkno
             data: challenge,
             message: Constants.challengeCreatedSuccessfully
         })
+
     } catch(error) {
         next(error)
     }

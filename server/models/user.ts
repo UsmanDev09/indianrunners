@@ -2,6 +2,7 @@ import { InferSchemaType, model, Schema } from 'mongoose'
 import activitySchema from './activity'
 import cartSchema from './cart'
 import shippingDetail from './shippingDetail'
+import badgeSchema from './badge'
 
 const userSchema = new Schema({
     email: { type: String, required: true, unique: true },
@@ -25,6 +26,7 @@ const userSchema = new Schema({
     activities: { type: [activitySchema.schema], default: [] },
     cart: { type: [cartSchema.schema], default: []},
     shippingDetail: { type: [shippingDetail.schema], default: []},
+    badges: { type: [badgeSchema.schema], default: []}
 }, { timestamps: true })
 
 type User = InferSchemaType<typeof userSchema>
