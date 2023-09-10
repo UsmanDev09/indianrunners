@@ -31,7 +31,7 @@ const Banner = ({
         </div>
         {picture && (
           <div className="rounded-full bg-pink/10">
-            <Image src={picture} alt="My Image" />
+            <Image src={picture} className="p-12" alt="My Image" />
           </div>
         )}
       </div>

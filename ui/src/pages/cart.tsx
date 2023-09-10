@@ -2,30 +2,36 @@ import { GetStaticProps } from "next";
 import Layout from "@/components/Layout";
 import { Josefin_Sans } from "next/font/google";
 import LoginForm from "@/components/Forms/LoginForm";
+import Cart from "@/components/Cart";
+import Banner from "@/components/Banner";
+import Basket from "../Assets/basket1.png";
+import getAccount from "@/lib/getAccount";
 const josef = Josefin_Sans({ subsets: ["latin"] });
 
 type Props = {
-  NotFoundImage: any;
+  account?: any;
+  cart?: any;
+  token?: string;
   errors?: string;
 };
 
-export default function Cart({ NotFoundImage }: Props) {
+export default function CartPage({ token, cart }: Props) {
   return (
-    <div className={josef.className}>
-      <Layout>
-        <LoginForm />
-      </Layout>
-    </div>
+    <Layout>
+      <div className={josef.className}>
+        <Banner
+          introduction="Home &rarr; Cart"
+          title="Please review your cart"
+        />
+        <Cart />
+      </div>
+    </Layout>
   );
 }
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getServerSideProps: GetStaticProps = async ({ params }) => {
   try {
-    // By returning { props: item }, the StaticPropsDetail component
-    // will receive `item` as a prop at build time
-    const NotFoundImage = "NotFoundPicture";
-
-    return { props: { NotFoundImage } };
+    return { props: {} };
   } catch (err: any) {
     return { props: { errors: err.message } };
   }

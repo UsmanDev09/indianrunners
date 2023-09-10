@@ -11,15 +11,28 @@ import CardList from "@/components/CardList";
 import { useRouter } from "next/router";
 const josef = Josefin_Sans({ subsets: ["latin"] });
 import { ItemCard_Props } from "@/Interfaces";
+import { useEffect, useState } from "react";
 
 type Props = {
   items: ItemCard_Props[];
   errors?: string;
 };
 
-export default function Products({ items }: Props) {
+export default function Challenges({ items }: Props) {
   const router = useRouter();
   const slug = (router.query.slug as string) || null;
+  const [challenges, setChall] = useState([]);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const fetchChallenges = async () => {
+      const chall = await fetch("http://localhost:5000/api/challenge", {
+        headers: { Authorization: `Bearer ${token}` },
+      }).then((response) =>
+        response.json().then((chall) => setChall(chall.data))
+      );
+    };
+    fetchChallenges();
+  }, []);
   return (
     <div className={josef.className}>
       <Layout>
@@ -28,7 +41,9 @@ export default function Products({ items }: Props) {
           title="Explore Our Products"
           picture={Chair}
         />
-        {items && <CardList title={`Featured ${slug}`} ItemCard_List={items} />}
+        {challenges && (
+          <CardList title={`Featured ${slug}`} ItemCard_List={challenges} />
+        )}
       </Layout>
     </div>
   );
@@ -36,7 +51,7 @@ export default function Products({ items }: Props) {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   // Get the paths we want to pre-render based on users
-  const paths = [{ params: { slug: "sofas" } }];
+  const paths = [{ params: { slug: "challenges" } }];
 
   // We'll pre-render only these paths at build time.
   // { fallback: false } means other routes should 404.

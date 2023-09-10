@@ -7,6 +7,7 @@ const getAccount = (): AccountContextType => {
       lastName: localStorage.getItem("lastName"),
       userName: localStorage.getItem("userName"),
       profile: localStorage.getItem("profile"),
+      token: localStorage.getItem("token"),
     },
   };
   return account;

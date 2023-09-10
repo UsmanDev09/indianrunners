@@ -93,12 +93,12 @@ const Layout = ({ children, title = "SEMASTORE" }: Props) => {
                       >
                         <Link
                           className="transition ease-in-out py-4 hover:-translate-y-1 hover:scale-110 hover:text-pink duration-150"
-                          href="/products/sofas"
+                          href="/products/challenges"
                           role="menuitem"
                           tabIndex={-1}
                           id="menu-item-0"
                         >
-                          Sofas
+                          Challenges
                         </Link>
                       </div>
                     )}
@@ -121,7 +121,7 @@ const Layout = ({ children, title = "SEMASTORE" }: Props) => {
           </div>
         </nav>
       </header>
-      <div className="">{children}</div>
+      <div className="min-h-screen">{children}</div>
       <footer className="flex flex-col justify-center mt-2">
         <div className="bg-light-pink">
           <div

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import ItemCard from "./ItemCard";
 import { ItemCard_Props } from "@/Interfaces";
+import NotFound from "../Assets/NotFound.jpg";
 
 type ItemList_Props = {
   title?: string;
@@ -16,9 +17,11 @@ const CardList = ({ ItemCard_List, title }: ItemList_Props) => {
           {ItemCard_List.map((Card, index) => (
             <ItemCard
               key={index}
-              title={Card.title}
+              title={Card.name}
               price={Card.price}
-              picture={Card.picture}
+              picture={Card?.picture || NotFound}
+              type={Card?.type}
+              _id={Card?._id}
             />
           ))}
         </div>
