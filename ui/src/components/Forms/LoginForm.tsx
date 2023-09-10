@@ -58,7 +58,7 @@ const LoginForm = () => {
             state.account.profile,
             state.account.token
           );
-          router.replace("/Profile");
+          router.replace("/profile");
         }
       });
   };

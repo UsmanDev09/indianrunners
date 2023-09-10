@@ -22,18 +22,17 @@ const ItemCards = [
 
 export default function Home() {
   // const [isConnected, setIsConnected] = useState(socket.connected);
-  
+  const [chall, setchall] = useState([]);
   // useEffect(() => {
   //   function onConnect() {
   //     console.log('connected to sockets')
   //     setIsConnected(true);
   //   }
-  
+
   //   socket.on('connect', onConnect);
   //   socket.on('notification', (data) => {
   //     alert(`Received notification: ${JSON.stringify(data)}`);
 
-  
   //     // Update the state with the received data
   //   });
 
@@ -51,7 +50,11 @@ export default function Home() {
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Magna in est adipiscing in phasellus non in justo."
           picture={Chair}
         />
-        <CardList title="Featured Products" ItemCard_List={ItemCards} />
+        <CardList
+          title="Featured Products"
+          setChallenges={setchall}
+          ItemCard_List={ItemCards}
+        />
       </Layout>
     </div>
   );

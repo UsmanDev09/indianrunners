@@ -12,20 +12,21 @@ type ItemCard_Props = {
 const Cart = ({ title, price, picture }: ItemCard_Props) => {
   const [cart, setCart] = useState([
     { name: "Ahmed", price: 0, quantity: 0 },
-    { name: "Ahmed", price: 0, quantity: 0 },
+    { name: "Adil", price: 0, quantity: 0 },
   ]);
-  const [count, setCount] = useState(0);
-  const { dispatch } = useContext(MyGlobalContext);
-  // const handleDecrement = (e: SyntheticEvent) => {
-  //   // e.target.parentElement.parentElement.children[1].children[0].value++;
-  // };
 
   const handleDecrement = (item: {
     name: string;
     price: number;
     quantity: number;
   }) => {
-    item.quantity -= 1;
+    const value = (
+      document.getElementById(`product-${item.name}`) as HTMLInputElement
+    ).value;
+    const newVal = parseInt(value) - 1;
+    (
+      document.getElementById(`product-${item.name}`) as HTMLInputElement
+    ).value = newVal.toString();
   };
 
   const handleIncrement = (item: {
@@ -33,8 +34,13 @@ const Cart = ({ title, price, picture }: ItemCard_Props) => {
     price: number;
     quantity: number;
   }) => {
-    setCount(count + 1);
-    item.quantity++;
+    const value = (
+      document.getElementById(`product-${item.name}`) as HTMLInputElement
+    ).value;
+    const newVal = parseInt(value) + 1;
+    (
+      document.getElementById(`product-${item.name}`) as HTMLInputElement
+    ).value = newVal.toString();
   };
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -43,10 +49,8 @@ const Cart = ({ title, price, picture }: ItemCard_Props) => {
         headers: { Authorization: `Bearer ${token}` },
       }).then((response) => response.json().then((cart) => setCart(cart.data)));
     };
-    // fetchCart();
+    fetchCart();
   }, []);
-
-  console.log(cart);
   return (
     <div className="p-12">
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -72,9 +76,12 @@ const Cart = ({ title, price, picture }: ItemCard_Props) => {
           </thead>
           <tbody>
             {cart.map(
-              (item) =>
+              (item, index) =>
                 item && (
-                  <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-center">
+                  <tr
+                    key={index}
+                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-center"
+                  >
                     <td className="w-32 p-4">
                       <Image src={Chair} alt="Apple Watch" />
                     </td>
@@ -108,9 +115,9 @@ const Cart = ({ title, price, picture }: ItemCard_Props) => {
                         <div>
                           <input
                             type="number"
-                            id="product"
+                            id={`product-${item.name}`}
                             className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            value={count}
+                            value={0}
                             readOnly
                             required
                           />

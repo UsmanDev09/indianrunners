@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 const josef = Josefin_Sans({ subsets: ["latin"] });
 import { ItemCard_Props } from "@/Interfaces";
 import { useEffect, useState } from "react";
+import Sidebar from "@/components/Sidebar";
 
 type Props = {
   items: ItemCard_Props[];
@@ -42,7 +43,12 @@ export default function Challenges({ items }: Props) {
           picture={Chair}
         />
         {challenges && (
-          <CardList title={`Featured ${slug}`} ItemCard_List={challenges} />
+          <CardList
+            title={`Featured ${slug}`}
+            setChallenges={setChall}
+            ItemCard_List={challenges}
+            filters={true}
+          />
         )}
       </Layout>
     </div>

@@ -18,12 +18,21 @@ const ItemCard = ({ title, price, picture, type, _id }: ItemCard_Props) => {
     const AddtoCart = async () => {
       const cart = await fetch("http://localhost:5000/api/cart", {
         method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
+        mode: "cors", // no-cors, *cors, same-origin
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "same-origin", // include, *same-origin, omit
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        redirect: "follow", // manual, *follow, error
+        referrerPolicy: "no-referrer",
         body: JSON.stringify({
           itemType: "challenge",
           itemDetails: [
             {
-              challenge: { _id: "64ec392ce429cf1756391b76" },
+              challenge: { _id: _id },
               challengeCategories: [],
             },
           ],

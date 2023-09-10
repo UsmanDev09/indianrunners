@@ -42,7 +42,9 @@ const Layout = ({ children, title = "SEMASTORE" }: Props) => {
               </div>
               <div className="flex flex-row gap-4 justify-end">
                 <div className="flex flex-row justify-end ">
-                  <div className="text-base">Wish List&nbsp;</div>
+                  <Link href="/cart" className="text-base">
+                    Cart&nbsp;
+                  </Link>
                   <div>
                     <Image
                       src={heart}
