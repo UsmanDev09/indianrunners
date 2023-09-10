@@ -1,7 +1,9 @@
 export type ItemCard_Props = {
-  title?: string;
+  name?: string;
   price?: string;
   picture?: any;
+  type?: string;
+  _id?: string;
 };
 
 // An interface for our actions
@@ -16,6 +18,7 @@ interface AccountState {
   lastName: string | null;
   userName: string | null;
   profile: number | string | null;
+  token: string | null;
 }
 
 // An interface for our state
@@ -25,7 +28,7 @@ interface CartState {
 }
 
 export const initialState = {
-  account: { firstName: "", lastName: "", userName: "", profile: 0 },
+  account: { firstName: "", lastName: "", userName: "", profile: 0, token: "" },
 };
 
 export const initialCartState = {

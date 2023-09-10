@@ -48,15 +48,17 @@ const LoginForm = () => {
               lastName: data?.data?.user?.lastName,
               userName: data?.data?.user?.userName,
               profile: data?.data?.user?.profileCompleted,
+              token: data?.data.token,
             },
           });
           setAccount(
             state.account.firstName,
             state.account.lastName,
             state.account.userName,
-            state.account.profile
+            state.account.profile,
+            state.account.token
           );
-          router.replace("/Profile");
+          router.replace("/profile");
         }
       });
   };

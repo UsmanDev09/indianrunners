@@ -13,6 +13,7 @@ type ProfilePage_Props = {
 
 const ProfilePage = ({ picture }: ProfilePage_Props) => {
   const { state, dispatch } = useContext(MyGlobalContext);
+  console.log(state);
   useEffect(() => {
     const { account } = getAccount();
     dispatch({
@@ -22,6 +23,7 @@ const ProfilePage = ({ picture }: ProfilePage_Props) => {
         lastName: account.lastName,
         userName: account.userName,
         profile: account.profile,
+        token: account.token,
       },
     });
   }, []);
