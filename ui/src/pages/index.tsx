@@ -1,6 +1,9 @@
+import { useEffect, useState } from "react";
 import Banner from "@/components/Banner";
 import Layout from "@/components/Layout";
 import { Josefin_Sans } from "next/font/google";
+
+// import { socket } from '../socket';
 import Chair from "../Assets/chair.png";
 import Prod1 from "../Assets/Prod1.png";
 import Prod2 from "../Assets/Prod2.png";
@@ -18,6 +21,27 @@ const ItemCards = [
 ];
 
 export default function Home() {
+  // const [isConnected, setIsConnected] = useState(socket.connected);
+  
+  // useEffect(() => {
+  //   function onConnect() {
+  //     console.log('connected to sockets')
+  //     setIsConnected(true);
+  //   }
+  
+  //   socket.on('connect', onConnect);
+  //   socket.on('notification', (data) => {
+  //     alert(`Received notification: ${JSON.stringify(data)}`);
+
+  
+  //     // Update the state with the received data
+  //   });
+
+  //   return () => {
+  //     socket.disconnect();
+  //   };
+  // }, []);
+
   return (
     <div className={josef.className}>
       <Layout>

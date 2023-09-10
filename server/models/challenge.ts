@@ -15,7 +15,7 @@ const challengeSchema = new Schema({
     image: { type: String }, // 1920 * 1080
     startDate: { type: Date, required: [true, 'Challenge start date is required']},
     endDate: { type: Date, required: [true, 'Challenge end date is required']},
-    sport: { type: String, enum: ['running', 'cycling', 'swimming', 'walking', 'workout']},
+    sport: { type: String, enum: ['Run', 'VirtualRun', 'TrailRun', 'Treadmil', 'Walk', 'Hike', 'Ride', 'MountainBikeRide', 'GravelBikeRide', 'VeloMobile', 'VirtialRide', 'HandCycle', 'Swim', 'CrossFit', 'Elliptical', 'StairStepper', 'WeightTraining', 'Workout', 'Hiit', 'Pilates', 'Yoga']},
     tags: { type: String, enum: ['challenge', 'run', 'ride', 'swim', 'walk', 'workout', 'dualthon', 'triathlon', 'monthly', 'annual']},
     bibNumber: { type: Number }, 
     featured: { type: Boolean },
