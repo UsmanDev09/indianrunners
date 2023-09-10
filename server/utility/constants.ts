@@ -56,6 +56,9 @@ export const Constants = {
     // order summary
     orderDetailsFetchedSuccessfully: 'Order Details have been fetched successfully',
     
+    // activity 
+    activityCreatedSuccessfully: 'Activity created successfully', 
+    
     invalidId: 'Invalid id',
     notFound: 'Not found',
     recordFound: 'Record found',

@@ -1,20 +1,33 @@
 import { InferSchemaType, model, Schema } from 'mongoose'
+import { Queue } from 'bullmq';
 
 const activitySchema = new Schema({
-    activityType: { type: String, required: true, enum: ['run', 'virtualRun', 'trailRun', 'treadmil', 'walk', 'hike', 'ride', 'mountainBikeRide', 'gravelBikeRide', 'veloMobile', 'virtialRide', 'handcycle', 'swim', 'crossfit', 'elliptical', 'stairStepper', 'weightTraining', 'workout', 'hiit', 'pilates', 'yoga'] },
-    date: { type: Date, required: true },
-    startTime: { type: Date, required: true },
-    endTime: { type: Date, required: true },
-    elapsedTime: { type: Number, required: true },
-    movingTime: { type: Number, required: true },
-    distanceCovered: { type: Number, required: true },
-    averageSpeed: { type: Number, required: true },
-    averageMovingSpeed: { type: Number, required: true },
-    maximumSpeed: { type: Number, required: true },
-    totalAssent: {type: Number, required: true },
-    caloriesBurnt: { type: Number, required: true },
+    activityId: { type: Number, required: true},
+    userId: { type: Schema.Types.ObjectId, required: true },
+    athleteId: { type: Number },
+    activityType: { type: String, required: true, enum: ['Run', 'VirtualRun', 'TrailRun', 'Treadmil', 'Walk', 'Hike', 'Ride', 'MountainBikeRide', 'GravelBikeRide', 'VeloMobile', 'VirtialRide', 'HandCycle', 'Swim', 'CrossFit', 'Elliptical', 'StairStepper', 'WeightTraining', 'Workout', 'Hiit', 'Pilates', 'Yoga'] },
+    date: { type: Date },
+    startDate: { type: Date }, // start time can be calculated and end time can be calculated by subtracting moving time
+    endTime: { type: Date },
+    elapsedTime: { type: Number },
+    movingTime: { type: Number },
+    distanceCovered: { type: Number },
+    averageSpeed: { type: Number },
+    averageMovingSpeed: { type: Number },
+    maximumSpeed: { type: Number },
+    totalAssent: {type: Number },
+    caloriesBurnt: { type: Number },
     flag: { type: String, enum: ["approved", "rejected", "underReview", "userReported"]}
 }, { timestamps: true })
+
+activitySchema.pre('save', async function (next) {
+    
+    const myQueue = new Queue('badges');
+
+    await myQueue.add('awardBadges', this!);
+    console.log('added to queue')
+    next()
+})
 
 type Activity = InferSchemaType<typeof activitySchema>
 

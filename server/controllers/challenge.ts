@@ -9,6 +9,8 @@ import ChallengeModel from "../models/challenge"
 import CategoryModel from "../models/challengeCategory"
 import { Constants } from "../utility/constants"
 import { User } from "../interfaces/user"
+import { filter } from "lodash"
+import { bool } from "envalid"
 
 export const createChallenge: RequestHandler<unknown, Response, Challenge, unknown> = async (req, res, next) => {
     try {
@@ -43,22 +45,27 @@ export const createChallenge: RequestHandler<unknown, Response, Challenge, unkno
 
         if (knockoutType === 'daily' && cutOffDays === undefined)
             throw createHttpError(StatusCodes.BAD_REQUEST, Constants.dailyKnockoutChallengesMustHaveCutOffDays)
+        
+        let categoryDocument: any = []
+
+        if (categories) {
+            for (let category of categories) {
+                const categoryRecord = await CategoryModel.findById(category)
+                categoryDocument.push(categoryRecord)
+            }
+        }
+
+        console.log(categoryDocument)
 
         const challenge = await ChallengeModel.create(
             { 
               type, name, activity, knockout, knockoutType, lowerLimit, upperLimit, fixedLimit, 
               cutOffDays, cutOffHours,price, image, startDate, endDate, tags, bibNumber, featured, 
-              verified, organizationName 
+              verified, organizationName, categories: categoryDocument
             }
         )        
 
-        if(categories) {
-            categories.map(async (category: number) => {
-                const categoryRecord = await CategoryModel.findById((category))
-                challenge.categories.push([categoryRecord])
-            })
-        }
-
+        
         await challenge.save()
         
         res.status(StatusCodes.OK).json({
@@ -66,6 +73,7 @@ export const createChallenge: RequestHandler<unknown, Response, Challenge, unkno
             data: challenge,
             message: Constants.challengeCreatedSuccessfully
         })
+
     } catch(error) {
         next(error)
     }
@@ -116,8 +124,49 @@ export const deleteChallenge: RequestHandler< { id:number }, unknown, Challenge,
 }
 
 export const getAllChallenges: RequestHandler<unknown, Responses, Challenge, Challenge> = async (req, res, next) => { 
+    interface PriceFilter {
+        $gte?: number;
+        $lte?: number;
+    }
 
-    const challenges = await ChallengeModel.find()
+    const { name, type, activity, knockout, knockoutType, sport, featured, verified, minPrice, maxPrice } = req.query
+    
+
+    const filters: { [key: string]: RegExp | boolean | PriceFilter  } = {}; 
+    const sort: { [key: string]: 'asc' | 'desc' } = {}; 
+
+    if (type) 
+        filters.type = new RegExp(type, 'i') 
+
+    if (activity)
+        filters.activity = new RegExp(activity, 'i')
+
+    if (knockout) 
+        filters.knockout = knockout
+
+    if (knockoutType)
+        filters.knockoutType = new RegExp(knockoutType, 'i')
+    
+    if (sport)
+        filters.sport = new RegExp(sport, 'i')
+
+    if (featured)
+        filters.featured = featured
+
+    if (verified)
+        filters.verified = verified
+
+    if (minPrice && !isNaN(minPrice)) 
+    filters.price = { $gte: minPrice }
+
+    if (maxPrice && !isNaN(maxPrice)) {
+        filters.price = { $lte: maxPrice };
+    }
+
+    if (name === 'asc' || name === 'desc')
+        sort.name = name
+
+    const challenges = await ChallengeModel.find(filters).sort(sort)
 
     res.status(StatusCodes.OK).json({
         success: true,
@@ -128,7 +177,7 @@ export const getAllChallenges: RequestHandler<unknown, Responses, Challenge, Cha
 }
 
 export const getChallenge: RequestHandler<{ id: number }, Response, Challenge, Challenge> = async (req, res, next) => { 
-    const { id } = req.params;
+    const { id } = req.params
 
     const challenge = await ChallengeModel.findById(id)
 

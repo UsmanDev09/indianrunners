@@ -9,52 +9,66 @@ import { StravaInterface } from "../interfaces/strava"
 import { StravaActivity } from "../interfaces/stravaActivity"
 import { Constants } from "../utility/constants"
 import { User } from "../interfaces/user"
+import logger from "../config/logger"
 
 export const postActivity: RequestHandler<unknown, unknown, StravaInterface, unknown> = async (req, res, next) => {
     try {
-       const code  = 'd9b5005d6e3986d4305b7604f75b885f8285362e'
-       const { id } = req?.headers;
-
+        const { code }  = req.body
+        const { _id } = req.user as User;
 
         if (!(code))
             throw createHttpError(StatusCodes.BAD_REQUEST, Constants.requiredParameters('code'))
 
-        const response = await axios.post(`http://www.strava.com/oauth/token?client_id=31900&client_secret=9e59e63414d00fc900c368fbd3dbb77f37eaf053&code=${code}&grant_type=authorization_code`)
-        const { refresh_token, access_token } = response.data;
-
-        const activitiesResponse = await axios.get('https://www.strava.com/api/v3/athlete/activities', {
-            headers: {
-                Authorization: `Bearer ${access_token}`,
-            }
-        })
+        const response = await axios.post(`http://www.strava.com/oauth/token?client_id=113257&client_secret=37c1602c284ad0fcf8fec326198e60e2d84a2a38&code=${code}&grant_type=authorization_code`)
+        
+        const { access_token } = response.data;
+        console.log(access_token)
+        const activitiesResponse = await axios.get(`https://www.strava.com/api/v3/athlete/activities?access_token=${access_token}`)
 
         const { data } = activitiesResponse 
-        const user = await UserModel.findById(id)
+        
+        const user = await UserModel.findById(_id)
 
         if(!user) throw createHttpError(StatusCodes.UNAUTHORIZED, Constants.loginToProceed)
 
-        data.map((activity : StravaActivity) => {  
-            const userActivity = new ActivityModel({
-                activityType: activity.sport_type,
-                elapsedTime: activity.elapsed_time,
-                movingTime: activity.moving_time,
-                maximumSpeed: activity.max_speed,
-                averageSpeed: activity.average_speed,
-                caloriesBurnt: activity.calories,
-                distanceCovered: activity.distance,
-                totalAssent: activity.elev_high - activity.elev_low,
-                date: activity.start_date,   // start time can be calculated from date, and end time by subtracting moving time
-            })
-            
-            // user.activities.push([userActivity])
-        })
+        let activitiesDocument : any = []
+
+        for (let activity of data) {
+            // let start_date = new Date(activity.start_date_local) 
+            // let startTime = `${start_date.getUTCHours()}:${start_date.getUTCMinutes()}:${start_date.getUTCSeconds()}`
+
+            const redundantActivity = await ActivityModel.findOne({activityId: activity.id})
+
+            if (!redundantActivity) {
+                const userActivity = new ActivityModel({
+                    activityId: activity.id,
+                    userId: _id,
+                    activityType: activity.sport_type,
+                    elapsedTime: activity.elapsed_time,
+                    movingTime: activity.moving_time,
+                    maximumSpeed: activity.max_speed,
+                    averageSpeed: activity.average_speed,
+                    caloriesBurnt: activity.calories,
+                    distanceCovered: activity.distance,
+                    totalAssent: activity.total_elevation_gain,
+                    startDate: activity.start_date   // start time can be calculated from date, and end time by subtracting moving time
+                })
+                
+                userActivity.save();
+
+                activitiesDocument.push(userActivity)
+            }
+        }
+
+        await UserModel.updateOne({ _id }, { $push: { 'activities': activitiesDocument }})
 
         res.status(StatusCodes.OK).json({
             success: true,
             data,
-            message: Constants.userLoggedInSuccessfully
+            message: Constants.activityCreatedSuccessfully
         })
     } catch(error) {
+        logger.error(error)
         next(error)
     }
 
@@ -91,6 +105,7 @@ export const postManualActivity: RequestHandler<unknown, unknown, StravaActivity
 
 
     } catch (error) {
+        logger.error(error)
         next(error)
     }
 }
@@ -102,15 +117,16 @@ export const getActivitiesByUser: RequestHandler<unknown, unknown, StravaInterfa
 
         if(!user) throw createHttpError(StatusCodes.NOT_FOUND, Constants.userNotFound)
 
-        // const activities = user.activities
+        const activities = user.activities
 
         return res.json(StatusCodes.OK).json({
             success: true,
-            // data: activities,
+            data: activities,
         })
 
 
     } catch (error) {
+        logger.error(error)
         next(error)
     }
 }

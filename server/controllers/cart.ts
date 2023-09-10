@@ -72,7 +72,7 @@ export const removeChallengeFromCart: RequestHandler<{ id: number }, unknown, Ca
 
         const { _id } = req.user as User
         
-        const { itemType, itemDetails } = req.body
+        const { itemDetails } = req.body
 
         const cartId = req.body._id
 
