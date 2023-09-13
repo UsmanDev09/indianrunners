@@ -6,6 +6,16 @@ export type ItemCard_Props = {
   _id?: string;
 };
 
+export type Challenge_Props = {
+  challenge: {
+    name?: string;
+    price?: string;
+    picture?: any;
+    type?: string;
+    _id?: string;
+  };
+};
+
 // An interface for our actions
 interface AccountAction {
   type: "ACCOUNT_UPDATE";

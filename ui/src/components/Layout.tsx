@@ -55,7 +55,7 @@ const Layout = ({ children, title = "SEMASTORE" }: Props) => {
                 </div>
 
                 <div className="flex flex-row justify-end ">
-                  <Link href="/Login" className="text-base">
+                  <Link href="/login" className="text-base">
                     Log In&nbsp;
                   </Link>
                   <div>
