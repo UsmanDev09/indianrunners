@@ -1,7 +1,9 @@
 import { MyGlobalContext } from "@/Hooks/useGlobalContext";
 import Image from "next/image";
-import { SyntheticEvent, useContext, useEffect, useState } from "react";
+import { Key, SyntheticEvent, useContext, useEffect, useState } from "react";
 import Chair from "../Assets/chair.png";
+import NotFound from "../Assets/NotFound.jpg";
+import { Challenge_Props } from "@/Interfaces";
 
 type ItemCard_Props = {
   title?: string;
@@ -9,37 +11,38 @@ type ItemCard_Props = {
   picture?: any;
 };
 
-const Cart = ({ title, price, picture }: ItemCard_Props) => {
-  const [cart, setCart] = useState([
-    { name: "Ahmed", price: 0, quantity: 0 },
-    { name: "Adil", price: 0, quantity: 0 },
-  ]);
+type ItemDetail_Props = {
+  itemDetails: Challenge_Props[];
+};
 
-  const handleDecrement = (item: {
-    name: string;
-    price: number;
-    quantity: number;
-  }) => {
+const Cart = ({ title, price, picture }: ItemCard_Props) => {
+  const [cart, setCart] = useState([]);
+
+  const handleDecrement = (item: ItemDetail_Props) => {
     const value = (
-      document.getElementById(`product-${item.name}`) as HTMLInputElement
+      document.getElementById(
+        `product-${item.itemDetails[0].challenge.name}`
+      ) as HTMLInputElement
     ).value;
     const newVal = parseInt(value) - 1;
     (
-      document.getElementById(`product-${item.name}`) as HTMLInputElement
+      document.getElementById(
+        `product-${item.itemDetails[0].challenge.name}`
+      ) as HTMLInputElement
     ).value = newVal.toString();
   };
 
-  const handleIncrement = (item: {
-    name: string;
-    price: number;
-    quantity: number;
-  }) => {
+  const handleIncrement = (item: ItemDetail_Props) => {
     const value = (
-      document.getElementById(`product-${item.name}`) as HTMLInputElement
+      document.getElementById(
+        `product-${item.itemDetails[0].challenge.name}`
+      ) as HTMLInputElement
     ).value;
     const newVal = parseInt(value) + 1;
     (
-      document.getElementById(`product-${item.name}`) as HTMLInputElement
+      document.getElementById(
+        `product-${item.itemDetails[0].challenge.name}`
+      ) as HTMLInputElement
     ).value = newVal.toString();
   };
   useEffect(() => {
@@ -50,6 +53,7 @@ const Cart = ({ title, price, picture }: ItemCard_Props) => {
       }).then((response) => response.json().then((cart) => setCart(cart.data)));
     };
     fetchCart();
+    console.log(cart);
   }, []);
   return (
     <div className="p-12">
@@ -76,17 +80,17 @@ const Cart = ({ title, price, picture }: ItemCard_Props) => {
           </thead>
           <tbody>
             {cart.map(
-              (item, index) =>
+              (item: ItemDetail_Props, index: Key | null | undefined) =>
                 item && (
                   <tr
                     key={index}
                     className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-center"
                   >
                     <td className="w-32 p-4">
-                      <Image src={Chair} alt="Apple Watch" />
+                      <Image src={NotFound} alt="Apple Watch" />
                     </td>
                     <td className="px-6 py-4 font-semibold text-gray-900">
-                      {item.name}
+                      {item.itemDetails[0].challenge.name}
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center justify-center space-x-3">
@@ -115,7 +119,7 @@ const Cart = ({ title, price, picture }: ItemCard_Props) => {
                         <div>
                           <input
                             type="number"
-                            id={`product-${item.name}`}
+                            id={`product-${item.itemDetails[0].challenge.name}`}
                             className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             value={0}
                             readOnly
@@ -147,7 +151,7 @@ const Cart = ({ title, price, picture }: ItemCard_Props) => {
                       </div>
                     </td>
                     <td className="px-6 py-4 font-semibold text-gray-900">
-                      ${item.price}
+                      ${item.itemDetails[0].challenge.price}
                     </td>
                     <td className="px-6 py-4">
                       <button className="font-medium text-red-600 dark:text-red-500 hover:underline">
