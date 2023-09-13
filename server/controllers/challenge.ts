@@ -7,10 +7,9 @@ import { Challenge } from "../interfaces/challenge"
 import { Response, Responses } from "../interfaces/response"
 import ChallengeModel from "../models/challenge"
 import CategoryModel from "../models/challengeCategory"
+import LeaderboardModel from "../models/leaderboard"
 import { Constants } from "../utility/constants"
 import { User } from "../interfaces/user"
-import { filter } from "lodash"
-import { bool } from "envalid"
 
 export const createChallenge: RequestHandler<unknown, Response, Challenge, unknown> = async (req, res, next) => {
     try {
@@ -55,8 +54,6 @@ export const createChallenge: RequestHandler<unknown, Response, Challenge, unkno
             }
         }
 
-        console.log(categoryDocument)
-
         const challenge = await ChallengeModel.create(
             { 
               type, name, activity, knockout, knockoutType, lowerLimit, upperLimit, fixedLimit, 
@@ -65,9 +62,19 @@ export const createChallenge: RequestHandler<unknown, Response, Challenge, unkno
             }
         )        
 
-        
         await challenge.save()
-        
+    
+        const challengeCategories = challenge.categories
+
+        const challengeCategoriesPromises = challengeCategories.map(async (category) => {
+            return LeaderboardModel.create({
+              category,
+              challenge,
+            });
+          });
+          
+        await Promise.all(challengeCategoriesPromises);
+          
         res.status(StatusCodes.OK).json({
             success: true,
             data: challenge,

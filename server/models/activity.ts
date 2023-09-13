@@ -25,7 +25,7 @@ activitySchema.pre('save', async function (next) {
     const myQueue = new Queue('badges');
 
     await myQueue.add('awardBadges', this!);
-    console.log('added to queue')
+    
     next()
 })
 

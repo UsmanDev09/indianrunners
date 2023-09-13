@@ -10,6 +10,8 @@ import { StravaActivity } from "../interfaces/stravaActivity"
 import { Constants } from "../utility/constants"
 import { User } from "../interfaces/user"
 import logger from "../config/logger"
+import UserChallenges from "../models/userChallenges"
+import { UserChallengesInterface } from "../interfaces/userChallenges"
 
 export const postActivity: RequestHandler<unknown, unknown, StravaInterface, unknown> = async (req, res, next) => {
     try {
@@ -22,7 +24,7 @@ export const postActivity: RequestHandler<unknown, unknown, StravaInterface, unk
         const response = await axios.post(`http://www.strava.com/oauth/token?client_id=113257&client_secret=37c1602c284ad0fcf8fec326198e60e2d84a2a38&code=${code}&grant_type=authorization_code`)
         
         const { access_token } = response.data;
-        console.log(access_token)
+
         const activitiesResponse = await axios.get(`https://www.strava.com/api/v3/athlete/activities?access_token=${access_token}`)
 
         const { data } = activitiesResponse 
@@ -61,6 +63,41 @@ export const postActivity: RequestHandler<unknown, unknown, StravaInterface, unk
         }
 
         await UserModel.updateOne({ _id }, { $push: { 'activities': activitiesDocument }})
+
+        const userChallenges = await UserChallenges.find({ user: user._id })
+        
+        // if(userChallenges.challenges.length > 0) {
+            // check if activity is between start date and end date 
+
+
+            // check if challenge is open and challenge category is related to activity type
+
+            // check if type is not knockout then 
+
+            // fetch all users in the challenge and rank according to distance covered
+
+            // if some users are equal, check for pace, then check for qualified days/hours, then age (older ranks above), then gender (female ranks above)
+
+            // if knockout then on daily, run cron jobs for fetching data every day and check if lower limit is completed and qualified days 
+
+            // rank according to qualified days, then distance, then speed
+
+            // if knockout is hourly, run cron jobs every hour for fetching data and check if lower limit is completed and qualified hours
+
+            // if knockout is hourly and strava is connected, run webhooks 
+            
+            // rank accoridng to qualified hours and then speed
+
+            // check if challenge is fixed and repeat algo for knockout 
+
+            // if not knockout 
+
+            // check if distance covered is more than upper limit, freeze the leaderboard
+
+            // rank according to same priorities
+
+           
+        // }
 
         res.status(StatusCodes.OK).json({
             success: true,

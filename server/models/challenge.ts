@@ -1,5 +1,6 @@
 import { InferSchemaType, model, Schema } from 'mongoose'
 import challengeCategorySchema from './challengeCategory'
+import leaderboardSchem from './leaderboard'
 
 const challengeSchema = new Schema({
     name: { type: String, required: [true, 'Challange name is required'], unique: [true, 'Challenge name is already taken']},

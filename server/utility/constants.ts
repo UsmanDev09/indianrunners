@@ -55,9 +55,21 @@ export const Constants = {
 
     // order summary
     orderDetailsFetchedSuccessfully: 'Order Details have been fetched successfully',
-    
+    orderCreatedSuccessfully: 'Order created successfully', 
+
     // activity 
     activityCreatedSuccessfully: 'Activity created successfully', 
+    
+    // notification
+    notificationCreatedSuccessfully: 'Notification created successfully',
+    notificationsFetchedSuccessfully: 'Notifications fetched successfully', 
+    notificationUpdatedSuccessfully: 'Notification updated successfully',
+    
+    // user challenges 
+    userChallengesFetchedSuccessfully: 'User Challenegs created successfully',
+
+    // leaderboard
+    leaderboardNotFound: 'Leaderboard not found',
     
     invalidId: 'Invalid id',
     notFound: 'Not found',

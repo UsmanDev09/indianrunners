@@ -1,3 +1,5 @@
+import { ChallengeCategory } from './challengeCategory'
+
 export interface Challenge {
     _id: number,
     type: string,
@@ -22,5 +24,5 @@ export interface Challenge {
     price: number,
     minPrice: number,
     maxPrice: number,
-    categories: [number],
+    categories: ChallengeCategory[],
 } 

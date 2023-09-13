@@ -9,5 +9,4 @@ const challengeCategorySchema = new Schema({
 
 type Category = InferSchemaType<typeof challengeCategorySchema>
 
-
 export default model<Category>('ChallengeCategory', challengeCategorySchema)

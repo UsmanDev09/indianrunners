@@ -6,9 +6,8 @@ export const attach = (server: any) => {
         throw new Error('Socket server already attached')
     }
     io = socket(server, {
-        pingTimeout: 1200000,
         cors: {
-            origin: process.env.CLIENT_URL
+            origin: 'http://localhost:3000'
         }
     })
     io.sockets.on('connection', async (socket: any) => {

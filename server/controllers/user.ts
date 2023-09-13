@@ -3,12 +3,12 @@ import bcrypt from 'bcrypt'
 import createHttpError from 'http-errors'
 import nodemailer from'nodemailer'
 import SMTPTransport from "nodemailer/lib/smtp-transport"
+import jwt from 'jsonwebtoken'
 
 import env from '../utility/validateEnv'
-import logger from "../config/logger";
+import logger from "../config/logger"
 import UserModel from '../models/user'
 import Otp from "../models/otp"
-import jwt from 'jsonwebtoken'
 
 import { User } from "../interfaces/user"
 import { StatusCodes } from "http-status-codes"

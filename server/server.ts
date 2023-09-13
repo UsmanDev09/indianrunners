@@ -5,16 +5,17 @@ import mongoose from "mongoose"
 import createHttpError from "http-errors"
 import { StatusCodes } from 'http-status-codes'
 import { QueueEvents } from 'bullmq'
-import {Server as socketio} from 'socket.io'
 
 import UserModel from './models/user'
 import BadgeModel from './models/badge'
+import NotificationModel from "./models/notification"
 import env from './utility/validateEnv'
 import logger from './config/logger'
 import server from './utility/server'
 import { Constants } from './utility/constants'
 import { ActivityInterface } from './interfaces/activity'
 import * as socket from './utility/socket'
+import { Badge } from "./interfaces/badge"
 
 const app = server();
 
@@ -32,30 +33,14 @@ const serverConnection = app.listen(port, () => {
   logger.info(`Server started on port: ${port}`)
 })
 
-const io = new socketio(serverConnection, 
-  {cors: {
-  origin: "http://localhost:3000"
-}});
-
-io.on('connection', (socket) => {
-  console.log('A user connected');
-  io.emit('notification', {usman: '32'});
-
-  socket.on('disconnect', () => {
-    console.log('A user disconnected');
-  });
-
-  // Define custom socket events and listeners here
-});
-// socket.attach(serverConnection)
+socket.attach(serverConnection)
 
 const worker = new Worker('badges', async job => {
 
-    // recording activities between specific times 
-
-    const activity: ActivityInterface = job.data
+  // recording activities between specific times 
+  const activity: ActivityInterface = job.data
     // record any activity between 3am-5am
-
+    
     let date = new Date(activity.startDate) 
 
     const user = await UserModel.findById(activity.userId)
@@ -64,16 +49,24 @@ const worker = new Worker('badges', async job => {
         throw createHttpError(StatusCodes.NOT_FOUND, Constants.userNotFound)
 
     
-    if ((date.getUTCHours() > 3 || date.getUTCHours() < 5)) {
-        const badge = await BadgeModel.find({ name: 'Early Riser' })
-        user.badges.push(badge)
+    if((date.getUTCHours() > 3 || date.getUTCHours() < 5)) {   
+      const badge = await BadgeModel.find({ name: 'Early Riser' })
+      
+      if(!badge) throw createHttpError(StatusCodes.NOT_FOUND, Constants.notFound) 
+      
+      const notification = await NotificationModel.create({ type: 'badge', message: 'Wohoo! You have earned the Early Riser badge' })
+        
+      user.badges.push(badge)
     }
 
 
     // recored a riding activity between  10pm - 11:59pm
-
-    if ((date.getUTCHours() > 10 || date.getUTCHours() < 12 && activity.activityType === 'Ride')) {
+    
+    if((date.getUTCHours() > 10 || date.getUTCHours() < 12 && activity.activityType === 'Ride')) {
         const badge = await BadgeModel.find({ name: 'Night Rider'})
+        
+        const notification = await NotificationModel.create({ type: 'badge', message: 'Wohoo! You have earned the Night Rider badge' })
+        
         user.badges.push(badge)
     }
 
