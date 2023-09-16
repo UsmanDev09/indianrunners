@@ -23,6 +23,9 @@ export const addChallengeToCart: RequestHandler<unknown, unknown, Cart, unknown>
         
         const itemDetailDocuments : any = []
 
+
+        // check if the category exists in challenge then push 
+        
         for (const itemDetail of itemDetails ) {
             
             const challenge = await ChallengeModel.findById(itemDetails[0].challenge._id)

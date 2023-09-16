@@ -49,7 +49,7 @@ export const Constants = {
     cartCreatedSuccessfully: 'Cart has been created successfully',
     cartUpdatedSuccessfully: 'Cart has been updated successfully',
     cartFetchedSuccessfully: 'Cart has been fetched successfully',
-    
+    cartIsEmpty: 'Your cart is empty',
     // shipping details
     shippingDetailsAddedSuccessfully: 'Shipping details has been added successfully',
 

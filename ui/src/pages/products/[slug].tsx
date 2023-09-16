@@ -36,21 +36,19 @@ export default function Challenges({ items }: Props) {
   }, []);
   return (
     <div className={josef.className}>
-      <Layout>
-        <Banner
-          introduction="Home &rarr; Products"
-          title="Explore Our Products"
-          picture={Chair}
+      <Banner
+        introduction="Home &rarr; Products"
+        title="Explore Our Products"
+        picture={Chair}
+      />
+      {challenges && (
+        <CardList
+          title={`Featured ${slug}`}
+          setChallenges={setChall}
+          ItemCard_List={challenges}
+          filters={true}
         />
-        {challenges && (
-          <CardList
-            title={`Featured ${slug}`}
-            setChallenges={setChall}
-            ItemCard_List={challenges}
-            filters={true}
-          />
-        )}
-      </Layout>
+      )}
     </div>
   );
 }

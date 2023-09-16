@@ -7,7 +7,9 @@ import globe from "../Assets/down.svg";
 import user from "../Assets/carbon_user.svg";
 import heart from "../Assets/Vector (1).svg";
 import Link from "next/link";
+
 const josef = Josefin_Sans({ subsets: ["latin"] });
+
 type Props = {
   children?: ReactNode;
   title?: string;
@@ -24,12 +26,11 @@ const Layout = ({ children, title = "SEMASTORE" }: Props) => {
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
+      <div className="">
       <header>
-        <nav>
-          <div
-            className={`flex bg-violet text-white text-center ${josef.className} border-black drop-shadow-md p-2`}
-          >
-            <div className="container mx-auto px-4 color grid sm:grid-cols-2 ">
+        <nav className="bg-violet">
+          <div className={`container mx-auto flex text-white text-center ${josef.className} border-black drop-shadow-md p-2`}>
+            <div className="flex justify-between w-full">
               <div className="flex flex-row justify-start">
                 <div className="text-base">English&nbsp;</div>
                 <div>
@@ -70,7 +71,7 @@ const Layout = ({ children, title = "SEMASTORE" }: Props) => {
             </div>
           </div>
           <div className={`flex bg-white text-black ${josef.className} pt-2.5`}>
-            <div className="container mx-auto px-4 grid sm:grid-cols-2 justify-items-stretch relative">
+            <div className="container mx-auto  flex justify-between w-full">
               <div className="flex flex-row sm:justify-start items-baseline">
                 <Link
                   className="text-5xl sm:text-3xl md:text-5xl text-center sm:text-left font-bold grow"
@@ -124,8 +125,8 @@ const Layout = ({ children, title = "SEMASTORE" }: Props) => {
         </nav>
       </header>
       <div className="min-h-screen">{children}</div>
-      <footer className="flex flex-col justify-center mt-2">
-        <div className="bg-light-pink">
+      <footer className="bg-light-pink flex flex-col justify-center mt-2">
+        <div className="container mx-auto">
           <div
             className={`container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 relative ${josef.className} py-2`}
           >
@@ -178,6 +179,7 @@ const Layout = ({ children, title = "SEMASTORE" }: Props) => {
           </div>
         </div>
       </footer>
+      </div>
     </div>
   );
 };

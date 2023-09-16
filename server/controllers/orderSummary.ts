@@ -7,8 +7,9 @@ import { Constants } from "../utility/constants"
 import { User } from "../interfaces/user"
 import { Response } from "../interfaces/response"
 import { OrderSummary } from "../interfaces/orderSummary"
+import logger from "../config/logger"
 
-export const getOrderSummary: RequestHandler<unknown, unknown, User, unknown> = async (req, res, next) => {
+export const getOrderSummary: RequestHandler<unknown, unknown, OrderSummary, unknown> = async (req, res, next) => {
      try {
         
         const user = req.user as User
@@ -28,6 +29,7 @@ export const getOrderSummary: RequestHandler<unknown, unknown, User, unknown> = 
             message: Constants.orderDetailsFetchedSuccessfully
         })
     } catch(error) {
+        logger.error(error)
         next(error)
     }
 }

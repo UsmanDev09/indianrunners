@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import socket from '../socket';
 import { useEffect, useState } from "react";
+import Layout from "@/components/Layout";
 
 export default function App({ Component, pageProps }: AppProps) {
   const [isConnected, setIsConnected] = useState(false);
@@ -28,7 +29,9 @@ export default function App({ Component, pageProps }: AppProps) {
   
   return (
     <ContextProvider>
-      <Component {...pageProps} />
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
     </ContextProvider>
   );
 }
