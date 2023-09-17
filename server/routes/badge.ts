@@ -11,6 +11,17 @@ router.post('/', passport.authenticate('jwt', { session: false } ), checkIsinRol
 
 router.delete('/', checkIsinRole(ROLES.ADMIN), Badge.deleteBadge)
 
+
+/** 
+ * @openapi
+ * /api/badge:
+ *  get:
+ *      operationId: getBadges
+ *      responses: 
+ *          '200': 
+ *              description: OK     
+ */
+
 router.get('/', Badge.getAllBadges)
 
 export default router

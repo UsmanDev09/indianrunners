@@ -114,10 +114,10 @@ export const register: RequestHandler = async (req, res, next) => {
     }
 }
 
-export const otp: RequestHandler<unknown, unknown, User, unknown> = async (req, res, next) => {
+export const otp: RequestHandler<{ email: string }, unknown, User, unknown> = async (req, res, next) => {
     
     try {
-        const { email } = req?.body
+        const { email } = req?.params
         const user = UserModel.findOne({ email : email })
 
         if(!user) throw createHttpError(StatusCodes.NOT_FOUND, Constants.userNotFound)

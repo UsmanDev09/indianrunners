@@ -19,7 +19,6 @@ import { Badge } from "./interfaces/badge"
 
 const app = server();
 
-
 const port = env.SERVER_PORT || 5000;
 
 mongoose
@@ -28,6 +27,7 @@ mongoose
   logger.info("Mongoose connected");
 })
 .catch(logger.error)
+
 
 const serverConnection = app.listen(port, () => {
   logger.info(`Server started on port: ${port}`)

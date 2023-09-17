@@ -15,6 +15,7 @@ import cartRoutes from '../routes/cart'
 import shippingDetailRoutes from '../routes/shippingDetails'
 import orderSummaryRoutes from '../routes/orderSummary'
 import paymentRoutes from '../routes/payment'
+import swaggerDocs from "./swagger"
 
 const app = express()
 
@@ -26,6 +27,7 @@ const server = () => {
     }))
     app.use(passport.initialize())
     // app.use(whitelistRequestBodyParams)
+
     app.use('/api/user', userRoutes)
     app.use('/api/activity', activityRoutes)
     app.use('/api/challenge/category', challengeCategoryRoutes)
@@ -38,6 +40,9 @@ const server = () => {
     app.use('/api/product/category', productCategoryRoutes)
     app.use('/api/payment', paymentRoutes)
 
+    swaggerDocs(app, 5000)
+
+    app.get('/')
     // no endpoint
     app.use((req, res, next) => {
         next(createHttpError(404, Constants.routeNotFound))
