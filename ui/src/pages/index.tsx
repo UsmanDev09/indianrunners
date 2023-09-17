@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Banner from "@/components/Banner";
-import Layout from "@/components/Layout";
 import { Josefin_Sans } from "next/font/google";
 
 import socket from '../socket';
@@ -27,19 +26,17 @@ export default function Home() {
 
   return (
     <div className={josef.className}>
-      <Layout>
-        <Banner
-          introduction="Best Furniture For Your Castle...."
-          title="New Furniture Collection Trends in 2020"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Magna in est adipiscing in phasellus non in justo."
-          picture={Chair}
-        />
-        <CardList
-          title="Featured Products"
-          setChallenges={setchall}
-          ItemCard_List={ItemCards}
-        />
-      </Layout>
+      <Banner
+        introduction="Best Furniture For Your Castle...."
+        title="New Furniture Collection Trends in 2020"
+        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Magna in est adipiscing in phasellus non in justo."
+        picture={Chair}
+      />
+      <CardList
+        title="Featured Products"
+        setChallenges={setchall}
+        ItemCard_List={ItemCards}
+      />
     </div>
   );
 }

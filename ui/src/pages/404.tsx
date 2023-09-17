@@ -1,5 +1,4 @@
 import { GetStaticProps } from "next";
-import Layout from "@/components/Layout";
 import { Josefin_Sans } from "next/font/google";
 import NotFoundPicture from "../Assets/NotFound.jpg";
 const josef = Josefin_Sans({ subsets: ["latin"] });
@@ -15,35 +14,33 @@ type Props = {
 export default function NotFound({ NotFoundImage }: Props) {
   return (
     <div className={josef.className}>
-      <Layout>
-        <Banner404
-          introduction="
-          "
-          title="Uh Oh! we can not find the requested page"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Magna in est adipiscing in phasellus non in justo."
+      <Banner404
+        introduction="
+        "
+        title="Uh Oh! we can not find the requested page"
+        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Magna in est adipiscing in phasellus non in justo."
+      />
+      <div className="flex justify-center align-center">
+        <Link
+          href="/"
+          className="p-3 bg-pink text-white m-3 font-bold rounded-lg"
+        >
+          Go to Home Page
+        </Link>
+      </div>
+      <div className="flex justify-center align-center">
+        <Image
+          src={NotFoundImage}
+          alt="404 Image"
+          width={700}
+          height={475}
+          sizes="100vw"
+          style={{
+            width: "70%",
+            height: "50vw",
+          }}
         />
-        <div className="flex justify-center align-center">
-          <Link
-            href="/"
-            className="p-3 bg-pink text-white m-3 font-bold rounded-lg"
-          >
-            Go to Home Page
-          </Link>
-        </div>
-        <div className="flex justify-center align-center">
-          <Image
-            src={NotFoundImage}
-            alt="404 Image"
-            width={700}
-            height={475}
-            sizes="100vw"
-            style={{
-              width: "70%",
-              height: "50vw",
-            }}
-          />
-        </div>
-      </Layout>
+      </div>
     </div>
   );
 }

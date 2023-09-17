@@ -1,16 +1,13 @@
-import { InferSchemaType, model, Schema } from 'mongoose'
-import userSchema from './user'
-import challengeSchema from './challenge'
-import challengeCategorySchema from './challengeCategory'
+import mongoose, { InferSchemaType, model, Schema } from 'mongoose'
 
 const leaderboardSchema = new Schema({
     userDetails: [{
-        user: { type: userSchema.schema },
+        user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
         rank: { type: Number },
         IRPassport: { type: Number },
     }],
-    challenge: { type: challengeSchema.schema },
-    category: { type: challengeCategorySchema.schema },
+    challenge: { type: mongoose.Schema.Types.ObjectId, ref: 'Challenge' },
+    category: { type: mongoose.Schema.Types.ObjectId, ref: 'ChallengeCategory' },
 
 }, { timestamps: true })
 

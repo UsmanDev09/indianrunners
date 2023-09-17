@@ -17,8 +17,7 @@ const Banner = ({
 }: Banner_Props) => {
   return (
     <div className={`bg-light-pink w-full ${josef.className}`}>
-      
-      <div className="container mx-auto px-4 grid sm:grid-cols-2 place-items-center h-full">
+      <div className="container mx-auto grid sm:grid-cols-2 place-items-center h-full">
         <div className="flex flex-col justify-center text-center sm:text-left">
           {introduction && (
             <div className="text-pink text-sm sm:text-xl py-4">

@@ -15,10 +15,11 @@ import { UserChallengesInterface } from "../interfaces/userChallenges"
 
 export const postActivity: RequestHandler<unknown, unknown, StravaInterface, unknown> = async (req, res, next) => {
     try {
+        console.log(req)
         const { code }  = req.body
         const { _id } = req.user as User;
 
-        if (!(code))
+        if (!code)
             throw createHttpError(StatusCodes.BAD_REQUEST, Constants.requiredParameters('code'))
 
         const response = await axios.post(`http://www.strava.com/oauth/token?client_id=113257&client_secret=37c1602c284ad0fcf8fec326198e60e2d84a2a38&code=${code}&grant_type=authorization_code`)
@@ -85,7 +86,7 @@ export const postActivity: RequestHandler<unknown, unknown, StravaInterface, unk
             // if knockout is hourly, run cron jobs every hour for fetching data and check if lower limit is completed and qualified hours
 
             // if knockout is hourly and strava is connected, run webhooks 
-            
+
             // rank accoridng to qualified hours and then speed
 
             // check if challenge is fixed and repeat algo for knockout 

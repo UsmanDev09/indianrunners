@@ -20,8 +20,8 @@ const filterRequestBody : RequestHandler<unknown, unknown, unknown, unknown> = (
         requiredParams = ['code']
     }
     else if (req.method === 'POST' && req.originalUrl.startsWith(`${prefix}/activity`)) {
-        requiredParams = ['activityType', 'date', 'startTime', 'endTime', 'elapsedTime', 'movingTime', 'distanceCovered', 'averageSpeed', 'averageMovingSpeed', 'maximumSpeed', 'totalAssent', 'caloriesBurnt']
-        optionalParams = ['flag']
+        // requiredParams = ['activityType', 'date', 'startTime', 'endTime', 'elapsedTime', 'movingTime', 'distanceCovered', 'averageSpeed', 'averageMovingSpeed', 'maximumSpeed', 'totalAssent', 'caloriesBurnt']
+        // optionalParams = ['flag']
     }
     else if (req.method ===  'POST' && req.originalUrl.startsWith(`${prefix}/challenge`)) {
         requiredParams = ['type', 'name', 'image', 'startDate', 'endDate' ]

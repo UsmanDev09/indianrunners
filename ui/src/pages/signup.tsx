@@ -1,7 +1,7 @@
 import { GetStaticProps } from "next";
-import Layout from "@/components/Layout";
 import { Josefin_Sans } from "next/font/google";
 import SignUpForm from "@/components/Forms/SignUp";
+
 const josef = Josefin_Sans({ subsets: ["latin"] });
 
 type Props = {
@@ -12,9 +12,7 @@ type Props = {
 export default function Login({ NotFoundImage }: Props) {
   return (
     <div className={josef.className}>
-      <Layout>
-        <SignUpForm />
-      </Layout>
+      <SignUpForm />
     </div>
   );
 }
