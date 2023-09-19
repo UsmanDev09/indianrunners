@@ -8,6 +8,7 @@ import jwt from 'jsonwebtoken'
 import env from '../utility/validateEnv'
 import logger from "../config/logger"
 import UserModel from '../models/user'
+import NotificationModel from '../models/notification'
 import Otp from "../models/otp"
 
 import { User } from "../interfaces/user"
@@ -28,7 +29,6 @@ export const login: RequestHandler<unknown, unknown, User, unknown> = async (req
    const { email, password } = req?.body
 
    try {
-       
         const user = await UserModel.findOne({
             email
         })
@@ -44,6 +44,8 @@ export const login: RequestHandler<unknown, unknown, User, unknown> = async (req
         const token = jwt.sign({ user }, env.JWT_SECRET_KEY, {
             expiresIn: '1d'
         })
+
+        await NotificationModel.create({ type: 'user', message: 'Wohoo! You have logged in to your account' })
 
         res.status(StatusCodes.OK).json({
             success: true,
