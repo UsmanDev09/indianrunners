@@ -1,8 +1,6 @@
 import express from 'express'
 
 import * as Notification from '../controllers/notification'
-import { checkIsinRole } from "../utility/checkIsInRoles"
-import { ROLES } from "../utility/constants"
 
 const router = express.Router()
 
