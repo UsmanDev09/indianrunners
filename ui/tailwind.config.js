@@ -8,6 +8,7 @@ module.exports = {
     // Or if using `src` directory:
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: "class",
   theme: {
     colors: {
       // Configure your color palette here
@@ -21,16 +22,18 @@ module.exports = {
       silver: "#ecebff",
       "bubble-gum": "#ff77e9",
       bermuda: "#78dcca",
-      violet: "#7e33e0",
-      "light-pink": "#EEEFFB",
-      black: "#000000",
+      violet: "#416788",
+      "light-pink": "#B5BAD0",
+      "dark-green": "#283F53",
       "light-blue": "#E7E4F8",
-      "blue-text": "#8A8FB9",
-      pink: "#FB2E86",
+      "blue-text": "#E0E0E2",
+      pink: "#7389AE",
       input: "#E7E6EF",
       prod: "#F6F7FB",
       prodblue: "#2F1AC4",
-      green: "#08D15F",
+      green: "#81D2C7",
+      "violet-d": "#0D151C",
+      "pink-d": "#31877B",
     },
     extend: {},
   },

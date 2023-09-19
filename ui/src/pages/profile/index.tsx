@@ -7,7 +7,6 @@ const Profile = () => {
       <ProfileSideBar />
       <AccountInfo />
     </div>
-
   );
 };
 

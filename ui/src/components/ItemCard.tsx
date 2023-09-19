@@ -44,7 +44,7 @@ const ItemCard = ({ title, price, picture, type, _id }: ItemCard_Props) => {
   };
   return (
     <div className="group transition duration-300 hover:scale-110">
-      <div className=" bg-prod mt-4 mx-4 rounded flex flex-col justify-center items-center h-60">
+      <div className=" bg-prod mt-4 mx-4 rounded flex flex-col justify-center items-center h-60 dark:bg-violet">
         <Image src={picture} alt="product"></Image>
         <button
           onClick={() => AddtoCart()}

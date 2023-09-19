@@ -28,7 +28,7 @@ const AccountInfo = (props) => {
           /> */}
           <label
             htmlFor="contained-button-file"
-            className="absolute ml-[40px] -mt-5 font-comfortaa bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 rounded-[12px] shadow"
+            className="absolute ml-[40px] -mt-5 font-comfortaa bg-white dark:bg-pink dark:text-blue-text hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 rounded-[12px] shadow"
           >
             <input
               accept=".png,.jpg"
@@ -41,7 +41,7 @@ const AccountInfo = (props) => {
           </label>
         </div>
       </div>
-      <div className="lg:px-8 item-left w-full ">
+      <div className="lg:px-8 item-left w-full dark:text-blue-text">
         <div>
           <p className="font-unica text-[30px] py-5">PROFILE NAME</p>
           <p className="font-comfortaa">
@@ -93,7 +93,7 @@ const AccountInfo = (props) => {
         <div>
           <Link
             href="/profile/new"
-            className="hover:bg-[#A042E1] font-comfortaa inline-flex items-center bg-white  text-gray-800 font-semibold py-2 px-4 rounded-[12px] shadow"
+            className="hover:bg-[#A042E1] font-comfortaa inline-flex items-center dark:text-blue-text bg-white dark:bg-pink text-gray-800 font-semibold py-2 px-4 rounded-[12px] shadow"
           >
             <AiOutlinePlus className="text-[20px]" /> &nbsp;
             <button type="button">List new Product</button>
@@ -102,7 +102,7 @@ const AccountInfo = (props) => {
         <div>
           <Link
             href="/profile"
-            className="hover:bg-[#A042E1] xs:mb-4 lg:mb-0 hover:text-white font-comfortaa inline-flex items-center bg-white  text-gray-800 font-semibold py-2 px-4 rounded-[12px] shadow mt-5"
+            className="hover:bg-[#A042E1] xs:mb-4 lg:mb-0 dark:text-blue-text hover:text-white dark:bg-pink font-comfortaa inline-flex items-center bg-white  text-gray-800 font-semibold py-2 px-4 rounded-[12px] shadow mt-5"
           >
             <BiPencil className="text-[20px]" /> &nbsp;Edit Profile
           </Link>

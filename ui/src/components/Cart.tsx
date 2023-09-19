@@ -56,11 +56,11 @@ const Cart = ({ title, price, picture }: ItemCard_Props) => {
     console.log(cart);
   }, []);
   return (
-    <div className="p-12">
+    <div className="p-12 ">
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
+        <table className="w-full text-sm text-left text-gray-500 ">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-pink dark:text-gray-400">
+            <tr className="dark:text-blue-text">
               <th scope="col" className="px-6 py-3 text-center">
                 <span className="sr-only">Image</span>
               </th>
@@ -84,18 +84,18 @@ const Cart = ({ title, price, picture }: ItemCard_Props) => {
                 item && (
                   <tr
                     key={index}
-                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-center"
+                    className="bg-white border-b dark:bg-dark-green dark:border-gray-700 hover:bg-gray-50 text-center"
                   >
                     <td className="w-32 p-4">
                       <Image src={NotFound} alt="Apple Watch" />
                     </td>
-                    <td className="px-6 py-4 font-semibold text-gray-900">
+                    <td className="px-6 py-4 font-semibold text-gray-900 dark:text-blue-text">
                       {item.itemDetails[0].challenge.name}
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-6 py-4 dark:text-blue-text">
                       <div className="flex items-center justify-center space-x-3">
                         <button
-                          className="inline-flex items-center justify-center p-1 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                          className="inline-flex dark:bg-pink items-center justify-center p-1 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                           type="button"
                           onClick={() => handleDecrement(item)}
                         >
@@ -120,14 +120,14 @@ const Cart = ({ title, price, picture }: ItemCard_Props) => {
                           <input
                             type="number"
                             id={`product-${item.itemDetails[0].challenge.name}`}
-                            className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            className="bg-gray-50 w-14 border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:text-dark-green dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             value={0}
                             readOnly
                             required
                           />
                         </div>
                         <button
-                          className="inline-flex items-center justify-center h-6 w-6 p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                          className="inline-flex  dark:text-blue-text items-center dark:bg-pink justify-center h-6 w-6 p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                           type="button"
                           onClick={() => handleIncrement(item)}
                         >
@@ -150,11 +150,11 @@ const Cart = ({ title, price, picture }: ItemCard_Props) => {
                         </button>
                       </div>
                     </td>
-                    <td className="px-6 py-4 font-semibold text-gray-900">
+                    <td className="px-6 py-4 font-semibold text-gray-900 dark:text-blue-text">
                       ${item.itemDetails[0].challenge.price}
                     </td>
                     <td className="px-6 py-4">
-                      <button className="font-medium text-red-600 dark:text-red-500 hover:underline">
+                      <button className="font-medium text-red-600 dark:text-red-500 hover:underline dark:text-blue-text dark:bg-pink rounded p-2">
                         Remove
                       </button>
                     </td>

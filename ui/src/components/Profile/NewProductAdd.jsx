@@ -1,41 +1,41 @@
-import React, {  useEffect, useState } from "react"
-import { Field, Formik } from "formik"
+import React, { useEffect, useState } from "react";
+import { Field, Formik } from "formik";
 
-import InputField from "../Fields/InputField"
-import Select from "./element/Select"
+import InputField from "../Fields/InputField";
+import Select from "./element/Select";
 // import { productSchema } from "../../validations/productSchema"
 // import ProductAPI from "../../api/product/product"
-import Label from "../Label/Label"
+import Label from "../Label/Label";
 // import ImageUploader from "../ImageUploader/ImageUploader"
-import Button from "../Buttons/Button"
-import ErrorComponent from "../ErrorComponent/ErrorComponent"
-
+import Button from "../Buttons/Button";
+import ErrorComponent from "../ErrorComponent/ErrorComponent";
 
 const NewProductAdd = (props) => {
-  const [image, setImage] = useState(null)
-  const [filters, setFilters] = useState([])
-  const [token, setToken] = useState()
-  const [errorType, setErrorType] = useState()
-  const [errorMsg, setErrorMsg] = useState()
+  const [image, setImage] = useState(null);
+  const [filters, setFilters] = useState([]);
+  const [token, setToken] = useState();
+  const [errorType, setErrorType] = useState();
+  const [errorMsg, setErrorMsg] = useState();
 
-  const filterArray = [{ name: "color" }, { name: "material" }]
+  const filterArray = [{ name: "color" }, { name: "material" }];
   useEffect(() => {
-    if(localStorage.getItem("token"))
-    setToken(
-      JSON.parse(localStorage.getItem('token') || '')
-    );
+    if (localStorage.getItem("token"))
+      setToken(JSON.parse(localStorage.getItem("token") || ""));
   }, []);
-  const categoryArray = props.props.categories !== undefined && props?.props?.categories.map((category) => {
-    return {
-      label: category[Object.keys(category)[0]].name,
-      value: category[Object.keys(category)[0]].name,
-    }
-  })
-  categoryArray && categoryArray.unshift({
+  const categoryArray =
+    props.props.categories !== undefined &&
+    props?.props?.categories.map((category) => {
+      return {
+        label: category[Object.keys(category)[0]].name,
+        value: category[Object.keys(category)[0]].name,
+      };
+    });
+  categoryArray &&
+    categoryArray.unshift({
       label: "Select your Category",
       value: "",
-    },)
-  const [category, setCategory] = useState(categoryArray[0])
+    });
+  const [category, setCategory] = useState(categoryArray[0]);
   const subCategoryArray = [
     {
       label: "Select your Quantity",
@@ -52,8 +52,8 @@ const NewProductAdd = (props) => {
       value: "q-2",
       unavailable: false,
     },
-  ]
-  const [subCategory, setSubCategory] = useState(subCategoryArray[0])
+  ];
+  const [subCategory, setSubCategory] = useState(subCategoryArray[0]);
 
   const quantityArray = [
     {
@@ -71,8 +71,8 @@ const NewProductAdd = (props) => {
       value: "q-2",
       unavailable: false,
     },
-  ]
-  const [quantity, setQuantity] = useState(quantityArray[0])
+  ];
+  const [quantity, setQuantity] = useState(quantityArray[0]);
   const shipArray = [
     {
       label: "Select Country",
@@ -89,41 +89,39 @@ const NewProductAdd = (props) => {
       value: "it",
       unavailable: false,
     },
-  ]
-  const [ship, setShip] = useState(shipArray[0])
+  ];
+  const [ship, setShip] = useState(shipArray[0]);
 
   const classNames = (...classes) => {
-    return classes.filter(Boolean).join(" ")
-  }
+    return classes.filter(Boolean).join(" ");
+  };
 
   const addFilter = (ele) => {
     if (!filters.find((el) => el.name === ele))
-      setFilters([...filters, { name: ele, content: ["black", "white"] }])
-  }
+      setFilters([...filters, { name: ele, content: ["black", "white"] }]);
+  };
   return (
-
     <Formik
       onSubmit={async (data) => {
         try {
-          const response = await ProductAPI.addProductToCategory( data);
+          const response = await ProductAPI.addProductToCategory(data);
           // const jsonResponse = await response?.json();
           // const productResponse = await ProductAPI.addProductToCategory(jsonResponse, data.category, token)
           // router.push(`${path.CATEGORIES}`)
         } catch (error) {
-          setErrorMsg(error.message)
-          setErrorType(error.name)
+          setErrorMsg(error.message);
+          setErrorType(error.name);
         }
       }}
       validationSchema={productSchema}
       initialValues={{
+        name: "",
+        price: 0,
+        rating: 0,
+        description: "",
+        image: "",
 
-            name: "",
-            price: 0,
-            rating: 0,
-            description: "",
-            image:"",
-
-          categoryName: "",
+        categoryName: "",
       }}
     >
       {({ handleSubmit, setFieldValue, values }) => (
@@ -136,7 +134,7 @@ const NewProductAdd = (props) => {
             <p className="font-unica text-[30px] py-5">LIST NEW PRODUCT</p>
             <div className="max-w-[900px] font-comfortaa">
               <div>
-                <Label label="Product name"/>
+                <Label label="Product name" />
                 <Field
                   component={InputField}
                   type="text"
@@ -155,7 +153,7 @@ const NewProductAdd = (props) => {
                   placeholder="Write a description of your product, max 200 characters"
                 />
               </div>
-               <div className="max-w-[300px] mt-12">
+              <div className="max-w-[300px] mt-12">
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   Product Price
                 </label>
@@ -168,7 +166,7 @@ const NewProductAdd = (props) => {
                   placeholder="Enter Product Price"
                 />
               </div>
-              <div className="mt-12">
+              {/* <div className="mt-12">
                 <Label label="Product Image" />
                 <ImageUploader setImage={setImage} onChange={ (image) => {
                   setFieldValue("image",image.result )
@@ -177,15 +175,15 @@ const NewProductAdd = (props) => {
                   <img src={`${image}`} alt="Product" width={100} height={100}/>
                 }
 
-              </div>
+              </div> */}
               <div className="mt-12 flex">
                 <div className="max-w-[300px] w-full">
                   <Label label="Product Category" />
-                   <Select
+                  <Select
                     options={categoryArray}
                     onChange={(value) => {
-                      setFieldValue('categoryName', value.value)
-                      setCategory(value)
+                      setFieldValue("categoryName", value.value);
+                      setCategory(value);
                     }}
                     selectedOption={category}
                   />
@@ -225,7 +223,7 @@ const NewProductAdd = (props) => {
                 <span className="text-gray-400">
                   Use .png or .jpg format, max 7 photos, 25mb per photo
                 </span> */}
-                {/* <div className="flex mt-2">
+              {/* <div className="flex mt-2">
                   <Menu
                     as="div"
                     className="relative inline-block text-left w-[60px] h-[60px] rounded-lg border-2 border-gray-300 border-dashed "
@@ -308,23 +306,24 @@ const NewProductAdd = (props) => {
                 )
               })} */}
               <div className="mt-16">
-                <Button name="Save and List"/>
+                <Button name="Save and List" />
               </div>
             </div>
           </div>
-          {errorType || errorMsg ?
-          <div>
-          <ErrorComponent errorMsg={errorMsg} errorType={errorType} />
-          </div>
-          : ''}
+          {errorType || errorMsg ? (
+            <div>
+              <ErrorComponent errorMsg={errorMsg} errorType={errorType} />
+            </div>
+          ) : (
+            ""
+          )}
         </form>
       )}
     </Formik>
-  )
-}
+  );
+};
 
-export default NewProductAdd
+export default NewProductAdd;
 function setImage(arg0) {
-  throw new Error("Function not implemented.")
+  throw new Error("Function not implemented.");
 }
-
