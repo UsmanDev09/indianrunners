@@ -44,11 +44,11 @@ const ItemCard = ({ title, price, picture, type, _id }: ItemCard_Props) => {
   };
   return (
     <div className="group transition duration-300 hover:scale-110">
-      <div className=" bg-prod mt-4 mx-4 rounded flex flex-col justify-center items-center h-60 dark:bg-violet">
+      <div className=" bg-prod mt-4 mx-4 rounded flex flex-col justify-center items-center h-80 min-h-60 dark:bg-violet">
         <Image src={picture} alt="product"></Image>
         <button
           onClick={() => AddtoCart()}
-          className=" transition duration-300 group-hover:block group-hover:text-white absolute z-10 bg-green rounded hidden bottom-1/4 px-2"
+          className=" transition duration-300 group-hover:block group-hover:text-white absolute z-10 bg-green rounded hidden bottom-1/4 px-2 m-2"
         >
           {button}
         </button>

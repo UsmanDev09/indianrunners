@@ -20,7 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
       setIsConnected(true);
     }
 
-    fetch('http://localhost:5000/api/notification').then((response) => response.json()).then((data) => setNotifications(data.data))
+    fetch('http://localhost:5000/api/notification').then((response) => response.json()).then((data) => setNotifications(data.data)).catch((e)=>{console.log(e)})
     socket.on('connect', onConnect);
     socket.on('notification', (data) => {
       setNotification(data);

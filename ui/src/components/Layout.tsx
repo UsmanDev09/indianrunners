@@ -25,7 +25,7 @@ const Layout = ({ children, title = "SEMASTORE", notifications }: Props) => {
   const [showNotifications, setShowNotifications] = useState<boolean>(false);
   const [mounted, setMounted] = useState<boolean>(false);
 
-  const dropdownRef = useRef<HTMLButtonElement | null>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const iconRef = useRef<HTMLButtonElement | null>(null);
 
   const onClickNotifications = () => {
@@ -81,15 +81,13 @@ const Layout = ({ children, title = "SEMASTORE", notifications }: Props) => {
                   className={`container mx-auto flex text-white text-center ${josef.className} border-black drop-shadow-md p-2`}
                 >
                   <div className="flex justify-between w-full">
-                    <div className="flex flex-row justify-start">
-                      <div className="text-base">English&nbsp;</div>
-                      <div>
-                        <Image
-                          src={globe}
-                          alt="Picture of the author"
-                          className="h-5"
-                        />
-                      </div>
+                    <div
+                      className="flex flex-row justify-start cursor-pointer"
+                      onClick={() => {
+                        document.documentElement.classList.toggle("dark");
+                      }}
+                    >
+                      <div className="text-base">Switch Theme&nbsp;</div>
                     </div>
                     <div className="flex flex-row gap-4 justify-end">
                       <div className="flex flex-row justify-end ">
@@ -268,10 +266,10 @@ const Layout = ({ children, title = "SEMASTORE", notifications }: Props) => {
               </nav>
             </header>
             <div className="min-h-screen">{children}</div>
-            <footer className="bg-light-pink flex flex-col justify-center mt-2">
+            <footer className="bg-light-pink flex flex-col justify-center mt-2 dark:bg-violet">
               <div className="container mx-auto">
                 <div
-                  className={`container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 relative ${josef.className} py-2`}
+                  className={`container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 relative ${josef.className} py-2 dark:text-blue-text`}
                 >
                   <div className="flex flex-col gap-4 justify-start py-5">
                     <div className="text-3xl font-bold">Hekto</div>
@@ -318,7 +316,7 @@ const Layout = ({ children, title = "SEMASTORE", notifications }: Props) => {
                   </div>
                 </div>
               </div>
-              <div className="bg-light-blue">
+              <div className="bg-violet dark:bg-dark-green">
                 <div className="flex flex-row justify-center">
                   <div className="text-blue-text">SemaStore &copy;</div>
                 </div>
