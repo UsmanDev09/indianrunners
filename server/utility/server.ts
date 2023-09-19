@@ -13,6 +13,7 @@ import productRoutes from '../routes/productCategory'
 import badgeRoutes from '../routes/badge'
 import cartRoutes from '../routes/cart'
 import shippingDetailRoutes from '../routes/shippingDetails'
+import notificationRoutes from '../routes/notification'
 import orderSummaryRoutes from '../routes/orderSummary'
 import paymentRoutes from '../routes/payment'
 import swaggerDocs from "./swagger"
@@ -39,6 +40,7 @@ const server = () => {
     app.use('/api/orderSummary', orderSummaryRoutes)
     app.use('/api/product/category', productCategoryRoutes)
     app.use('/api/payment', paymentRoutes)
+    app.use('/api/notification', notificationRoutes)
 
     swaggerDocs(app, 5000)
 

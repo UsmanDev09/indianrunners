@@ -15,7 +15,6 @@ import server from './utility/server'
 import { Constants } from './utility/constants'
 import { ActivityInterface } from './interfaces/activity'
 import * as socket from './utility/socket'
-import { Badge } from "./interfaces/badge"
 
 const app = server();
 

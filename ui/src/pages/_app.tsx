@@ -1,41 +1,46 @@
 import { ContextProvider } from "@/Context/ContextProvider";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
-import socket from '../socket';
 import { useEffect, useState } from "react";
+
+import Toast from '../components/Toast';
 import Layout from "@/components/Layout";
+import socket from '../socket';
 
 export default function App({ Component, pageProps }: AppProps) {
   const [isConnected, setIsConnected] = useState(false);
-  
+  const [notification, setNotification] = useState<object>();
+  const [notifications, setNotifications] = useState<object[]>([]);
+
+
   useEffect(() => {
-    console.log(socket.connected)
+
     function onConnect() {
-      // alert('connected to sockets')
+      alert('connected to sockets')
       setIsConnected(true);
     }
 
+    fetch('http://localhost:5000/api/notification').then((response) => response.json()).then((data) => setNotifications(data.data))
     socket.on('connect', onConnect);
     socket.on('notification', (data) => {
-      // alert(`Received notification: ${JSON.stringify(data)}`);
-
+      setNotification(data);
       // Update the state with the received data
     });
 
     return () => {
+      socket.off('connect')
       socket.off('notification');
     };
-  });
+  }, []);
   
   return (
     <ContextProvider>
-      <Layout>
+      <Layout notifications={notifications && notifications.length > 5 ? notifications.splice(0, 5) : notifications}>
+        {notification && (
+          <Toast notification={notification}/>
+        )}
         <Component {...pageProps} />
       </Layout>
     </ContextProvider>
   );
 }
-function setIsConnected(arg0: boolean) {
-  throw new Error("Function not implemented.");
-}
-
