@@ -16,21 +16,27 @@ const Banner = ({
   picture,
 }: Banner_Props) => {
   return (
-    <div className={`bg-light-pink w-full ${josef.className}`}>
+    <div className={`bg-light-pink w-full ${josef.className} dark:bg-violet`}>
       <div className="container mx-auto grid sm:grid-cols-2 place-items-center h-full">
         <div className="flex flex-col justify-center text-center sm:text-left">
           {introduction && (
-            <div className="text-pink text-sm sm:text-xl py-4">
+            <div className="text-pink text-sm sm:text-xl py-4 dark:text-blue-text">
               {introduction}
             </div>
           )}
-          {title && <div className="text-3xl sm:text-6xl ">{title}</div>}
+          {title && (
+            <div className="text-3xl sm:text-6xl dark:text-blue-text">
+              {title}
+            </div>
+          )}
           {description && (
-            <div className="text-sm sm:text-xl py-4">{description}</div>
+            <div className="text-sm sm:text-xl py-4 dark:text-blue-text">
+              {description}
+            </div>
           )}
         </div>
         {picture && (
-          <div className="rounded-full bg-pink/10">
+          <div className="rounded-full bg-blue-text/10 ">
             <Image src={picture} className="p-12" alt="My Image" />
           </div>
         )}

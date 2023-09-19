@@ -8,6 +8,7 @@ export type ItemCard_Props = {
 
 export type Challenge_Props = {
   challenge: {
+    activity: string;
     name?: string;
     price?: string;
     picture?: any;

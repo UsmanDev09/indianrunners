@@ -60,7 +60,7 @@ const Sidebar = ({
     setbutton("Added");
   };
   return (
-    <div className="">
+    <div className="dark:bg-white rounded">
       <button
         data-drawer-target="default-sidebar"
         data-drawer-toggle="default-sidebar"

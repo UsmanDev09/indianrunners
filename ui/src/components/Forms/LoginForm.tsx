@@ -92,7 +92,7 @@ const LoginForm = () => {
         />
         <div className="mt-2">Don&apos;t have an account?</div>
         <Link
-          href={"/SignUp"}
+          href={"/signup"}
           className="rounded text-center text-white bg-pink p-2 w-40"
         >
           Sign Up here

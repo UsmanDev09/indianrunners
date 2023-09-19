@@ -18,7 +18,7 @@ const Banner404 = ({
   return (
     <div className={`bg-light-pink w-full ${josef.className}`}>
       <div className="container mx-auto px-4 h-full">
-        <div className="flex flex-col justify-center text-center">
+        <div className="flex flex-col justify-center text-center dark:text-blue-text">
           {introduction && (
             <div className="text-pink text-sm sm:text-xl py-4">
               {introduction}

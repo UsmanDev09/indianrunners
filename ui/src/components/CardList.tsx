@@ -24,7 +24,9 @@ const CardList = ({
   return (
     <div>
       <div className="container mx-auto my-8">
-        <div className="text-5xl m-4 font-bold text-center">{title}</div>
+        <div className="text-5xl m-4 font-bold text-center dark:text-blue-text">
+          {title}
+        </div>
         <div className={`flex ${flex}`}>
           {filters && <Sidebar setChallenges={setChallenges} />}
           <div className="grid md:grid-cols-4 justify-center">
