@@ -97,7 +97,7 @@ export class ApiService {
   /**
    *
    */
-  static authorizeToGetActivityFromStrava(options: IRequestOptions = {}): Promise<any> {
+  static authorizeToGetActivityFromStrava(options: IRequestOptions = {}): Promise<AuthorizeStravaResponse> {
     return new Promise((resolve, reject) => {
       let url = basePath + '/api/activity';
 
@@ -113,7 +113,7 @@ export class ApiService {
   /**
    *
    */
-  static getActivities(options: IRequestOptions = {}): Promise<any> {
+  static getActivities(options: IRequestOptions = {}): Promise<ActivityApiResponse> {
     return new Promise((resolve, reject) => {
       let url = basePath + '/api/activity';
 
@@ -240,4 +240,79 @@ export class UserService {
       axios(configs, resolve, reject);
     });
   }
+}
+
+export interface AuthorizeStravaResponse {
+  /**  */
+  success?: boolean;
+
+  /**  */
+  message?: string;
+}
+
+export interface ActivityApiResponse {
+  /**  */
+  success?: boolean;
+
+  /**  */
+  message?: string;
+
+  /**  */
+  data?: Activity[];
+}
+
+export interface Activity {
+  /**  */
+  activityId?: number;
+
+  /**  */
+  userId?: string;
+
+  /**  */
+  activityType?: EnumActivityActivityType;
+
+  /**  */
+  startDate?: Date;
+
+  /**  */
+  elapsedTime?: number;
+
+  /**  */
+  movingTime?: number;
+
+  /**  */
+  distanceCovered?: number;
+
+  /**  */
+  averageSpeed?: number;
+
+  /**  */
+  maximumSpeed?: number;
+
+  /**  */
+  totalAssent?: number;
+}
+export enum EnumActivityActivityType {
+  'Walk' = 'Walk',
+  'Run' = 'Run',
+  'VirtualRun' = 'VirtualRun',
+  'TrailRun' = 'TrailRun',
+  'Treadmil' = 'Treadmil',
+  'Walk' = 'Walk',
+  'Hike' = 'Hike',
+  'Ride' = 'Ride',
+  'MountainBikeRide' = 'MountainBikeRide',
+  'GravelBikeRide' = 'GravelBikeRide',
+  'VeloMobile' = 'VeloMobile',
+  'VirtialRide' = 'VirtialRide',
+  'HandCycle' = 'HandCycle',
+  'Swim' = 'Swim',
+  'CrossFit' = 'CrossFit',
+  'Elliptical' = 'Elliptical',
+  'StairStepper' = 'StairStepper',
+  'WeightTraining' = 'WeightTraining',
+  'Workout' = 'Workout',
+  'Hiit' = 'Hiit',
+  'Pilates' = 'Pilates',
+  'Yoga' = 'Yoga'
 }
