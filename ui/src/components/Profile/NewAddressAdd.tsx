@@ -1,14 +1,14 @@
 import React, { useState } from "react"
 import { Formik, Field } from "formik"
-import Select from "./element/Select";
+// import Select from "./element/Select";
 
 import InputField from "../Fields/InputField"
-import { shippingDetailsSchema } from "../../validations/shippingDetailsSchema"
+// import { shippingDetailsSchema } from "../../validations/shippingDetailsSchema"
 import { Router, useRouter } from "next/router"
 import Label from "../Label/Label";
-import Button from "../Buttons/Button";
+// import Button from "../Buttons/Button";
 
-const NewAddressAdd = (props) => {
+const NewAddressAdd = (props: any) => {
   const router = useRouter()
   const courtries = [
     {
@@ -49,14 +49,14 @@ const NewAddressAdd = (props) => {
   return (
 
     <Formik
-      onSubmit={async (data) => {
+      onSubmit={async (data: {name: string}) => {
         try {
           const formData = new FormData()
           formData.append("name", data.name)
           router.push('/payment')
         } catch (error) {}
       }}
-      validationSchema={shippingDetailsSchema}
+      // validationSchema={shippingDetailsSchema}
       initialValues={{
         full_name:"",
         address:"",
@@ -125,19 +125,19 @@ const NewAddressAdd = (props) => {
               <div className="mt-8 grid grid-cols-3 gap-8">
                 <div>
                   <Label label="Country" />
-                  <Select
+                  {/* <Select
                     options={courtries}
                     selectedOption={coutry}
                     handelChange={(event) => setCountry(event)}
-                  />
+                  /> */}
                 </div>
                 <div>
                   <Label label="Province" />
-                  <Select
+                  {/* <Select
                     options={provinceArray}
                     selectedOption={province}
                     handelChange={(event) => setProvince(event)}
-                  />
+                  /> */}
                 </div>
                 <div>
                   <Label label="Zipcode" />
@@ -148,7 +148,7 @@ const NewAddressAdd = (props) => {
                   />
                 </div>
                 <div className="mt-16">
-                  <Button name="Proceed to payment" />
+                  <button name="Proceed to payment" />
                 </div>
               </div>
             </div>

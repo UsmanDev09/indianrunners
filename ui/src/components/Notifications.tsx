@@ -3,6 +3,9 @@ import { createPortal } from "react-dom";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import Image from "next/image";
 import Link from "next/link";
+import { Josefin_Sans } from "next/font/google";
+
+const josef = Josefin_Sans({ subsets: ["latin"] });
 
 type Props = {
     notifications: object[]
@@ -56,7 +59,7 @@ const Notifications = ( { notifications }: Props) => {
             onClick={onClickNotifications}
             className="flex items-center"
         >
-            <IoIosNotificationsOutline className="w-8 h-8 after:content-[''] after:w-5 after:h-5 after:rounded-xl after:bg-red" />
+            <IoIosNotificationsOutline className="w-8 h-8 mt-1 text-icons-color dark:text-black" />
         </button>
         {createPortal(
             <div
@@ -70,7 +73,7 @@ const Notifications = ( { notifications }: Props) => {
                 className="w-full max-w-sm bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-800 dark:divide-gray-700"
                 aria-labelledby="dropdownNotificationButton"
             >
-                <div className="block px-4 py-2 font-mediu text-center text-gray-700 rounded-t-lg bg-gray-50 dark:bg-gray-800 dark:text-white">
+                <div className={`${josef.className} block px-4 py-2 font-mediu text-center text-gray-700 rounded-t-lg bg-gray-50 dark:bg-gray-800 dark:text-white`}>
                 Notifications
                 </div>
                 <div className="divide-y divide-gray-100 dark:divide-gray-700">
@@ -105,22 +108,20 @@ const Notifications = ( { notifications }: Props) => {
                             </div>
                             </div>
                             <div className="w-full pl-3">
-                            <div className="text-gray-500 text-sm mb-1.5 dark:text-gray-400">
-                                {" "}
-                                {notification.message}{" "}
-                            </div>
-                            <div className="text-xs text-blue-600 dark:text-blue-500">
+                            <p className={`${josef.className} text-gray-500 text-sm mb-1.5 dark:text-gray-400`}>
+                                {notification.message}
+                            </p>
+                            <p className={`${josef.className} text-xs text-blue-600 dark:text-blue-500`}>
                                 a few moments ago
-                            </div>
+                            </p>
                             </div>
                         </a>
                         );
                     }
                     )
                 ) : (
-                    <p className="m-2">
-                    {" "}
-                    You do not have any notifications.{" "}
+                    <p className={`${josef.className} m-2`}>
+                    You do not have any notifications.
                     </p>
                 )}
                 </div>

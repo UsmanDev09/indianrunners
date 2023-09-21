@@ -4,7 +4,7 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 import { BiPencil } from "react-icons/bi";
 import Label from "../Label/Label";
 
-const AddPayment = (props) => {
+const AddPayment = (props: any) => {
   const addressArray = [
     {
       title: "master card",

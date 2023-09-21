@@ -9,8 +9,8 @@ import Logo from "./Logo";
 import HeaderMenu from "./HeaderMenu";
 import Notifications from "./Notifications";
 import DarkMode from "./DarkMode";
-import { AiOutlineShoppingCart } from 'react-icons/ai';
-import { CgProfile } from 'react-icons/cg';
+import { IoCartOutline } from 'react-icons/io5';
+import { LiaUserSolid } from 'react-icons/lia';
 
 const josef = Josefin_Sans({ subsets: ["latin"] });
 
@@ -47,31 +47,29 @@ const Layout = ({ children, title = "Indian Runners", notifications }: Props) =>
             />
           </Head>
           <div>
-            <header className="bg-violet">
-              <nav className="bg-violet">
-              <div className={`flex bg-white text-black ${josef.className} pt-2.5 justify-between`}>
-                <div className="container mx-auto flex justify-between w-full">
-                  <Logo userPrefs={userPrefs} setUserPrefs={setUserPrefs} />
-                  <HeaderMenu isOpen={isOpen} setIsOpen={setIsOpen} />
-                  <div className="flex justify-between w-40">
-                    <Notifications notifications={notifications} />  
-                    <DarkMode userPrefs={userPrefs} setUserPrefs={setUserPrefs} />
-                    <span className="flex items-center">|</span>
-                    <button>
-                      <Link href="/cart" className="text-base">
-                        <AiOutlineShoppingCart className="w-8 h-8"/>
-                      </Link>
-                    </button>
-                    <button>
-                      <Link href='/profile' className="text-base">
-                        <CgProfile className="w-8 h-8"/>
-                      </Link>
-                    </button>
-                  </div>
-                  </div>
+            <nav className="bg-white dark:bg-gray">
+            <div className={`flex text-black ${josef.className} pt-2.5 justify-between`}>
+              <div className="container mx-auto flex justify-between w-full">
+                <Logo userPrefs={userPrefs} setUserPrefs={setUserPrefs} />
+                <HeaderMenu />
+                <div className="flex justify-between w-40">
+                  <Notifications notifications={notifications} />  
+                  <DarkMode userPrefs={userPrefs} setUserPrefs={setUserPrefs} />
+                  <span className="flex items-center">|</span>
+                  <button>
+                    <Link href="/cart" className="text-base">
+                      <IoCartOutline className="w-8 h-8 text-icons-color dark:text-black"/>
+                    </Link>
+                  </button>
+                  <button>
+                    <Link href='/profile' className="text-base">
+                      <LiaUserSolid className="w-8 h-8 text-icons-color dark:text-black"/>
+                    </Link>
+                  </button>
                 </div>
-              </nav>
-            </header>
+                </div>
+              </div>
+            </nav>
             <div className="min-h-screen">{children}</div>
             <Footer />
           </div>

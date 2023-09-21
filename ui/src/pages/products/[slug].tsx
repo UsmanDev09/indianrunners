@@ -37,8 +37,8 @@ export default function Challenges({ items }: Props) {
   return (
     <div className={josef.className}>
       <Banner
-        introduction="Home &rarr; Products"
-        title="Explore Our Products"
+        introduction="Home &rarr; Challenges"
+        title="Explore Our Challenges"
         picture={Chair}
       />
       {challenges && (

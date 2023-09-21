@@ -1,56 +1,28 @@
 import Link from "next/link";
-import Image from "next/image";
-import user from "../Assets/carbon_user.svg";
+import { Josefin_Sans } from "next/font/google";
 
-type Props = {
-    isOpen: boolean,
-    setIsOpen: (isOpen: boolean) => void
-}
+const josef = Josefin_Sans({ subsets: ["latin"] });
 
-const HeaderMenu = ({isOpen, setIsOpen} : Props) => {
+const HeaderMenu = () => {
+
     return (
-        <div className="text-base lg:text-xl grow hidden sm:inline-flex">
-            <div
-                className="dropdown"
-                onClick={() => setIsOpen(!isOpen)}
+        <div className="flex items-center grow">
+            <button
+                role="menu"
+                tabIndex={-1}
             >
-                <button
-                    type="button"
-                    className="px-3 transition ease-in-out hover:-translate-y-1 hover:scale-110 hover:text-pink duration-150"
-                    id="menu-button"
+                <Link
+                    className={`${josef.className}  mr-2 text-base`}
+                    href="/products/challenges"
                 >
-                Products
-                </button>
-                {isOpen && (
-                    <div
-                        className="absolute z-10 w-48 mt-0.5 py-4 px-3 focus:outline-none rounded shadow-lg hover:bg-grey bg-white"
-                        role="menu"
-                        tabIndex={-1}
-                    >
-                        <Link
-                            className="transition ease-in-out py-4 hover:-translate-y-1 hover:scale-110 hover:text-pink duration-150"
-                            href="/products/challenges"
-                            role="menuitem"
-                            tabIndex={-1}
-                            id="menu-item-0"
-                        >
-                        Challenges
-                        </Link>
-                    </div>
-                )}
-            </div>
-            <button className="flex flex-row justify-end ">
-                    <Link href="/login" className="text-base">
+                    Challenges&nbsp;
+                </Link> 
+            </button>
+            <button>
+                <Link href="/login" className={`${josef.className} text-base mr-2`}>
                     Log In&nbsp;
-                    </Link>
-                    <div>
-                    <Image
-                        src={user}
-                        alt="Picture of the author"
-                        className="h-5"
-                    />
-                    </div>
-                </button>
+                </Link>
+            </button>
             </div>
     )
 }
