@@ -13,6 +13,8 @@ export const accountReducer = (
       Count?: any;
       Bill?: any;
       token?: any;
+      email?: any;
+      role?: any;
     };
   }
 ) => {
@@ -23,7 +25,9 @@ export const accountReducer = (
         action.payload.lastName,
         action.payload.userName,
         action.payload.profile,
-        action.payload.token
+        action.payload.token,
+        action.payload.email,
+        action.payload.role
       );
       console.log("Account update called");
       return {
@@ -33,6 +37,8 @@ export const accountReducer = (
           userName: action.payload.userName,
           profile: action.payload.profile,
           token: action.payload.token,
+          email: action.payload.email,
+          role: action.payload.role,
         },
       };
     case "CART_UPDATE":

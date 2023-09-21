@@ -28,7 +28,7 @@ const SideBar = () => {
     },
     {
       name: "Order History",
-      path: `${path.PROFILE}/order_history`,
+      path: `${path.PROFILE}/order-history`,
     },
     {
       name: "Addresses",
