@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 // import { Listbox } from "@headlessui/react";
-import Select from "./element/Select";
+// import Select from "./element/Select";
 
 import { Fragment } from "react";
 import Link from "next/link";
@@ -10,11 +10,11 @@ import { CiCreditCard1 } from "react-icons/ci";
 import { IoCloseSharp } from "react-icons/io5";
 import { BiPencil } from "react-icons/bi";
 import startIcon from "../../public/images/star.svg";
-import { Menu, Transition } from "@headlessui/react";
+// import { Menu, Transition } from "@headlessui/react";
 import Datepicker from "./element/DatePicker";
 import Label from "../Label/Label";
-import Button from "../Buttons/Button";
-const NewPaymentAdd = (props) => {
+// import Button from "../Buttons/Button";
+const NewPaymentAdd = (props: any) => {
   const courtries = [
     {
       label: "Choose country",
@@ -149,21 +149,21 @@ const NewPaymentAdd = (props) => {
         <div className="mt-8 grid grid-cols-3 gap-8">
           <div>
             <Label label="Country" />
-            <Select
+            {/* <Select
               //className="flex-1"
               options={courtries}
               selectedOption={coutry}
               handelChange={(event) => setCountry(event)}
-            />
+            /> */}
           </div>
           <div>
             <Label label="Province" />
-            <Select
+            {/* <Select
               //className="flex-1"
               options={provinceArray}
               selectedOption={province}
               handelChange={(event) => setProvince(event)}
-            />
+            /> */}
           </div>
           <div>
             <Label label="Zip Code" />
@@ -174,7 +174,7 @@ const NewPaymentAdd = (props) => {
             />
           </div>
           <div className="mt-16">
-            <Button name="Save" />
+            <button name="Save" />
           </div>
         </div>
       </div>

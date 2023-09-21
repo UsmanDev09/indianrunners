@@ -6,16 +6,16 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { BiPencil } from "react-icons/bi";
 // import startIcon from "../../public/images/star.svg";
 
-const AccountInfo = (props) => {
+const AccountInfo = (props: any) => {
   // const [files, setFiles] = useState(sourceImage.src);
-  const handleUploadClick = (e) => {
-    [...e.target.files].forEach((file) => {
-      var reader = new FileReader();
-      reader.onload = function (evt) {
-        setFiles(evt.target.result);
-      };
-      reader.readAsDataURL(file);
-    });
+  const handleUploadClick = (e: Event) => {
+    // [...e.target.files].forEach((file) => {
+    //   var reader = new FileReader();
+    //   reader.onload = function (evt) {
+    //     setFiles(evt.target.result);
+    //   };
+    //   reader.readAsDataURL(file);
+    // });
   };
   return (
     <div className="pt-16 md:pl-16 pl-0  flex flex-wrap justify-between w-full">
@@ -35,7 +35,7 @@ const AccountInfo = (props) => {
               id="contained-button-file"
               type="file"
               style={{ display: "none" }}
-              onChange={handleUploadClick}
+              // onChange={handleUploadClick}
             />
             Change
           </label>

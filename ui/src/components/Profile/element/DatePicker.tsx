@@ -11,10 +11,14 @@ import {
 } from "date-fns";
 
 
-export default function Datepicker({ selectedDate, setSelectedDate }) {
+type Props = {
+  selectedDate: Date,
+  setSelectedDate: (selectedDate: Date) => void
+}
+export default function Datepicker({ selectedDate, setSelectedDate }: Props ) {
   const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  const [dayCount, setDayCount] = useState([]);
-  const [blankDays, setBlankDays] = useState([]);
+  const [dayCount, setDayCount] = useState<number[]>([]);
+  const [blankDays, setBlankDays] = useState<number[]>([]);
   const [showDatepicker, setShowDatepicker] = useState(false);
   const [datepickerHeaderDate, setDatepickerHeaderDate] = useState(new Date());
   const [type, setType] = useState("date");
@@ -47,13 +51,13 @@ export default function Datepicker({ selectedDate, setSelectedDate }) {
     }
   };
 
-  const isToday = (date) =>
+  const isToday = (date: number) =>
     isEqual(
       new Date(selectedDate.getFullYear(), selectedDate.getMonth(), date),
       selectedDate
     );
 
-  const setDateValue = (date) => () => {
+  const setDateValue = (date: number) => () => {
     setSelectedDate(
       new Date(
         datepickerHeaderDate.getFullYear(),
@@ -64,17 +68,17 @@ export default function Datepicker({ selectedDate, setSelectedDate }) {
     setShowDatepicker(false);
   };
 
-  const getDayCount = (date) => {
+  const getDayCount = (date: Date) => {
     let daysInMonth = getDaysInMonth(date);
 
     // find where to start calendar day of week
     let dayOfWeek = getDay(new Date(date.getFullYear(), date.getMonth(), 1));
-    let blankdaysArray = [];
+    let blankdaysArray: number[] = [];
     for (let i = 1; i <= dayOfWeek; i++) {
       blankdaysArray.push(i);
     }
 
-    let daysArray = [];
+    let daysArray: number[] = [];
     for (let i = 1; i <= daysInMonth; i++) {
       daysArray.push(i);
     }
@@ -83,13 +87,13 @@ export default function Datepicker({ selectedDate, setSelectedDate }) {
     setDayCount(daysArray);
   };
 
-  const isSelectedMonth = (month) =>
+  const isSelectedMonth = (month: number) =>
     isEqual(
       new Date(selectedDate.getFullYear(), month, selectedDate.getDate()),
       selectedDate
     );
 
-  const setMonthValue = (month) => () => {
+  const setMonthValue = (month: number) => () => {
     setDatepickerHeaderDate(
       new Date(
         datepickerHeaderDate.getFullYear(),
@@ -275,15 +279,15 @@ export default function Datepicker({ selectedDate, setSelectedDate }) {
                   </div>
                 ))}
             </div>
-          )}{" "}
-          {type === "year" && (
+          )}
+          {/* {type === "year" && (
             <Datepicker
               datepickerHeaderDate={datepickerHeaderDate}
               selectedDate={selectedDate}
               setSelectedDate={setSelectedDate}
               closeDatepicker={() => setShowDatepicker(false)}
             />
-          )}
+          )} */}
         </div>
       )}
     </div>

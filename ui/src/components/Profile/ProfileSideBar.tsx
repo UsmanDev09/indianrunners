@@ -6,7 +6,7 @@ import * as path from "../../constants/paths";
 const SideBar = () => {
   const router = useRouter();
 
-  const checkPath = (path) => {
+  const checkPath = (path: any) => {
     return path === `${path.PROFILE}`
       ? router.pathname === `${path.PROFILE}` ||
         router.pathname === `${path.PROFILE}/NewProduct`
@@ -41,6 +41,14 @@ const SideBar = () => {
     {
       name: "Activities",
       path: `${path.PROFILE}/activities`,
+    },
+    {
+      name: "Badges",
+      path: `${path.PROFILE}/badges`,
+    },
+    {
+      name: "Certificates",
+      path: `${path.PROFILE}/certificates`,
     },
   ];
   return (

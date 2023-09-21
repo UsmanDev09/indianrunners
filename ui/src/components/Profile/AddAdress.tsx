@@ -6,7 +6,7 @@ import { BiPencil } from "react-icons/bi";
 import * as path from "../../constants/paths";
 import Label from "../Label/Label";
 
-const AddAdress = (propsd) => {
+const AddAdress = (props: any) => {
   const addressArray = [
     {
       title: "Primary",
