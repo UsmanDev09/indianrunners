@@ -35,7 +35,7 @@ export default function Challenges({ items }: Props) {
     fetchChallenges();
   }, []);
   return (
-    <div className={josef.className}>
+    <div className={`${josef.className} flex flex-col`} >
       <Banner
         introduction="Home &rarr; Challenges"
         title="Explore Our Challenges"

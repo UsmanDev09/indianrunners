@@ -7,17 +7,18 @@ const josef = Josefin_Sans({ subsets: ["latin"] });
 
 const SignUpForm = () => {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    userName: '',
-    email: '',
-    password: '',
-    confirmpassword: '',
+    firstName: "",
+    lastName: "",
+    userName: "",
+    email: "",
+    password: "",
+    confirmpassword: "",
   });
 
   const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    console.log(formData)
     fetch("http://localhost:5000/api/user/register", {
       method: "POST",
       mode: "cors", // no-cors, *cors, same-origin
@@ -31,20 +32,18 @@ const SignUpForm = () => {
       referrerPolicy: "no-referrer",
       body: JSON.stringify(formData),
     })
-      .then(function (res) {
+      .then(function(res) {
         return res.json();
       })
-      .then(function (data) {
-        alert(JSON.stringify(data));
+      .then(function(data) {
+        console.log(JSON.stringify(data));
       });
-
-
   };
 
   return (
-    <div className={`flex place-content-center ${josef.className} drop-shadow-md`}>
-       <form
-        className="flex flex-col items-center bg-prod rounded justify-center h-screen w-screen"
+    <div className={`flex place-content-center ${josef.className}`}>
+      <form
+        className="flex flex-col items-center bg-prod rounded justify-center h-screen w-screen dark:bg-dark-green"
         onSubmit={submitForm}
       >
       <section className="bg-gray-50 dark:bg-gray-900 w-1/2">
@@ -88,12 +87,12 @@ const SignUpForm = () => {
                         </div>
                         <button type="submit" className="w-full text-white bg-gray hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Create an account</button>
                         <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                            Already have an account? <Link href="/login" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Login here</Link>
+                            Already have an account? <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Login here</a>
                         </p>
                 </div>
             </div>
-        </div>
-      </section>
+          </div>
+        </section>
       </form>
     </div>
   );

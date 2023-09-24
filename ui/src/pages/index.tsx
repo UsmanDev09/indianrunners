@@ -4,19 +4,22 @@ import { Josefin_Sans } from "next/font/google";
 
 import socket from '../socket';
 import Chair from "../Assets/chair.png";
-import Prod1 from "../Assets/Prod1.png";
+import Prod2 from "../Assets/Prod2.png";
 import NotFound from "../Assets/NotFound.jpg";
+import Prod3 from "../Assets/Prod3.png";
 
 import Prod4 from "../Assets/Prod4.png";
+import Prod1 from "../Assets/Prod1.png";
+
 import CardList from "@/components/CardList";
 
 const josef = Josefin_Sans({ subsets: ["latin"] });
 
 const ItemCards = [
-  { title: "Cantilever chair", price: "$42.00", picture: Prod1 },
-  { title: "Cantilever chair", price: "$30.00", picture: Prod4 },
-  { title: "Cantilever chair", price: "$51.00", picture: Prod1},
-  { title: "Cantilever chair", price: "$80.00", picture: Prod4 },
+  { name: "Weekly Basketball Championship", price: "$42.00", picture: Prod1 },
+  { name: "Cycling for a month challenge", price: "$30.00", picture: Prod2 },
+  { name: "Daily Skating Challenge", price: "$51.00", picture: Prod3},
+  { name: "Monthly Fitness Challenge", price: "$80.00", picture: Prod4 },
 ];
 
 export default function Home() {

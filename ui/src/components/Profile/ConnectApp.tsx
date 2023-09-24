@@ -36,7 +36,7 @@ const ConnectApp = () => {
   }, [router.query]);
 
   return (
-    <div className="w-full h-auto ml-8  mt-8 max-w-sm p-4 bg-white rounded-lg  sm:p-6 dark:bg-gray-800 dark:border-gray-700">
+    <div className="w-full h-auto ml-8  mt-8 max-w-sm p-4 rounded-lg  sm:p-6  dark:border-gray-700">
         <h5 className="mb-3 text-base font-semibold text-gray-900 md:text-xl dark:text-white">
             Connect Apps
         </h5>
