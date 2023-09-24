@@ -4,7 +4,11 @@ import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { useContext, useState, useEffect, useRef } from "react";
-import { AiFillCloseCircle, AiFillPrinter } from "react-icons/ai";
+import {
+  AiFillCloseCircle,
+  AiFillPrinter,
+  AiOutlineCloudDownload,
+} from "react-icons/ai";
 const josef = Josefin_Sans({ subsets: ["latin"] });
 
 type ActivityCard_Props = {
@@ -24,8 +28,8 @@ const Certificate = ({
 }: ActivityCard_Props) => {
   const [display, setDisplay] = useState("none");
   const canvasRef = useRef(null);
+  const { account } = getAccount();
   const loadImage = () => {
-    const { account } = getAccount();
     const img = document.getElementById("certificate");
     const canvas = canvasRef.current;
     // @ts-ignore: Object is possibly 'null'.
@@ -39,6 +43,17 @@ const Certificate = ({
       250
     );
     context.fillText("Cycling Challenge", 210, 335);
+  };
+
+  const Download = () => {
+    var canvas = document.getElementById("myCanvas") as HTMLCanvasElement;
+    const image = canvas
+      .toDataURL("image/png")
+      .replace("image/png", "image/octet-stream");
+    var link = document.createElement("a");
+    link.download = `Certificate_${account.firstName}.png`;
+    link.href = image;
+    link.click();
   };
 
   return (
@@ -77,17 +92,17 @@ const Certificate = ({
         <AiFillCloseCircle
           size={80}
           color="white"
-          className="absolute right-0 top-0 m-4 rounded-lg text-lg"
+          className="absolute right-0 top-0 m-4 rounded-lg text-lg cursor-pointer"
           onClick={() => {
             setDisplay("none");
           }}
         />
-        <AiFillPrinter
+        <AiOutlineCloudDownload
           size={80}
           color="white"
-          className="absolute left-0 top-0 m-4 rounded-lg text-lg"
+          className="absolute left-0 top-0 m-4 rounded-lg text-lg cursor-pointer"
           onClick={() => {
-            setDisplay("none");
+            Download();
           }}
         />
         <canvas
