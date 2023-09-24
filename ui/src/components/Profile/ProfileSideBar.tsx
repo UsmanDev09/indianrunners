@@ -36,7 +36,7 @@ const SideBar = () => {
     },
     {
       name: "Connected Apps",
-      path: `${path.PROFILE}/apps`,
+      path: `${path.PROFILE}/apps/exchange_token`,
     },
     {
       name: "Activities",
