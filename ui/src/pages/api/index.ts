@@ -97,7 +97,7 @@ export class ApiService {
   /**
    *
    */
-  static authorizeToGetActivityFromStrava(options: IRequestOptions = {}): Promise<any> {
+  static authorizeToGetActivityFromStrava(options: IRequestOptions = {}): Promise<AuthorizeStravaResponse> {
     return new Promise((resolve, reject) => {
       let url = basePath + '/api/activity';
 
@@ -113,7 +113,7 @@ export class ApiService {
   /**
    *
    */
-  static getActivities(options: IRequestOptions = {}): Promise<any> {
+  static getActivities(options: IRequestOptions = {}): Promise<ActivityApiResponse> {
     return new Promise((resolve, reject) => {
       let url = basePath + '/api/activity';
 
@@ -127,9 +127,178 @@ export class ApiService {
   /**
    *
    */
-  static getBadges(options: IRequestOptions = {}): Promise<any> {
+  static createBadges(options: IRequestOptions = {}): Promise<CreateBadgeApiResponse> {
     return new Promise((resolve, reject) => {
       let url = basePath + '/api/badge';
+
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = null;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   *
+   */
+  static getBadges(options: IRequestOptions = {}): Promise<BadgeApiResponse> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/api/badge';
+
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+
+      /** 适配ios13，get请求不允许带body */
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   *
+   */
+  static removeChallengeToCart(options: IRequestOptions = {}): Promise<CartApiResponse> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/api/cart';
+
+      const configs: IRequestConfig = getConfigs('put', 'application/json', url, options);
+
+      let data = null;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   *
+   */
+  static addChallengeToCart(options: IRequestOptions = {}): Promise<CartApiResponse> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/api/cart';
+
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = null;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   *
+   */
+  static getCart(options: IRequestOptions = {}): Promise<CartApiResponse> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/api/cart';
+
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+
+      /** 适配ios13，get请求不允许带body */
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   *
+   */
+  static createChallenge(options: IRequestOptions = {}): Promise<ChallengeApiResponse> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/api/challenge';
+
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = null;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   *
+   */
+  static getAllChallenges(options: IRequestOptions = {}): Promise<ChallengeApiResponse> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/api/challenge';
+
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+
+      /** 适配ios13，get请求不允许带body */
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   *
+   */
+  static createChallengeCategory(options: IRequestOptions = {}): Promise<ChallengeCategoryApiResponse> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/api/challengeCategory';
+
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = null;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   *
+   */
+  static getAllChallengeCategory(options: IRequestOptions = {}): Promise<ChallengeCategoryApiResponse> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/api/challengeCategory';
+
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+
+      /** 适配ios13，get请求不允许带body */
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   *
+   */
+  static getAllNotifications(options: IRequestOptions = {}): Promise<NotificationApiResponse> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/api/notification';
+
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+
+      /** 适配ios13，get请求不允许带body */
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   *
+   */
+  static createShippingDetail(options: IRequestOptions = {}): Promise<ShippingDetailApiResponse> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/api/shippingDetail';
+
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = null;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+}
+
+export class ChallengeService {
+  /**
+   *
+   */
+  static getAllChallenges(options: IRequestOptions = {}): Promise<ChallengeApiResponse> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/api/challenge/:id';
 
       const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
 
@@ -144,7 +313,7 @@ export class UserService {
   /**
    *
    */
-  static login(options: IRequestOptions = {}): Promise<any> {
+  static login(options: IRequestOptions = {}): Promise<UserApiResponse> {
     return new Promise((resolve, reject) => {
       let url = basePath + '/api/user/login';
 
@@ -240,4 +409,468 @@ export class UserService {
       axios(configs, resolve, reject);
     });
   }
+}
+
+export interface AuthorizeStravaResponse {
+  /**  */
+  success?: boolean;
+
+  /**  */
+  message?: string;
+}
+
+export interface ActivityApiResponse {
+  /**  */
+  success?: boolean;
+
+  /**  */
+  message?: string;
+
+  /**  */
+  data?: Activity[];
+}
+
+export interface Activity {
+  /**  */
+  activityId?: number;
+
+  /**  */
+  userId?: string;
+
+  /**  */
+  activityType?: EnumActivityActivityType;
+
+  /**  */
+  startDate?: Date;
+
+  /**  */
+  elapsedTime?: number;
+
+  /**  */
+  movingTime?: number;
+
+  /**  */
+  distanceCovered?: number;
+
+  /**  */
+  averageSpeed?: number;
+
+  /**  */
+  maximumSpeed?: number;
+
+  /**  */
+  totalAssent?: number;
+}
+
+export interface CreateBadgeApiResponse {
+  /**  */
+  success?: boolean;
+
+  /**  */
+  message?: string;
+
+  /**  */
+  data?: Badge;
+}
+
+export interface Badge {
+  /**  */
+  name?: string;
+
+  /**  */
+  description?: string;
+
+  /**  */
+  criteria?: BadgeCriteria;
+}
+
+export interface BadgeCriteria {
+  /**  */
+  activities?: EnumBadgeCriteriaActivities;
+
+  /**  */
+  distance?: number;
+
+  /**  */
+  consecutiveDays?: number;
+
+  /**  */
+  specificDays?: Date;
+
+  /**  */
+  numberOfActivities?: number;
+
+  /**  */
+  category?: EnumBadgeCriteriaCategory;
+}
+
+export interface BadgeApiResponse {
+  /**  */
+  success?: boolean;
+
+  /**  */
+  message?: string;
+
+  /**  */
+  data?: Badge[];
+}
+
+export interface CartApiResponse {
+  /**  */
+  success?: boolean;
+
+  /**  */
+  message?: string;
+
+  /**  */
+  data?: Cart[];
+}
+
+export interface Cart {
+  /**  */
+  itemType?: string;
+
+  /**  */
+  itemDetails?: ItemDetails[];
+}
+
+export interface ItemDetails {
+  /**  */
+  challenge?: Challenge;
+
+  /**  */
+  challengeCategory?: ChallengeCategory[];
+}
+
+export interface Challenge {
+  /**  */
+  name?: string;
+
+  /**  */
+  type?: EnumChallengeType;
+
+  /**  */
+  activity?: EnumChallengeActivity;
+
+  /**  */
+  knockout?: boolean;
+
+  /**  */
+  knockoutType?: EnumChallengeKnockoutType;
+
+  /**  */
+  lowerLimit?: number;
+
+  /**  */
+  upperLimit?: number;
+
+  /**  */
+  fixedLimit?: number;
+
+  /**  */
+  cutOffDays?: number;
+
+  /**  */
+  cutOffHours?: number;
+
+  /**  */
+  image?: string;
+
+  /**  */
+  startDate?: Date;
+
+  /**  */
+  endDate?: Date;
+
+  /**  */
+  sport?: EnumChallengeSport;
+
+  /**  */
+  tags?: string;
+
+  /**  */
+  bibNumber?: number;
+
+  /**  */
+  featured?: boolean;
+
+  /**  */
+  verified?: boolean;
+
+  /**  */
+  organizationName?: string;
+
+  /**  */
+  price?: number;
+
+  /**  */
+  categories?: ChallengeCategory[];
+}
+
+export interface ChallengeCategory {
+  /**  */
+  name?: string;
+
+  /**  */
+  activity?: EnumChallengeCategoryActivity;
+
+  /**  */
+  distance?: number;
+
+  /**  */
+  description?: string;
+}
+
+export interface ChallengeApiResponse {
+  /**  */
+  success?: boolean;
+
+  /**  */
+  message?: string;
+
+  /**  */
+  data?: Challenge;
+}
+
+export interface ChallengeCategoryApiResponse {
+  /**  */
+  success?: boolean;
+
+  /**  */
+  message?: string;
+
+  /**  */
+  data?: ChallengeCategory;
+}
+
+export interface NotificationApiResponse {
+  /**  */
+  success?: boolean;
+
+  /**  */
+  message?: string;
+
+  /**  */
+  data?: Notification[];
+}
+
+export interface Notification {
+  /**  */
+  type?: EnumNotificationType;
+
+  /**  */
+  message?: string;
+
+  /**  */
+  read?: boolean;
+}
+
+export interface ShippingDetailApiResponse {
+  /**  */
+  success?: boolean;
+
+  /**  */
+  message?: string;
+
+  /**  */
+  data?: ShippingDetail[];
+}
+
+export interface ShippingDetail {
+  /**  */
+  address?: string;
+
+  /**  */
+  city?: string;
+
+  /**  */
+  state?: string;
+}
+
+export interface UserApiResponse {
+  /**  */
+  success?: boolean;
+
+  /**  */
+  message?: string;
+
+  /**  */
+  data?: User[];
+}
+
+export interface User {
+  /**  */
+  email?: string;
+
+  /**  */
+  password?: string;
+
+  /**  */
+  firstName?: string;
+
+  /**  */
+  lastName?: string;
+
+  /**  */
+  userName?: string;
+
+  /**  */
+  dob?: Date;
+
+  /**  */
+  gender?: string;
+
+  /**  */
+  weight?: number;
+
+  /**  */
+  height?: number;
+
+  /**  */
+  contact?: number;
+
+  /**  */
+  country?: string;
+
+  /**  */
+  state?: string;
+
+  /**  */
+  city?: string;
+
+  /**  */
+  role?: string;
+
+  /**  */
+  profileCompleted?: number;
+
+  /**  */
+  profilePicture?: string;
+
+  /**  */
+  club?: string;
+
+  /**  */
+  appsConnected?: string;
+}
+export enum EnumActivityActivityType {
+  'Walk' = 'Walk',
+  'Run' = 'Run',
+  'VirtualRun' = 'VirtualRun',
+  'TrailRun' = 'TrailRun',
+  'Treadmil' = 'Treadmil',
+  'Walk' = 'Walk',
+  'Hike' = 'Hike',
+  'Ride' = 'Ride',
+  'MountainBikeRide' = 'MountainBikeRide',
+  'GravelBikeRide' = 'GravelBikeRide',
+  'VeloMobile' = 'VeloMobile',
+  'VirtialRide' = 'VirtialRide',
+  'HandCycle' = 'HandCycle',
+  'Swim' = 'Swim',
+  'CrossFit' = 'CrossFit',
+  'Elliptical' = 'Elliptical',
+  'StairStepper' = 'StairStepper',
+  'WeightTraining' = 'WeightTraining',
+  'Workout' = 'Workout',
+  'Hiit' = 'Hiit',
+  'Pilates' = 'Pilates',
+  'Yoga' = 'Yoga'
+}
+export enum EnumBadgeCriteriaActivities {
+  'Walk' = 'Walk',
+  'Run' = 'Run',
+  'VirtualRun' = 'VirtualRun',
+  'TrailRun' = 'TrailRun',
+  'Treadmil' = 'Treadmil',
+  'Walk' = 'Walk',
+  'Hike' = 'Hike',
+  'Ride' = 'Ride',
+  'MountainBikeRide' = 'MountainBikeRide',
+  'GravelBikeRide' = 'GravelBikeRide',
+  'VeloMobile' = 'VeloMobile',
+  'VirtialRide' = 'VirtialRide',
+  'HandCycle' = 'HandCycle',
+  'Swim' = 'Swim',
+  'CrossFit' = 'CrossFit',
+  'Elliptical' = 'Elliptical',
+  'StairStepper' = 'StairStepper',
+  'WeightTraining' = 'WeightTraining',
+  'Workout' = 'Workout',
+  'Hiit' = 'Hiit',
+  'Pilates' = 'Pilates',
+  'Yoga' = 'Yoga'
+}
+export enum EnumBadgeCriteriaCategory {
+  'Single Activity' = 'Single Activity',
+  'Special Achievement' = 'Special Achievement',
+  'Challenge' = 'Challenge',
+  'Total Distance' = 'Total Distance',
+  'Multiple Activities' = 'Multiple Activities'
+}
+export type ItemType = challenge | product;
+export enum EnumChallengeType {
+  'open' = 'open',
+  'fixed' = 'fixed'
+}
+export enum EnumChallengeActivity {
+  'single' = 'single',
+  'multiple' = 'multiple'
+}
+export enum EnumChallengeKnockoutType {
+  'daily' = 'daily',
+  'hourly' = 'hourly'
+}
+export enum EnumChallengeSport {
+  'Walk' = 'Walk',
+  'Run' = 'Run',
+  'VirtualRun' = 'VirtualRun',
+  'TrailRun' = 'TrailRun',
+  'Treadmil' = 'Treadmil',
+  'Walk' = 'Walk',
+  'Hike' = 'Hike',
+  'Ride' = 'Ride',
+  'MountainBikeRide' = 'MountainBikeRide',
+  'GravelBikeRide' = 'GravelBikeRide',
+  'VeloMobile' = 'VeloMobile',
+  'VirtialRide' = 'VirtialRide',
+  'HandCycle' = 'HandCycle',
+  'Swim' = 'Swim',
+  'CrossFit' = 'CrossFit',
+  'Elliptical' = 'Elliptical',
+  'StairStepper' = 'StairStepper',
+  'WeightTraining' = 'WeightTraining',
+  'Workout' = 'Workout',
+  'Hiit' = 'Hiit',
+  'Pilates' = 'Pilates',
+  'Yoga' = 'Yoga'
+}
+export enum EnumChallengeCategoryActivity {
+  'Walk' = 'Walk',
+  'Run' = 'Run',
+  'VirtualRun' = 'VirtualRun',
+  'TrailRun' = 'TrailRun',
+  'Treadmil' = 'Treadmil',
+  'Walk' = 'Walk',
+  'Hike' = 'Hike',
+  'Ride' = 'Ride',
+  'MountainBikeRide' = 'MountainBikeRide',
+  'GravelBikeRide' = 'GravelBikeRide',
+  'VeloMobile' = 'VeloMobile',
+  'VirtialRide' = 'VirtialRide',
+  'HandCycle' = 'HandCycle',
+  'Swim' = 'Swim',
+  'CrossFit' = 'CrossFit',
+  'Elliptical' = 'Elliptical',
+  'StairStepper' = 'StairStepper',
+  'WeightTraining' = 'WeightTraining',
+  'Workout' = 'Workout',
+  'Hiit' = 'Hiit',
+  'Pilates' = 'Pilates',
+  'Yoga' = 'Yoga'
+}
+export enum EnumNotificationType {
+  'badges' = 'badges',
+  'challenge' = 'challenge',
+  'user' = 'user'
 }

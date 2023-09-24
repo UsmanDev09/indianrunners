@@ -30,7 +30,67 @@ const router = express.Router()
  *                      - password
  *          responses: 
  *               200: 
- *                  description: OK  
+ *                  description: OK
+ *                  content: 
+ *                      application/json:
+ *                          schema: 
+ *                              $ref: '#/components/schemas/UserApiResponse'
+ * components: 
+ *  schemas:
+ *    UserApiResponse: 
+ *      type: object  
+ *      properties:
+ *         success:
+ *           type: boolean
+ *           example: true
+ *         message:
+ *           type: string
+ *           example: User logged in successfully
+ *         data:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/User'
+ * 
+ *    User:
+ *      type: object
+ *      properties: 
+ *          email: 
+ *              type: string
+ *          password:
+ *              type: string
+ *          firstName: 
+ *              type: string
+ *          lastName: 
+ *              type: string
+ *          userName: 
+ *              type: string
+ *          dob: 
+ *              type: string
+ *              format: date
+ *          gender:
+ *              type: string
+ *          weight:
+ *              type: number
+ *          height:
+ *              type: number
+ *          contact:
+ *              type: number
+ *          country:
+ *              type: string
+ *          state:
+ *              type: string
+ *          city:
+ *              type: string
+ *          role:
+ *              type: string
+ *          profileCompleted:
+ *              type: number
+ *          profilePicture:
+ *              type: string
+ *          club:
+ *              type: string
+ *          appsConnected:
+ *              type: string     
  */
 
 

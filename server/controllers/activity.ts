@@ -15,8 +15,9 @@ import { UserChallengesInterface } from "../interfaces/userChallenges"
 
 export const postActivity: RequestHandler<unknown, unknown, StravaInterface, unknown> = async (req, res, next) => {
     try {
-        console.log(req)
+
         const { code }  = req.body
+
         const { _id } = req.user as User;
 
         if (!code)
@@ -102,7 +103,6 @@ export const postActivity: RequestHandler<unknown, unknown, StravaInterface, unk
 
         res.status(StatusCodes.OK).json({
             success: true,
-            data,
             message: Constants.activityCreatedSuccessfully
         })
     } catch(error) {
@@ -154,10 +154,10 @@ export const getActivitiesByUser: RequestHandler<unknown, unknown, StravaInterfa
         const user = await UserModel.findById(_id)
 
         if(!user) throw createHttpError(StatusCodes.NOT_FOUND, Constants.userNotFound)
-
+        console.log(user.activities)
         const activities = user.activities
-
-        return res.json(StatusCodes.OK).json({
+        
+        res.status(StatusCodes.OK).json({
             success: true,
             data: activities,
         })

@@ -18,7 +18,8 @@ const Notifications = ( { notifications }: Props) => {
     const iconRef = useRef<HTMLButtonElement | null>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
-    const onClickNotifications = () => {
+    const onClickNotifications = (e:MouseEvent) => {
+        console.log(e.detail)
         setShowNotifications(!showNotifications);
     };
       

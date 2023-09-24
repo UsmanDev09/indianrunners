@@ -11,7 +11,7 @@ const router = express.Router()
 router.post('/', passport.authenticate('jwt', { session: false }), Strava.postActivity)
 
 
-router.get('/', Strava.getActivitiesByUser)
+router.get('/', passport.authenticate("jwt", { session: false }), Strava.getActivitiesByUser)
 
 // Swagger Documentation for the /api/activity Routes
 
@@ -19,8 +19,10 @@ router.get('/', Strava.getActivitiesByUser)
  * @openapi
  * paths:
  *  /api/activity:
- *      post: 
- *          operationId: authorizeToGetActivityFromStrava
+ *      post:
+ *          operationId: authorizeToGetActivityFromStrava 
+ *          security:
+ *             - bearerAuth: []
  *          requestBody:
  *           required: true
  *           content:
@@ -34,19 +36,110 @@ router.get('/', Strava.getActivitiesByUser)
  *                   - code
  *          responses: 
  *               200: 
- *                  description: OK  
+ *                  description: OK 
+ *                  content: 
+ *                      application/json: 
+ *                          schema:
+ *                             $ref: '#/components/schemas/AuthorizeStravaResponse'
+ * components: 
+ *  securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ *  schemas:
+ *    AuthorizeStravaResponse: 
+ *      type: object  
+ *      properties:
+ *         success:
+ *           type: boolean
+ *         message:
+ *           type: string                                                               
  */
 
 
-/** 
- * @openapi
- * paths:
- *  /api/activity:
- *      get:
- *          operationId: getActivities
- *          responses: 
- *              200: 
- *                  description: OK         
- */
+/**
+* @openapi
+* paths:
+*   /api/activity:
+*     get:
+*       operationId: getActivities
+*       security:
+*         - bearerAuth: []
+*       responses:
+*         200:
+*           description: OK
+*           content:
+*             application/json:
+*               schema:
+*                 $ref: '#/components/schemas/ActivityApiResponse'
+*   
+* components:
+*   securitySchemes:
+*     bearerAuth:
+*       type: http
+*       scheme: bearer
+*       bearerFormat: JWT
+*   schemas:
+*     ActivityApiResponse:
+*       type: object
+*       properties:
+*         success:
+*           type: boolean
+*         message:
+*           type: string
+*         data:
+*           type: array
+*           items:
+*             $ref: '#/components/schemas/Activity'
+* 
+*     Activity:
+*       type: object
+*       properties:
+*         activityId:
+*           type: integer
+*         userId:
+*           type: string
+*         activityType:
+*           type: string
+*           enum:
+*             - Walk
+*             - Run 
+*             - VirtualRun 
+*             - TrailRun 
+*             - Treadmil 
+*             - Walk 
+*             - Hike 
+*             - Ride 
+*             - MountainBikeRide 
+*             - GravelBikeRide 
+*             - VeloMobile 
+*             - VirtialRide 
+*             - HandCycle 
+*             - Swim 
+*             - CrossFit 
+*             - Elliptical 
+*             - StairStepper 
+*             - WeightTraining 
+*             - Workout 
+*             - Hiit 
+*             - Pilates 
+*             - Yoga
+*         startDate:
+*           type: string
+*           format: date-time
+*         elapsedTime:
+*           type: integer
+*         movingTime:
+*           type: integer
+*         distanceCovered:
+*           type: number
+*         averageSpeed:
+*           type: number
+*         maximumSpeed:
+*           type: number
+*         totalAssent:
+*           type: number
+*/
 
 export default router
