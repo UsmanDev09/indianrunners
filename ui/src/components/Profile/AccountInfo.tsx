@@ -26,6 +26,7 @@ const AccountInfo = (props: any) => {
       },
     });
   }, []);
+  console.log(state.account)
   const handleUploadClick = (e: Event) => {
     // [...e.target.files].forEach((file) => {
     //   var reader = new FileReader();
@@ -75,7 +76,7 @@ const AccountInfo = (props: any) => {
           </label>
         </div> */}
       </div>{" "}
-      <div className="lg:px-8 item-left w-full dark:text-blue-text">
+      <div className="item-left w-full dark:text-blue-text">
         <div>
           <p className="font-unica text-[30px] py-5">
             {state.account.firstName} {state.account.lastName}
@@ -88,29 +89,7 @@ const AccountInfo = (props: any) => {
             enim, ultricies at dictum non, placerat vel tellus.{" "}
           </p>
         </div>
-        <div className="py-8">
-          <p className="font-unica text-[25px]">PROFILE RATING</p>
-          <div className="items-center flex">
-            {/* <Image src={startIcon} alt={"Icon"} />
-            &nbsp;
-            <Image src={startIcon} alt={"Icon"} />
-            &nbsp;
-            <Image src={startIcon} alt={"Icon"} />
-            &nbsp;
-            <Image src={startIcon} alt={"Icon"} />
-            &nbsp;
-            <Image src={startIcon} alt={"Icon"} /> */}
-            &nbsp; &nbsp; 4.6&nbsp; &nbsp; |&nbsp; &nbsp;
-            <p className="font-comfortaa"> 27 ratings</p>
-          </div>
-        </div>
-        <div className="py-8">
-          <p className="font-unica text-[25px]">TOTAL EARNING</p>
-          <div className="flex items-center">
-            <p className="font-unica text-[30px]">$4K+&nbsp; &nbsp; </p>
-            <p className="font-comfortaa">| &nbsp; 63 items sold</p>
-          </div>
-        </div>
+
         <div className="py-8">
           <p className="font-unica text-[25px]">PROFILE CONTACT</p>
           <div className="flex items-center">
@@ -126,15 +105,6 @@ const AccountInfo = (props: any) => {
         </div>
       </div>
       <div className="md:w-[20%] min-w-[250px] ">
-        <div>
-          <Link
-            href="/profile/new"
-            className="hover:bg-[#A042E1] font-comfortaa inline-flex items-center dark:text-blue-text bg-white dark:bg-pink text-gray-800 font-semibold py-2 px-4 rounded-[12px] shadow"
-          >
-            <AiOutlinePlus className="text-[20px]" /> &nbsp;
-            <button type="button">List new Product</button>
-          </Link>
-        </div>
         <div>
           <Link
             href="/profile/complete-profile"

@@ -37,24 +37,20 @@ const CertificateCard = ({
   }, []);
   console.log(activities);
   return (
-    <div className="grid md:grid-cols-2 gap-2 justify-center">
-      {activities.map(
-        (certificate, index) =>
-          certificate && (
-            <div className="max-w-sm p-6 bg-white dark:bg-violet border border-gray-200 rounded-lg dark:text-white shadow dark:bg-gray-800 dark:border-gray-700 m-5">
+    <div className="flex gap-2 justify-center mt-12">
+      {/* {activities.map( */}
+        {/* (certificate, index) => */}
+          {/* certificate && ( */}
+            <div className="max-w-sm h-[250px] p-6 bg-white dark:bg-violet rounded-lg dark:text-white shadow-xl dark:bg-gray-800 m-5">
               <a href="#">
                 <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                  Noteworthy technology acquisitions 2021
+                  You particiapted in Monthly Cycling Challange.
                 </h5>
               </a>
-              <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                Here are the biggest enterprise technology acquisitions of 2021
-                so far, in reverse chronological order.
-              </p>
               <Certificate />
             </div>
-          )
-      )}
+          {/* ) */}
+      {/* )} */}
     </div>
   );
 };

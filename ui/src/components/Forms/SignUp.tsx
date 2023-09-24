@@ -35,7 +35,7 @@ const SignUpForm = () => {
         return res.json();
       })
       .then(function(data) {
-        alert(JSON.stringify(data));
+        console.log(JSON.stringify(data));
       });
   };
 

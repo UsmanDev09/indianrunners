@@ -52,7 +52,7 @@ const SideBar = () => {
     },
   ];
   return (
-    <div className="w-full md:w-80" aria-label="Sidebar">
+    <div className="w-full md:w-80 mr-32 mt-12" aria-label="Sidebar">
       <div className="xs:overflow-y-auto md:overflow-y-clip xl:overflow-y-auto md:w-auto py-4">
         <ul className="space-y-2 dark:text-blue-text">
           <li className="flex items-center border-b-2 border-black pb-3">
@@ -90,7 +90,7 @@ const SideBar = () => {
                 <li key={index} className="mt-2">
                   <Link
                     href={ele.path}
-                    className="flex items-center p-2 xs:bg-gray-100 xs:ml-2 xl:bg-white xl:ml-0 text-base font-normal dark:bg-pink focus:text-[#A042E1] hover:text-[#A042E1] dark:hover:text-[#A042E1] text-gray-900 rounded-lg dark:text-blue-text hover:bg-gray-100 dark:hover:bg-gray-700"
+                    className="flex items-center p-2 xs:bg-gray-100 xs:ml-2 xl:bg-white xl:ml-0 dark:bg-[#283c54d9] text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
                   >
                     <span className={"flex-1 whitespace-nowrap "}>
                       {ele.name}

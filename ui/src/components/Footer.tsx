@@ -5,7 +5,7 @@ const josef = Josefin_Sans({ subsets: ["latin"] });
 
 const Footer = () => {
   return (
-    <footer className="bg-white flex flex-col justify-center mt-2 dark:bg-violet">
+    <footer className="bg-white flex flex-col justify-center mt-32 dark:bg-violet">
       <div className="container mx-auto">
         <div
           className={`container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 relative ${josef.className} py-2 dark:text-blue-text`}

@@ -98,7 +98,6 @@ export const ProfileForm: React.FC<{}> = () => {
                 router.replace("/profile");
               }
             });
-          alert(JSON.stringify(values, null, 2));
           console.log(JSON.stringify(values, null, 2));
           actions.setSubmitting(false);
         }}

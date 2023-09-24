@@ -38,7 +38,7 @@ const Certificate = ({
       220,
       250
     );
-    context.fillText("Web Development", 210, 335);
+    context.fillText("Cycling Challenge", 210, 335);
   };
 
   return (
