@@ -16,7 +16,7 @@ export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
 
     function onConnect() {
-      alert('connected to sockets')
+      console.count('connected to sockets')
       setIsConnected(true);
     }
 
@@ -24,7 +24,6 @@ export default function App({ Component, pageProps }: AppProps) {
     socket.on('connect', onConnect);
     socket.on('notification', (data) => {
       setNotification(data);
-      // Update the state with the received data
     });
 
     return () => {

@@ -30,6 +30,8 @@ interface AccountState {
   userName: string | null;
   profile: number | string | null;
   token: string | null;
+  email: string | null;
+  role: string | null;
 }
 
 // An interface for our state

@@ -8,6 +8,8 @@ const getAccount = (): AccountContextType => {
       userName: localStorage.getItem("userName"),
       profile: localStorage.getItem("profile"),
       token: localStorage.getItem("token"),
+      email: localStorage.getItem("email"),
+      role: localStorage.getItem("role"),
     },
   };
   return account;
