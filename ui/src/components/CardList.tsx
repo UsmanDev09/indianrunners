@@ -28,12 +28,14 @@ const CardList = ({
   return (
     <div>
       <div className="container mx-auto mt-32">
-        <div className={` ${josef.className} text-5xl m-4 font-bold text-center dark:text-blue-text`}>
+        <div
+          className={` ${josef.className} text-5xl m-4 font-bold text-center dark:text-blue-text`}
+        >
           {title}
         </div>
         <div className={`flex ${flex}`}>
           {filters && <Sidebar setChallenges={setChallenges} />}
-          <div className={`flex flex-wrap gap-4 justify-start ${filters && 'ml-32'}`}>
+          <div className={`flex flex-wrap gap-4 justify-center ${filters}`}>
             {ItemCard_List.length != 0 ? (
               ItemCard_List.map((Card, index) => (
                 <ItemCard

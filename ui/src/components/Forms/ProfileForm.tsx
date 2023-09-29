@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { Josefin_Sans } from "next/font/google";
 
@@ -28,10 +28,9 @@ interface ProfileFormValues {
   state: string;
   city: string;
 }
-
 // Aside: You may see InjectedFormikProps<OtherProps, FormValues> instead of what comes below in older code.. InjectedFormikProps was artifact of when Formik only exported a HoC. It is also less flexible as it MUST wrap all props (it passes them through).
 export const ProfileForm: React.FC<{}> = () => {
-  const initialValues: ProfileFormValues = {
+  const [profile, setProfile] = useState({
     dob: "",
     gender: "",
     weight: "",
@@ -40,6 +39,29 @@ export const ProfileForm: React.FC<{}> = () => {
     country: "",
     state: "",
     city: "",
+  });
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const fetchprofile = async () => {
+      const profile = await fetch("http://localhost:5000/api/user/profile", {
+        headers: { Authorization: `Bearer ${token}` },
+      }).then((response) =>
+        response.json().then((profile) => setProfile(profile.data))
+      );
+    };
+    fetchprofile();
+  }, []);
+
+  console.log(profile);
+  const initialValues: ProfileFormValues = {
+    dob: profile.dob,
+    gender: profile.gender,
+    weight: profile.weight,
+    height: profile.height,
+    contact: profile.contact,
+    country: profile.country,
+    state: profile.state,
+    city: profile.city,
   };
   const router = useRouter();
   const { state, dispatch } = useContext(MyGlobalContext);
@@ -47,6 +69,7 @@ export const ProfileForm: React.FC<{}> = () => {
     <div className={` place-content-center ${josef.className} `}>
       <Formik
         initialValues={initialValues}
+        enableReinitialize={true}
         onSubmit={async (values, actions) => {
           console.log({ values, actions });
           const token = localStorage.getItem("token");
@@ -103,7 +126,7 @@ export const ProfileForm: React.FC<{}> = () => {
         }}
       >
         <Form className="flex flex-col items-center bg-prod rounded justify-center h-screen w-screen dark:bg-dark-green">
-          <section className="bg-gray-50 dark:bg-gray-900 w-1/2 ">
+          <section className="bg-gray-50 dark:bg-gray-900 sm:w-1/2 ">
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
               <div className="w-full bg-white dark:bg-violet  drop-shadow-md rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                 <div className="p-6 space-y md:space-y-2 sm:px-8 ">
