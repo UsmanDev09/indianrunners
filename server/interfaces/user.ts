@@ -1,6 +1,7 @@
-import { StravaActivity } from "./stravaActivity"
 import { Cart } from "./cart"
 import { ShippingDetails } from "./shippingDetail"
+import { Challenge } from './challenge'
+import { ActivityInterface } from "./activity"
 
 enum Roles { 
     Admin = 'admin',
@@ -24,9 +25,15 @@ export interface User {
     state: string,
     city: string,
     profileCompleted: number,
+    appsConnected: string,
+    access_token: number,
+    refresh_token: number,
+    expires_at: Date,
+    expires_in: number,
     otp: number,
     role: Roles,
-    activities: StravaActivity[]
+    activities: ActivityInterface[]
     cart: Cart[],
-    shippingDetails: ShippingDetails 
+    shippingDetails: ShippingDetails
+    challenges: Challenge[] 
 }

@@ -8,6 +8,7 @@ export const Constants = {
     userExists: 'User already exists',
     invalidUserId: 'Invalid user id',
     userNotFound: 'User not found',
+    tokenExpiryTimeNotFound: 'App token expiry time not found',
 
     // challenge
     challengeCreatedSuccessfully: 'Challenge has been created successfully',
@@ -32,6 +33,7 @@ export const Constants = {
     categoryUpdatedSuccessfully: 'Category has been updated successfully',
     categoryDeletedSuccessfully: 'Category has been deleted successfully',
     categoriesFetchedSuccessfully: 'Categories has been fetched successfully',
+    categoryNotFound: 'Category not found',
 
     //badge
     badgeCreatedSuccessfully: 'Badge has been created successfully',
@@ -67,9 +69,11 @@ export const Constants = {
     
     // user challenges 
     userChallengesFetchedSuccessfully: 'User Challenegs created successfully',
+    userChallengesAreEmpty: 'User Challenges are empty',
 
     // leaderboard
     leaderboardNotFound: 'Leaderboard not found',
+    leaderboardIsEmpty: 'Leaderboard is empty',
     
     invalidId: 'Invalid id',
     notFound: 'Not found',

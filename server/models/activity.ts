@@ -29,7 +29,7 @@ activitySchema.pre('save', async function (next) {
     next()
 })
 
-type Activity = InferSchemaType<typeof activitySchema>
+export type Activity = InferSchemaType<typeof activitySchema>
 
 
 export default model<Activity>('Activity', activitySchema)

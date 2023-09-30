@@ -25,4 +25,6 @@ export interface Challenge {
     minPrice: number,
     maxPrice: number,
     categories: ChallengeCategory[],
+    users: Number[],
+    leaderBoard: Number[],
 } 

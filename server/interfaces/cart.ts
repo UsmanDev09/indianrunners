@@ -1,9 +1,9 @@
-import { Challenge } from "./challenge";
-import { ChallengeCategory } from "./challengeCategory";
+import { Challenge as ChallengeInterface } from "../models/challenge";
+import { Category as ChallengeCategoryInterface } from "../models/challengeCategory";
 
 export interface ChallengeType {
-    challenge: Challenge,
-    challengeCategories: ChallengeCategory[],
+    challenge: ChallengeInterface,
+    challengeCategories: ChallengeCategoryInterface[],
 }
 
 export interface Cart {

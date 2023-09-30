@@ -8,10 +8,11 @@ const router = express.Router()
 
 // routes definition
 
-router.post('/', passport.authenticate('jwt', { session: false }), Strava.postActivity)
-
+router.post('/', passport.authenticate('jwt', { session: false }), Strava.authorizeToGetActivityFromStrava)
 
 router.get('/', passport.authenticate("jwt", { session: false }), Strava.getActivitiesByUser)
+
+router.get('/strava', passport.authenticate("jwt", { session: false}), Strava.getActivitiesFromStrava)
 
 // Swagger Documentation for the /api/activity Routes
 

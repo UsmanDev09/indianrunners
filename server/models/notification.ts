@@ -2,7 +2,7 @@ import { InferSchemaType, model, Schema } from 'mongoose'
 import * as socket from '../utility/socket'
 
 const notificationSchema = new Schema({
-    type: { type: String, enum: ['badges', 'challenge', 'user'] },
+    type: { type: String, enum: ['badge', 'challenge', 'user'] },
     message: { type: String },
     read: { type: Boolean, default: false }
 }, { timestamps: true })

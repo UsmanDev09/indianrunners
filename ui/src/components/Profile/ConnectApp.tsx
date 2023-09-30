@@ -6,15 +6,15 @@ import { useEffect } from "react";
 
 const ConnectApp = () => {
     const router = useRouter();
-
+    const { code } = router.query;
+    const token = localStorage.getItem("token");
+console.log(code)
   useEffect(() => {
 
-    const { code } = router.query;
-
-    if (code) {
-        try {
-        const token = localStorage.getItem("token");
-
+    console.log('fetching')
+    try {
+      if (code) {
+        console.log(code)
         fetch("http://localhost:5000/api/activity", {
             method: "POST",
             mode: "cors", 
@@ -26,14 +26,14 @@ const ConnectApp = () => {
             redirect: "follow", 
             referrerPolicy: "no-referrer",
             body: JSON.stringify({
-                code:code
+                code
             }),
           }).then((activities) => console.log(activities) )
+        }
         } catch (err: unknown) {
             if(err instanceof Error) console.error(err)
         }
-    }
-  }, [router.query]);
+  }, [code]);
 
   return (
     <div className="w-full h-auto ml-8  mt-8 max-w-sm p-4 rounded-lg  sm:p-6  dark:border-gray-700">

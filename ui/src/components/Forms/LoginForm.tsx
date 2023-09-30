@@ -105,7 +105,6 @@ const LoginForm = () => {
                 </div>
               </div>
             </div>
-          </div>
         </section>
       </form>
     </div>

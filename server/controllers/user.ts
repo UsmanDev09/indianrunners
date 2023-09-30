@@ -26,7 +26,8 @@ let transporter = nodemailer.createTransport({
 } as SMTPTransport.Options)
 
 export const login: RequestHandler<unknown, unknown, User, unknown> = async (req, res, next) => {
-   const { email, password } = req?.body
+   
+    const { email, password } = req?.body
 
    try {
         const user = await UserModel.findOne({
@@ -69,7 +70,7 @@ export const googleLogin: RequestHandler = async (req, res, next) => {
 export const register: RequestHandler = async (req, res, next) => {
     try {
         
-        const { email, password, firstName, lastName, userName } = req?.body
+        const { email, password, firstName, lastName, userName, role } = req?.body
         const clubs = ["Spartans", "Vikings", "Avengers", "Ninjas"]
 
         const existingUser = await UserModel.findOne({ email })
@@ -86,6 +87,7 @@ export const register: RequestHandler = async (req, res, next) => {
             lastName,
             userName,
             email,
+            role,
             password: hashedPassword,
             club: assignClubRandomly,
             profileCompleted: 6/16 * 100
