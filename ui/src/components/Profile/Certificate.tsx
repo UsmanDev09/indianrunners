@@ -9,6 +9,7 @@ import {
   AiFillPrinter,
   AiOutlineCloudDownload,
 } from "react-icons/ai";
+import { Cloudinary } from "@cloudinary/url-gen";
 const josef = Josefin_Sans({ subsets: ["latin"] });
 
 type ActivityCard_Props = {
@@ -29,6 +30,7 @@ const Certificate = ({
   const [display, setDisplay] = useState("none");
   const canvasRef = useRef(null);
   const { account } = getAccount();
+  const cld = new Cloudinary({ cloud: { cloudName: "da39zmhtv" } });
   const loadImage = () => {
     const img = document.getElementById("certificate");
     const canvas = canvasRef.current;
@@ -43,6 +45,24 @@ const Certificate = ({
       250
     );
     context.fillText("Cycling Challenge", 210, 335);
+    var canvasElem = document.getElementById("myCanvas") as HTMLCanvasElement;
+    const image = canvasElem
+      .toDataURL("image/png")
+      .replace("image/png", "image/octet-stream");
+    const data = new FormData();
+    data.append("file", image);
+    data.append("upload_preset", "certificate");
+    data.append("cloud_name", "da39zmhtv");
+    data.append("public_id", `${account.firstName}_Cycling`);
+    fetch("  https://api.cloudinary.com/v1_1/da39zmhtv/image/upload", {
+      method: "post",
+      body: data,
+    })
+      .then((resp) => resp.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => console.log(err));
   };
 
   const Download = () => {

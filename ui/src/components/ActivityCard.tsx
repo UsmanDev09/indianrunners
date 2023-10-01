@@ -40,7 +40,10 @@ const ActivityCard = ({
       {activities.map(
         (activity, index) =>
           activity && (
-            <div className="max-w-sm p-6 bg-white dark:bg-violet border border-gray-200 rounded-lg dark:text-white shadow dark:bg-gray-800 dark:border-gray-700 m-5">
+            <div
+              key={index}
+              className="max-w-sm p-6 bg-white dark:bg-violet border border-gray-200 rounded-lg dark:text-white shadow dark:bg-gray-800 dark:border-gray-700 m-5"
+            >
               <a href="#">
                 <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                   Noteworthy technology acquisitions 2021
