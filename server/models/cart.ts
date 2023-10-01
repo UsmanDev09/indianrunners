@@ -12,7 +12,7 @@ const cartSchema = new Schema({
 
 cartSchema.index({ 'itemDetails.challenge': 1, 'itemDetails.challengeCategories': 1 }, { unique: true, });
 
-type Cart = InferSchemaType<typeof cartSchema>
+export type Cart = InferSchemaType<typeof cartSchema>
 
 
 export default model<Cart>('Cart', cartSchema)

@@ -50,6 +50,10 @@ const SideBar = () => {
       name: "Certificates",
       path: `${path.PROFILE}/certificates`,
     },
+    {
+      name: "Leaderboard",
+      path: `${path.PROFILE}/leaderboard`
+    }
   ];
   return (
     <div className="w-full md:w-80 mr-32 mt-12" aria-label="Sidebar">

@@ -4,11 +4,11 @@ import { StatusCodes } from "http-status-codes"
 import mongoose from "mongoose"
 
 import CategoryModel from "../models/challengeCategory"
-import { ChallengeCategory } from "../interfaces/challengeCategory"
+import { Category as ChallengeCategoryInterface } from "../models/challengeCategory"
 import { Constants } from "../utility/constants"
 import { User } from "../interfaces/user"
 
-export const createCategory: RequestHandler<unknown, unknown, ChallengeCategory, unknown> = async (req, res, next) => {
+export const createCategory: RequestHandler<unknown, unknown, ChallengeCategoryInterface, unknown> = async (req, res, next) => {
      try {
         const category = await CategoryModel.create(req.body)        
  
@@ -23,7 +23,7 @@ export const createCategory: RequestHandler<unknown, unknown, ChallengeCategory,
 }
 
 
-export const updateCategory: RequestHandler<unknown, unknown, ChallengeCategory, unknown> = async (req, res, next) => { 
+export const updateCategory: RequestHandler<unknown, unknown, ChallengeCategoryInterface, unknown> = async (req, res, next) => { 
     const { activity, distance, description } = req?.body
     const { _id } = req.user as User;
 
@@ -45,7 +45,7 @@ export const updateCategory: RequestHandler<unknown, unknown, ChallengeCategory,
 
 }
 
-export const deleteCategory: RequestHandler<{_id: number}, unknown, ChallengeCategory, unknown> = async (req, res, next) => { 
+export const deleteCategory: RequestHandler<{_id: number}, unknown, ChallengeCategoryInterface, unknown> = async (req, res, next) => { 
     const { _id } = req.params;
 
     if (!mongoose?.Types.ObjectId.isValid(_id)) {
@@ -66,7 +66,7 @@ export const deleteCategory: RequestHandler<{_id: number}, unknown, ChallengeCat
 
 }
 
-export const getAllCategories: RequestHandler<unknown, unknown, ChallengeCategory, unknown> = async (req, res, next) => { 
+export const getAllCategories: RequestHandler<unknown, unknown, ChallengeCategoryInterface, unknown> = async (req, res, next) => { 
     console.log(req.body)
     const categories = await CategoryModel.find()
 

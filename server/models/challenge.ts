@@ -1,8 +1,10 @@
 import { InferSchemaType, model, Schema } from 'mongoose'
 import challengeCategorySchema from './challengeCategory'
-import leaderboardSchem from './leaderboard'
+import leaderboardSchema from './leaderboard'
+import userSchema from './user'
 
 const challengeSchema = new Schema({
+    _id: { type: Schema.Types.ObjectId, required: true, unique: true },
     name: { type: String, required: [true, 'Challange name is required'], unique: [true, 'Challenge name is already taken']},
     type: { type: String, enum: ['open', 'fixed'], required: [true, 'Challenge type is required']},
     activity: { type: String, enum: ['single', 'multiple'], required: [true, 'Challenge activity is required']},
@@ -23,11 +25,13 @@ const challengeSchema = new Schema({
     verified: { type: Boolean },
     organizationName: { type: String },
     price: { type: Number, required: [true, 'Challenge price is required']},
-    categories: { type: [challengeCategorySchema.schema], default: [] }
+    // users: { type: [userSchema.schema], default: [] },
+    categories: { type: [challengeCategorySchema.schema], default: [] },
+    users: { type: Schema.Types.ObjectId, ref: 'user'}
  
 }, { timestamps: true })
 
-type Challenge = InferSchemaType<typeof challengeSchema>
+export type Challenge = InferSchemaType<typeof challengeSchema>
 
 
 export default model<Challenge>('Challenge', challengeSchema)

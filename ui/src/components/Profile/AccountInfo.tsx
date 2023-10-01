@@ -26,7 +26,6 @@ const AccountInfo = (props: any) => {
       },
     });
   }, []);
-  console.log(state.account)
   const handleUploadClick = (e: Event) => {
     // [...e.target.files].forEach((file) => {
     //   var reader = new FileReader();

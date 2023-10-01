@@ -18,8 +18,9 @@ export const addChallengeToCart: RequestHandler<unknown, unknown, Cart, unknown>
         const { itemType, itemDetails } = req.body
 
         const user = await UserModel.findById(_id)
+        
         if(!user) 
-        throw createHttpError(StatusCodes.NOT_FOUND, Constants.notFound)
+            throw createHttpError(StatusCodes.NOT_FOUND, Constants.notFound)
         
         const itemDetailDocuments : any = []
 
@@ -45,17 +46,14 @@ export const addChallengeToCart: RequestHandler<unknown, unknown, Cart, unknown>
             })
             
         }
-                console.log(user)
 
         const cart = await CartModel.create({
             itemType, 
             itemDetails: itemDetailDocuments
         })
 
-        console.log(user.cart)
-
         user.cart.push(cart)
-
+        
         await user.save()
 
         res.status(StatusCodes.OK).json({
