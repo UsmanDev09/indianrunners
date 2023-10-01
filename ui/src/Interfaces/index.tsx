@@ -41,7 +41,15 @@ interface CartState {
 }
 
 export const initialState = {
-  account: { firstName: "", lastName: "", userName: "", profile: 0, token: "" },
+  account: {
+    firstName: "",
+    lastName: "",
+    userName: "",
+    profile: 0,
+    token: "",
+    email: "",
+    role: "",
+  },
 };
 
 export const initialCartState = {

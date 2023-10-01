@@ -1,15 +1,15 @@
-import React, { useState } from "react"
-import { Formik, Field } from "formik"
+import React, { useState } from "react";
+import { Formik, Field } from "formik";
 // import Select from "./element/Select";
 
-import InputField from "../Fields/InputField"
+import InputField from "../Fields/InputField";
 // import { shippingDetailsSchema } from "../../validations/shippingDetailsSchema"
-import { Router, useRouter } from "next/router"
+import { Router, useRouter } from "next/router";
 import Label from "../Label/Label";
 // import Button from "../Buttons/Button";
 
 const NewAddressAdd = (props: any) => {
-  const router = useRouter()
+  const router = useRouter();
   const courtries = [
     {
       label: "Choose country",
@@ -26,8 +26,8 @@ const NewAddressAdd = (props: any) => {
       value: "it",
       unavailable: false,
     },
-  ]
-  const [coutry, setCountry] = useState(courtries[0])
+  ];
+  const [coutry, setCountry] = useState(courtries[0]);
   const provinceArray = [
     {
       label: "Choose Province",
@@ -44,26 +44,26 @@ const NewAddressAdd = (props: any) => {
       value: "it",
       unavailable: false,
     },
-  ]
-  const [province, setProvince] = useState(provinceArray[0])
+  ];
+  const [province, setProvince] = useState(provinceArray[0]);
   return (
-
     <Formik
-      onSubmit={async (data: {name: string}) => {
+      onSubmit={async (data: { name: string }) => {
         try {
-          const formData = new FormData()
-          formData.append("name", data.name)
-          router.push('/payment')
+          const formData = new FormData();
+          formData.append("name", data.name);
+          router.push("/payment");
         } catch (error) {}
       }}
       // validationSchema={shippingDetailsSchema}
       initialValues={{
-        full_name:"",
-        address:"",
-        zip_code:"",
-        city:"",
-        province:"",
-        country:"",
+        name: "",
+        full_name: "",
+        address: "",
+        zip_code: "",
+        city: "",
+        province: "",
+        country: "",
       }}
     >
       {({ handleSubmit }) => (
@@ -83,7 +83,6 @@ const NewAddressAdd = (props: any) => {
                   name="full_name"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="First Name and Last Name"
-
                 />
               </div>
               <div className="mt-8 grid grid-cols-3 gap-8">
@@ -95,7 +94,6 @@ const NewAddressAdd = (props: any) => {
                     name="address"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Street Name and Number"
-
                   />
                 </div>
                 <div>
@@ -156,7 +154,7 @@ const NewAddressAdd = (props: any) => {
         </form>
       )}
     </Formik>
-  )
-}
+  );
+};
 
-export default NewAddressAdd
+export default NewAddressAdd;

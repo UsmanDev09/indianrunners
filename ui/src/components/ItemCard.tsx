@@ -47,7 +47,7 @@ const ItemCard = ({ title, price, picture, type, _id }: ItemCard_Props) => {
     setbutton("Added");
   };
   return (
-    <div className="w-[360px] h-[338px] max-w-sm bg-white dark:bg-violet shadow-xl rounded-lg dark:bg-gray-800 dark:border-gray-700">
+    <div className="w-[300px] sm:w-[360px] h-[338px] max-w-sm bg-white dark:bg-violet shadow-xl rounded-lg dark:bg-gray-800 dark:border-gray-700">
       <Link href="#">
         <Image
           className="p-8 rounded-t-lg m-auto"
