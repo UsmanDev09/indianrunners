@@ -147,6 +147,7 @@ const LoginForm = () => {
                 </Link>
               </div>
             </div>
+          </div>
         </section>
       </form>
     </div>
