@@ -5,7 +5,7 @@ import mongoose from "mongoose"
 import createHttpError from "http-errors"
 import { StatusCodes } from 'http-status-codes'
 import { QueueEvents } from 'bullmq'
-
+import { v2 as cloudinary } from 'cloudinary'
 import UserModel from './models/user'
 import BadgeModel from './models/badge'
 import { Badge as BadgeInterface } from './models/badge'
@@ -17,9 +17,12 @@ import { Constants } from './utility/constants'
 import { ActivityInterface } from './interfaces/activity'
 import * as socket from './utility/socket'
 
+
 const app = server();
 
 const port = env.SERVER_PORT || 5000;
+
+
 
 mongoose
 .connect(env.MONGO_CONNECTION_STRING)
@@ -34,6 +37,13 @@ const serverConnection = app.listen(port, () => {
 })
 
 socket.attach(serverConnection)
+
+cloudinary.config({ 
+  cloud_name: env.CLOUDINARY_CLOUD_NAME, 
+  api_key: env.CLOUDINARY_API_KEY , 
+  api_secret: env.CLOUDINARY_API_SECRET,
+  secure: true
+});
 
 const worker = new Worker('badges', async job => {
 

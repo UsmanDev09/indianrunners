@@ -6,8 +6,6 @@
 /* eslint-disable */
 // @ts-nocheck
 import axiosStatic, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import Cookies from 'js-cookie';
-
 
 export interface IRequestOptions extends AxiosRequestConfig {
   /** only in axios interceptor config*/
@@ -35,20 +33,7 @@ export interface ServiceOptions {
 export const serviceOptions: ServiceOptions = {};
 
 // Instance selector
-export function axios(configs: IRequestConfig, resolve: (p: any) => void, reject: (p: any) => void, token: any): Promise<any> {
-  
-  const axiosInstance = axiosStatic.create({
-    baseURL: 'http://localhost:5000', // Set your API base URL here
-    // You can add more configurations like headers, timeout, etc., if needed
-  });
-  
-  axiosInstance.interceptors.request.use(function (config) {
-    config.headers.Authorization = `Bearer ${token}`
-    return config
-  })
-
-  serviceOptions.axios = axiosInstance;
-
+export function axios(configs: IRequestConfig, resolve: (p: any) => void, reject: (p: any) => void): Promise<any> {
   if (serviceOptions.axios) {
     return serviceOptions.axios
       .request(configs)
@@ -78,7 +63,7 @@ export function getConfigs(method: string, contentType: string, url: string, opt
   return configs;
 }
 
-export const basePath = 'http://localhost:5000';
+export const basePath = '';
 
 export interface IList<T> extends Array<T> {}
 export interface List<T> extends Array<T> {}
@@ -218,13 +203,29 @@ export class ApiService {
   /**
    *
    */
-  static createChallenge(options: IRequestOptions = {}): Promise<ChallengeApiResponse> {
+  static createChallenge(
+    params: {
+      /**  */
+      challengeData: object;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<ChallengeApiResponse> {
     return new Promise((resolve, reject) => {
       let url = basePath + '/api/challenge';
 
-      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+      const configs: IRequestConfig = getConfigs('post', 'multipart/form-data', url, options);
 
       let data = null;
+      data = new FormData();
+      if (params['challengeData']) {
+        if (Object.prototype.toString.call(params['challengeData']) === '[object Array]') {
+          for (const item of params['challengeData']) {
+            data.append('challengeData', item as any);
+          }
+        } else {
+          data.append('challengeData', params['challengeData'] as any);
+        }
+      }
 
       configs.data = data;
 
@@ -278,14 +279,15 @@ export class ApiService {
   /**
    *
    */
-  static getLeaderboards(options: IRequestOptions = {}, token: any): Promise<LeaaderboardApiResponse> {
+  static getLeaderboards(options: IRequestOptions = {}): Promise<LeaderboardApiResponse> {
     return new Promise((resolve, reject) => {
       let url = basePath + '/api/leaderboard';
+
       const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
 
       /** 适配ios13，get请求不允许带body */
-      console.log('token inside ggetLeaderboards', token)
-      axios(configs, resolve, reject, token);
+
+      axios(configs, resolve, reject);
     });
   }
   /**
@@ -324,7 +326,7 @@ export class ChallengeService {
   /**
    *
    */
-  static getAllChallenges(options: IRequestOptions = {}): Promise<ChallengeApiResponse> {
+  static getChallenge(options: IRequestOptions = {}): Promise<ChallengeApiResponse> {
     return new Promise((resolve, reject) => {
       let url = basePath + '/api/challenge/:id';
 
@@ -387,22 +389,6 @@ export class UserService {
       configs.params = { email: params['email'] };
 
       /** 适配ios13，get请求不允许带body */
-
-      axios(configs, resolve, reject);
-    });
-  }
-  /**
-   *
-   */
-  static updateProfile(options: IRequestOptions = {}): Promise<any> {
-    return new Promise((resolve, reject) => {
-      let url = basePath + '/api/user/profile';
-
-      const configs: IRequestConfig = getConfigs('put', 'application/json', url, options);
-
-      let data = null;
-
-      configs.data = data;
 
       axios(configs, resolve, reject);
     });
@@ -556,7 +542,7 @@ export interface CartApiResponse {
 
 export interface Cart {
   /**  */
-  itemType?: string;
+  itemType?: ItemType;
 
   /**  */
   itemDetails?: ItemDetails[];

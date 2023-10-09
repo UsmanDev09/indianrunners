@@ -6,7 +6,10 @@ const env = cleanEnv(process.env, {
     SERVER_PORT: port(),
     GOOGLE_CLIENT_ID: str(),
     GOOGLE_CLIENT_SECRET: str(),
-    JWT_SECRET_KEY: str()
+    JWT_SECRET_KEY: str(),
+    CLOUDINARY_API_KEY: str(),
+    CLOUDINARY_API_SECRET: str(),
+    CLOUDINARY_CLOUD_NAME: str()
 })
 
 export default env;

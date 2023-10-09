@@ -3,6 +3,7 @@ import createHttpError, { isHttpError } from 'http-errors'
 import passport from 'passport'
 import cors from 'cors'
 import express from 'express'
+
 import userRoutes from '../routes/user'
 import activityRoutes from '../routes/activity'
 import challengeRoutes from '../routes/challenge'

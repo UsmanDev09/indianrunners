@@ -55,7 +55,7 @@ router.get('/', passport.authenticate('jwt', { session: false }), Cart.getCart)
  *      properties: 
  *         itemType:
  *           type: string
- *           ref: '#/components/schemas/ItemType'
+ *           $ref: '#/components/schemas/ItemType'
  *         itemDetails:
  *           type: array
  *           items: 
