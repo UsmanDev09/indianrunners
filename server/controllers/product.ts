@@ -1,6 +1,8 @@
 import { RequestHandler } from "express"
 import createHttpError from "http-errors"
 import { StatusCodes } from "http-status-codes"
+import { v2 as cloudinary } from "cloudinary"
+import { uuid } from 'uuidv4';
 import { Product as ProductInterface } from "../models/product"
 import ProductModel from "../models/product"
 import mongoose from "mongoose"
@@ -8,9 +10,26 @@ import { Constants } from "../utility/constants"
 import logger from "../config/logger"
 
 export const createProduct: RequestHandler<unknown, unknown, ProductInterface, unknown> = async (req, res, next) => {
-    console.log('PRODUCT',req.body)
     try {
-        const product = await ProductModel.create(req.body)        
+        let imageBuffer: Buffer, base64Image: string, result
+        const { name, details, description } = req.body;
+        if(req.file) {
+            imageBuffer = req.file.buffer;
+            base64Image = imageBuffer.toString('base64');
+            result = await cloudinary.uploader.upload(`data:image/png;base64,${base64Image}`, {
+                folder: 'products', // Optional: specify the folder in Cloudinary
+                public_id: uuid() // Optional: specify the public ID for the uploaded file
+              }, (error, result) => {
+                if (error) {
+                  logger.error(error);
+                } else {
+                  logger.info(result);
+                  // `result` contains the details of the uploaded image, including its public URL
+                }
+              });
+        }
+        // Upload the image to Cloudinary
+        const product = await ProductModel.create({name, details, description, image: result?.secure_url})        
  
         res.status(StatusCodes.OK).json({
             success: true,
@@ -19,7 +38,7 @@ export const createProduct: RequestHandler<unknown, unknown, ProductInterface, u
         })
     } catch(error) {
         if( error instanceof Error) 
-            console.log(error)
+            console.log(error.message)
         next(error)
     }
 }

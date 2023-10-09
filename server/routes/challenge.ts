@@ -1,13 +1,18 @@
 import express from 'express'
 import passport from 'passport'
+import multer from 'multer'
 
 import * as Challenge from '../controllers/challenge'
 import { checkIsinRole } from "../utility/checkIsInRoles"
 import { ROLES } from "../utility/constants"
 
+const storage = multer.memoryStorage(); // Store files in memory as Buffers
+
+const upload = multer({ storage: storage });
+
 const router = express.Router()
 
-router.post('/', passport.authenticate('jwt', { session: false } ), Challenge.createChallenge)
+router.post('/', passport.authenticate('jwt', { session: false } ), upload.single('image'), Challenge.createChallenge)
 
 router.put('/', passport.authenticate('jwt', { session: false } ), checkIsinRole(ROLES.ADMIN), Challenge.updateChallenge)
 
@@ -25,6 +30,16 @@ router.get('/:id', passport.authenticate('jwt', { session: false } ), Challenge.
  *       operationId: createChallenge
  *       security: 
  *         - bearerAuth: []
+ *       requestBody: 
+ *          required: true
+ *          content:
+ *            multipart/form-data:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  challengeData:
+ *                    type: object
+ *                    $ref: '#/components/schemas/Challenge'
  *       responses: 
  *         200: 
  *          description: OK
@@ -192,7 +207,7 @@ router.get('/:id', passport.authenticate('jwt', { session: false } ), Challenge.
  * paths:
  *  /api/challenge/:id:
  *     get:
- *       operationId: getAllChallenges
+ *       operationId: getChallenge
  *       security: 
  *         - bearerAuth: []
  *       responses: 

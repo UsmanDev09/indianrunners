@@ -95,6 +95,9 @@ export const Constants = {
 
     // strava
     stravaServerError: 'Error from Strava Server',
+
+    // file
+    fileNotFound: 'File not found',
     invalidId: 'Invalid id',
     notFound: 'Not found',
     recordFound: 'Record found',

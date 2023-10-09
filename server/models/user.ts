@@ -60,7 +60,7 @@ export interface User extends Document {
     city: string
     role: string
     profileCompleted: number
-    profilePicture: string
+    profilePicture: string | undefined
     club: string
     appsConnected: string
     access_token: string

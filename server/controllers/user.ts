@@ -2,6 +2,8 @@ import { RequestHandler } from "express"
 import bcrypt from 'bcrypt'
 import createHttpError from 'http-errors'
 import jwt from 'jsonwebtoken'
+import { v2 as cloudinary } from "cloudinary"
+import { uuid } from 'uuidv4'
 
 import env from '../utility/validateEnv'
 import logger from "../config/logger"
@@ -180,9 +182,26 @@ export const getProfile: RequestHandler<unknown, unknown, UserInterface, unknown
 export const updateProfile: RequestHandler<unknown, unknown, UserInterface, unknown> = async (req, res, next) => {
     
     try {
-                
-        const _id = req.user as Types.ObjectId
+        let imageBuffer: Buffer, base64Image: string, result
+        
+        if(req.file) {
+            imageBuffer = req.file.buffer;
+            base64Image = imageBuffer.toString('base64');
+            result = await cloudinary.uploader.upload(`data:image/png;base64,${base64Image}`, {
+                folder: 'user', // Optional: specify the folder in Cloudinary
+                public_id: uuid() // Optional: specify the public ID for the uploaded file
+              }, (error, result) => {
+                if (error) {
+                  logger.error(error);
+                } else {
+                  logger.info(result);
+                  // `result` contains the details of the uploaded image, including its public URL
+                }
+              });
+        }   
 
+        const _id = req.user as Types.ObjectId
+        const  { dob, weight, gender, height, contact, country, state, city } = req.body
         const profile : (keyof UserInterface)[]= ['dob', 'gender', 'weight', 'height', 'contact', 'country', 'state', 'city', 'role', 'profilePicture'];
         
         let profileCompletedAttributes = 5
@@ -193,8 +212,8 @@ export const updateProfile: RequestHandler<unknown, unknown, UserInterface, unkn
         })
 
         let profileCompleted = profileCompletedAttributes/16 * 100
-
-        await updateUserById(_id, { ...req.body, profileCompleted })
+        
+        await updateUserById(_id, { ...req.body, profileCompleted, profilePicture: result?.secure_url})
 
         res.status(StatusCodes.OK).json({
             success: true,

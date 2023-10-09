@@ -23,7 +23,7 @@ router.get('/', passport.authenticate("jwt", { session: false } ), Leaderboard.g
  *          content: 
  *              application/json:
  *                  schema: 
- *                      $ref: '#/components/schemas/LeaaderboardApiResponse'    
+ *                      $ref: '#/components/schemas/LeaderboardApiResponse'    
  * components: 
  *  securitySchemes:
  *     bearerAuth:

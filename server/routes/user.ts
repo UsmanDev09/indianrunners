@@ -1,12 +1,17 @@
 import ('../auth/index')
-
+import multer from "multer"
 import { Request, Response } from "express"
 
 import express from 'express'
 import passport from 'passport'
 import * as User from '../controllers/user'
 
+const storage = multer.memoryStorage(); // Store files in memory as Buffers
+
+const upload = multer({ storage: storage });
+
 const router = express.Router()
+
 
 /**
  * @openapi
@@ -166,10 +171,13 @@ router.get('/otp', User.otp)
  *          requestBody:
  *           required: true
  *           content:
- *             application/json:
+ *             multipart/form-data:
  *               schema:
  *                 type: object
  *                 properties:
+ *                   image: 
+ *                     type:string
+ *                     format: binary
  *                   dob:
  *                     type: string
  *                   gender:
@@ -191,8 +199,7 @@ router.get('/otp', User.otp)
  *                 description: OK  
  */
 
-
-router.put('/profile', passport.authenticate('jwt', { session: false }), User.updateProfile)
+router.put('/profile', passport.authenticate('jwt', { session: false }), upload.single('image'), User.updateProfile)
 
 /**
  * @openapi
