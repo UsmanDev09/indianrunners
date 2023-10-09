@@ -1,4 +1,4 @@
-import { InferSchemaType, model, Schema } from 'mongoose'
+import { model, Schema, Types } from 'mongoose'
 
 const shippingDetailSchema = new Schema({
     address: { type: String, required: [true, 'Address is required']},
@@ -6,7 +6,12 @@ const shippingDetailSchema = new Schema({
     state: { type: String, required: [true, 'State is required']}
 }, { timestamps: true })
 
-type ShippingDetails = InferSchemaType<typeof shippingDetailSchema>
 
+export interface ShippingDetails extends Document {
+    _id: Types.ObjectId
+    address: string
+    city: string 
+    state: string
+}
 
 export default model<ShippingDetails>('ShippingDetail', shippingDetailSchema)

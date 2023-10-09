@@ -8,6 +8,7 @@ import { QueueEvents } from 'bullmq'
 
 import UserModel from './models/user'
 import BadgeModel from './models/badge'
+import { Badge as BadgeInterface } from './models/badge'
 import NotificationModel from "./models/notification"
 import env from './utility/validateEnv'
 import logger from './config/logger'
@@ -49,7 +50,7 @@ const worker = new Worker('badges', async job => {
 
     
     if((date.getUTCHours() > 3 || date.getUTCHours() < 5)) {   
-      const badge = await BadgeModel.find({ name: 'Early Riser' })
+      const badge: BadgeInterface = await BadgeModel.find({ name: 'Early Riser' }).lean()
       
       if(!badge) throw createHttpError(StatusCodes.NOT_FOUND, Constants.notFound) 
       
@@ -62,7 +63,7 @@ const worker = new Worker('badges', async job => {
     // recored a riding activity between  10pm - 11:59pm
     
     if((date.getUTCHours() > 10 || date.getUTCHours() < 12 && activity.activityType === 'Ride')) {
-        const badge = await BadgeModel.find({ name: 'Night Rider'})
+        const badge: BadgeInterface = await BadgeModel.find({ name: 'Night Rider'}).lean()
         
         const notification = await NotificationModel.create({ type: 'badge', message: 'Wohoo! You have earned the Night Rider badge' })
         
