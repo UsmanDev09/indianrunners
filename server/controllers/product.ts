@@ -1,16 +1,15 @@
 import { RequestHandler } from "express"
 import createHttpError from "http-errors"
 import { StatusCodes } from "http-status-codes"
-import { Product } from "../interfaces/product"
+import { Product as ProductInterface } from "../models/product"
 import ProductModel from "../models/product"
 import mongoose from "mongoose"
 import { Constants } from "../utility/constants"
-import { User } from "../interfaces/user"
+import logger from "../config/logger"
 
-export const createProduct: RequestHandler<unknown, unknown, Product, unknown> = async (req, res, next) => {
+export const createProduct: RequestHandler<unknown, unknown, ProductInterface, unknown> = async (req, res, next) => {
+    console.log('PRODUCT',req.body)
     try {
-        const { name, description, details } = req?.body
-
         const product = await ProductModel.create(req.body)        
  
         res.status(StatusCodes.OK).json({
@@ -19,30 +18,37 @@ export const createProduct: RequestHandler<unknown, unknown, Product, unknown> =
             message: Constants.productCreatedSuccessfully
         })
     } catch(error) {
+        if( error instanceof Error) 
+            console.log(error)
         next(error)
     }
 }
 
 
-export const updateProduct: RequestHandler<unknown, unknown, Product, unknown> = async (req, res, next) => { 
-    const { _id } = req?.body
+export const updateProduct: RequestHandler<{ _id: number }, unknown, ProductInterface, unknown> = async (req, res, next) => { 
+    try {
+        const { _id } = req.params
 
-    const product = ProductModel.findById(_id)
+        const product = ProductModel.findById(_id)
 
-    if(!product) throw createHttpError(StatusCodes.NOT_FOUND, Constants.notFound)
+        if(!product) throw createHttpError(StatusCodes.NOT_FOUND, Constants.notFound)
 
-    const updatedProduct = await ProductModel.findByIdAndUpdate(_id, req.body)
+        const updatedProduct = await ProductModel.findByIdAndUpdate(_id, req.body)
 
-    res.status(StatusCodes.OK).json({
-        success: true,
-        data: updatedProduct,
-        message: Constants.productUpdatedSuccessfully
-    })
+        res.status(StatusCodes.OK).json({
+            success: true,
+            data: updatedProduct,
+            message: Constants.productUpdatedSuccessfully
+        })
+    } catch (err) {
+        logger.error(err)
+        next(err)
+    }
 
 }
 
-export const deleteProduct: RequestHandler<unknown, unknown, Product, unknown> = async (req, res, next) => { 
-    const { _id } = req.body;
+export const deleteProduct: RequestHandler<{ _id: number }, unknown, ProductInterface, unknown> = async (req, res, next) => { 
+    const { _id } = req.params;
 
     if (!mongoose?.Types.ObjectId.isValid(_id)) {
         throw createHttpError(StatusCodes.BAD_REQUEST, Constants.invalidId)
@@ -52,7 +58,7 @@ export const deleteProduct: RequestHandler<unknown, unknown, Product, unknown> =
 
     if(!product) throw createHttpError(StatusCodes.NOT_FOUND, Constants.notFound)
 
-    await ProductModel.findByIdAndDelete(_id)
+    await ProductModel.findByIdAndUpdate(_id, { isDeleted: true })
 
     res.status(StatusCodes.OK).json({
         success: true,
@@ -62,29 +68,31 @@ export const deleteProduct: RequestHandler<unknown, unknown, Product, unknown> =
 
 }
 
-export const getAllProducts: RequestHandler<unknown, unknown, Product, unknown> = async (req, res, next) => { 
+export const getAllProducts: RequestHandler<unknown, unknown, ProductInterface, unknown> = async (req, res, next) => { 
 
-    const products = await ProductModel.find()
+    const products = await ProductModel.find({ isDeleted: false })
 
     res.status(StatusCodes.OK).json({
         success: true,
         data: products,
-        message: Constants.challengesFetchedSuccessfully
+        message: Constants.productCreatedSuccessfully
     })
 
 }
 
 
-export const getProduct: RequestHandler<unknown, unknown, Product, unknown> = async (req, res, next) => { 
+export const getProduct: RequestHandler<{_id: number}, unknown, ProductInterface, unknown> = async (req, res, next) => { 
 
-    const { _id } = req.body
+    const { _id } = req.params
 
-    const product = await ProductModel.findById(_id)
+    const product = await ProductModel.findById({ _id, isDeleted: false })
+
+    if(!product) throw createHttpError(StatusCodes.BAD_REQUEST, Constants.productDoesNotExist)
 
     res.status(StatusCodes.OK).json({
         success: true,
         data: product,
-        message: Constants.challengesFetchedSuccessfully
+        message: Constants.productFetchedSuccessfully
     })
 
 }

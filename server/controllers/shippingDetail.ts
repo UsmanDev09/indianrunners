@@ -11,7 +11,7 @@ import logger from "../config/logger"
 
 export const addShippingDetailsToUser: RequestHandler<unknown, unknown, productCategory, unknown> = async (req, res, next) => {
     try {
-        const { _id } = req.user as User;
+        const _id = req.user as User;
 
         const shippingDetails = await ShippingDetailsModel.create(req.body)
         

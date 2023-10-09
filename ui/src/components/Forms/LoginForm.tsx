@@ -1,5 +1,6 @@
 import { MyGlobalContext } from "@/Hooks/useGlobalContext";
 import setAccount from "@/lib/setAccount";
+import Cookies from "js-cookie";
 import { Josefin_Sans } from "next/font/google";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -36,9 +37,8 @@ const LoginForm = () => {
         return res.json();
       })
       .then(function(data) {
-        console.log(data);
-
         if (data?.success) {
+          Cookies.set("token", data.data.token as string, { expires: 1, secure: true, sameSite: 'strict' });
           dispatch({
             type: "ACCOUNT_UPDATE",
             payload: {
@@ -46,11 +46,12 @@ const LoginForm = () => {
               lastName: data?.data?.user?.lastName,
               userName: data?.data?.user?.userName,
               profile: data?.data?.user?.profileCompleted,
-              token: data?.data.token,
+              token: data.data.token,
               email: data?.data?.user?.email,
               role: data?.data?.user?.role,
             },
           });
+
           setAccount(
             state.account.firstName,
             state.account.lastName,

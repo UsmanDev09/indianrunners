@@ -1,38 +1,27 @@
 import { RequestHandler } from "express"
 import bcrypt from 'bcrypt'
 import createHttpError from 'http-errors'
-import nodemailer from'nodemailer'
-import SMTPTransport from "nodemailer/lib/smtp-transport"
 import jwt from 'jsonwebtoken'
 
 import env from '../utility/validateEnv'
 import logger from "../config/logger"
-import UserModel from '../models/user'
-import NotificationModel from '../models/notification'
+import UserModel, { User } from '../models/user'
 import Otp from "../models/otp"
 
-import { User } from "../interfaces/user"
+import { User as UserInterface } from "../models/user"
 import { StatusCodes } from "http-status-codes"
 import { Constants } from "../utility/constants"
+import { createUser, findUser, findUserById, sendEmail, updateUser, updateUserById } from "../services/user"
+import { createNotification } from "../services/notification"
+import { Types } from "mongoose"
 
-let transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false,
-    auth: {
-        user: 'muhammmad.usman01357@gmail.com',
-        pass: 'emutspemchwrnyqs'
-    },
-} as SMTPTransport.Options)
-
-export const login: RequestHandler<unknown, unknown, User, unknown> = async (req, res, next) => {
+export const login: RequestHandler<unknown, unknown, UserInterface, unknown> = async (req, res, next) => {
    
     const { email, password } = req?.body
 
    try {
-        const user = await UserModel.findOne({
-            email
-        })
+        const user = await findUser(email)
+        
         // error for security reasons
         if(!user)
             throw createHttpError(StatusCodes.NOT_FOUND, Constants.userNotFound)
@@ -42,11 +31,17 @@ export const login: RequestHandler<unknown, unknown, User, unknown> = async (req
         if (!verifyCredentials)
             throw createHttpError(StatusCodes.BAD_REQUEST, Constants.invalidCredentials)
 
-        const token = jwt.sign({ user }, env.JWT_SECRET_KEY, {
+        const token = jwt.sign({ userId: user._id }, env.JWT_SECRET_KEY, {
             expiresIn: '1d'
         })
 
-        await NotificationModel.create({ type: 'user', message: 'Wohoo! You have logged in to your account' })
+        // res.setHeader('Set-Cookie', `token:${token}; HttpOnly`);
+
+        const type = 'user'
+        
+        const message = `Wohoo! You have logged into your account`
+
+        await createNotification(type, message)
 
         res.status(StatusCodes.OK).json({
             success: true,
@@ -70,41 +65,25 @@ export const googleLogin: RequestHandler = async (req, res, next) => {
 export const register: RequestHandler = async (req, res, next) => {
     try {
         
-        const { email, password, firstName, lastName, userName, role } = req?.body
+        const { email, password, ...userData } = req?.body
         const clubs = ["Spartans", "Vikings", "Avengers", "Ninjas"]
 
-        const existingUser = await UserModel.findOne({ email })
+        const existingUser = await findUser(email)
         
         if(existingUser)
             throw createHttpError(StatusCodes.BAD_REQUEST, Constants.userExists)
 
         const hashedPassword = await bcrypt.hash(password, 10)
 
-        const assignClubRandomly = clubs[Math.random() * clubs.length]
+        const club = clubs[Math.random() * clubs.length]
 
-        const newUser = new UserModel({
-            firstName,
-            lastName,
-            userName,
-            email,
-            role,
-            password: hashedPassword,
-            club: assignClubRandomly,
-            profileCompleted: 6/16 * 100
-        })
+        const newUser = await createUser({ email, password, club, ...userData })
 
-        await newUser.save()
+        const subject = 'Thankyou for registering with us'
+        const text = 'You are registered'
+        const html = '<p> :) </p>'
 
-        await transporter.sendMail({
-            from: {
-                name: 'usman',
-                address: 'muhammmad.usman01357@gmail.com',
-            },
-            to: email,
-            subject: 'Thankyou for registering with us',
-            text: 'You are registered',
-            html: '<p> :) </p>'
-        })
+        await sendEmail(subject, text, html, email)
 
         res.status(StatusCodes.OK).json({
             success: true,
@@ -118,7 +97,7 @@ export const register: RequestHandler = async (req, res, next) => {
     }
 }
 
-export const otp: RequestHandler<{ email: string }, unknown, User, unknown> = async (req, res, next) => {
+export const otp: RequestHandler<{ email: string }, unknown, UserInterface, unknown> = async (req, res, next) => {
     
     try {
         const { email } = req?.params
@@ -134,13 +113,11 @@ export const otp: RequestHandler<{ email: string }, unknown, User, unknown> = as
             expireIn: new Date().getTime() + 300 * 1000,
         })
 
-        await transporter.sendMail({
-            from: 'muhammmad.usman01357@gmail.com',
-            to: email,
-            subject: 'Change your Password',
-            text: `Your otp is ${otp}`,
-            html: "",
-        })
+        const subject = 'Change your Password'
+        const text = `Your otp is ${otp}`
+        const html = ""
+
+        await sendEmail(subject, text, html, email)
 
         res.status(StatusCodes.OK).json({
             success: true,
@@ -154,7 +131,7 @@ export const otp: RequestHandler<{ email: string }, unknown, User, unknown> = as
     }
 }
 
-export const password: RequestHandler<unknown, unknown, User, unknown> = async (req, res, next) => {
+export const password: RequestHandler<unknown, unknown, { email: string, otp: string, password: string }, unknown> = async (req, res, next) => {
     
     try {
         const { email, otp, password } = req?.body
@@ -163,15 +140,13 @@ export const password: RequestHandler<unknown, unknown, User, unknown> = async (
 
         if(!otpNumber) throw createHttpError(StatusCodes.BAD_REQUEST, Constants.incorrectOtp)
 
-        const user = await UserModel.findOne({ email: email })
+        const user = await findUser(email)
+        
         const hashPassword = await bcrypt.hash(password, 10)
         
         if(!user) throw createHttpError(StatusCodes.BAD_REQUEST, Constants.userNotFound)
 
-        await UserModel.findOneAndUpdate(
-            { email: email }, 
-            { password: hashPassword }
-        )
+        await updateUser(email, hashPassword)
 
         res.status(StatusCodes.OK).json({
             success: true,
@@ -185,12 +160,12 @@ export const password: RequestHandler<unknown, unknown, User, unknown> = async (
 
 }
 
-export const getProfile: RequestHandler<unknown, unknown, User, unknown> = async (req, res, next) => {
+export const getProfile: RequestHandler<unknown, unknown, UserInterface, unknown> = async (req, res, next) => {
 
     try {
-        const loggedInUser = req.user as User
+        const _id = req.user as Types.ObjectId
         
-        const user = await UserModel.findById(loggedInUser._id)
+        const user = await findUserById(_id)
 
         res.status(StatusCodes.OK).json({
             success: true, 
@@ -202,17 +177,16 @@ export const getProfile: RequestHandler<unknown, unknown, User, unknown> = async
     }
 }
 
-export const updateProfile: RequestHandler<unknown, unknown, User, unknown> = async (req, res, next) => {
+export const updateProfile: RequestHandler<unknown, unknown, UserInterface, unknown> = async (req, res, next) => {
     
     try {
-        
-        const { dob, gender, weight, height, contact, country, state, city, role, profilePicture } = req?.body
-        
-        const user = req.user as User
+                
+        const _id = req.user as Types.ObjectId
 
-        const profile : (keyof User)[]= ['dob', 'gender', 'weight', 'height', 'contact', 'country', 'state', 'city', 'role', 'profilePicture'];
+        const profile : (keyof UserInterface)[]= ['dob', 'gender', 'weight', 'height', 'contact', 'country', 'state', 'city', 'role', 'profilePicture'];
         
         let profileCompletedAttributes = 5
+        
         profile.map((attribute) => {
             if(req?.body[attribute]) 
                 profileCompletedAttributes++
@@ -220,10 +194,7 @@ export const updateProfile: RequestHandler<unknown, unknown, User, unknown> = as
 
         let profileCompleted = profileCompletedAttributes/16 * 100
 
-        await UserModel.findByIdAndUpdate(
-            user._id, 
-            { ...req.body, profileCompleted  }        
-        )
+        await updateUserById(_id, { ...req.body, profileCompleted })
 
         res.status(StatusCodes.OK).json({
             success: true,

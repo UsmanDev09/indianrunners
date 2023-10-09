@@ -3,15 +3,16 @@ import createHttpError from "http-errors"
 import { StatusCodes } from "http-status-codes"
 import mongoose from "mongoose"
 
-import { Challenge } from "../interfaces/challenge"
+import { Challenge as ChallengeInterface } from "../models/challenge"
 import { Response, Responses } from "../interfaces/response"
 import ChallengeModel from "../models/challenge"
-import CategoryModel from "../models/challengeCategory"
+import CategoryModel, { Category as ChallengeCategoryInterface } from "../models/challengeCategory"
 import LeaderboardModel from "../models/leaderboard"
 import { Constants } from "../utility/constants"
 import { User } from "../interfaces/user"
+import logger from "../config/logger"
 
-export const createChallenge: RequestHandler<unknown, Response, Challenge, unknown> = async (req, res, next) => {
+export const createChallenge: RequestHandler<unknown, Response, ChallengeInterface, unknown> = async (req, res, next) => {
     try {
         const { type, name, activity, knockout, knockoutType, lowerLimit, upperLimit, fixedLimit, cutOffDays, cutOffHours, image, startDate, endDate, tags, price, bibNumber, featured, verified, organizationName, categories } = req?.body
         
@@ -61,8 +62,6 @@ export const createChallenge: RequestHandler<unknown, Response, Challenge, unkno
               verified, organizationName, categories: categoryDocument
             }
         )        
-
-        await challenge.save()
     
         const challengeCategories = challenge.categories
 
@@ -82,13 +81,16 @@ export const createChallenge: RequestHandler<unknown, Response, Challenge, unkno
         })
 
     } catch(error) {
-        next(error)
+        if(error instanceof Error) {
+            logger.error(error.message)
+            next(error.message)
+        }
     }
 }
 
 // logic not completed
-export const updateChallenge: RequestHandler<unknown, unknown, Challenge, unknown> = async (req, res, next) => { 
-    const { _id } = req.user as User;
+export const updateChallenge: RequestHandler<unknown, unknown, ChallengeInterface, unknown> = async (req, res, next) => { 
+    const _id = req.user as number;
     
     if (!mongoose?.Types.ObjectId.isValid(_id)) {
         throw createHttpError(StatusCodes.BAD_REQUEST, Constants.invalidId)
@@ -108,7 +110,7 @@ export const updateChallenge: RequestHandler<unknown, unknown, Challenge, unknow
 
 }
 
-export const deleteChallenge: RequestHandler< { id:number }, unknown, Challenge, unknown> = async (req, res, next) => { 
+export const deleteChallenge: RequestHandler< { id:number }, unknown, ChallengeInterface, unknown> = async (req, res, next) => { 
     
     const { id } = req.params;
 
@@ -130,7 +132,7 @@ export const deleteChallenge: RequestHandler< { id:number }, unknown, Challenge,
 
 }
 
-export const getAllChallenges: RequestHandler<unknown, Responses, Challenge, Challenge> = async (req, res, next) => { 
+export const getAllChallenges: RequestHandler<unknown, Responses, ChallengeInterface, any> = async (req, res, next) => { 
     interface PriceFilter {
         $gte?: number;
         $lte?: number;
@@ -183,7 +185,7 @@ export const getAllChallenges: RequestHandler<unknown, Responses, Challenge, Cha
 
 }
 
-export const getChallenge: RequestHandler<{ id: number }, Response, Challenge, Challenge> = async (req, res, next) => { 
+export const getChallenge: RequestHandler<{ id: number }, Response, ChallengeInterface, ChallengeInterface> = async (req, res, next) => { 
     const { id } = req.params
 
     const challenge = await ChallengeModel.findById(id)

@@ -10,32 +10,42 @@ import { StravaActivity } from "../interfaces/stravaActivity"
 import { Constants } from "../utility/constants"
 import { User as UserInterface } from "../models/user"
 import logger from "../config/logger"
-import UserChallengesModel from "../models/userChallenges"
 import { updateLeaderboard } from "../helpers/helper"
-import { UserChallengesInterface } from "../interfaces/userChallenges"
-import { ActivityInterface } from "../interfaces/activity"
+import { Activity as ActivityInterface } from "../models/activity"
 
 export const authorizeToGetActivityFromStrava: RequestHandler<unknown, unknown, StravaInterface, unknown> = async (req, res, next) => {
     try {
         const { code }  = req.body
 
-        const { _id } = req.user as UserInterface
+        const _id = req.user as UserInterface
 
         if (!code)
         throw createHttpError(StatusCodes.BAD_REQUEST, Constants.requiredParameters('code'))
-                                        //    http://www.strava.com/oauth/token?client_id=113257&client_secret=34df2bc2346cd5376e854a968afa18fa5d35f851&code=a13bb2e68bc42f35b2917d578167c00eb55247eb&grant_type=authorization_code
+        
+        //    http://www.strava.com/oauth/token?client_id=113257&client_secret=34df2bc2346cd5376e854a968afa18fa5d35f851&code=a13bb2e68bc42f35b2917d578167c00eb55247eb&grant_type=authorization_code
         const response = await axios.post(`http://www.strava.com/oauth/token?client_id=113257&client_secret=34df2bc2346cd5376e854a968afa18fa5d35f851&code=${code}&grant_type=authorization_code`)
+
         const { access_token, refresh_token, expires_at, expires_in } = response.data;
 
-        const activitiesResponse = await axios.get(`https://www.strava.com/api/v3/athlete/activities?access_token=${access_token}`)
-
-        const { data } = activitiesResponse 
+        // create a web-hook subscription
+        const webhookSubscription = await axios.post(`https://www.strava.com/api/v3/push_subscriptions?client_id=113257&client_secret=34df2bc2346cd5376e854a968afa18fa5d35f851&callback_url=https://starling-intense-barely.ngrok-free.app/api/activity/strava-realtime&verify_token=strava&aspect_type=activity`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${access_token}`
+                }
+            }
+        )
         
+        const activitiesResponse = await axios.get(`https://www.strava.com/api/v3/athlete/activities?access_token=${access_token}`)
+        
+        const { data } = activitiesResponse 
+
         const user = await UserModel.findByIdAndUpdate(_id, { access_token, refresh_token, expires_at, expires_in, appsConnected: 'Strava' })
 
         if(!user) throw createHttpError(StatusCodes.UNAUTHORIZED, Constants.loginToProceed)
 
-        let activitiesDocument : any = []
+        let activitiesDocument : ActivityInterface[] = []
 
         // const userChallenges = await UserChallengesModel.find({ 'user._id': user._id }) as UserChallengesInterface[]
 
@@ -47,6 +57,7 @@ export const authorizeToGetActivityFromStrava: RequestHandler<unknown, unknown, 
 
             if (!redundantActivity) {
                 const userActivity = new ActivityModel({
+                    athleteId: activity.athlete.id,
                     activityId: activity.id,
                     userId: _id,
                     activityType: activity.sport_type,
@@ -63,7 +74,6 @@ export const authorizeToGetActivityFromStrava: RequestHandler<unknown, unknown, 
                 userActivity.save();
 
                 activitiesDocument.push(userActivity)
-
 
             }
         }
@@ -85,7 +95,7 @@ export const authorizeToGetActivityFromStrava: RequestHandler<unknown, unknown, 
 
 export const getActivitiesFromStrava: RequestHandler<unknown, unknown, StravaInterface, unknown> = async (req, res, next) => { 
     try {
-        const { _id } = req.user as UserInterface
+        const _id = req.user as UserInterface
 
         const user = await UserModel.findById(_id) as UserInterface
 
@@ -103,6 +113,7 @@ export const getActivitiesFromStrava: RequestHandler<unknown, unknown, StravaInt
             let activitiesDocument : ActivityInterface[] = []
 
             for (let activity of data) {
+                console.log(activity.athlete.id)
                 // let start_date = new Date(activity.start_date_local) 
                 // let startTime = `${start_date.getUTCHours()}:${start_date.getUTCMinutes()}:${start_date.getUTCSeconds()}`
 
@@ -110,6 +121,7 @@ export const getActivitiesFromStrava: RequestHandler<unknown, unknown, StravaInt
 
                 if (!redundantActivity) {
                     let userActivity = await ActivityModel.create({
+                        athleteId: activity.athlete.id,
                         activityId: activity.id,
                         userId: _id,
                         activityType: activity.sport_type,
@@ -124,10 +136,8 @@ export const getActivitiesFromStrava: RequestHandler<unknown, unknown, StravaInt
                     })
 
                     userActivity.save();
-
-                    const userActivityObject = userActivity.toObject() as ActivityInterface
                     
-                    activitiesDocument.push(userActivityObject)
+                    activitiesDocument.push(userActivity)
                 }
             }
 
@@ -154,14 +164,17 @@ export const getActivitiesFromStrava: RequestHandler<unknown, unknown, StravaInt
             let activitiesDocument : ActivityInterface[] = []
 
             for (let activity of data) {
+                console.log(activity.athlete.id)
                 // let start_date = new Date(activity.start_date_local) 
                 // let startTime = `${start_date.getUTCHours()}:${start_date.getUTCMinutes()}:${start_date.getUTCSeconds()}`
 
                 const redundantActivity = await ActivityModel.findOne({activityId: activity.id})
 
                 if (!redundantActivity) {
+                    console.log(redundantActivity)
                     const userActivity = new ActivityModel({
                         activityId: activity.id,
+                        athleteId: activity.athlete.id,
                         userId: _id,
                         activityType: activity.sport_type,
                         elapsedTime: activity.elapsed_time,
@@ -245,7 +258,7 @@ export const postManualActivity: RequestHandler<unknown, unknown, StravaActivity
 
 export const getActivitiesByUser: RequestHandler<unknown, unknown, StravaInterface, unknown> = async(req, res, next) => {
     try {
-        const { _id } = req?.user as UserInterface;
+        const _id = req.user as UserInterface;
         const user = await UserModel.findById(_id)
 
         if(!user) throw createHttpError(StatusCodes.NOT_FOUND, Constants.userNotFound)
@@ -264,3 +277,80 @@ export const getActivitiesByUser: RequestHandler<unknown, unknown, StravaInterfa
     }
 }
 
+export const postActivities: RequestHandler<unknown, unknown, { object_id: number, aspect_type: string, owner_id: number}, unknown> =async (req, res) => {
+    const { object_id, aspect_type, owner_id } = req.body
+    console.log('owner_id', owner_id)
+    if(!owner_id) throw createHttpError(StatusCodes.BAD_REQUEST, Constants.stravaServerError)
+
+    const user = await UserModel.findOne({ athlete_id: owner_id })
+
+    if(!user) throw createHttpError(StatusCodes.BAD_REQUEST, Constants.userNotFound)
+
+    if (aspect_type === 'create' && object_id) {
+
+        axios.get(`https://www.strava.com/api/v3/activities/${object_id}`, {
+            headers: {
+                Authorization: `Bearer ${user.access_token}`,
+            },
+        })  
+        .then(async (response) => {
+            const activityData: any = response.data;
+                // let start_date = new Date(activity.start_date_local) 
+                // let startTime = `${start_date.getUTCHours()}:${start_date.getUTCMinutes()}:${start_date.getUTCSeconds()}`
+
+                const redundantActivity = await ActivityModel.findOne({activityId: activityData.id})
+
+                if (!redundantActivity) {
+                    console.log(redundantActivity)
+                    const userActivity = new ActivityModel({
+                        activityId: activityData.id,
+                        athleteId: activityData.athlete.id,
+                        userId: user._id,
+                        activityType: activityData.sport_type,
+                        elapsedTime: activityData.elapsed_time,
+                        movingTime: activityData.moving_time,
+                        maximumSpeed: activityData.max_speed,
+                        averageSpeed: activityData.average_speed,
+                        caloriesBurnt: activityData.calories,
+                        distanceCovered: activityData.distance,
+                        totalAssent: activityData.total_elevation_gain,
+                        startDate: activityData.start_date   // start time can be calculated from date, and end time by subtracting moving time
+                    })
+                    
+                    userActivity.save();
+
+                    await UserModel.updateOne({ _id: user._id }, { $push: { 'activities': userActivity }})
+                    console.log('juser activity', userActivity)
+                    const userChallenges = user.challenges
+
+                    const activities = user.activities
+
+                    if (userChallenges) 
+                        updateLeaderboard(user, activities, userChallenges)
+                    }
+            
+            // Handle the activity data as needed
+        })
+        .catch(error => {
+            console.error('Error fetching activity:', error);
+        });
+    }
+  }
+
+export const getActivities: RequestHandler<unknown, unknown, unknown, {'hub.mode': string, 'hub.verify_token': string, 'hub.challenge': string}> =async (req, res) => {
+// Your verify token. Should be a random string.
+
+    const VERIFY_TOKEN = "strava";
+    let mode = req.query['hub.mode'];
+    let token = req.query['hub.verify_token'];
+    let challenge = req.query['hub.challenge'];
+
+    if (mode && token) {
+        if (mode === 'subscribe' && token === VERIFY_TOKEN) {     
+            console.log('WEBHOOK_VERIFIED');
+            res.json({"hub.challenge":challenge});  
+        } else {
+            res.sendStatus(403);      
+        }
+    }
+}

@@ -1,8 +1,13 @@
 
 import express from 'express'
 import * as Strava from '../controllers/activity'
-
+import { User as UserInterface } from '../models/user'
+import UserModel from '../models/user'
 import passport from 'passport'
+import axios from 'axios'
+import createHttpError from 'http-errors'
+import { Constants } from '../utility/constants'
+import { StatusCodes } from 'http-status-codes'
 
 const router = express.Router()
 
@@ -13,6 +18,11 @@ router.post('/', passport.authenticate('jwt', { session: false }), Strava.author
 router.get('/', passport.authenticate("jwt", { session: false }), Strava.getActivitiesByUser)
 
 router.get('/strava', passport.authenticate("jwt", { session: false}), Strava.getActivitiesFromStrava)
+
+router.post('/strava-realtime', Strava.postActivities);
+  
+  // Adds support for GET requests to our webhook
+router.get('/strava-realtime', Strava.getActivities)
 
 // Swagger Documentation for the /api/activity Routes
 

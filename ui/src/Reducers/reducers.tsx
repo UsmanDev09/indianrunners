@@ -20,6 +20,7 @@ export const accountReducer = (
 ) => {
   switch (action.type) {
     case "ACCOUNT_UPDATE":
+      console.log(action.payload)
       setAccount(
         action.payload.firstName,
         action.payload.lastName,
@@ -29,7 +30,7 @@ export const accountReducer = (
         action.payload.email,
         action.payload.role
       );
-      console.log("Account update called");
+      
       return {
         account: {
           firstName: action.payload.firstName,

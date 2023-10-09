@@ -25,7 +25,7 @@ export const createCategory: RequestHandler<unknown, unknown, ChallengeCategoryI
 
 export const updateCategory: RequestHandler<unknown, unknown, ChallengeCategoryInterface, unknown> = async (req, res, next) => { 
     const { activity, distance, description } = req?.body
-    const { _id } = req.user as User;
+    const _id = req.user as number;
 
     if (!mongoose?.Types.ObjectId.isValid(_id)) {
         throw createHttpError(StatusCodes.BAD_REQUEST, Constants.invalidId)

@@ -1,12 +1,17 @@
-import { InferSchemaType, model, Schema } from 'mongoose'
+import { InferSchemaType, model, Schema, Types } from 'mongoose'
 import activitySchema from './activity'
 import cartSchema from './cart'
 import shippingDetail from './shippingDetail'
 import badgeSchema from './badge'
 import challengeSchema from './challenge'
+import { ShippingDetails } from '../interfaces/shippingDetail'
+import { Activity as ActivityInterface } from './activity'
+import { Cart as CartInterface } from './cart'
+import { Badge as BadgeInterface } from './badge'
+import { Challenge as ChallengeInterface } from './challenge'
 
 const userSchema = new Schema({
-    _id: { type: Schema.Types.ObjectId, required: true, unique: true },
+    athlete_id: { type: Number },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     firstName: { type: String, required: true },
@@ -33,10 +38,42 @@ const userSchema = new Schema({
     cart: { type: [cartSchema.schema], default: []},
     shippingDetail: { type: [shippingDetail.schema], default: []},
     badges: { type: [badgeSchema.schema], default: []},
-    challenges: { type: [challengeSchema.schema], default: []}
+    challenges: { type: [challengeSchema.schema], default: []},
+    rewardPoints: { type: Number, default: 0 }
 }, { timestamps: true })
 
-export type User = InferSchemaType<typeof userSchema>
-
+export interface User extends Document {
+    _id: Types.ObjectId
+    athlete_id: number
+    email: string
+    password: string
+    firstName: string
+    lastName: string    
+    userName: string    
+    dob: Date 
+    gender: string
+    weight: number
+    height: number
+    contact: number
+    country: string
+    state: string
+    city: string
+    role: string
+    profileCompleted: number
+    profilePicture: string
+    club: string
+    appsConnected: string
+    access_token: string
+    refresh_token: string
+    expires_at: number
+    expires_in: number
+    activities: ActivityInterface[]
+    cart: CartInterface[]
+    shippingDetail: ShippingDetails[]
+    badges: BadgeInterface[]
+    challenges: ChallengeInterface[]
+    rewardPoints: number
+    
+}
 
 export default model<User>('User', userSchema)

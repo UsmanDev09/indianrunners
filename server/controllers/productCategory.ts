@@ -12,7 +12,7 @@ import { Product } from "../interfaces/product"
 export const createCategory: RequestHandler<unknown, unknown, productCategory, unknown> = async (req, res, next) => {
     try {
         const { name, description } = req?.body
-        const { _id } = req.user as User;
+        const _id = req.user as User;
 
         const category = await CategoryModel.findById(_id)
      

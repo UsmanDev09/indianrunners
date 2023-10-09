@@ -5,9 +5,13 @@ import * as Cart from '../controllers/cart'
 
 const router = express.Router()
 
-router.post('/', passport.authenticate('jwt', { session: false }), Cart.addChallengeToCart)
+router.post('/challenge', passport.authenticate('jwt', { session: false }), Cart.addChallengeToCart)
 
-router.delete('/', passport.authenticate('jwt', { session: false }), Cart.removeChallengeFromCart)
+router.delete('/challenge', passport.authenticate('jwt', { session: false }), Cart.removeChallengeFromCart)
+
+router.post('/product', passport.authenticate('jwt', { session: false}), Cart.addProductToCart)
+
+router.delete('/product', passport.authenticate('jwt', { session: false }), Cart.removeProductFromCart)
 
 router.get('/', passport.authenticate('jwt', { session: false }), Cart.getCart)
 

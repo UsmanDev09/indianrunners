@@ -1,4 +1,5 @@
 import { MyGlobalContext } from "@/Hooks/useGlobalContext";
+import Cookies from "js-cookie";
 import { Josefin_Sans } from "next/font/google";
 import { useContext, useState, useEffect } from "react";
 
@@ -21,7 +22,8 @@ const ActivityCard = ({
 }: ActivityCard_Props) => {
   const [activities, setActivities] = useState([]);
   const { dispatch } = useContext(MyGlobalContext);
-  const token = localStorage.getItem("token");
+  const token = Cookies.get("token");
+  console.log(token)
   useEffect(() => {
     fetch("http://localhost:5000/api/activity/strava", {
       mode: "cors",
@@ -32,7 +34,6 @@ const ActivityCard = ({
       response.json().then((activities) => setActivities(activities.data))
     );
   }, []);
-  console.log(activities);
   return (
     <div className="flex flex-wrap mt-12 gap-2 justify-center">
       {activities &&
