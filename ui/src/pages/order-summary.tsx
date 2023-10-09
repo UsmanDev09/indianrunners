@@ -1,4 +1,5 @@
 import { GetStaticProps } from "next";
+
 import { Josefin_Sans } from "next/font/google";
 import Banner from "@/components/Banner";
 import OrderSummary from "@/components/orderSummary";

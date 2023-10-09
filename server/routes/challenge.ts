@@ -7,7 +7,7 @@ import { ROLES } from "../utility/constants"
 
 const router = express.Router()
 
-router.post('/', passport.authenticate('jwt', { session: false } ), checkIsinRole(ROLES.ADMIN), Challenge.createChallenge)
+router.post('/', passport.authenticate('jwt', { session: false } ), Challenge.createChallenge)
 
 router.put('/', passport.authenticate('jwt', { session: false } ), checkIsinRole(ROLES.ADMIN), Challenge.updateChallenge)
 

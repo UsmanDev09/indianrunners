@@ -9,7 +9,7 @@ import challengeRoutes from '../routes/challenge'
 import challengeCategoryRoutes from '../routes/challengeCategory'
 import productCategoryRoutes from "../routes/productCategory"
 import { Constants } from "./constants"
-import productRoutes from '../routes/productCategory'
+import productRoutes from '../routes/product'
 import badgeRoutes from '../routes/badge'
 import cartRoutes from '../routes/cart'
 import shippingDetailRoutes from '../routes/shippingDetails'
@@ -17,6 +17,8 @@ import notificationRoutes from '../routes/notification'
 import orderSummaryRoutes from '../routes/orderSummary'
 import paymentRoutes from '../routes/payment'
 import swaggerDocs from "./swagger"
+import leaderboardRoutes from "../routes/leaderboard"
+import inventoryRoutes from '../routes/inventory'
 
 const app = express()
 
@@ -34,6 +36,7 @@ const server = () => {
     app.use('/api/challenge/category', challengeCategoryRoutes)
     app.use('/api/challenge', challengeRoutes)
     app.use('/api/product', productRoutes)
+    app.use('/api/inventory', inventoryRoutes)
     app.use('/api/badge', badgeRoutes)
     app.use('/api/cart', cartRoutes)
     app.use('/api/shippingDetails', shippingDetailRoutes)
@@ -41,6 +44,7 @@ const server = () => {
     app.use('/api/product/category', productCategoryRoutes)
     app.use('/api/payment', paymentRoutes)
     app.use('/api/notification', notificationRoutes)
+    app.use('/api/leaderboard', leaderboardRoutes)
 
     swaggerDocs(app, 5000)
 

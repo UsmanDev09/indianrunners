@@ -6,6 +6,8 @@
 /* eslint-disable */
 // @ts-nocheck
 import axiosStatic, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import Cookies from 'js-cookie';
+
 
 export interface IRequestOptions extends AxiosRequestConfig {
   /** only in axios interceptor config*/
@@ -33,7 +35,20 @@ export interface ServiceOptions {
 export const serviceOptions: ServiceOptions = {};
 
 // Instance selector
-export function axios(configs: IRequestConfig, resolve: (p: any) => void, reject: (p: any) => void): Promise<any> {
+export function axios(configs: IRequestConfig, resolve: (p: any) => void, reject: (p: any) => void, token: any): Promise<any> {
+  
+  const axiosInstance = axiosStatic.create({
+    baseURL: 'http://localhost:5000', // Set your API base URL here
+    // You can add more configurations like headers, timeout, etc., if needed
+  });
+  
+  axiosInstance.interceptors.request.use(function (config) {
+    config.headers.Authorization = `Bearer ${token}`
+    return config
+  })
+
+  serviceOptions.axios = axiosInstance;
+
   if (serviceOptions.axios) {
     return serviceOptions.axios
       .request(configs)
@@ -63,7 +78,7 @@ export function getConfigs(method: string, contentType: string, url: string, opt
   return configs;
 }
 
-export const basePath = '';
+export const basePath = 'http://localhost:5000';
 
 export interface IList<T> extends Array<T> {}
 export interface List<T> extends Array<T> {}
@@ -258,6 +273,19 @@ export class ApiService {
       /** 适配ios13，get请求不允许带body */
 
       axios(configs, resolve, reject);
+    });
+  }
+  /**
+   *
+   */
+  static getLeaderboards(options: IRequestOptions = {}, token: any): Promise<LeaaderboardApiResponse> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/api/leaderboard';
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+
+      /** 适配ios13，get请求不允许带body */
+      console.log('token inside ggetLeaderboards', token)
+      axios(configs, resolve, reject, token);
     });
   }
   /**
@@ -643,7 +671,7 @@ export interface ChallengeCategoryApiResponse {
   data?: ChallengeCategory;
 }
 
-export interface NotificationApiResponse {
+export interface LeaderboardApiResponse {
   /**  */
   success?: boolean;
 
@@ -651,51 +679,44 @@ export interface NotificationApiResponse {
   message?: string;
 
   /**  */
-  data?: Notification[];
+  data?: Leaderboard[];
 }
 
-export interface Notification {
+export interface Leaderboard {
   /**  */
-  type?: EnumNotificationType;
+  _id?: number;
 
   /**  */
-  message?: string;
+  userDetails?: UserDetails;
 
   /**  */
-  read?: boolean;
+  challenge?: Challenge;
+
+  /**  */
+  category?: Category;
 }
 
-export interface ShippingDetailApiResponse {
+export interface UserDetails {
   /**  */
-  success?: boolean;
+  user?: User;
 
   /**  */
-  message?: string;
+  rank?: number;
 
   /**  */
-  data?: ShippingDetail[];
-}
-
-export interface ShippingDetail {
-  /**  */
-  address?: string;
+  distance?: number;
 
   /**  */
-  city?: string;
+  pace?: Date;
 
   /**  */
-  state?: string;
-}
-
-export interface UserApiResponse {
-  /**  */
-  success?: boolean;
+  qualifiedDays?: number;
 
   /**  */
-  message?: string;
+  qualifiedHours?: number;
 
   /**  */
-  data?: User[];
+  IRPassport?: number;
 }
 
 export interface User {
@@ -752,6 +773,75 @@ export interface User {
 
   /**  */
   appsConnected?: string;
+}
+
+export interface Category {
+  /**  */
+  name?: string;
+
+  /**  */
+  activity?: EnumCategoryActivity;
+
+  /**  */
+  distance?: number;
+
+  /**  */
+  description?: string;
+}
+
+export interface NotificationApiResponse {
+  /**  */
+  success?: boolean;
+
+  /**  */
+  message?: string;
+
+  /**  */
+  data?: Notification[];
+}
+
+export interface Notification {
+  /**  */
+  type?: EnumNotificationType;
+
+  /**  */
+  message?: string;
+
+  /**  */
+  read?: boolean;
+}
+
+export interface ShippingDetailApiResponse {
+  /**  */
+  success?: boolean;
+
+  /**  */
+  message?: string;
+
+  /**  */
+  data?: ShippingDetail[];
+}
+
+export interface ShippingDetail {
+  /**  */
+  address?: string;
+
+  /**  */
+  city?: string;
+
+  /**  */
+  state?: string;
+}
+
+export interface UserApiResponse {
+  /**  */
+  success?: boolean;
+
+  /**  */
+  message?: string;
+
+  /**  */
+  data?: User[];
 }
 export enum EnumActivityActivityType {
   'Walk' = 'Walk',
@@ -846,6 +936,30 @@ export enum EnumChallengeSport {
   'Yoga' = 'Yoga'
 }
 export enum EnumChallengeCategoryActivity {
+  'Walk' = 'Walk',
+  'Run' = 'Run',
+  'VirtualRun' = 'VirtualRun',
+  'TrailRun' = 'TrailRun',
+  'Treadmil' = 'Treadmil',
+  'Walk' = 'Walk',
+  'Hike' = 'Hike',
+  'Ride' = 'Ride',
+  'MountainBikeRide' = 'MountainBikeRide',
+  'GravelBikeRide' = 'GravelBikeRide',
+  'VeloMobile' = 'VeloMobile',
+  'VirtialRide' = 'VirtialRide',
+  'HandCycle' = 'HandCycle',
+  'Swim' = 'Swim',
+  'CrossFit' = 'CrossFit',
+  'Elliptical' = 'Elliptical',
+  'StairStepper' = 'StairStepper',
+  'WeightTraining' = 'WeightTraining',
+  'Workout' = 'Workout',
+  'Hiit' = 'Hiit',
+  'Pilates' = 'Pilates',
+  'Yoga' = 'Yoga'
+}
+export enum EnumCategoryActivity {
   'Walk' = 'Walk',
   'Run' = 'Run',
   'VirtualRun' = 'VirtualRun',

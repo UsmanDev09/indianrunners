@@ -27,6 +27,7 @@ export const Constants = {
     hourlyKnockoutChallengesMustHaveCutOffHours: 'Hourly Knockout Challenges must have Cut Off Hours', 
     dailyKnockoutChallengesMustHaveCutOffDays: 'Daily Knockout Challenges must have Cut Off Days',
     challengeNotFound: 'Challenge not found',
+    selectedCategoryDoesNotExitsInChallenge: (categoryId: string) => `Selected category ${categoryId} does not exist in challenge`,
 
     // category
     categoryCreatedSuccessfully: 'Category has been created successfully',
@@ -46,12 +47,22 @@ export const Constants = {
     productCreatedSuccessfully: 'Product has been created successfully',
     productUpdatedSuccessfully: 'Product has been updated successfully',
     productDeletedSuccessfully: 'Product has been deleted successfully',
-    
+    productFetchedSuccessfully: 'Product has been fetched successfully', 
+    productDoesNotExist: 'Product does not exits',
+
     // cart
     cartCreatedSuccessfully: 'Cart has been created successfully',
     cartUpdatedSuccessfully: 'Cart has been updated successfully',
     cartFetchedSuccessfully: 'Cart has been fetched successfully',
     cartIsEmpty: 'Your cart is empty',
+    itemTypeIsWrong: 'Item Type is wrong', 
+    productAddedToCartSuccessfully: 'Product has been added to cart successfuly',
+    challengeAddedToCartSuccessfully: 'Challenge has been added to cart successfully', 
+    challengeRemovedFromCartSuccessfully: 'Challenge has been removed from cart successfully', 
+    productRemovedFromCartSuccessfully: 'Product has been removed from cart successfully', 
+    productIsOutOfStock: 'Product is out of stock',
+    productQuantityIsMissing: 'Product quantity is missing',
+
     // shipping details
     shippingDetailsAddedSuccessfully: 'Shipping details has been added successfully',
 
@@ -74,7 +85,16 @@ export const Constants = {
     // leaderboard
     leaderboardNotFound: 'Leaderboard not found',
     leaderboardIsEmpty: 'Leaderboard is empty',
+    leaderboardFetchedSuccessfully: 'Leaderboard feched successfully',
     
+    //inventory 
+    inventoryCreatedSuccessfully: 'Product has been added to inventory',
+    inventoryUpdatedSuccessfully: 'Product has been updated in inventory',
+    productDeletedFromInventorySuccessfully: 'Product has been deleted from inventory',
+    inventoryDoesNotExist: 'Inventory does not exist',
+
+    // strava
+    stravaServerError: 'Error from Strava Server',
     invalidId: 'Invalid id',
     notFound: 'Not found',
     recordFound: 'Record found',

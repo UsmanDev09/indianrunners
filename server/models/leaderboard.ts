@@ -1,7 +1,8 @@
-import mongoose, { InferSchemaType, model, Schema } from 'mongoose'
+import mongoose, { InferSchemaType, model, Schema, Types} from 'mongoose'
+import { Category } from './challengeCategory'
+import { Challenge } from './challenge'
 
 const leaderboardSchema = new Schema({
-    _id: { type: mongoose.Schema.Types.ObjectId },  
     userDetails: [{
         user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
         rank: { type: Number },
@@ -16,6 +17,23 @@ const leaderboardSchema = new Schema({
 
 }, { timestamps: true })
 
-export type Leaderboard = InferSchemaType<typeof leaderboardSchema>
+
+type UserDetails = {
+    user: mongoose.Types.ObjectId
+    rank: Number
+    distance: Number
+    pace: Number
+    qualifiedDays: Number
+    qualifiedHours: Number
+    IRPassport: Number
+}
+
+export interface Leaderboard extends Document {
+    _id: Types.ObjectId,
+    userDetails: UserDetails[]
+    challenge: Challenge
+    category: Category
+}
+
 
 export default model<Leaderboard>('Leaderboard', leaderboardSchema)

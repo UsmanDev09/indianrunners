@@ -5,6 +5,7 @@ import env from '../utility/validateEnv'
 import UserModel from '../models/user';
 import logger from "../config/logger";
 import { User } from '../interfaces/user';
+import { Types } from 'mongoose';
 
 // passport.use(new GoogleStrategy({
 //     clientID: env.GOOGLE_CLIENT_ID,
@@ -16,7 +17,7 @@ import { User } from '../interfaces/user';
 // }))
 
 type JWTToken = { 
-    user: User
+    userId: Types.ObjectId
 }
 
 const options = {
@@ -26,9 +27,9 @@ const options = {
 
 export default passport.use(new JWTStrategy(options, async(token: JWTToken, done: VerifiedCallback) => {
     try {
-
-        const user = await UserModel.findById(token.user._id)
-        if (user) done(null, token.user) 
+        const user = await UserModel.findById(token.userId)
+        
+        if (user) done(null, token.userId) 
         else done(null, false)
 
     } catch (error) {

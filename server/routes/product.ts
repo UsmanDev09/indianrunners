@@ -3,15 +3,16 @@ import express from 'express'
 import * as Product from '../controllers/product'
 import { checkIsinRole } from "../utility/checkIsInRoles"
 import { ROLES } from "../utility/constants"
+import passport from 'passport'
 
 const router = express.Router()
 
-router.post('/product', checkIsinRole(ROLES.ADMIN), Product.createProduct)
+router.post('/', passport.authenticate('jwt', { session: false }), Product.createProduct)
 
-router.put('/product', checkIsinRole(ROLES.ADMIN), Product.updateProduct)
+// router.put('/product', checkIsinRole(ROLES.ADMIN), Product.updateProduct)
 
-router.delete('/product', checkIsinRole(ROLES.ADMIN), Product.deleteProduct)
+router.delete('/', Product.deleteProduct)
 
-router.get('/product', Product.getAllProducts)
+router.get('/', Product.getAllProducts)
 
 export default router

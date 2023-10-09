@@ -17,7 +17,6 @@ const Logo = ({ userPrefs, setUserPrefs }: Props) => {
     useEffect(() => {
 
     }, [userPrefs])
-    console.log(userPrefs)
 return (
     userPrefs.darkMode ? 
         (

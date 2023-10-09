@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T) => void] {
-  let initial; 
+  let initial = null; 
 
   if (typeof window !== 'undefined') {
     const storedValue = localStorage.getItem(key);

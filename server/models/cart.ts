@@ -1,16 +1,18 @@
 import { InferSchemaType, model, Schema } from 'mongoose'
 import challengeSchema from './challenge'
 import challengeCategorySchema from './challengeCategory'
+import productSchema from './product'
 
 const cartSchema = new Schema({
     itemType: { type: String, enum: ['challenge', 'product'], required: [true, 'Item type is required']},
     itemDetails: [{ 
         challenge: { type: challengeSchema.schema },
-        challengeCategories: { type: [challengeCategorySchema.schema], default: [] },  
+        challengeCategories: { type: [challengeCategorySchema.schema], default: [] },
+        product: { type: productSchema.schema },
+        productQuantity: { type: Number } 
     }]
 }, { timestamps: true })
 
-cartSchema.index({ 'itemDetails.challenge': 1, 'itemDetails.challengeCategories': 1 }, { unique: true, });
 
 export type Cart = InferSchemaType<typeof cartSchema>
 
