@@ -2,6 +2,7 @@ import { useState } from "react";
 import Banner from "@/components/Banner";
 import { Josefin_Sans } from "next/font/google";
 
+
 import socket from '../socket';
 import Chair from "../Assets/chair.png";
 import Prod2 from "../Assets/Prod2.png";
@@ -35,11 +36,14 @@ export default function Home() {
         description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Magna in est adipiscing in phasellus non in justo."
         picture={Chair}
       />
-      <CardList
-        title="Featured Challenges"
-        setChallenges={setchall}
-        ItemCard_List={ItemCards}
-      />
+      <div className=" p-8 dark:bg-dark-gray-800 border-gray mt-10">
+        <CardList
+          title="Featured Challenges"
+          setChallenges={setchall}
+          ItemCard_List={ItemCards}
+        />
+
+      </div>
     </div>
   );
 }

@@ -5,7 +5,7 @@ const josef = Josefin_Sans({ subsets: ["latin"] });
 
 const HeaderMenu = () => {
   return (
-    <div className="hidden sm:flex items-center grow">
+    <div className="hidden sm:flex items-center grow dark:text-white">
       <button role="menu" tabIndex={-1}>
         <Link
           className={`${josef.className}  mr-2 text-base`}
@@ -22,5 +22,7 @@ const HeaderMenu = () => {
     </div>
   );
 };
+
+
 
 export default HeaderMenu;

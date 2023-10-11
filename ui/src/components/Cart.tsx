@@ -19,31 +19,23 @@ const Cart = ({ title, price, picture }: ItemCard_Props) => {
   const [cart, setCart] = useState([]);
 
   const handleDecrement = (item: ItemDetail_Props) => {
-    const value = (
-      document.getElementById(
-        `product-${item.itemDetails[0].challenge.name}`
-      ) as HTMLInputElement
-    ).value;
+    const value = (document.getElementById(
+      `product-${item.itemDetails[0].challenge.name}`
+    ) as HTMLInputElement).value;
     const newVal = parseInt(value) - 1;
-    (
-      document.getElementById(
-        `product-${item.itemDetails[0].challenge.name}`
-      ) as HTMLInputElement
-    ).value = newVal.toString();
+    (document.getElementById(
+      `product-${item.itemDetails[0].challenge.name}`
+    ) as HTMLInputElement).value = newVal.toString();
   };
 
   const handleIncrement = (item: ItemDetail_Props) => {
-    const value = (
-      document.getElementById(
-        `product-${item.itemDetails[0].challenge.name}`
-      ) as HTMLInputElement
-    ).value;
+    const value = (document.getElementById(
+      `product-${item.itemDetails[0].challenge.name}`
+    ) as HTMLInputElement).value;
     const newVal = parseInt(value) + 1;
-    (
-      document.getElementById(
-        `product-${item.itemDetails[0].challenge.name}`
-      ) as HTMLInputElement
-    ).value = newVal.toString();
+    (document.getElementById(
+      `product-${item.itemDetails[0].challenge.name}`
+    ) as HTMLInputElement).value = newVal.toString();
   };
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -56,7 +48,7 @@ const Cart = ({ title, price, picture }: ItemCard_Props) => {
     console.log(cart);
   }, []);
   return (
-    <div className="mt-12 container mx-auto">
+    <div className="mt-12 container mx-auto ">
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left text-gray-500 ">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-pink dark:text-gray-400">

@@ -16,7 +16,7 @@ const AddAdress = (props: any) => {
     },
   ];
   return (
-    <div className="p-16 w-full">
+    <div className="p-16 w-full dark:text-white">
       <p className="font-unica text-[30px] py-5">SHIPPING ADDRESSES</p>
       <div className="max-w-[900px] font-comfortaa">
         {addressArray.map((ele, index) => {

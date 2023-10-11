@@ -60,7 +60,7 @@ const Notifications = ({ notifications }: Props) => {
         onClick={onClickNotifications}
         className="flex items-center"
       >
-        <IoIosNotificationsOutline className="w-8 h-8 mt-1 text-icons-color dark:text-black" />
+        <IoIosNotificationsOutline className="w-8 h-8 mt-1 text-icons-color dark:text-white" />
       </button>
       {createPortal(
         <div
