@@ -2,8 +2,7 @@ import { RequestHandler } from "express"
 import bcrypt from 'bcrypt'
 import createHttpError from 'http-errors'
 import jwt from 'jsonwebtoken'
-import { v2 as cloudinary } from "cloudinary"
-import { uuid } from 'uuidv4'
+import { Types } from "mongoose"
 
 import env from '../utility/validateEnv'
 import logger from "../config/logger"
@@ -15,7 +14,7 @@ import { StatusCodes } from "http-status-codes"
 import { Constants } from "../utility/constants"
 import { createUser, findUser, findUserById, sendEmail, updateUser, updateUserById } from "../services/user"
 import { createNotification } from "../services/notification"
-import { Types } from "mongoose"
+import { uploadImageToCloudinary } from "../helpers/helper"
 
 export const login: RequestHandler<unknown, unknown, UserInterface, unknown> = async (req, res, next) => {
    
@@ -182,23 +181,11 @@ export const getProfile: RequestHandler<unknown, unknown, UserInterface, unknown
 export const updateProfile: RequestHandler<unknown, unknown, UserInterface, unknown> = async (req, res, next) => {
     
     try {
-        let imageBuffer: Buffer, base64Image: string, result
-        
+        let result
+         
         if(req.file) {
-            imageBuffer = req.file.buffer;
-            base64Image = imageBuffer.toString('base64');
-            result = await cloudinary.uploader.upload(`data:image/png;base64,${base64Image}`, {
-                folder: 'user', // Optional: specify the folder in Cloudinary
-                public_id: uuid() // Optional: specify the public ID for the uploaded file
-              }, (error, result) => {
-                if (error) {
-                  logger.error(error);
-                } else {
-                  logger.info(result);
-                  // `result` contains the details of the uploaded image, including its public URL
-                }
-              });
-        }   
+            result = await uploadImageToCloudinary(req.file, 'badge')         
+        }
 
         const _id = req.user as Types.ObjectId
         const  { dob, weight, gender, height, contact, country, state, city } = req.body

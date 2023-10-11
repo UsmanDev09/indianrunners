@@ -1,4 +1,4 @@
-import { InferSchemaType, model, Schema, Types } from 'mongoose'
+import { model, Schema, Types } from 'mongoose'
 
 const badgeSchema = new Schema({
     name: { type: String, required: [true, 'Badge name is required'] },

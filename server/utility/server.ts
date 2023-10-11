@@ -20,6 +20,7 @@ import paymentRoutes from '../routes/payment'
 import swaggerDocs from "./swagger"
 import leaderboardRoutes from "../routes/leaderboard"
 import inventoryRoutes from '../routes/inventory'
+import landingPageRoutes from "../routes/landingPage"
 
 const app = express()
 
@@ -46,6 +47,8 @@ const server = () => {
     app.use('/api/payment', paymentRoutes)
     app.use('/api/notification', notificationRoutes)
     app.use('/api/leaderboard', leaderboardRoutes)
+    app.use('/api/landingpage', landingPageRoutes)
+
 
     swaggerDocs(app, 5000)
 

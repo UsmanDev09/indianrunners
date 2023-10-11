@@ -20,7 +20,7 @@ router.put('/', passport.authenticate('jwt', { session: false } ), checkIsinRole
 
 router.get('/', passport.authenticate('jwt', { session: false } ), Challenge.getAllChallenges)
 
-router.get('/:id', passport.authenticate('jwt', { session: false } ), Challenge.getChallenge)
+router.get('/:id', passport.authenticate('jwt', { session: false } ), Challenge.getChallengeById)
 
 /**
  * @openapi
