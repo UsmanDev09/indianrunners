@@ -48,7 +48,7 @@ const AccountInfo = (props: any) => {
         </div>
         <div className="w-full border border-black dark:border-white rounded-full p-1 dark:bg-gray-700">
           <div
-            className="bg-pink h-2.5 rounded-full"
+            className="bg-pink h-2.5 rounded-full dark:bg-prodblue"
             style={{ width: `${state.account.profile}%` }}
           ></div>
         </div>
@@ -107,7 +107,7 @@ const AccountInfo = (props: any) => {
         <div>
           <Link
             href="/profile/complete-profile"
-            className="hover:bg-[#A042E1] xs:mb-4 lg:mb-0 dark:text-blue-text hover:text-white dark:bg-pink font-comfortaa inline-flex items-center bg-white  text-gray-800 font-semibold py-2 px-4 rounded-[12px] shadow mt-5"
+            className="hover:bg-[#A042E1] xs:mb-4 lg:mb-0 dark:text-blue-text hover:text-white dark:bg-prodblue dark:hover:bg-gray font-comfortaa inline-flex items-center bg-white  text-gray-800 font-semibold py-2 px-4 rounded-[12px] shadow mt-5"
           >
             <BiPencil className="text-[20px]" /> &nbsp;Complete Profile
           </Link>
