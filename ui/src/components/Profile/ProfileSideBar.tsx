@@ -52,8 +52,8 @@ const SideBar = () => {
     },
     {
       name: "Leaderboard",
-      path: `${path.PROFILE}/leaderboard`
-    }
+      path: `${path.PROFILE}/leaderboard`,
+    },
   ];
   return (
     <div className="w-full md:w-80 mr-32 mt-12" aria-label="Sidebar">
@@ -94,7 +94,7 @@ const SideBar = () => {
                 <li key={index} className="mt-2">
                   <Link
                     href={ele.path}
-                    className="flex items-center p-2 xs:bg-gray-100 xs:ml-2 xl:bg-white xl:ml-0 dark:bg-[#283c54d9] text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                    className="flex items-center p-2 xs:bg-gray-100 xs:ml-2 xl:bg-white xl:ml-0 dark:bg-dark-button dark:hover:bg-gray text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
                   >
                     <span className={"flex-1 whitespace-nowrap "}>
                       {ele.name}

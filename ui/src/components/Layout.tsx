@@ -53,7 +53,7 @@ const Layout = ({
             />
           </Head>
           <div>
-            <nav className="bg-white dark:bg-gray">
+            <nav className="bg-white dark:bg-dark-card">
               <div
                 className={`flex text-black ${josef.className} pt-2.5 justify-between`}
               >
@@ -105,12 +105,12 @@ const Layout = ({
                     <span className="flex items-center">|</span>
                     <button>
                       <Link href="/cart" className="text-base">
-                        <IoCartOutline className="w-8 h-8 text-icons-color dark:text-black" />
+                        <IoCartOutline className="w-8 h-8 text-icons-color dark:text-white" />
                       </Link>
                     </button>
                     <button>
                       <Link href="/profile" className="text-base">
-                        <LiaUserSolid className="w-8 h-8 text-icons-color dark:text-black" />
+                        <LiaUserSolid className="w-8 h-8 text-icons-color dark:text-white" />
                       </Link>
                     </button>
                   </div>

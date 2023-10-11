@@ -16,7 +16,7 @@ const Banner = ({
   picture,
 }: Banner_Props) => {
   return (
-    <div className={`bg-light-pink w-full ${josef.className} dark:bg-violet`}>
+    <div className={`bg-light-pink w-full ${josef.className} dark:bg-dark-green`}>
       <div className={` ${josef.className} container mx-auto grid sm:grid-cols-2 place-items-center h-full`}>
         <div className="flex flex-col justify-center text-center sm:text-left">
           {introduction && (
