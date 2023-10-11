@@ -51,7 +51,7 @@ const Cart = ({ title, price, picture }: ItemCard_Props) => {
     <div className="mt-12 container mx-auto ">
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left text-gray-500 ">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-pink dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-dark dark:text-gray-400">
             <tr className="dark:text-blue-text">
               <th scope="col" className="px-6 py-3 text-center">
                 <span className="sr-only">Image</span>
@@ -159,7 +159,7 @@ const Cart = ({ title, price, picture }: ItemCard_Props) => {
       <div className="flex justify-end text-right pt-12">
         <button
           type="button"
-          className=" text-white bg-pink hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          className=" text-white bg-pink hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 dark:bg-dark-button"
         >
           <svg
             className="w-3.5 h-3.5 mr-2"
@@ -174,7 +174,7 @@ const Cart = ({ title, price, picture }: ItemCard_Props) => {
         </button>
         <button
           type="button"
-          className=" text-white bg-pink focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          className=" text-white bg-pink focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 dark:bg-dark-button"
         >
           Choose plan
           <svg
