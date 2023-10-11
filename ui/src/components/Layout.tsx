@@ -53,7 +53,7 @@ const Layout = ({
             />
           </Head>
           <div>
-            <nav className="bg-white dark:bg-dark">
+            <nav className="bg-white dark:bg-dark-card">
               <div
                 className={`flex text-black ${josef.className} pt-2.5 justify-between`}
               >
