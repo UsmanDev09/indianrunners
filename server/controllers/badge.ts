@@ -2,15 +2,24 @@ import { RequestHandler } from "express"
 import createHttpError from "http-errors"
 import { StatusCodes } from "http-status-codes"
 import mongoose from "mongoose"
-
+import { v2 as cloudinary } from 'cloudinary'
+import { uuid } from 'uuidv4'
 import { Badge } from "../interfaces/badge"
 import BadgeModel from "../models/badge"
 import { Constants } from "../utility/constants"
 import logger from "../config/logger"
+import { uploadImageToCloudinary } from '../helpers/helper'
 
 export const createBadge: RequestHandler<unknown, unknown, Badge, unknown> = async (req, res, next) => {
+    let result;
+    
     try {
-        const badge = await BadgeModel.create(req.body)        
+        
+        if(req.file) {
+            result = await uploadImageToCloudinary(req.file, 'badge')         
+        }
+
+        const badge = await BadgeModel.create({ ...req.body, image: result?.secure_url })        
  
         res.status(StatusCodes.OK).json({
             success: true,

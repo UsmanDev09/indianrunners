@@ -98,6 +98,10 @@ export const Constants = {
 
     // file
     fileNotFound: 'File not found',
+
+    // landing page 
+    landingPageSuccessfullyFetched: 'Landing Page Successfully fetched',
+    
     invalidId: 'Invalid id',
     notFound: 'Not found',
     recordFound: 'Record found',

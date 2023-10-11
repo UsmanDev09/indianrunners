@@ -13,13 +13,14 @@ import LeaderboardModel from "../models/leaderboard"
 import { Constants } from "../utility/constants"
 import { User } from "../interfaces/user"
 import logger from "../config/logger"
-
+import { uploadImageToCloudinary } from "../helpers/helper"
 
 export const createChallenge: RequestHandler<unknown, Response, ChallengeInterface, unknown> = async (req, res, next) => {
+    
     try {
         const { type, name, activity, knockout, knockoutType, lowerLimit, upperLimit, fixedLimit, cutOffDays, cutOffHours, image, startDate, endDate, tags, price, bibNumber, featured, verified, organizationName, categories } = req?.body
-        let imageBuffer: Buffer, base64Image: string, result
-        
+        let result;
+
         if (type === 'open' && lowerLimit === undefined)
             throw createHttpError(StatusCodes.BAD_REQUEST, Constants.openChallengesShouldHaveLowerLimit) 
     
@@ -54,20 +55,9 @@ export const createChallenge: RequestHandler<unknown, Response, ChallengeInterfa
         // cloudinary.uploader
         // .upload("my_image.jpg")
         // .then(result=>console.log(result));
+         
         if(req.file) {
-            imageBuffer = req.file.buffer;
-            base64Image = imageBuffer.toString('base64');
-            result = await cloudinary.uploader.upload(`data:image/png;base64,${base64Image}`, {
-                folder: 'challenge', // Optional: specify the folder in Cloudinary
-                public_id: uuid() // Optional: specify the public ID for the uploaded file
-              }, (error, result) => {
-                if (error) {
-                  logger.error(error);
-                } else {
-                  logger.info(result);
-                  // `result` contains the details of the uploaded image, including its public URL
-                }
-              });
+            result = await uploadImageToCloudinary(req.file, 'badge')         
         }
 
         if (categories) {
@@ -207,7 +197,7 @@ export const getAllChallenges: RequestHandler<unknown, Responses, ChallengeInter
 
 }
 
-export const getChallenge: RequestHandler<{ id: number }, Response, ChallengeInterface, ChallengeInterface> = async (req, res, next) => { 
+export const getChallengeById: RequestHandler<{ id: number }, Response, ChallengeInterface, ChallengeInterface> = async (req, res, next) => { 
     const { id } = req.params
 
     const challenge = await ChallengeModel.findById(id)
