@@ -70,12 +70,12 @@ const LoginForm = () => {
       className={`flex place-content-center ${josef.className} drop-shadow-md`}
     >
       <form
-        className="flex flex-col items-center bg-prod dark:bg-dark-green rounded justify-center h-screen w-screen"
+        className="flex flex-col items-center bg-prod dark:bg-dark rounded justify-center h-screen w-screen"
         onSubmit={submitForm}
       >
         <section className="bg-gray-50 dark:bg-gray-900 sm:w-1/2">
           <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-            <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-lg xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+            <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-lg xl:p-0 dark:bg-prodblue dark:border-gray-700">
               <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                 <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                   Log In
@@ -122,11 +122,11 @@ const LoginForm = () => {
                   <div className="ml-3 text-sm">
                     <label
                       htmlFor="terms"
-                      className="font-light text-gray-500 dark:text-gray-300"
+                      className="font-light text-gray-500 dark:text-white"
                     >
                       I accept the{" "}
                       <a
-                        className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                        className="font-medium text-primary-600 hover:underline dark:text-white"
                         href="#"
                       >
                         Terms and Conditions
@@ -142,7 +142,7 @@ const LoginForm = () => {
                 </button>
                 <Link
                   href={"/signup"}
-                  className="rounded text-center text-black text-underline underline  p-2"
+                  className="rounded text-center text-black text-underline underline  p-2 dark: text-white"
                 >
                   Sign Up
                 </Link>
