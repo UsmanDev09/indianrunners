@@ -138,7 +138,11 @@ const Certificate = ({
         alt=""
         id="certificate"
         onLoad={loadImage}
-        style={{ display: "none" }}
+        style={{
+          display: "block",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
       ></img>
     </div>
   );
