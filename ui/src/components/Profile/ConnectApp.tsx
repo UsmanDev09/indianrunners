@@ -9,31 +9,31 @@ const ConnectApp = () => {
   const { code } = router.query;
   const token = localStorage.getItem("token");
   console.log(code);
-  useEffect(() => {
-    console.log("fetching");
-    try {
-      if (code) {
-        console.log(code);
-        fetch("http://localhost:5000/api/activity", {
-          method: "POST",
-          mode: "cors",
-          cache: "no-cache",
-          credentials: "same-origin",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          redirect: "follow",
-          referrerPolicy: "no-referrer",
-          body: JSON.stringify({
-            code,
-          }),
-        }).then((activities) => console.log(activities));
-      }
-    } catch (err) {
-      if (err instanceof Error) console.error(err);
-    }
-  }, [code]);
+  // useEffect(() => {
+  //   console.log("fetching");
+  //   try {
+  //     if (code) {
+  //       console.log(code);
+  //       fetch("http://localhost:5000/api/activity", {
+  //         method: "POST",
+  //         mode: "cors",
+  //         cache: "no-cache",
+  //         credentials: "same-origin",
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //           "Content-Type": "application/json",
+  //         },
+  //         redirect: "follow",
+  //         referrerPolicy: "no-referrer",
+  //         body: JSON.stringify({
+  //           code,
+  //         }),
+  //       }).then((activities) => console.log(activities));
+  //     }
+  //   } catch (err) {
+  //     if (err instanceof Error) console.error(err);
+  //   }
+  // }, [code, token]);
 
   return (
     <div className="w-full h-auto ml-8  mt-8 max-w-sm p-4 rounded-lg  sm:p-6  dark:border-gray-700 dark:text-white">

@@ -24,10 +24,15 @@ export default function OrderHistoryPage({ token, cart }: Props) {
   );
 }
 
-export const getServerSideProps: GetStaticProps = async ({ params }) => {
+import { GetServerSideProps } from "next";
+
+export const getServerSideProps: GetServerSideProps = async ({}) => {
   try {
     return { props: {} };
-  } catch (err: any) {
-    return { props: { errors: err.message } };
+  } catch (err) {
+    if (err instanceof Error) {
+      return { props: { errors: err.message } };
+    }
+    return { props: { errors: "An unknown error occurred." } };
   }
 };
