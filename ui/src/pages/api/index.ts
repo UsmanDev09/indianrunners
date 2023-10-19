@@ -5,7 +5,7 @@
 /** Generate by swagger-axios-codegen */
 /* eslint-disable */
 // @ts-nocheck
-import axiosStatic, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import axiosStatic, { AxiosInstance, AxiosRequestConfig } from "axios";
 
 export interface IRequestOptions extends AxiosRequestConfig {
   /** only in axios interceptor config*/
@@ -33,37 +33,46 @@ export interface ServiceOptions {
 export const serviceOptions: ServiceOptions = {};
 
 // Instance selector
-export function axios(configs: IRequestConfig, resolve: (p: any) => void, reject: (p: any) => void): Promise<any> {
+export function axios(
+  configs: IRequestConfig,
+  resolve: (p: any) => void,
+  reject: (p: any) => void
+): Promise<any> {
   if (serviceOptions.axios) {
     return serviceOptions.axios
       .request(configs)
-      .then(res => {
+      .then((res) => {
         resolve(res.data);
       })
-      .catch(err => {
+      .catch((err) => {
         reject(err);
       });
   } else {
-    throw new Error('please inject yourself instance like axios  ');
+    throw new Error("please inject yourself instance like axios  ");
   }
 }
 
-export function getConfigs(method: string, contentType: string, url: string, options: any): IRequestConfig {
+export function getConfigs(
+  method: string,
+  contentType: string,
+  url: string,
+  options: any
+): IRequestConfig {
   const configs: IRequestConfig = {
     loading: serviceOptions.loading,
     showError: serviceOptions.showError,
     ...options,
     method,
-    url
+    url,
   };
   configs.headers = {
     ...options.headers,
-    'Content-Type': contentType
+    "Content-Type": contentType,
   };
   return configs;
 }
 
-export const basePath = '';
+export const basePath = "";
 
 export interface IList<T> extends Array<T> {}
 export interface List<T> extends Array<T> {}
@@ -97,11 +106,18 @@ export class ApiService {
   /**
    *
    */
-  static authorizeToGetActivityFromStrava(options: IRequestOptions = {}): Promise<AuthorizeStravaResponse> {
+  static authorizeToGetActivityFromStrava(
+    options: IRequestOptions = {}
+  ): Promise<AuthorizeStravaResponse> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/activity';
+      let url = basePath + "/api/activity";
 
-      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+      const configs: IRequestConfig = getConfigs(
+        "post",
+        "application/json",
+        url,
+        options
+      );
 
       let data = null;
 
@@ -113,25 +129,40 @@ export class ApiService {
   /**
    *
    */
-  static getActivities(options: IRequestOptions = {}): Promise<ActivityApiResponse> {
+  static getActivities(
+    options: IRequestOptions = {},
+    token: any
+  ): Promise<ActivityApiResponse> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/activity';
+      let url = basePath + "/api/activity";
 
-      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+      const configs: IRequestConfig = getConfigs(
+        "get",
+        "application/json",
+        url,
+        options
+      );
 
       /** 适配ios13，get请求不允许带body */
 
-      axios(configs, resolve, reject);
+      axios(configs, resolve, reject, token);
     });
   }
   /**
    *
    */
-  static createBadges(options: IRequestOptions = {}): Promise<CreateBadgeApiResponse> {
+  static createBadges(
+    options: IRequestOptions = {}
+  ): Promise<CreateBadgeApiResponse> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/badge';
+      let url = basePath + "/api/badge";
 
-      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+      const configs: IRequestConfig = getConfigs(
+        "post",
+        "application/json",
+        url,
+        options
+      );
 
       let data = null;
 
@@ -145,9 +176,14 @@ export class ApiService {
    */
   static getBadges(options: IRequestOptions = {}): Promise<BadgeApiResponse> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/badge';
+      let url = basePath + "/api/badge";
 
-      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+      const configs: IRequestConfig = getConfigs(
+        "get",
+        "application/json",
+        url,
+        options
+      );
 
       /** 适配ios13，get请求不允许带body */
 
@@ -157,11 +193,18 @@ export class ApiService {
   /**
    *
    */
-  static removeChallengeToCart(options: IRequestOptions = {}): Promise<CartApiResponse> {
+  static removeChallengeToCart(
+    options: IRequestOptions = {}
+  ): Promise<CartApiResponse> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/cart';
+      let url = basePath + "/api/cart";
 
-      const configs: IRequestConfig = getConfigs('put', 'application/json', url, options);
+      const configs: IRequestConfig = getConfigs(
+        "put",
+        "application/json",
+        url,
+        options
+      );
 
       let data = null;
 
@@ -173,11 +216,18 @@ export class ApiService {
   /**
    *
    */
-  static addChallengeToCart(options: IRequestOptions = {}): Promise<CartApiResponse> {
+  static addChallengeToCart(
+    options: IRequestOptions = {}
+  ): Promise<CartApiResponse> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/cart';
+      let url = basePath + "/api/cart";
 
-      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+      const configs: IRequestConfig = getConfigs(
+        "post",
+        "application/json",
+        url,
+        options
+      );
 
       let data = null;
 
@@ -191,9 +241,14 @@ export class ApiService {
    */
   static getCart(options: IRequestOptions = {}): Promise<CartApiResponse> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/cart';
+      let url = basePath + "/api/cart";
 
-      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+      const configs: IRequestConfig = getConfigs(
+        "get",
+        "application/json",
+        url,
+        options
+      );
 
       /** 适配ios13，get请求不允许带body */
 
@@ -211,19 +266,27 @@ export class ApiService {
     options: IRequestOptions = {}
   ): Promise<ChallengeApiResponse> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/challenge';
+      let url = basePath + "/api/challenge";
 
-      const configs: IRequestConfig = getConfigs('post', 'multipart/form-data', url, options);
+      const configs: IRequestConfig = getConfigs(
+        "post",
+        "multipart/form-data",
+        url,
+        options
+      );
 
       let data = null;
       data = new FormData();
-      if (params['challengeData']) {
-        if (Object.prototype.toString.call(params['challengeData']) === '[object Array]') {
-          for (const item of params['challengeData']) {
-            data.append('challengeData', item as any);
+      if (params["challengeData"]) {
+        if (
+          Object.prototype.toString.call(params["challengeData"]) ===
+          "[object Array]"
+        ) {
+          for (const item of params["challengeData"]) {
+            data.append("challengeData", item as any);
           }
         } else {
-          data.append('challengeData', params['challengeData'] as any);
+          data.append("challengeData", params["challengeData"] as any);
         }
       }
 
@@ -235,11 +298,18 @@ export class ApiService {
   /**
    *
    */
-  static getAllChallenges(options: IRequestOptions = {}): Promise<ChallengeApiResponse> {
+  static getAllChallenges(
+    options: IRequestOptions = {}
+  ): Promise<ChallengeApiResponse> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/challenge';
+      let url = basePath + "/api/challenge";
 
-      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+      const configs: IRequestConfig = getConfigs(
+        "get",
+        "application/json",
+        url,
+        options
+      );
 
       /** 适配ios13，get请求不允许带body */
 
@@ -249,11 +319,18 @@ export class ApiService {
   /**
    *
    */
-  static createChallengeCategory(options: IRequestOptions = {}): Promise<ChallengeCategoryApiResponse> {
+  static createChallengeCategory(
+    options: IRequestOptions = {}
+  ): Promise<ChallengeCategoryApiResponse> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/challengeCategory';
+      let url = basePath + "/api/challengeCategory";
 
-      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+      const configs: IRequestConfig = getConfigs(
+        "post",
+        "application/json",
+        url,
+        options
+      );
 
       let data = null;
 
@@ -265,11 +342,18 @@ export class ApiService {
   /**
    *
    */
-  static getAllChallengeCategory(options: IRequestOptions = {}): Promise<ChallengeCategoryApiResponse> {
+  static getAllChallengeCategory(
+    options: IRequestOptions = {}
+  ): Promise<ChallengeCategoryApiResponse> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/challengeCategory';
+      let url = basePath + "/api/challengeCategory";
 
-      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+      const configs: IRequestConfig = getConfigs(
+        "get",
+        "application/json",
+        url,
+        options
+      );
 
       /** 适配ios13，get请求不允许带body */
 
@@ -279,11 +363,40 @@ export class ApiService {
   /**
    *
    */
-  static getLeaderboards(options: IRequestOptions = {}): Promise<LeaderboardApiResponse> {
+  static getLeaderboards(
+    options: IRequestOptions = {},
+    token: any
+  ): Promise<LeaderboardApiResponse> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/leaderboard';
+      let url = basePath + "/api/leaderboard";
 
-      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+      const configs: IRequestConfig = getConfigs(
+        "get",
+        "application/json",
+        url,
+        options
+      );
+
+      /** 适配ios13，get请求不允许带body */
+
+      axios(configs, resolve, reject, token);
+    });
+  }
+  /**
+   *
+   */
+  static getAllNotifications(
+    options: IRequestOptions = {}
+  ): Promise<NotificationApiResponse> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + "/api/notification";
+
+      const configs: IRequestConfig = getConfigs(
+        "get",
+        "application/json",
+        url,
+        options
+      );
 
       /** 适配ios13，get请求不允许带body */
 
@@ -293,25 +406,18 @@ export class ApiService {
   /**
    *
    */
-  static getAllNotifications(options: IRequestOptions = {}): Promise<NotificationApiResponse> {
+  static createShippingDetail(
+    options: IRequestOptions = {}
+  ): Promise<ShippingDetailApiResponse> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/notification';
+      let url = basePath + "/api/shippingDetail";
 
-      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
-
-      /** 适配ios13，get请求不允许带body */
-
-      axios(configs, resolve, reject);
-    });
-  }
-  /**
-   *
-   */
-  static createShippingDetail(options: IRequestOptions = {}): Promise<ShippingDetailApiResponse> {
-    return new Promise((resolve, reject) => {
-      let url = basePath + '/api/shippingDetail';
-
-      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+      const configs: IRequestConfig = getConfigs(
+        "post",
+        "application/json",
+        url,
+        options
+      );
 
       let data = null;
 
@@ -326,11 +432,18 @@ export class ChallengeService {
   /**
    *
    */
-  static getChallenge(options: IRequestOptions = {}): Promise<ChallengeApiResponse> {
+  static getChallenge(
+    options: IRequestOptions = {}
+  ): Promise<ChallengeApiResponse> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/challenge/:id';
+      let url = basePath + "/api/challenge/:id";
 
-      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+      const configs: IRequestConfig = getConfigs(
+        "get",
+        "application/json",
+        url,
+        options
+      );
 
       /** 适配ios13，get请求不允许带body */
 
@@ -345,9 +458,14 @@ export class UserService {
    */
   static login(options: IRequestOptions = {}): Promise<UserApiResponse> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/user/login';
+      let url = basePath + "/api/user/login";
 
-      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+      const configs: IRequestConfig = getConfigs(
+        "post",
+        "application/json",
+        url,
+        options
+      );
 
       let data = null;
 
@@ -361,9 +479,14 @@ export class UserService {
    */
   static register(options: IRequestOptions = {}): Promise<any> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/user/register';
+      let url = basePath + "/api/user/register";
 
-      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+      const configs: IRequestConfig = getConfigs(
+        "post",
+        "application/json",
+        url,
+        options
+      );
 
       let data = null;
 
@@ -383,10 +506,15 @@ export class UserService {
     options: IRequestOptions = {}
   ): Promise<any> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/user/otp';
+      let url = basePath + "/api/user/otp";
 
-      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
-      configs.params = { email: params['email'] };
+      const configs: IRequestConfig = getConfigs(
+        "get",
+        "application/json",
+        url,
+        options
+      );
+      configs.params = { email: params["email"] };
 
       /** 适配ios13，get请求不允许带body */
 
@@ -396,15 +524,20 @@ export class UserService {
   /**
    *
    */
-  static getProfile(options: IRequestOptions = {}): Promise<any> {
+  static getProfile(options: IRequestOptions = {}, token: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/user/profile';
+      let url = basePath + "/api/user/profile";
 
-      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+      const configs: IRequestConfig = getConfigs(
+        "get",
+        "application/json",
+        url,
+        options
+      );
 
       /** 适配ios13，get请求不允许带body */
 
-      axios(configs, resolve, reject);
+      axios(configs, resolve, reject, token);
     });
   }
   /**
@@ -412,9 +545,14 @@ export class UserService {
    */
   static updatePassword(options: IRequestOptions = {}): Promise<any> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/user/password';
+      let url = basePath + "/api/user/password";
 
-      const configs: IRequestConfig = getConfigs('put', 'application/json', url, options);
+      const configs: IRequestConfig = getConfigs(
+        "put",
+        "application/json",
+        url,
+        options
+      );
 
       let data = null;
 
@@ -830,147 +968,147 @@ export interface UserApiResponse {
   data?: User[];
 }
 export enum EnumActivityActivityType {
-  'Walk' = 'Walk',
-  'Run' = 'Run',
-  'VirtualRun' = 'VirtualRun',
-  'TrailRun' = 'TrailRun',
-  'Treadmil' = 'Treadmil',
-  'Walk' = 'Walk',
-  'Hike' = 'Hike',
-  'Ride' = 'Ride',
-  'MountainBikeRide' = 'MountainBikeRide',
-  'GravelBikeRide' = 'GravelBikeRide',
-  'VeloMobile' = 'VeloMobile',
-  'VirtialRide' = 'VirtialRide',
-  'HandCycle' = 'HandCycle',
-  'Swim' = 'Swim',
-  'CrossFit' = 'CrossFit',
-  'Elliptical' = 'Elliptical',
-  'StairStepper' = 'StairStepper',
-  'WeightTraining' = 'WeightTraining',
-  'Workout' = 'Workout',
-  'Hiit' = 'Hiit',
-  'Pilates' = 'Pilates',
-  'Yoga' = 'Yoga'
+  "Walk" = "Walk",
+  "Run" = "Run",
+  "VirtualRun" = "VirtualRun",
+  "TrailRun" = "TrailRun",
+  "Treadmil" = "Treadmil",
+  "Walk" = "Walk",
+  "Hike" = "Hike",
+  "Ride" = "Ride",
+  "MountainBikeRide" = "MountainBikeRide",
+  "GravelBikeRide" = "GravelBikeRide",
+  "VeloMobile" = "VeloMobile",
+  "VirtialRide" = "VirtialRide",
+  "HandCycle" = "HandCycle",
+  "Swim" = "Swim",
+  "CrossFit" = "CrossFit",
+  "Elliptical" = "Elliptical",
+  "StairStepper" = "StairStepper",
+  "WeightTraining" = "WeightTraining",
+  "Workout" = "Workout",
+  "Hiit" = "Hiit",
+  "Pilates" = "Pilates",
+  "Yoga" = "Yoga",
 }
 export enum EnumBadgeCriteriaActivities {
-  'Walk' = 'Walk',
-  'Run' = 'Run',
-  'VirtualRun' = 'VirtualRun',
-  'TrailRun' = 'TrailRun',
-  'Treadmil' = 'Treadmil',
-  'Walk' = 'Walk',
-  'Hike' = 'Hike',
-  'Ride' = 'Ride',
-  'MountainBikeRide' = 'MountainBikeRide',
-  'GravelBikeRide' = 'GravelBikeRide',
-  'VeloMobile' = 'VeloMobile',
-  'VirtialRide' = 'VirtialRide',
-  'HandCycle' = 'HandCycle',
-  'Swim' = 'Swim',
-  'CrossFit' = 'CrossFit',
-  'Elliptical' = 'Elliptical',
-  'StairStepper' = 'StairStepper',
-  'WeightTraining' = 'WeightTraining',
-  'Workout' = 'Workout',
-  'Hiit' = 'Hiit',
-  'Pilates' = 'Pilates',
-  'Yoga' = 'Yoga'
+  "Walk" = "Walk",
+  "Run" = "Run",
+  "VirtualRun" = "VirtualRun",
+  "TrailRun" = "TrailRun",
+  "Treadmil" = "Treadmil",
+  "Walk" = "Walk",
+  "Hike" = "Hike",
+  "Ride" = "Ride",
+  "MountainBikeRide" = "MountainBikeRide",
+  "GravelBikeRide" = "GravelBikeRide",
+  "VeloMobile" = "VeloMobile",
+  "VirtialRide" = "VirtialRide",
+  "HandCycle" = "HandCycle",
+  "Swim" = "Swim",
+  "CrossFit" = "CrossFit",
+  "Elliptical" = "Elliptical",
+  "StairStepper" = "StairStepper",
+  "WeightTraining" = "WeightTraining",
+  "Workout" = "Workout",
+  "Hiit" = "Hiit",
+  "Pilates" = "Pilates",
+  "Yoga" = "Yoga",
 }
 export enum EnumBadgeCriteriaCategory {
-  'Single Activity' = 'Single Activity',
-  'Special Achievement' = 'Special Achievement',
-  'Challenge' = 'Challenge',
-  'Total Distance' = 'Total Distance',
-  'Multiple Activities' = 'Multiple Activities'
+  "Single Activity" = "Single Activity",
+  "Special Achievement" = "Special Achievement",
+  "Challenge" = "Challenge",
+  "Total Distance" = "Total Distance",
+  "Multiple Activities" = "Multiple Activities",
 }
 export type ItemType = challenge | product;
 export enum EnumChallengeType {
-  'open' = 'open',
-  'fixed' = 'fixed'
+  "open" = "open",
+  "fixed" = "fixed",
 }
 export enum EnumChallengeActivity {
-  'single' = 'single',
-  'multiple' = 'multiple'
+  "single" = "single",
+  "multiple" = "multiple",
 }
 export enum EnumChallengeKnockoutType {
-  'daily' = 'daily',
-  'hourly' = 'hourly'
+  "daily" = "daily",
+  "hourly" = "hourly",
 }
 export enum EnumChallengeSport {
-  'Walk' = 'Walk',
-  'Run' = 'Run',
-  'VirtualRun' = 'VirtualRun',
-  'TrailRun' = 'TrailRun',
-  'Treadmil' = 'Treadmil',
-  'Walk' = 'Walk',
-  'Hike' = 'Hike',
-  'Ride' = 'Ride',
-  'MountainBikeRide' = 'MountainBikeRide',
-  'GravelBikeRide' = 'GravelBikeRide',
-  'VeloMobile' = 'VeloMobile',
-  'VirtialRide' = 'VirtialRide',
-  'HandCycle' = 'HandCycle',
-  'Swim' = 'Swim',
-  'CrossFit' = 'CrossFit',
-  'Elliptical' = 'Elliptical',
-  'StairStepper' = 'StairStepper',
-  'WeightTraining' = 'WeightTraining',
-  'Workout' = 'Workout',
-  'Hiit' = 'Hiit',
-  'Pilates' = 'Pilates',
-  'Yoga' = 'Yoga'
+  "Walk" = "Walk",
+  "Run" = "Run",
+  "VirtualRun" = "VirtualRun",
+  "TrailRun" = "TrailRun",
+  "Treadmil" = "Treadmil",
+  "Walk" = "Walk",
+  "Hike" = "Hike",
+  "Ride" = "Ride",
+  "MountainBikeRide" = "MountainBikeRide",
+  "GravelBikeRide" = "GravelBikeRide",
+  "VeloMobile" = "VeloMobile",
+  "VirtialRide" = "VirtialRide",
+  "HandCycle" = "HandCycle",
+  "Swim" = "Swim",
+  "CrossFit" = "CrossFit",
+  "Elliptical" = "Elliptical",
+  "StairStepper" = "StairStepper",
+  "WeightTraining" = "WeightTraining",
+  "Workout" = "Workout",
+  "Hiit" = "Hiit",
+  "Pilates" = "Pilates",
+  "Yoga" = "Yoga",
 }
 export enum EnumChallengeCategoryActivity {
-  'Walk' = 'Walk',
-  'Run' = 'Run',
-  'VirtualRun' = 'VirtualRun',
-  'TrailRun' = 'TrailRun',
-  'Treadmil' = 'Treadmil',
-  'Walk' = 'Walk',
-  'Hike' = 'Hike',
-  'Ride' = 'Ride',
-  'MountainBikeRide' = 'MountainBikeRide',
-  'GravelBikeRide' = 'GravelBikeRide',
-  'VeloMobile' = 'VeloMobile',
-  'VirtialRide' = 'VirtialRide',
-  'HandCycle' = 'HandCycle',
-  'Swim' = 'Swim',
-  'CrossFit' = 'CrossFit',
-  'Elliptical' = 'Elliptical',
-  'StairStepper' = 'StairStepper',
-  'WeightTraining' = 'WeightTraining',
-  'Workout' = 'Workout',
-  'Hiit' = 'Hiit',
-  'Pilates' = 'Pilates',
-  'Yoga' = 'Yoga'
+  "Walk" = "Walk",
+  "Run" = "Run",
+  "VirtualRun" = "VirtualRun",
+  "TrailRun" = "TrailRun",
+  "Treadmil" = "Treadmil",
+  "Walk" = "Walk",
+  "Hike" = "Hike",
+  "Ride" = "Ride",
+  "MountainBikeRide" = "MountainBikeRide",
+  "GravelBikeRide" = "GravelBikeRide",
+  "VeloMobile" = "VeloMobile",
+  "VirtialRide" = "VirtialRide",
+  "HandCycle" = "HandCycle",
+  "Swim" = "Swim",
+  "CrossFit" = "CrossFit",
+  "Elliptical" = "Elliptical",
+  "StairStepper" = "StairStepper",
+  "WeightTraining" = "WeightTraining",
+  "Workout" = "Workout",
+  "Hiit" = "Hiit",
+  "Pilates" = "Pilates",
+  "Yoga" = "Yoga",
 }
 export enum EnumCategoryActivity {
-  'Walk' = 'Walk',
-  'Run' = 'Run',
-  'VirtualRun' = 'VirtualRun',
-  'TrailRun' = 'TrailRun',
-  'Treadmil' = 'Treadmil',
-  'Walk' = 'Walk',
-  'Hike' = 'Hike',
-  'Ride' = 'Ride',
-  'MountainBikeRide' = 'MountainBikeRide',
-  'GravelBikeRide' = 'GravelBikeRide',
-  'VeloMobile' = 'VeloMobile',
-  'VirtialRide' = 'VirtialRide',
-  'HandCycle' = 'HandCycle',
-  'Swim' = 'Swim',
-  'CrossFit' = 'CrossFit',
-  'Elliptical' = 'Elliptical',
-  'StairStepper' = 'StairStepper',
-  'WeightTraining' = 'WeightTraining',
-  'Workout' = 'Workout',
-  'Hiit' = 'Hiit',
-  'Pilates' = 'Pilates',
-  'Yoga' = 'Yoga'
+  "Walk" = "Walk",
+  "Run" = "Run",
+  "VirtualRun" = "VirtualRun",
+  "TrailRun" = "TrailRun",
+  "Treadmil" = "Treadmil",
+  "Walk" = "Walk",
+  "Hike" = "Hike",
+  "Ride" = "Ride",
+  "MountainBikeRide" = "MountainBikeRide",
+  "GravelBikeRide" = "GravelBikeRide",
+  "VeloMobile" = "VeloMobile",
+  "VirtialRide" = "VirtialRide",
+  "HandCycle" = "HandCycle",
+  "Swim" = "Swim",
+  "CrossFit" = "CrossFit",
+  "Elliptical" = "Elliptical",
+  "StairStepper" = "StairStepper",
+  "WeightTraining" = "WeightTraining",
+  "Workout" = "Workout",
+  "Hiit" = "Hiit",
+  "Pilates" = "Pilates",
+  "Yoga" = "Yoga",
 }
 export enum EnumNotificationType {
-  'badges' = 'badges',
-  'challenge' = 'challenge',
-  'user' = 'user'
+  "badges" = "badges",
+  "challenge" = "challenge",
+  "user" = "user",
 }

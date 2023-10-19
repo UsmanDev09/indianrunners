@@ -33,7 +33,7 @@ const ConnectApp = () => {
     } catch (err) {
       if (err instanceof Error) console.error(err);
     }
-  }, [code]);
+  }, [code, token]);
 
   return (
     <div className="w-full h-auto ml-8  mt-8 max-w-sm p-4 rounded-lg  sm:p-6  dark:border-gray-700 dark:text-white">

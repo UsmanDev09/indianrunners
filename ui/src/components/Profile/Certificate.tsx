@@ -1,12 +1,8 @@
-import { MyGlobalContext } from "@/Hooks/useGlobalContext";
 import getAccount from "@/lib/getAccount";
 import { Josefin_Sans } from "next/font/google";
-import Image from "next/image";
-import Link from "next/link";
-import { useContext, useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import {
   AiFillCloseCircle,
-  AiFillPrinter,
   AiOutlineCloudDownload,
 } from "react-icons/ai";
 import { Cloudinary } from "@cloudinary/url-gen";
@@ -54,7 +50,7 @@ const Certificate = ({
     data.append("upload_preset", "certificate");
     data.append("cloud_name", "da39zmhtv");
     data.append("public_id", `${account.firstName}_Cycling`);
-    fetch("  https://api.cloudinary.com/v1_1/da39zmhtv/image/upload", {
+    fetch("https://api.cloudinary.com/v1_1/da39zmhtv/image/upload", {
       method: "post",
       body: data,
     })
@@ -138,7 +134,11 @@ const Certificate = ({
         alt=""
         id="certificate"
         onLoad={loadImage}
-        style={{ display: "none" }}
+        style={{
+          display: "block",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
       ></img>
     </div>
   );
