@@ -2,6 +2,7 @@ import { ContextProvider } from "@/Context/ContextProvider";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { useEffect, useState } from "react";
+import NextNProgress from 'nextjs-progressbar';
 
 import Toast from '../components/Toast';
 import Layout from "@/components/Layout";
@@ -34,6 +35,7 @@ export default function App({ Component, pageProps }: AppProps) {
   
   return (
     <ContextProvider>
+      <NextNProgress />
       <Layout notifications={notifications && notifications.length > 5 ? notifications.splice(0, 5) : notifications}>
         {notification && (
           <Toast notification={notification}/>
