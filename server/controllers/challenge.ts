@@ -6,7 +6,6 @@ import { v2 as cloudinary } from 'cloudinary'
 import { uuid } from 'uuidv4'
 
 import { Challenge as ChallengeInterface } from "../models/challenge"
-import { Response, Responses } from "../interfaces/response"
 import ChallengeModel from "../models/challenge"
 import CategoryModel, { Category as ChallengeCategoryInterface } from "../models/challengeCategory"
 import LeaderboardModel from "../models/leaderboard"
@@ -15,7 +14,7 @@ import { User } from "../interfaces/user"
 import logger from "../config/logger"
 import { uploadImageToCloudinary } from "../helpers/helper"
 
-export const createChallenge: RequestHandler<unknown, Response, ChallengeInterface, unknown> = async (req, res, next) => {
+export const createChallenge: RequestHandler<unknown, unknown, ChallengeInterface, unknown> = async (req, res, next) => {
     
     try {
         const { type, name, activity, knockout, knockoutType, lowerLimit, upperLimit, fixedLimit, cutOffDays, cutOffHours, image, startDate, endDate, tags, price, bibNumber, featured, verified, organizationName, categories } = req?.body
@@ -75,6 +74,8 @@ export const createChallenge: RequestHandler<unknown, Response, ChallengeInterfa
             }
         )        
     
+        const challenges = await ChallengeModel.find()
+
         const challengeCategories = challenge.categories
 
         const challengeCategoriesPromises = challengeCategories.map(async (category) => {
@@ -85,10 +86,11 @@ export const createChallenge: RequestHandler<unknown, Response, ChallengeInterfa
           });
           
         await Promise.all(challengeCategoriesPromises);
-          
+        
+
         res.status(StatusCodes.OK).json({
             success: true,
-            data: challenge,
+            data: challenges,
             message: Constants.challengeCreatedSuccessfully
         })
 
@@ -144,13 +146,13 @@ export const deleteChallenge: RequestHandler< { id:number }, unknown, ChallengeI
 
 }
 
-export const getAllChallenges: RequestHandler<unknown, Responses, ChallengeInterface, any> = async (req, res, next) => { 
+export const getAllChallenges: RequestHandler<unknown, unknown, ChallengeInterface, any> = async (req, res, next) => { 
     interface PriceFilter {
         $gte?: number;
         $lte?: number;
     }
 
-    const { name, type, activity, knockout, knockoutType, sport, featured, verified, minPrice, maxPrice } = req.query
+    const { name, type, activity, knockout, knockoutType, sport, featured, verified, minPrice, maxPrice, page, pageSize } = req.query
     
 
     const filters: { [key: string]: RegExp | boolean | PriceFilter  } = {}; 
@@ -187,7 +189,8 @@ export const getAllChallenges: RequestHandler<unknown, Responses, ChallengeInter
     if (name === 'asc' || name === 'desc')
         sort.name = name
 
-    const challenges = await ChallengeModel.find(filters).sort(sort)
+    const challenges = await ChallengeModel.find(filters).sort(sort).skip((page - 1) * pageSize)
+    .limit(pageSize);
 
     res.status(StatusCodes.OK).json({
         success: true,
@@ -197,7 +200,7 @@ export const getAllChallenges: RequestHandler<unknown, Responses, ChallengeInter
 
 }
 
-export const getChallengeById: RequestHandler<{ id: number }, Response, ChallengeInterface, ChallengeInterface> = async (req, res, next) => { 
+export const getChallengeById: RequestHandler<{ id: number }, unknown, ChallengeInterface, ChallengeInterface> = async (req, res, next) => { 
     const { id } = req.params
 
     const challenge = await ChallengeModel.findById(id)
