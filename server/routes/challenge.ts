@@ -12,7 +12,7 @@ const upload = multer({ storage: storage });
 
 const router = express.Router()
 
-router.post('/', passport.authenticate('jwt', { session: false } ), upload.single('image'), Challenge.createChallenge)
+router.post('/', passport.authenticate('jwt', { session: false } ), checkIsinRole(ROLES.ADMIN), Challenge.createChallenge)
 
 router.put('/', passport.authenticate('jwt', { session: false } ), checkIsinRole(ROLES.ADMIN), Challenge.updateChallenge)
 
@@ -21,6 +21,9 @@ router.put('/', passport.authenticate('jwt', { session: false } ), checkIsinRole
 router.get('/', passport.authenticate('jwt', { session: false } ), Challenge.getAllChallenges)
 
 router.get('/:id', passport.authenticate('jwt', { session: false } ), Challenge.getChallengeById)
+
+
+// DOCUMENTATION
 
 /**
  * @openapi
@@ -33,13 +36,9 @@ router.get('/:id', passport.authenticate('jwt', { session: false } ), Challenge.
  *       requestBody: 
  *          required: true
  *          content:
- *            multipart/form-data:
+ *            application/json:
  *              schema:
- *                type: object
- *                properties:
- *                  challengeData:
- *                    type: object
- *                    $ref: '#/components/schemas/Challenge'
+ *                 $ref: '#/components/schemas/Challenge'
  *       responses: 
  *         200: 
  *          description: OK
@@ -69,6 +68,9 @@ router.get('/:id', passport.authenticate('jwt', { session: false } ), Challenge.
  *    Challenge:
  *      type: object
  *      properties: 
+ *          _id: 
+ *              type: number
+ *              example: 039812719872
  *          name: 
  *              type: string
  *              example: Run 5 miles
@@ -239,6 +241,9 @@ router.get('/:id', passport.authenticate('jwt', { session: false } ), Challenge.
  *    Challenge:
  *      type: object
  *      properties: 
+ *          _id: 
+ *              type: number
+ *              example: 039812719872
  *          name: 
  *              type: string
  *              example: Run 5 miles
@@ -409,7 +414,10 @@ router.get('/:id', passport.authenticate('jwt', { session: false } ), Challenge.
  *             $ref: '#/components/schemas/Challenge'
  *    Challenge:
  *      type: object
- *      properties: 
+ *      properties:
+ *          _id: 
+ *              type: number
+ *              example: 039812719872 
  *          name: 
  *              type: string
  *              example: Run 5 miles

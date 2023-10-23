@@ -36,7 +36,7 @@ const AccountInfo = (props: any) => {
     // });
   };
   return (
-    <div className="pt-16 md:pl-16 pl-0  flex flex-wrap justify-between w-full">
+    <div className="pt-16 md:pl-16 pl-0 flex flex-wrap justify-between w-full">
       <div className="w-full">
         <div className="flex justify-between mb-1">
           <span className="text-base font-medium text-blue-700 dark:text-white">

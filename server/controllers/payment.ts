@@ -46,7 +46,7 @@ export const initiatePayment: RequestHandler<unknown, unknown, unknown, unknown>
                     
                     if(productDocument) {
                         rewardPoints = (productDocument.rewardPoints || 0) + rewardPoints
-                        totalPrice = (productDocument.details.price || 0) * (productQuantity || 0) + totalPrice
+                        totalPrice = (productDocument.price || 0) * (productQuantity || 0) + totalPrice
                     }
                     
                     if(productDocument && productQuantity)
