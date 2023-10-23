@@ -80,7 +80,6 @@ const Leaderboard = ({ leaderboards }: { leaderboards: Leaderboard[] }) => {
 };
 
 export const getServerSideProps = async (context: any) => {
-  // Get token from cookies or request headers
   const cookieHeader = context.req.headers.cookie;
   const tokenRegex = /token=([^;]*)/;
   let leaderboards: Leaderboard[] = [];
