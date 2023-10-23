@@ -13,19 +13,17 @@ import { uploadImageToCloudinary } from "../helpers/helper"
 
 export const createProduct: RequestHandler<unknown, unknown, ProductInterface, unknown> = async (req, res, next) => {
     try {
-        
-        const { name, details, description } = req.body;
-        let result;
-        
-        if(req.file) {
-            result = await uploadImageToCloudinary(req.file, 'badge')         
-        }
+        console.log('data', req.body)
+        const { name, price, description, image, rewardPoints } = req.body;
 
-        const product = await ProductModel.create({name, details, description, image: result?.secure_url})        
- 
+
+        const product = await ProductModel.create({ name, price, description, image, rewardPoints})        
+        
+        const products = await ProductModel.find( {isDeleted: false} )
+        
         res.status(StatusCodes.OK).json({
             success: true,
-            data: product,
+            data: products,
             message: Constants.productCreatedSuccessfully
         })
     } catch(error) {
@@ -36,7 +34,7 @@ export const createProduct: RequestHandler<unknown, unknown, ProductInterface, u
 }
 
 
-export const updateProduct: RequestHandler<{ _id: number }, unknown, ProductInterface, unknown> = async (req, res, next) => { 
+export const updateProduct: RequestHandler<any, unknown, ProductInterface, unknown> = async (req, res, next) => {
     try {
         const { _id } = req.params
 
@@ -44,11 +42,13 @@ export const updateProduct: RequestHandler<{ _id: number }, unknown, ProductInte
 
         if(!product) throw createHttpError(StatusCodes.NOT_FOUND, Constants.notFound)
 
-        const updatedProduct = await ProductModel.findByIdAndUpdate(_id, req.body)
+        await ProductModel.findByIdAndUpdate(_id, req.body)
+
+        const products = await ProductModel.find({ isDeleted: false })
 
         res.status(StatusCodes.OK).json({
             success: true,
-            data: updatedProduct,
+            data: products,
             message: Constants.productUpdatedSuccessfully
         })
     } catch (err) {
@@ -58,7 +58,8 @@ export const updateProduct: RequestHandler<{ _id: number }, unknown, ProductInte
 
 }
 
-export const deleteProduct: RequestHandler<{ _id: number }, unknown, ProductInterface, unknown> = async (req, res, next) => { 
+export const deleteProduct: RequestHandler<any, unknown, ProductInterface, unknown> = async (req, res, next) => { 
+    console.log(req.params)
     const { _id } = req.params;
 
     if (!mongoose?.Types.ObjectId.isValid(_id)) {
@@ -71,17 +72,39 @@ export const deleteProduct: RequestHandler<{ _id: number }, unknown, ProductInte
 
     await ProductModel.findByIdAndUpdate(_id, { isDeleted: true })
 
+    const products = await ProductModel.find({ isDeleted: false })
+
     res.status(StatusCodes.OK).json({
         success: true,
-        data: [],
+        data: products,
         message: Constants.productDeletedSuccessfully
     })
 
 }
 
-export const getAllProducts: RequestHandler<unknown, unknown, ProductInterface, unknown> = async (req, res, next) => { 
+export const getAllProducts: RequestHandler<unknown, unknown, ProductInterface, { name: string, minPrice: number, maxPrice: number, page: number, pageSize:number  }> = async (req, res, next) => { 
 
-    const products = await ProductModel.find({ isDeleted: false })
+    interface PriceFilter {
+        $gte?: number;
+        $lte?: number;
+    }
+
+    const { name, minPrice, maxPrice, page, pageSize } = req.query
+
+    const filters: { [key: string]: RegExp | boolean | PriceFilter | number  } = {}; 
+    const sort: { [key: string]: 'asc' | 'desc' } = {}; 
+    
+    if (minPrice && !isNaN(minPrice)) 
+        filters.price = { $gte: minPrice }
+
+    if (maxPrice && !isNaN(maxPrice))
+        filters.price = { $lte: maxPrice };
+
+    if (name === 'asc' || name === 'desc')
+        sort.name = name
+    
+    const products = await ProductModel.find({ isDeleted: false, ...filters }).sort().skip((page - 1) * pageSize)
+    .limit(pageSize);
 
     res.status(StatusCodes.OK).json({
         success: true,

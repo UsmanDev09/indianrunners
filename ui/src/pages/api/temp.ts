@@ -136,7 +136,7 @@ export class ApiService {
   /**
    *
    */
-  static getActivities( options: IRequestOptions = {}, token:any): Promise<ActivityApiResponse> {
+  static getActivities(options: IRequestOptions = {}): Promise<ActivityApiResponse> {
     return new Promise((resolve, reject) => {
       let url = basePath + '/api/activity';
 
@@ -144,7 +144,7 @@ export class ApiService {
 
       /** 适配ios13，get请求不允许带body */
 
-      axios(configs, resolve, reject, token);
+      axios(configs, resolve, reject);
     });
   }
   /**
@@ -300,7 +300,7 @@ export class ApiService {
   /**
    *
    */
-  static getLeaderboards(options: IRequestOptions = {}, token: any): Promise<LeaderboardApiResponse> {
+  static getLeaderboards(options: IRequestOptions = {}): Promise<LeaderboardApiResponse> {
     return new Promise((resolve, reject) => {
       let url = basePath + '/api/leaderboard';
 
@@ -308,7 +308,7 @@ export class ApiService {
 
       /** 适配ios13，get请求不允许带body */
 
-      axios(configs, resolve, reject, token);
+      axios(configs, resolve, reject);
     });
   }
   /**

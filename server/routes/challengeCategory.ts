@@ -1,4 +1,5 @@
 import express from 'express'
+import passport from 'passport'
 
 import * as Category from '../controllers/challengeCategory'
 import { checkIsinRole } from "../utility/checkIsInRoles"
@@ -6,7 +7,7 @@ import { ROLES } from "../utility/constants"
 
 const router = express.Router()
 
-router.post('/', checkIsinRole(ROLES.ADMIN), Category.createCategory)
+router.post('/', passport.authenticate('jwt', { session: false }), checkIsinRole(ROLES.ADMIN), Category.createCategory)
 
 router.put('/', checkIsinRole(ROLES.ADMIN), Category.updateCategory)
 
@@ -23,6 +24,12 @@ router.get('/', Category.getAllCategories)
  *       operationId: createChallengeCategory
  *       security: 
  *         - bearerAuth: []
+ *       requestBody: 
+ *          required: true
+ *          content:
+ *            application/json:
+ *              schema:
+ *                 $ref: '#/components/schemas/ChallengeCategory'
  *       responses: 
  *         200: 
  *          description: OK

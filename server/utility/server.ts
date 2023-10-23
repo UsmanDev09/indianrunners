@@ -35,7 +35,7 @@ const server = () => {
 
     app.use('/api/user', userRoutes)
     app.use('/api/activity', activityRoutes)
-    app.use('/api/challenge/category', challengeCategoryRoutes)
+    app.use('/api/challengeCategory', challengeCategoryRoutes)
     app.use('/api/challenge', challengeRoutes)
     app.use('/api/product', productRoutes)
     app.use('/api/inventory', inventoryRoutes)

@@ -18,7 +18,6 @@ const SignUpForm = () => {
   const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    console.log(formData);
     fetch("http://localhost:5000/api/user/register", {
       method: "POST",
       mode: "cors", // no-cors, *cors, same-origin
@@ -43,10 +42,10 @@ const SignUpForm = () => {
   return (
     <div className={`flex place-content-center ${josef.className}`}>
       <form
-        className="flex flex-col items-center bg-prod rounded justify-center h-screen w-screen dark:bg-dark-green"
+        className="flex flex-col items-center rounded justify-center h-screen w-screen dark:bg-dark-green"
         onSubmit={submitForm}
       >
-        <section className="bg-gray-50 dark:bg-gray-900 sm:w-1/2">
+        <section className=" sm:w-1/2">
           <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
             <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
               <div className="p-6 space-y-4 md:space-y-6 sm:p-8">

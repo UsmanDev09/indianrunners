@@ -1,4 +1,3 @@
-import { GetStaticProps, GetStaticPaths } from "next";
 import Banner from "@/components/Banner";
 import Layout from "@/components/Layout";
 import { Josefin_Sans } from "next/font/google";
@@ -53,28 +52,4 @@ export default function Challenges({ items }: Props) {
   );
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  // Get the paths we want to pre-render based on users
-  const paths = [{ params: { slug: "challenges" } }];
 
-  // We'll pre-render only these paths at build time.
-  // { fallback: false } means other routes should 404.
-  return { paths, fallback: false };
-};
-
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  try {
-    const items = [
-      { title: "Comfort Handy Craft", price: "$42.00", picture: Prod1 },
-      { title: "Comfort Handy Craft", price: "$30.00", picture: Prod2 },
-      { title: "Comfort Handy Craft", price: "$51.00", picture: Prod3 },
-      { title: "Comfort Handy Craft", price: "$80.00", picture: Prod4 },
-    ];
-
-    // By returning { props: item }, the StaticPropsDetail component
-    // will receive `item` as a prop at build time
-    return { props: { items } };
-  } catch (err: any) {
-    return { props: { errors: err.message } };
-  }
-};
