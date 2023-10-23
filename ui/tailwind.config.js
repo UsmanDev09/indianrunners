@@ -29,6 +29,7 @@ module.exports = {
       "blue-text": "#E0E0E2",
       "icons-color": "#6c7281",
       "icons-color-dark": "#9ca1b0f0",
+      "sidebar-blue": "#202738",
       yellow: "#faca15",
       black: "#000",
       gray: "#778899",
@@ -41,10 +42,16 @@ module.exports = {
       "pink-d": "#31877B",
       dark: "#111827",
       "dark-card": "#374151",
+      "gray-900": "#6c7081",
+      "gray-300": "#9ca1b0",
+      "gray-700": "#383e52",
+      "gray-100": "#f3f4f6",
       "dark-gray-800": "#1f2937",
       "dark-button": "#383e52",
     },
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require("flowbite/plugin")
+  ],
 };
