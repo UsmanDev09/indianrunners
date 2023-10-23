@@ -11,10 +11,12 @@ import { User } from "../interfaces/user"
 export const createCategory: RequestHandler<unknown, unknown, ChallengeCategoryInterface, unknown> = async (req, res, next) => {
      try {
         const category = await CategoryModel.create(req.body)        
- 
+        
+        const categories = await CategoryModel.find()
+
         res.status(StatusCodes.OK).json({
             success: true,
-            data: category,
+            data: categories,
             message: Constants.categoryCreatedSuccessfully
         })
     } catch(error) {
@@ -67,9 +69,9 @@ export const deleteCategory: RequestHandler<{_id: number}, unknown, ChallengeCat
 }
 
 export const getAllCategories: RequestHandler<unknown, unknown, ChallengeCategoryInterface, unknown> = async (req, res, next) => { 
-    console.log(req.body)
+    
     const categories = await CategoryModel.find()
-
+    console.log(categories)
     res.status(StatusCodes.OK).json({
         success: true,
         data: categories,
