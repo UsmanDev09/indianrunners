@@ -52,6 +52,7 @@ export interface Challenge extends Document {
     organizationName: String
     price: Number
     categories: Category[]
+    users: User[]
 }
 
 export default model<Challenge>('Challenge', challengeSchema)
