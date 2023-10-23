@@ -25,6 +25,7 @@
     "postcss-preset-env": "^9.1.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-filerobot-image-editor": "^4.5.2",
     "react-icons": "^4.11.0",
     "socket.io-client": "^4.7.2",
     "swagger-axios-codegen": "^0.15.12",
