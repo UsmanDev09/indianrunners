@@ -3,7 +3,7 @@ const Dashboard = () => {
         <div className="container mx-auto">
         <div className="px-4 pt-6">
             <div className="grid gap-4 xl:grid-cols-2 2xl:grid-cols-3">
-            <div className="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+            <div className="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-sidebar-blue">
                 <div className="flex items-center justify-between mb-4">
                 <div className="flex-shrink-0">
                     <span className="text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white">$45,385</span>
@@ -58,7 +58,7 @@ const Dashboard = () => {
                 </div>
                 </div>
             </div>
-            <div className="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+            <div className="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-sidebar-blue">
                 <h3 className="flex items-center mb-4 text-lg font-semibold text-gray-900 dark:text-white">Statistics this month
                 <button data-popover-target="popover-description" data-popover-placement="bottom-end" type="button"><svg className="w-4 h-4 ml-2 text-gray-400 hover:text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg><span className="sr-only">Show information</span></button>
                 </h3>
@@ -337,7 +337,7 @@ const Dashboard = () => {
             </div>
             </div>
             <div className="grid w-full grid-cols-1 gap-4 mt-4 xl:grid-cols-2 2xl:grid-cols-3">
-            <div className="items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:flex dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+            <div className="items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:flex dark:border-gray-700 sm:p-6 dark:bg-sidebar-blue">
                 <div className="w-full">
                 <h3 className="text-base font-normal text-gray-500 dark:text-gray-400">New products</h3>
                 <span className="text-2xl font-bold leading-none text-gray-900 sm:text-3xl dark:text-white">2,340</span>
@@ -353,7 +353,7 @@ const Dashboard = () => {
                 </div>
                 <div className="w-full" id="new-products-chart"></div>
             </div>
-            <div className="items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:flex dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+            <div className="items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:flex dark:border-gray-700 sm:p-6 dark:bg-sidebar-blue">
                 <div className="w-full">
                 <h3 className="text-base font-normal text-gray-500 dark:text-gray-400">Users</h3>
                 <span className="text-2xl font-bold leading-none text-gray-900 sm:text-3xl dark:text-white">2,340</span>
@@ -369,7 +369,7 @@ const Dashboard = () => {
                 </div>
                 <div className="w-full" id="week-signups-chart"></div>
             </div>
-            <div className="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+            <div className="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-sidebar-blue">
                 <div className="w-full">
                 <h3 className="mb-2 text-base font-normal text-gray-500 dark:text-gray-400">Audience by age</h3>
                 <div className="flex items-center mb-2">
@@ -401,7 +401,7 @@ const Dashboard = () => {
             </div>
             </div>
             <div className="grid grid-cols-1 my-4 xl:grid-cols-2 xl:gap-4">
-            <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-6 dark:border-gray-700 dark:bg-gray-800 xl:mb-0">
+            <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-6 dark:border-gray-700 dark:bg-sidebar-blue xl:mb-0">
                 <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Smart chat</h3>
                 <a href="#" className="inline-flex items-center p-2 text-sm font-medium rounded-lg text-primary-700 hover:bg-gray-100 dark:text-primary-500 dark:hover:bg-gray-700">
@@ -617,7 +617,7 @@ const Dashboard = () => {
                     <footer className="flex items-center justify-between mb-2">
                         <div className="flex items-center">
                             <p className="inline-flex items-center mr-3 text-sm font-semibold text-gray-900 dark:text-white"><img className="w-6 h-6 mr-2 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-1.jpg"alt="Joseph avatar" />Joseph McFallen</p>
-                            <p className="text-sm text-gray-600 dark:text-gray-400"><time datetime="2022-02-08" title="February 8th, 2022"> 01/03/2023 4:15 PM</time></p>
+                            <p className="text-sm text-gray-600 dark:text-gray-400"><time title="February 8th, 2022"> 01/03/2023 4:15 PM</time></p>
                         </div>
                         <button id="dropdownComment4Button" data-dropdown-toggle="dropdownComment4" className="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:focus:ring-gray-600" type="button">
                             <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -718,7 +718,7 @@ const Dashboard = () => {
                 </form>
             </div>
             <div className="grid gap-4">
-                <div className="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+                <div className="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-sidebar-blue">
                 <div className="items-center justify-between pb-4 border-b border-gray-200 sm:flex dark:border-gray-700">
                     <div className="w-full mb-4 sm:mb-0">
                     <h3 className="text-base font-normal text-gray-500 dark:text-gray-400">Sales by category</h3>
