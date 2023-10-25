@@ -11,6 +11,7 @@ const FilerobotImageEditor = dynamic(
 );
 export default function MyComponent() {
   const [isImgEditorShown, setIsImgEditorShown] = useState(false);
+  const [desState, setDesState] = useState({});
   const { account } = getAccount();
   const cld = new Cloudinary({ cloud: { cloudName: "da39zmhtv" } });
   const loadImage = (imageObj: any, state: any) => {
@@ -61,6 +62,49 @@ export default function MyComponent() {
             source="/White.png"
             onSave={(editedImageObject: any, designState: any) => {
               console.log("saved", editedImageObject, designState);
+              for (const key in designState.annotations) {
+                if (
+                  designState.annotations[key].text === "FullName" ||
+                  designState.annotations[key].id === "FullName"
+                ) {
+                  designState.annotations[key].id = "FullName";
+                  designState.annotations[key].text = "Ahmed Adil";
+                  console.log(key, "is name text");
+                }
+                if (
+                  designState.annotations[key].text === "Rank" ||
+                  designState.annotations[key].id === "Rank"
+                ) {
+                  designState.annotations[key].id = "Rank";
+                  designState.annotations[key].text = "A Plus";
+                  console.log(key, "is Rank text");
+                }
+                if (
+                  designState.annotations[key].text === "For" ||
+                  designState.annotations[key].id === "For"
+                ) {
+                  designState.annotations[key].id = "For";
+                  designState.annotations[key].text = "Web Development";
+                  console.log(key, "is For text");
+                }
+                if (
+                  designState.annotations[key].text === "Remarks" ||
+                  designState.annotations[key].id === "Remarks"
+                ) {
+                  designState.annotations[key].id = "Remarks";
+                  designState.annotations[key].text = "Well done";
+                  console.log(key, "is Remarks text");
+                }
+                if (
+                  designState.annotations[key].text === "Gender" ||
+                  designState.annotations[key].id === "Gender"
+                ) {
+                  designState.annotations[key].id = "Gender";
+                  designState.annotations[key].text = "Male";
+                  console.log(key, "is Gender text");
+                }
+              }
+              setDesState(designState);
               loadImage(editedImageObject, designState);
               Download(editedImageObject, designState);
             }}
@@ -117,6 +161,7 @@ export default function MyComponent() {
             defaultToolId="Text"
             savingPixelRatio={0}
             previewPixelRatio={0}
+            loadableDesignState={desState}
           />
         </div>
       )}
