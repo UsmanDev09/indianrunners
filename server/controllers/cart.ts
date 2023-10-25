@@ -25,10 +25,7 @@ export const addChallengeToCart: RequestHandler<unknown, unknown, Cart, unknown>
         
         if(!user) 
             throw createHttpError(StatusCodes.NOT_FOUND, Constants.userNotFound)
-        
-
-        // check if the category exists in challenge then push 
-        
+                
         const itemDetailPromises = itemDetails.map(async (itemDetail) => {
             const challenge = await ChallengeModel.findById(itemDetail.challenge._id)
             
