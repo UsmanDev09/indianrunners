@@ -1,237 +1,311 @@
-import { RequestHandler } from "express"
-import createHttpError from "http-errors"
-import { StatusCodes } from "http-status-codes"
-import { Cart } from "../interfaces/cart"
-import CartModel from "../models/cart"
-import UserModel from "../models/user"
-import ProductModel from '../models/product'
-import InventoryModel from '../models/inventory'
-import ChallengeModel from "../models/challenge"
-import ChallengeCategoryModel from "../models/challengeCategory"
-import mongoose, { Types } from "mongoose"
-import { Constants } from "../utility/constants"
-import logger from "../config/logger"
-import { User } from "../interfaces/user"
+import { RequestHandler } from "express";
+import createHttpError from "http-errors";
+import { StatusCodes } from "http-status-codes";
+import { Cart } from "../interfaces/cart";
+import CartModel from "../models/cart";
+import UserModel from "../models/user";
+import ProductModel from "../models/product";
+import InventoryModel from "../models/inventory";
+import ChallengeModel from "../models/challenge";
+import ChallengeCategoryModel from "../models/challengeCategory";
+import mongoose, { Types } from "mongoose";
+import { Constants } from "../utility/constants";
+import logger from "../config/logger";
+import { User } from "../interfaces/user";
 
-export const addChallengeToCart: RequestHandler<unknown, unknown, Cart, unknown> = async (req, res, next) => {
-    try {
-        const _id = req.user as User
+export const addChallengeToCart: RequestHandler<
+  unknown,
+  unknown,
+  Cart,
+  unknown
+> = async (req, res, next) => {
+  try {
+    const _id = req.user as User;
 
-        const { itemType, itemDetails } = req.body
+    const { itemType, itemDetails } = req.body;
 
-        if (itemType !== 'challenge') throw createHttpError(StatusCodes.BAD_REQUEST, Constants.itemTypeIsWrong)
+    if (itemType !== "challenge")
+      throw createHttpError(StatusCodes.BAD_REQUEST, Constants.itemTypeIsWrong);
 
-        const user = await UserModel.findById(_id)
-        
-        if(!user) 
-            throw createHttpError(StatusCodes.NOT_FOUND, Constants.userNotFound)
-                
-        const itemDetailPromises = itemDetails.map(async (itemDetail) => {
-            const challenge = await ChallengeModel.findById(itemDetail.challenge._id)
-            
-            if (!challenge) throw createHttpError(StatusCodes.NOT_FOUND, Constants.challengeNotFound) 
+    const user = await UserModel.findById(_id);
 
-            
-            const { challengeCategories } : any = itemDetail
-            const categories: string[] = challenge.categories.map(category => category._id.toHexString());
-        
-            // check if the categories selected by user exists in challenge
+    if (!user)
+      throw createHttpError(StatusCodes.NOT_FOUND, Constants.userNotFound);
 
-            challengeCategories.forEach((category: any) => {
-                const _id = new Types.ObjectId(category._id).toHexString()
-                if(!categories.includes(_id)) throw createHttpError(StatusCodes.NOT_FOUND, Constants.selectedCategoryDoesNotExitsInChallenge(category._id))
-            })
+    const itemDetailPromises = itemDetails.map(async (itemDetail) => {
+      const challenge = await ChallengeModel.findById(itemDetail.challenge._id);
 
-            const challengeCategoriesPromises = challengeCategories.map(async (challengeCategory: any) => {
-                return await ChallengeCategoryModel.findById(challengeCategory._id)
-            })
-            
-            const challengeCategoryDocuments = await Promise.all(challengeCategoriesPromises)
-
-            return {
-                challenge, 
-                challengeCategories: challengeCategoryDocuments
-            }
-
-        })
-
-        const itemDetailDocuments = await Promise.all(itemDetailPromises)    
-
-        // check if challenge already exists in cart
-
-
-        const cart = await CartModel.create({
-            itemType, 
-            itemDetails: itemDetailDocuments
-        })
-
-        user.cart.push(cart)
-        
-        await user.save()
-
-        res.status(StatusCodes.OK).json({
-            success: true,
-            data: cart,
-            message: Constants.challengeAddedToCartSuccessfully
-        })
-    } catch(error) {
-        if(error instanceof Error) {
-            logger.error(error.message)
-            next(error.message)
-        } else {
-            next(error)
-        }
-    }
-}
-
-export const removeChallengeFromCart: RequestHandler<{ id: number }, unknown, Cart, unknown> = async (req, res, next) => { 
-    try {
-        console.log(req.body._id)
-        const _id = req.user as User
-        
-        const { itemDetails } = req.body
-
-        const cartId = req.body._id
-
-        if(!cartId) throw createHttpError(StatusCodes.BAD_REQUEST, Constants.cartNotFound)
-
-        const user = await UserModel.findById(_id)
-
-        if(!user) 
-            throw createHttpError(StatusCodes.NOT_FOUND, Constants.userNotFound)
-
-        if( user.cart.length === 0)
-            throw createHttpError(StatusCodes.NOT_FOUND, Constants.notFound)
-
-        const deletecart = await CartModel.findByIdAndDelete(cartId)
-        
-        const challenge = await UserModel.updateOne({_id: user._id, 'cart.itemDetails.challenge._id': itemDetails[0].challenge._id}, { $pull: {'cart.$.itemDetails': {'challenge._id' : itemDetails[0].challenge._id}}})
-
-        // check if itemDetails is empty and remove the object
-        await UserModel.updateOne(
-            { _id: user._id, 'cart.itemDetails': { $size: 0 } }, { $pull: { cart: { 'itemDetails': { $size: 0 } } } }
+      if (!challenge)
+        throw createHttpError(
+          StatusCodes.NOT_FOUND,
+          Constants.challengeNotFound
         );
-             
-        res.status(StatusCodes.OK).json({
-            success: true,
-            data: challenge,
-            message: Constants.challengeRemovedFromCartSuccessfully
-        })
-    } catch (error) {
-        logger.error(error)
-        next(error)
-    }
-}
 
-export const addProductToCart: RequestHandler<unknown, unknown, Cart, unknown> = async (req, res, next) => {
-    try {
-        const _id = req.user as User
+      const { challengeCategories }: any = itemDetail;
+      const categories: string[] = challenge.categories.map((category) =>
+        category._id.toHexString()
+      );
 
-        const { itemType, itemDetails } = req.body
+      // check if the categories selected by user exists in challenge
 
-        if (itemType !== 'product') throw createHttpError(StatusCodes.BAD_REQUEST, Constants.itemTypeIsWrong)
+      challengeCategories.forEach((category: any) => {
+        const _id = new Types.ObjectId(category._id).toHexString();
+        if (!categories.includes(_id))
+          throw createHttpError(
+            StatusCodes.NOT_FOUND,
+            Constants.selectedCategoryDoesNotExitsInChallenge(category._id)
+          );
+      });
 
-        const user = await UserModel.findById(_id)
-        
-        if(!user) 
-            throw createHttpError(StatusCodes.NOT_FOUND, Constants.userNotFound)
-        
-        let productDocument, cart
-
-        for (const itemDetail of itemDetails ) {
-            
-            const { product, productQuantity } = itemDetail 
-            
-            if(!productQuantity) throw createHttpError(StatusCodes.BAD_REQUEST, Constants.productQuantityIsMissing)
-
-            productDocument = await ProductModel.findById(product)
-
-            if (!product) throw createHttpError(StatusCodes.BAD_REQUEST, Constants.cartIsEmpty)
-
-            const inventory = await InventoryModel.findOne({product: new mongoose.Types.ObjectId(product._id)})
-
-            if(!inventory) throw createHttpError(StatusCodes.BAD_REQUEST, Constants.inventoryDoesNotExist)
-
-            if(inventory.details?.quantity && inventory.details.quantity < Number(productQuantity) ) throw createHttpError(StatusCodes.BAD_REQUEST, Constants.productIsOutOfStock)
-
-            await InventoryModel.updateOne({ product: new mongoose.Types.ObjectId(product._id) }, { $inc: { 'details.quantity': -productQuantity } })
-            
-            cart = await CartModel.create({
-                itemType,
-                itemDetails: {
-                    product: productDocument,
-                    productQuantity: productQuantity,
-                }
-            })
-            
-            user.cart.push(cart)
-            
-            await user.save()
+      const challengeCategoriesPromises = challengeCategories.map(
+        async (challengeCategory: any) => {
+          return await ChallengeCategoryModel.findById(challengeCategory._id);
         }
+      );
 
+      const challengeCategoryDocuments = await Promise.all(
+        challengeCategoriesPromises
+      );
 
+      return {
+        challenge,
+        challengeCategories: challengeCategoryDocuments,
+      };
+    });
 
-        res.status(StatusCodes.OK).json({
-            success: true,
-            data: cart,
-            message: Constants.productAddedToCartSuccessfully
-        })
-    } catch(error) {
-        logger.error(error)
-        next(error)
-    }
-}
+    const itemDetailDocuments = await Promise.all(itemDetailPromises);
 
-export const removeProductFromCart: RequestHandler<{ id: number }, unknown, Cart, unknown> = async (req, res, next) => { 
-    try {
+    // check if challenge already exists in cart
 
-        const _id = req.user as User
-        
-        const { itemDetails } = req.body
+    const cart = await CartModel.create({
+      itemType,
+      itemDetails: itemDetailDocuments,
+    });
 
-        const cartId = req.body._id
+    user.cart.push(cart);
 
-        const user = await UserModel.findById(_id)
-
-        if(!user) 
-            throw createHttpError(StatusCodes.NOT_FOUND, Constants.notFound)
-
-        if(user.cart.length === 0)
-            throw createHttpError(StatusCodes.NOT_FOUND, Constants.cartIsEmpty)
-        
-        await UserModel.updateOne({_id: user._id, 'cart.itemDetails.product._id': itemDetails[0].product}, { $pull: {'cart.$.itemDetails': {'product._id' : itemDetails[0].product}}})
-
-        // check if itemDetails is empty and remove the object
-        await UserModel.updateOne(
-            { _id: user._id, 'cart.itemDetails': { $size: 0 } }, { $pull: { cart: { 'itemDetails': { $size: 0 } } } }
-        );
-             
-        res.status(StatusCodes.OK).json({
-            success: true,
-            data: user.cart,
-            message: Constants.productRemovedFromCartSuccessfully
-        })
-    } catch (error) {
-        logger.error(error)
-        next(error)
-    }
-}
-
-export const getCart: RequestHandler<unknown, unknown, Cart, unknown> = async (req, res, next) => { 
-    const _id = req.user as number
-
-    if (!mongoose?.Types.ObjectId.isValid(_id)) {
-        throw createHttpError(StatusCodes.BAD_REQUEST, Constants.invalidId)
-    }
-
-    const user = await UserModel.findById(_id)
-
-    if(!user) throw createHttpError(StatusCodes.NOT_FOUND, Constants.notFound)
+    await user.save();
 
     res.status(StatusCodes.OK).json({
-        success: true,
-        data: user.cart,
-        message: Constants.cartFetchedSuccessfully
-    })
+      success: true,
+      data: cart,
+      message: Constants.challengeAddedToCartSuccessfully,
+    });
+  } catch (error) {
+    if (error instanceof Error) {
+      logger.error(error.message);
+      next(error.message);
+    } else {
+      next(error);
+    }
+  }
+};
 
-}
+export const removeChallengeFromCart: RequestHandler<
+  { id: number },
+  unknown,
+  Cart,
+  unknown
+> = async (req, res, next) => {
+  try {
+    console.log(req.body._id);
+    const _id = req.user as User;
+
+    const { itemDetails } = req.body;
+
+    const cartId = req.body._id;
+
+    if (!cartId)
+      throw createHttpError(StatusCodes.BAD_REQUEST, Constants.cartNotFound);
+
+    const user = await UserModel.findById(_id);
+
+    if (!user)
+      throw createHttpError(StatusCodes.NOT_FOUND, Constants.userNotFound);
+
+    if (user.cart.length === 0)
+      throw createHttpError(StatusCodes.NOT_FOUND, Constants.notFound);
+
+    const deletecart = await CartModel.findByIdAndDelete(cartId);
+
+    const challenge = await UserModel.updateOne(
+      {
+        _id: user._id,
+        "cart.itemDetails.challenge._id": itemDetails[0].challenge._id,
+      },
+      {
+        $pull: {
+          "cart.$.itemDetails": {
+            "challenge._id": itemDetails[0].challenge._id,
+          },
+        },
+      }
+    );
+
+    // check if itemDetails is empty and remove the object
+    await UserModel.updateOne(
+      { _id: user._id, "cart.itemDetails": { $size: 0 } },
+      { $pull: { cart: { itemDetails: { $size: 0 } } } }
+    );
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      data: challenge,
+      message: Constants.challengeRemovedFromCartSuccessfully,
+    });
+  } catch (error) {
+    logger.error(error);
+    next(error);
+  }
+};
+
+export const addProductToCart: RequestHandler<
+  unknown,
+  unknown,
+  Cart,
+  unknown
+> = async (req, res, next) => {
+  try {
+    const _id = req.user as User;
+
+    const { itemType, itemDetails } = req.body;
+
+    if (itemType !== "product")
+      throw createHttpError(StatusCodes.BAD_REQUEST, Constants.itemTypeIsWrong);
+
+    const user = await UserModel.findById(_id);
+
+    if (!user)
+      throw createHttpError(StatusCodes.NOT_FOUND, Constants.userNotFound);
+
+    let productDocument, cart;
+
+    for (const itemDetail of itemDetails) {
+      const { product, productQuantity } = itemDetail;
+
+      if (!productQuantity)
+        throw createHttpError(
+          StatusCodes.BAD_REQUEST,
+          Constants.productQuantityIsMissing
+        );
+
+      productDocument = await ProductModel.findById(product);
+
+      if (!product)
+        throw createHttpError(StatusCodes.BAD_REQUEST, Constants.cartIsEmpty);
+
+      const inventory = await InventoryModel.findOne({
+        product: new mongoose.Types.ObjectId(product._id),
+      });
+
+      if (!inventory)
+        throw createHttpError(
+          StatusCodes.BAD_REQUEST,
+          Constants.inventoryDoesNotExist
+        );
+
+      if (
+        inventory.details?.quantity &&
+        inventory.details.quantity < Number(productQuantity)
+      )
+        throw createHttpError(
+          StatusCodes.BAD_REQUEST,
+          Constants.productIsOutOfStock
+        );
+
+      await InventoryModel.updateOne(
+        { product: new mongoose.Types.ObjectId(product._id) },
+        { $inc: { "details.quantity": -productQuantity } }
+      );
+
+      cart = await CartModel.create({
+        itemType,
+        itemDetails: {
+          product: productDocument,
+          productQuantity: productQuantity,
+        },
+      });
+
+      user.cart.push(cart);
+
+      await user.save();
+    }
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      data: cart,
+      message: Constants.productAddedToCartSuccessfully,
+    });
+  } catch (error) {
+    logger.error(error);
+    next(error);
+  }
+};
+
+export const removeProductFromCart: RequestHandler<
+  { id: number },
+  unknown,
+  Cart,
+  unknown
+> = async (req, res, next) => {
+  try {
+    const _id = req.user as User;
+
+    const { itemDetails } = req.body;
+
+    const cartId = req.body._id;
+
+    const user = await UserModel.findById(_id);
+
+    if (!user) throw createHttpError(StatusCodes.NOT_FOUND, Constants.notFound);
+
+    if (user.cart.length === 0)
+      throw createHttpError(StatusCodes.NOT_FOUND, Constants.cartIsEmpty);
+
+    await UserModel.updateOne(
+      { _id: user._id, "cart.itemDetails.product._id": itemDetails[0].product },
+      {
+        $pull: {
+          "cart.$.itemDetails": { "product._id": itemDetails[0].product },
+        },
+      }
+    );
+
+    // check if itemDetails is empty and remove the object
+    await UserModel.updateOne(
+      { _id: user._id, "cart.itemDetails": { $size: 0 } },
+      { $pull: { cart: { itemDetails: { $size: 0 } } } }
+    );
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      data: user.cart,
+      message: Constants.productRemovedFromCartSuccessfully,
+    });
+  } catch (error) {
+    logger.error(error);
+    next(error);
+  }
+};
+
+export const getCart: RequestHandler<unknown, unknown, Cart, unknown> = async (
+  req,
+  res,
+  next
+) => {
+  const _id = req.user as number;
+
+  if (!mongoose?.Types.ObjectId.isValid(_id)) {
+    throw createHttpError(StatusCodes.BAD_REQUEST, Constants.invalidId);
+  }
+
+  const user = await UserModel.findById(_id);
+
+  if (!user) throw createHttpError(StatusCodes.NOT_FOUND, Constants.notFound);
+
+  res.status(StatusCodes.OK).json({
+    success: true,
+    data: user.cart,
+    message: Constants.cartFetchedSuccessfully,
+  });
+};
