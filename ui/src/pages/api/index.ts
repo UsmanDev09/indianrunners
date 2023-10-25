@@ -648,6 +648,8 @@ export interface CartApiResponse {
 }
 
 export interface Cart {
+  _id: number;
+
   /**  */
   itemType?: ItemType;
 
@@ -726,6 +728,9 @@ export interface Challenge {
 
   /**  */
   categories?: ChallengeCategory[];
+
+  /**  */
+  _id?: number;
 }
 
 export interface ChallengeCategory {
@@ -740,6 +745,9 @@ export interface ChallengeCategory {
 
   /**  */
   description?: string;
+
+  /**  */
+  _id?: number;
 }
 
 export interface ChallengeApiResponse {
@@ -916,6 +924,9 @@ export interface ProductApiResponse {
 }
 
 export interface Product {
+  /**  */
+  _id?: number;
+
   /**  */
   name?: string;
 

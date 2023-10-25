@@ -18,7 +18,7 @@ const HeaderMenu = () => {
       </button>}
         <Link
           className={`${josef.className}  mr-2 text-base`}
-          href="/products/challenges"
+          href="/store/challenges"
         >
           Challenges
         </Link>

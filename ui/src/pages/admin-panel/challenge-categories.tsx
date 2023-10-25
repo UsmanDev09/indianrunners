@@ -32,8 +32,6 @@ export const getServerSideProps = (async (context: any) => {
         challengeCategories = response.data
     else 
         challengeCategories = []
-    
-    return { props: { challengeCategories } };
     }
 
     return {props: { challengeCategories } }
