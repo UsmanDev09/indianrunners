@@ -32,7 +32,7 @@ const CreateChallenge = ({ setChallenges, categories, setOpenCreateChallengeDraw
         const { name, value } = e.target;
         if(name === 'categories') {
             categories.forEach((category) => {
-                if(category._id === value) 
+                if(category._id === parseInt(value) ) 
                     setSelectedCategories([...selectedCategories, category])
             })
             console.log(selectedCategories)
@@ -42,7 +42,7 @@ const CreateChallenge = ({ setChallenges, categories, setOpenCreateChallengeDraw
         }
     };
 
-    const handleRemoveSelectedCategory = (categoryIdToRemove: ChallengeCategory) => {
+    const handleRemoveSelectedCategory = (categoryIdToRemove: number | string | undefined) => {
         const categories = selectedCategories.filter((category) => category._id !== categoryIdToRemove)
         const formDataCategoryIds = formData.categories.filter((categoryId) => categoryId === categoryIdToRemove)
         setFormData({ ...formData, categories: formDataCategoryIds });

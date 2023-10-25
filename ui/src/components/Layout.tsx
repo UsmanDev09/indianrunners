@@ -8,6 +8,7 @@ import Footer from "./Footer";
 import Logo from "./Logo";
 import HeaderMenu from "./HeaderMenu";
 import Notifications from "./Notifications";
+import CartSideBar from './CartSideBar';
 import DarkMode from "./DarkMode";
 import { IoCartOutline } from "react-icons/io5";
 import { LiaUserSolid } from "react-icons/lia";
@@ -28,6 +29,7 @@ const Layout = ({
   const [isOpen, setIsOpen] = useState(false);
   const [email, setEmail] = useState("Email");
   const [mounted, setMounted] = useState<boolean>(false);
+  const [showCartSideBar, setShowCartSideBar] = useState(false);
   const [userPrefs, setUserPrefs] = useLocalStorage("userPrefs", {
     darkMode: false,
   });
@@ -103,10 +105,11 @@ const Layout = ({
                       setUserPrefs={setUserPrefs}
                     />
                     <span className="flex items-center">|</span>
-                    <button>
-                      <Link href="/cart" className="text-base">
+                    <button onClick={() => setShowCartSideBar(!showCartSideBar)}>
+                      {/* <Link href="/cart" className="text-base"> */}
                         <IoCartOutline className="w-8 h-8 text-icons-color dark:text-white" />
-                      </Link>
+                      {/* </Link> */}
+                      {showCartSideBar && <CartSideBar setShowCartSidebar={setShowCartSideBar} showCartSideBar={showCartSideBar} />}
                     </button>
                     <button>
                       <Link href="/profile" className="text-base">

@@ -15,7 +15,6 @@ import { User } from "../interfaces/user"
 
 export const addChallengeToCart: RequestHandler<unknown, unknown, Cart, unknown> = async (req, res, next) => {
     try {
-        
         const _id = req.user as User
 
         const { itemType, itemDetails } = req.body
@@ -26,10 +25,7 @@ export const addChallengeToCart: RequestHandler<unknown, unknown, Cart, unknown>
         
         if(!user) 
             throw createHttpError(StatusCodes.NOT_FOUND, Constants.userNotFound)
-        
-
-        // check if the category exists in challenge then push 
-        
+                
         const itemDetailPromises = itemDetails.map(async (itemDetail) => {
             const challenge = await ChallengeModel.findById(itemDetail.challenge._id)
             
@@ -37,7 +33,6 @@ export const addChallengeToCart: RequestHandler<unknown, unknown, Cart, unknown>
 
             
             const { challengeCategories } : any = itemDetail
-            
             const categories: string[] = challenge.categories.map(category => category._id.toHexString());
         
             // check if the categories selected by user exists in challenge
@@ -61,6 +56,9 @@ export const addChallengeToCart: RequestHandler<unknown, unknown, Cart, unknown>
         })
 
         const itemDetailDocuments = await Promise.all(itemDetailPromises)    
+
+        // check if challenge already exists in cart
+
 
         const cart = await CartModel.create({
             itemType, 
@@ -86,20 +84,21 @@ export const addChallengeToCart: RequestHandler<unknown, unknown, Cart, unknown>
     }
 }
 
-
 export const removeChallengeFromCart: RequestHandler<{ id: number }, unknown, Cart, unknown> = async (req, res, next) => { 
     try {
-
-        const _id= req.user as User
+        console.log(req.body._id)
+        const _id = req.user as User
         
         const { itemDetails } = req.body
 
         const cartId = req.body._id
 
+        if(!cartId) throw createHttpError(StatusCodes.BAD_REQUEST, Constants.cartNotFound)
+
         const user = await UserModel.findById(_id)
 
         if(!user) 
-            throw createHttpError(StatusCodes.NOT_FOUND, Constants.notFound)
+            throw createHttpError(StatusCodes.NOT_FOUND, Constants.userNotFound)
 
         if( user.cart.length === 0)
             throw createHttpError(StatusCodes.NOT_FOUND, Constants.notFound)

@@ -8,7 +8,7 @@ const CreateChallengeCategories = ({ setChallengeCategories, setOpenCreateChalle
         activity: '',
         distance: '',
     })
-    const handleInputChange = (e: React.ChangeEvent<EventTarget & (HTMLInputElement | HTMLTextAreaElement) >) => {
+    const handleInputChange = (e: React.ChangeEvent<EventTarget & (HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement) >) => {
         const { name, value } = e.target;
 
         setFormData({ ...formData, [name]: value });

@@ -37,11 +37,11 @@ export default function Home() {
         picture={Chair}
       />
       <div className=" p-8 dark:bg-dark-gray-800 border-gray mt-10">
-        <CardList
+        {/* <CardList
           title="Featured Challenges"
           setChallenges={setchall}
           ItemCard_List={ItemCards}
-        />
+        /> */}
 
       </div>
     </div>

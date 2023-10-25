@@ -20,7 +20,7 @@ const LoginForm = () => {
   const submitForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    await fetch("http://localhost:5000/api/user/login", {
+    await fetch("http://localhost:5000/api/login", {
       method: "POST",
       mode: "cors", // no-cors, *cors, same-origin
       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached

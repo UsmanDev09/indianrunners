@@ -31,7 +31,6 @@ export const getServerSideProps = async (context: any) => {
     if (response.data) activities = response.data;
     else activities = [];
 
-    return { props: { activities } };
   }
 
   return { props: { activities } };
