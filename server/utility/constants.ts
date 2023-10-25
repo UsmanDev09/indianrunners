@@ -28,7 +28,6 @@ export const Constants = {
     dailyKnockoutChallengesMustHaveCutOffDays: 'Daily Knockout Challenges must have Cut Off Days',
     challengeNotFound: 'Challenge not found',
     selectedCategoryDoesNotExitsInChallenge: (categoryId: string) => `Selected category ${categoryId} does not exist in challenge`,
-
     // category
     categoryCreatedSuccessfully: 'Category has been created successfully',
     categoryUpdatedSuccessfully: 'Category has been updated successfully',
@@ -62,6 +61,8 @@ export const Constants = {
     productRemovedFromCartSuccessfully: 'Product has been removed from cart successfully', 
     productIsOutOfStock: 'Product is out of stock',
     productQuantityIsMissing: 'Product quantity is missing',
+    cartNotFound: 'Cart Not Found',
+    challengeAndCategoryAlreadyExistsInCart: 'Challenge and category are already present in cart',
 
     // shipping details
     shippingDetailsAddedSuccessfully: 'Shipping details has been added successfully',

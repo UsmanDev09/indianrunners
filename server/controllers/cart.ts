@@ -6,12 +6,13 @@ import CartModel from "../models/cart"
 import UserModel from "../models/user"
 import ProductModel from '../models/product'
 import InventoryModel from '../models/inventory'
-import ChallengeModel from "../models/challenge"
+import ChallengeModel, { Challenge } from "../models/challenge"
 import ChallengeCategoryModel from "../models/challengeCategory"
 import mongoose, { Types } from "mongoose"
 import { Constants } from "../utility/constants"
 import logger from "../config/logger"
 import { User } from "../interfaces/user"
+import { Category as ChallengeCategory } from "../models/challengeCategory"
 
 export const addChallengeToCart: RequestHandler<unknown, unknown, Cart, unknown> = async (req, res, next) => {
     try {
@@ -22,9 +23,39 @@ export const addChallengeToCart: RequestHandler<unknown, unknown, Cart, unknown>
         if (itemType !== 'challenge') throw createHttpError(StatusCodes.BAD_REQUEST, Constants.itemTypeIsWrong)
 
         const user = await UserModel.findById(_id)
-        
+
         if(!user) 
             throw createHttpError(StatusCodes.NOT_FOUND, Constants.userNotFound)
+
+        const userCart = user.cart as any
+
+        const mongoose = require('mongoose'); // Import Mongoose if you haven't already
+
+        // Assuming challengeIdToCheck and categoryIdToCheck are numbers from req.body
+
+        const isChallengeAndCategoryPresent = user.cart.some(cartItem => {
+            let itemDetailsObj = itemDetails as any
+            return (
+
+                cartItem.itemDetails.some(itemDetail => {
+                    // Convert ObjectID to a number for comparison
+                    let itemDetailObject = itemDetail as any
+                    const challengeIdInCart = new mongoose.Types.ObjectId(itemDetailObject.challenge && itemDetailObject.challenge._id);
+                    const categoryIdInCart = new mongoose.Types.ObjectId(itemDetailObject.challengeCategories && itemDetailObject.challengeCategories[0]._id);
+                   console.log(categoryIdInCart, itemDetailsObj[0].challengeCategories[0]._id)
+                    return (
+                        challengeIdInCart.equals(new mongoose.Types.ObjectId(itemDetailsObj[0].challenge._id)) &&
+                        categoryIdInCart.equals(new mongoose.Types.ObjectId(itemDetailsObj[0].challengeCategories[0]._id))
+                    );
+                })
+            );
+        });
+
+        if (isChallengeAndCategoryPresent) {
+            throw createHttpError(StatusCodes.BAD_REQUEST, Constants.challengeAndCategoryAlreadyExistsInCart);
+        }
+
+        
                 
         const itemDetailPromises = itemDetails.map(async (itemDetail) => {
             const challenge = await ChallengeModel.findById(itemDetail.challenge._id)
@@ -111,10 +142,12 @@ export const removeChallengeFromCart: RequestHandler<{ id: number }, unknown, Ca
         await UserModel.updateOne(
             { _id: user._id, 'cart.itemDetails': { $size: 0 } }, { $pull: { cart: { 'itemDetails': { $size: 0 } } } }
         );
-             
+        
+        const cart = user.cart 
+
         res.status(StatusCodes.OK).json({
             success: true,
-            data: challenge,
+            data: cart,
             message: Constants.challengeRemovedFromCartSuccessfully
         })
     } catch (error) {

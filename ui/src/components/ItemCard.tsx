@@ -13,7 +13,7 @@ const ItemCard = ({ challenge }: { challenge: Challenge }) => {
   const [selectedCategories, setSelectedCategories] = useState([])
   const [openPopupToSelectCategories, setOpenPopupToSelectCategories] = useState(false)
   const [cart, setCart] = useState<{ challenge: { _id: number }, challengeCategories: {_id: number }[]  }>({ challenge: { _id: 0 }, challengeCategories: [] });
-  const [cartForDisplaying, setCartForDisplaying] = useState<{ itemDetails: { challenge: Challenge, categories: ChallengeCategory[] }}>()
+  const [cartForDisplaying, setCartForDisplaying] = useState<{ itemDetails: { challenge: Challenge | null, categories: ChallengeCategory[] }}>()
 
   const handleRemoveSelectedCategory = (categoryId: number) => {
     const filteredChallengeCategories = cart?.challengeCategories.filter((category) => category._id !== categoryId )
@@ -106,7 +106,10 @@ console.log(cart)
         itemType: "challenge",
         itemDetails: [cart]
       }),
-    }).then((response) => response.json().then((cart) => console.log(cart)).catch((err) => console.log(err)));
+    }).then((response) => response.json().then((cart) => { 
+      setCart({ challenge: { _id: 0 }, challengeCategories: [] })
+      setCartForDisplaying({itemDetails: {challenge: null, categories: [] }})
+    })).catch((err) => console.log(err));
   
   };
 
@@ -117,7 +120,7 @@ console.log(cart)
           className="p-8 rounded-t-lg m-auto"
           width={200}
           height={200}
-          src={challenge.image ?? './defaut-profile-image'}
+          src={challenge.image ?? '/defaut-profile-image.png'}
           alt="product image"
         />
       </Link>

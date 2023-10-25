@@ -23,7 +23,7 @@ const CartSideBar = ({ setShowCartSidebar, showCartSideBar } : { setShowCartSide
             .then((res) => res.json())
             .then(res => setCart(res.data))
           }
-      
+
     const removeChallengeFromCart = async (challenge: Challenge | undefined, _id: number) => {
 
         const response  = fetch("http://localhost:5000/api/cart/challenge", {
@@ -51,15 +51,15 @@ const CartSideBar = ({ setShowCartSidebar, showCartSideBar } : { setShowCartSide
 
             <div className="fixed inset-0 overflow-hidden">
                 <div className="absolute inset-0 overflow-hidden">
-                <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+                <div className="fixed inset-y-0 right-0 flex max-w-full pl-10">
 
-                    <div className="pointer-events-auto w-screen max-w-md">
+                    <div className="w-screen max-w-md">
                     <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
                         <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
                             <div className="flex items-start justify-between">
                                 <h2 className="text-lg font-medium text-gray-900" id="slide-over-title">Shopping cart</h2>
                                 <div className="ml-3 flex h-7 items-center">
-                                <button onClick={() => setShowCartSidebar(!showCartSideBar)} type="button" className="relative -m-2 p-2 text-gray-400 hover:text-gray-500">
+                                <button onClick={(e) => { e.stopPropagation(), setShowCartSidebar(false)}} type="button" className="relative -m-2 p-2 text-gray-400 hover:text-gray-500">
                                     <span className="absolute -inset-0.5"></span>
                                     <span className="sr-only">Close panel</span>
                                     <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
@@ -73,6 +73,7 @@ const CartSideBar = ({ setShowCartSidebar, showCartSideBar } : { setShowCartSide
                                 <div className="flow-root">
                                 <ul role="list" className="-my-6 divide-y divide-gray-200">
                                     {cart && cart.map((cartDetails, index) => {
+                                        console.log('item', cartDetails.itemDetails[0].challengeCategories[0].name ? cartDetails.itemDetails[0].challengeCategories[0].name : '')
                                         return(
                                             <li key={index} className="flex py-6">
                                                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
@@ -90,7 +91,7 @@ const CartSideBar = ({ setShowCartSidebar, showCartSideBar } : { setShowCartSide
                                                             <p className="ml-4">{cartDetails.itemDetails[0]?.challenge?.price}</p>
                                                             )}
                                                         </div>
-                                                        {/* {cartDetails.itemDetails && (<p className="mt-1 text-sm text-gray-500">{cartDetails.itemDetails && cartDetails.itemDetails[0].challengeCategory[0]?.name || ''}</p>)} */}
+                                                        {cartDetails.itemDetails && (<p className="mt-1 text-sm text-gray-500">{cartDetails.itemDetails[0].challengeCategories[0].name ? cartDetails.itemDetails[0].challengeCategories[0].name : ''}</p>)}
                                                     </div>
                                                     <div className="flex flex-1 justify-between text-sm">
                                                         <p className="text-gray-500"></p>
