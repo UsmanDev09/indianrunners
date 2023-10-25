@@ -15,7 +15,6 @@ import { User } from "../interfaces/user"
 
 export const addChallengeToCart: RequestHandler<unknown, unknown, Cart, unknown> = async (req, res, next) => {
     try {
-        
         const _id = req.user as User
 
         const { itemType, itemDetails } = req.body
