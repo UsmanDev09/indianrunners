@@ -105,7 +105,7 @@ const Layout = ({
                       setUserPrefs={setUserPrefs}
                     />
                     <span className="flex items-center">|</span>
-                    <button onClick={() => setShowCartSideBar(!showCartSideBar)}>
+                    <button onClick={() => setShowCartSideBar(true)}>
                       {/* <Link href="/cart" className="text-base"> */}
                         <IoCartOutline className="w-8 h-8 text-icons-color dark:text-white" />
                       {/* </Link> */}
