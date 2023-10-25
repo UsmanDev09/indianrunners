@@ -1,35 +1,11 @@
-import { MyGlobalContext } from "@/Hooks/useGlobalContext";
-import Cookies from "js-cookie";
 import { Josefin_Sans } from "next/font/google";
-import { useContext, useState, useEffect } from "react";
 
-import { ApiService, Activity } from "../pages/api";
+import { Activity } from "../pages/api";
 
 const josef = Josefin_Sans({ subsets: ["latin"] });
 
-// type ActivityCard_Props = {
-//   title?: string;
-//   price?: string;
-//   picture?: any;
-//   type?: string;
-//   _id?: string;
-// };
-
 const ActivityCard = ({ activities }: { activities: Activity[] }) => {
-  // const [activities, setActivities] = useState([]);
-  // const { dispatch } = useContext(MyGlobalContext);
-  // const token = Cookies.get("token");
-  // console.log(token);
-  // useEffect(() => {
-  //   fetch("http://localhost:5000/api/activity/strava", {
-  //     mode: "cors",
-  //     cache: "no-cache",
-  //     credentials: "same-origin",
-  //     headers: { Authorization: `Bearer ${token}` },
-  //   }).then((response) =>
-  //     response.json().then((activities) => setActivities(activities.data))
-  //   );
-  // }, []);
+
   return (
     <div className="flex flex-wrap mt-12 gap-2 justify-center">
       {activities &&
