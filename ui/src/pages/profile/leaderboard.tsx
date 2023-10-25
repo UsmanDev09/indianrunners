@@ -97,7 +97,6 @@ export const getServerSideProps = async (context: any) => {
     if (response.data) leaderboards = response.data;
     else leaderboards = [];
 
-    return { props: { leaderboards } };
   }
 
   return { props: { leaderboards } };

@@ -136,7 +136,7 @@ export class ApiService {
   /**
    *
    */
-  static getActivities(options: IRequestOptions = {}): Promise<ActivityApiResponse> {
+  static getActivities( options: IRequestOptions = {}, token:any): Promise<ActivityApiResponse> {
     return new Promise((resolve, reject) => {
       let url = basePath + '/api/activity';
 
@@ -144,7 +144,7 @@ export class ApiService {
 
       /** 适配ios13，get请求不允许带body */
 
-      axios(configs, resolve, reject);
+      axios(configs, resolve, reject, token);
     });
   }
   /**
@@ -300,7 +300,7 @@ export class ApiService {
   /**
    *
    */
-  static getLeaderboards(options: IRequestOptions = {}): Promise<LeaderboardApiResponse> {
+  static getLeaderboards(options: IRequestOptions = {}, token: any): Promise<LeaderboardApiResponse> {
     return new Promise((resolve, reject) => {
       let url = basePath + '/api/leaderboard';
 
@@ -308,7 +308,7 @@ export class ApiService {
 
       /** 适配ios13，get请求不允许带body */
 
-      axios(configs, resolve, reject);
+      axios(configs, resolve, reject, token);
     });
   }
   /**
@@ -648,6 +648,8 @@ export interface CartApiResponse {
 }
 
 export interface Cart {
+  _id: number;
+
   /**  */
   itemType?: ItemType;
 
@@ -726,6 +728,9 @@ export interface Challenge {
 
   /**  */
   categories?: ChallengeCategory[];
+
+  /**  */
+  _id?: number;
 }
 
 export interface ChallengeCategory {
@@ -740,6 +745,9 @@ export interface ChallengeCategory {
 
   /**  */
   description?: string;
+
+  /**  */
+  _id?: number;
 }
 
 export interface ChallengeApiResponse {
@@ -916,6 +924,9 @@ export interface ProductApiResponse {
 }
 
 export interface Product {
+  /**  */
+  _id?: number;
+
   /**  */
   name?: string;
 

@@ -24,9 +24,9 @@ const storage = multer.memoryStorage(); // Store files in memory as Buffers
 
 const upload = multer({ storage: storage });
 
-export default async function handler(req: CustomNextApiRequest, res: NextApiResponse) {
+export default async function handler(req: any, res: any) {
     try {
-      upload.single('image')(req, res, async (err: Error) => {
+      upload.single('image')(req, res, async () => {
 
         const { name, price, description, rewardPoints } = req.body;
         const file = req.file; 

@@ -102,7 +102,9 @@ const Products = ({ initialProducts } : { initialProducts: Product[] } ) => {
                                                         <label htmlFor="checkbox" className="sr-only">checkbox</label>
                                                     </div>
                                                 </td>
-                                                <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"><Image src={product.image} width={50} height={50} alt='product image' /></td>
+                                                <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    <Image src={product.image ?? '/default-profile-image.png'} width={50} height={50} alt='product image' />
+                                                </td>
                                                 <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
                                                     <div className="text-base font-semibold text-gray-900 dark:text-white">{product.name}</div>
                                                 </td>
