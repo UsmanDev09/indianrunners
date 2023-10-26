@@ -13,6 +13,7 @@ const josef = Josefin_Sans({ subsets: ["latin"] });
 import { ItemCard_Props } from "@/Interfaces";
 import { useEffect, useState } from "react";
 import Sidebar from "@/components/Sidebar";
+import Error from "next/error";
 
 type Props = {
   items: ItemCard_Props[];
@@ -26,16 +27,16 @@ export default function Challenges({ items }: Props) {
   useEffect(() => {
     const token = localStorage.getItem("token");
     const fetchChallenges = async () => {
-      const chall = await fetch("http://localhost:5000/api/challenge", {
-        headers: { Authorization: `Bearer ${token}` },
-      }).then((response) =>
-        response.json().then((chall) => setChall(chall.data))
-      );
+      // const chall = await fetch("http://localhost:5000/api/challenge", {
+      //   headers: { Authorization: `Bearer ${token}` },
+      // }).then((response) =>
+      //   response.json().then((chall) => setChall(chall.data))
+      // );
     };
     fetchChallenges();
   }, []);
   return (
-    <div className={`${josef.className} flex flex-col`} >
+    <div className={`${josef.className} flex flex-col`}>
       <Banner
         introduction="Home &rarr; Challenges"
         title="Explore Our Challenges"

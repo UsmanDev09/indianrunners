@@ -2,6 +2,9 @@ import { MyGlobalContext } from "@/Hooks/useGlobalContext";
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import Searchimg from "./Vector.svg";
+
+import { ApiService, Challenge } from "../pages/api";
+
 type Sidebar_Props = {
   title?: string;
   price?: string;
@@ -46,14 +49,14 @@ const Sidebar = ({
       maxPrice: maxprice,
     };
     const fetchChallenges = async () => {
-      const chall = await fetch(
-        `http://localhost:5000/api/challenge?${new URLSearchParams(params)}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      ).then((response) =>
-        response.json().then((chall) => setChallenges(chall.data))
-      );
+      // const chall = await fetch(
+      //   `http://localhost:5000/api/challenge?${new URLSearchParams(params)}`,
+      //   {
+      //     headers: { Authorization: `Bearer ${token}` },
+      //   }
+      // ).then((response) =>
+      //   response.json().then((chall) => setChallenges(chall.data))
+      // );
     };
     fetchChallenges();
     setbutton("Added");
