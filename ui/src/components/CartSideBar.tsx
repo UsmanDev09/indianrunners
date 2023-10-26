@@ -73,7 +73,6 @@ const CartSideBar = ({ setShowCartSidebar, showCartSideBar } : { setShowCartSide
                                 <div className="flow-root">
                                 <ul role="list" className="-my-6 divide-y divide-gray-200">
                                     {cart && cart.map((cartDetails, index) => {
-                                        console.log('item', cartDetails.itemDetails[0].challengeCategories[0].name ? cartDetails.itemDetails[0].challengeCategories[0].name : '')
                                         return(
                                             <li key={index} className="flex py-6">
                                                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
@@ -91,7 +90,7 @@ const CartSideBar = ({ setShowCartSidebar, showCartSideBar } : { setShowCartSide
                                                             <p className="ml-4">{cartDetails.itemDetails[0]?.challenge?.price}</p>
                                                             )}
                                                         </div>
-                                                        {cartDetails.itemDetails && (<p className="mt-1 text-sm text-gray-500">{cartDetails.itemDetails[0].challengeCategories[0].name ? cartDetails.itemDetails[0].challengeCategories[0].name : ''}</p>)}
+                                                        {cartDetails.itemDetails && (<p className="mt-1 text-sm text-gray-500">{cartDetails.itemDetails[0].challengeCategories.length > 0 ? cartDetails.itemDetails[0].challengeCategories[0].name : ''}</p>)}
                                                     </div>
                                                     <div className="flex flex-1 justify-between text-sm">
                                                         <p className="text-gray-500"></p>

@@ -7,6 +7,7 @@ import { uuid } from 'uuidv4';
 
 import { Product as ProductInterface } from "../models/product"
 import ProductModel from "../models/product"
+import InventoryModel from "../models/inventory"
 import { Constants } from "../utility/constants"
 import logger from "../config/logger"
 import { uploadImageToCloudinary } from "../helpers/helper"
@@ -91,20 +92,20 @@ export const getAllProducts: RequestHandler<unknown, unknown, ProductInterface, 
 
     const { name, minPrice, maxPrice, page, pageSize } = req.query
 
-    const filters: { [key: string]: RegExp | boolean | PriceFilter | number  } = {}; 
-    const sort: { [key: string]: 'asc' | 'desc' } = {}; 
+    const filters: { [key: string]: RegExp | boolean | PriceFilter | number  } = {}
+    const sort: { [key: string]: 'asc' | 'desc' } = {}
     
     if (minPrice && !isNaN(minPrice)) 
         filters.price = { $gte: minPrice }
 
     if (maxPrice && !isNaN(maxPrice))
-        filters.price = { $lte: maxPrice };
+        filters.price = { $lte: maxPrice }
 
     if (name === 'asc' || name === 'desc')
         sort.name = name
     
-    const products = await ProductModel.find({ isDeleted: false, ...filters }).sort().skip((page - 1) * pageSize)
-    .limit(pageSize);
+    const products = await InventoryModel.find({ isDeleted: false, ...filters }).sort().skip((page - 1) * pageSize)
+    .limit(pageSize).populate('product').exec()
 
     res.status(StatusCodes.OK).json({
         success: true,

@@ -1,7 +1,8 @@
 import { InferSchemaType, model, Schema } from 'mongoose'
+import mongoose from 'mongoose';
 
 const inventorySchema = new Schema({
-    product: { type: Schema.Types.ObjectId, ref: 'Product', required: [true, 'Please select a product']},
+    product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: [true, 'Please select a product']},
     details: {
         size: { type: String, enum: ['XS', 'S', 'M', 'L', 'XL'], required: [true, 'Please specify quantity for this product'] },
         quantity: { type: Number, required: [true, 'Please specify product quantity'] },

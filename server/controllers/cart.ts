@@ -161,7 +161,7 @@ export const addProductToCart: RequestHandler<unknown, unknown, Cart, unknown> =
         const _id = req.user as User
 
         const { itemType, itemDetails } = req.body
-
+        console.log(itemDetails)
         if (itemType !== 'product') throw createHttpError(StatusCodes.BAD_REQUEST, Constants.itemTypeIsWrong)
 
         const user = await UserModel.findById(_id)
@@ -172,16 +172,16 @@ export const addProductToCart: RequestHandler<unknown, unknown, Cart, unknown> =
         let productDocument, cart
 
         for (const itemDetail of itemDetails ) {
-            
+            console.log('i', itemDetail)
             const { product, productQuantity } = itemDetail 
-            
+            console.log('p' ,product, productQuantity)
             if(!productQuantity) throw createHttpError(StatusCodes.BAD_REQUEST, Constants.productQuantityIsMissing)
 
             productDocument = await ProductModel.findById(product)
 
             if (!product) throw createHttpError(StatusCodes.BAD_REQUEST, Constants.cartIsEmpty)
 
-            const inventory = await InventoryModel.findOne({product: new mongoose.Types.ObjectId(product._id)})
+            const inventory = await InventoryModel.findOne( { product: new mongoose.Types.ObjectId(product._id) } )
 
             if(!inventory) throw createHttpError(StatusCodes.BAD_REQUEST, Constants.inventoryDoesNotExist)
 
