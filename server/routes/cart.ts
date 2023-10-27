@@ -5,6 +5,12 @@ import * as Cart from '../controllers/cart'
 
 const router = express.Router()
 
+// endpoints do not follow rest-api conventions
+
+// api/cart/product/{productId} for delete 
+
+// api/cart/product/{productId}/increase-quantity 
+
 router.post('/challenge', passport.authenticate('jwt', { session: false }), Cart.addChallengeToCart)
 
 router.delete('/challenge', passport.authenticate('jwt', { session: false }), Cart.removeChallengeFromCart)
@@ -12,6 +18,10 @@ router.delete('/challenge', passport.authenticate('jwt', { session: false }), Ca
 router.post('/product', passport.authenticate('jwt', { session: false}), Cart.addProductToCart)
 
 router.delete('/product', passport.authenticate('jwt', { session: false }), Cart.removeProductFromCart)
+
+router.put('/product/increase-quantity', passport.authenticate('jwt', { session: false }), Cart.increaseProductQuantity)
+
+router.put('/product/decrease-quantity', passport.authenticate('jwt', { session: false }), Cart.decreaseProductQuantity)
 
 router.get('/', passport.authenticate('jwt', { session: false }), Cart.getCart)
 

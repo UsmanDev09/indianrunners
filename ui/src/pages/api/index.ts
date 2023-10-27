@@ -660,9 +660,10 @@ export interface Cart {
 export interface ItemDetails {
   /**  */
   challenge?: Challenge;
+  product?: Product;
 
   /**  */
-  challengeCategory?: ChallengeCategory[];
+  challengeCategories?: ChallengeCategory[];
 }
 
 export interface Challenge {

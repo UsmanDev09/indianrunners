@@ -2,9 +2,12 @@ import { Cart } from "@/pages/api";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Challenge } from "@/pages/api";
+import Image from "next/image";
 
 const CartSideBar = ({ setShowCartSidebar, showCartSideBar } : { setShowCartSidebar : (showCartSideBar: boolean) => void, showCartSideBar: boolean }) => {
     const [cart, setCart] = useState<Cart[]>([])
+    const [loading, setLoading] = useState(false)
+
     const token = localStorage.getItem('token')
 
     const fetchCart = async () => {
@@ -22,10 +25,10 @@ const CartSideBar = ({ setShowCartSidebar, showCartSideBar } : { setShowCartSide
           })
             .then((res) => res.json())
             .then(res => setCart(res.data))
-          }
+    }
 
     const removeChallengeFromCart = async (challenge: Challenge | undefined, _id: number) => {
-
+        setLoading(true)
         const response  = fetch("http://localhost:5000/api/cart/challenge", {
             method: "DELETE",
             cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -36,8 +39,67 @@ const CartSideBar = ({ setShowCartSidebar, showCartSideBar } : { setShowCartSide
             },
             referrerPolicy: "no-referrer",
             body: JSON.stringify({ itemDetails: [{ challenge: { _id: challenge?._id } } ], _id}),
+          }).then((res) => {
+            fetchCart()
+            setLoading(false)
+        })
+
+
+    }
+
+    const removeProductFromCart = async (productId: number | undefined, _id: number) => {
+        setLoading(true)
+        const response  = fetch("http://localhost:5000/api/cart/product", {
+            method: "DELETE",
+            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: "same-origin", // include, *same-origin, omit
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            referrerPolicy: "no-referrer",
+            body: JSON.stringify({ itemDetails: [{ product: { _id: productId } } ], _id}),
+          }).then((res) => {
+            fetchCart()
+            setLoading(false)
           })
 
+    }
+
+    const increaseProductQuantity = async (productId: number | undefined, _id: number) => {
+        setLoading(true)
+        const response  = fetch("http://localhost:5000/api/cart/product/increase-quantity", {
+            method: "PUT",
+            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: "same-origin", // include, *same-origin, omit
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            referrerPolicy: "no-referrer",
+            body: JSON.stringify({ itemDetails: [{ product: { _id: productId } } ], _id}),
+        }).then((res) => {
+            fetchCart()   
+            setLoading(false)
+        })
+    }
+
+    const decreaseProductQuantity = async (productId: number | undefined, _id: number) => {
+        setLoading(true)
+        const response  = fetch("http://localhost:5000/api/cart/product/decrease-quantity", {
+            method: "PUT",
+            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: "same-origin", // include, *same-origin, omit
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            referrerPolicy: "no-referrer",
+            body: JSON.stringify({ itemDetails: [{ product: { _id: productId } } ], _id}),
+        }).then((res) => {
+            fetchCart()
+            setLoading(false)
+        })
     }
 
     useEffect(() => {
@@ -73,10 +135,11 @@ const CartSideBar = ({ setShowCartSidebar, showCartSideBar } : { setShowCartSide
                                 <div className="flow-root">
                                 <ul role="list" className="-my-6 divide-y divide-gray-200">
                                     {cart && cart.map((cartDetails, index) => {
-                                        return(
+                                        console.log(cartDetails)
+                                        return cartDetails.itemType === 'challenge' ? (
                                             <li key={index} className="flex py-6">
                                                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                                                    {/* <Image src="https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg" width={100} height={100} className="h-full w-full object-cover object-center" > */}
+                                                    <Image src={cartDetails.itemDetails?.[0]?.challenge?.image ?? '/default-profile-image.png'} width={100} height={100} alt="chalenge image"/>
                                                 </div>
 
                                                 <div className="ml-4 flex flex-1 flex-col">
@@ -90,7 +153,7 @@ const CartSideBar = ({ setShowCartSidebar, showCartSideBar } : { setShowCartSide
                                                             <p className="ml-4">{cartDetails.itemDetails[0]?.challenge?.price}</p>
                                                             )}
                                                         </div>
-                                                        {cartDetails.itemDetails && (<p className="mt-1 text-sm text-gray-500">{cartDetails.itemDetails[0].challengeCategories.length > 0 ? cartDetails.itemDetails[0].challengeCategories[0].name : ''}</p>)}
+                                                        {cartDetails.itemDetails && (<p className="mt-1 text-sm text-gray-500">{cartDetails.itemDetails[0].challengeCategories && cartDetails.itemDetails[0].challengeCategories.length > 0 ? cartDetails.itemDetails[0].challengeCategories[0].name : ''}</p>)}
                                                     </div>
                                                     <div className="flex flex-1 justify-between text-sm">
                                                         <p className="text-gray-500"></p>
@@ -98,6 +161,47 @@ const CartSideBar = ({ setShowCartSidebar, showCartSideBar } : { setShowCartSide
                                                         <div className="flex">
                                                             <button onClick={() => {if(cartDetails.itemDetails) removeChallengeFromCart(cartDetails.itemDetails[0]?.challenge, cartDetails._id)} } className="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
                                                         </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        ) : (
+                                            <li key={index} className="flex py-6">
+                                                <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                                                <Image
+                                                    src={cartDetails.itemDetails?.[0]?.product?.image ?? '/default-profile-image'}
+                                                    width={100}
+                                                    height={100}
+                                                    alt="product image"
+                                                />
+                                                </div>
+
+                                                <div className="ml-4 flex flex-1 flex-col">
+                                                    <div>
+                                                        <div className="flex justify-between text-base font-medium text-gray-900">
+                                                            <div>
+                                                                {cartDetails.itemDetails && 
+                                                                (<>
+                                                                    <h3>
+                                                                        {cartDetails.itemDetails[0]?.product?.name! || ''}
+                                                                    </h3>
+                                                                    <p className="text-left">{cartDetails.itemDetails[0]?.product?.description || ''}</p>
+                                                                </>
+                                                                )}
+                                                            </div>
+                                                            {cartDetails.itemDetails && (
+                                                            <p className="ml-4">{cartDetails.itemDetails[0]?.product?.price}</p>
+                                                            )}
+                                                        </div>
+                                                    <div className="flex flex-1 justify-between text-xl">
+                                                        <div className="">
+                                                            <button disabled={loading} className="text-3xl" onClick={() => increaseProductQuantity(cartDetails?.itemDetails?.[0]?.product?._id, cartDetails._id)}>+</button>
+                                                            <button disabled={loading} className="text-3xl" onClick={() => decreaseProductQuantity(cartDetails?.itemDetails?.[0]?.product?._id, cartDetails._id)}>-</button>
+                                                        </div>
+                                                        <div className="">
+                                                            <p className="text-right">{cartDetails?.itemDetails?.[0]?.productQuantity ? cartDetails?.itemDetails?.[0]?.productQuantity : 0}</p>
+                                                            <button disabled={loading} onClick={() => {if(cartDetails.itemDetails) removeProductFromCart(cartDetails.itemDetails[0]?.product && cartDetails.itemDetails[0]?.product._id, cartDetails._id)} } className="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
+                                                        </div>
+                                                    </div>
                                                     </div>
                                                 </div>
                                             </li>

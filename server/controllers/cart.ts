@@ -161,7 +161,7 @@ export const addProductToCart: RequestHandler<unknown, unknown, Cart, unknown> =
         const _id = req.user as User
 
         const { itemType, itemDetails } = req.body
-        console.log(itemDetails)
+
         if (itemType !== 'product') throw createHttpError(StatusCodes.BAD_REQUEST, Constants.itemTypeIsWrong)
 
         const user = await UserModel.findById(_id)
@@ -172,9 +172,8 @@ export const addProductToCart: RequestHandler<unknown, unknown, Cart, unknown> =
         let productDocument, cart
 
         for (const itemDetail of itemDetails ) {
-            console.log('i', itemDetail)
             const { product, productQuantity } = itemDetail 
-            console.log('p' ,product, productQuantity)
+
             if(!productQuantity) throw createHttpError(StatusCodes.BAD_REQUEST, Constants.productQuantityIsMissing)
 
             productDocument = await ProductModel.findById(product)
@@ -212,6 +211,84 @@ export const addProductToCart: RequestHandler<unknown, unknown, Cart, unknown> =
     } catch(error) {
         logger.error(error)
         next(error)
+    }
+}
+
+export const increaseProductQuantity: RequestHandler<{ id: number }, unknown, Cart, unknown> = async (req, res, next) => { 
+    try {
+        const _id = req.user as User
+
+        const { itemDetails } = req.body
+
+        const cartId = req.body._id
+
+        if(!cartId) throw createHttpError(StatusCodes.BAD_REQUEST, Constants.cartNotFound)
+
+        const user = await UserModel.findById(_id)
+
+        if(!user) 
+            throw createHttpError(StatusCodes.NOT_FOUND, Constants.userNotFound)
+
+        if( user.cart.length === 0)
+            throw createHttpError(StatusCodes.NOT_FOUND, Constants.notFound)
+        
+        for (const itemDetail of itemDetails ) {
+            const { product } = itemDetail 
+
+            await CartModel.findOneAndUpdate({ _id: cartId }, { $inc: { 'itemDetails.0.productQuantity': 1 } }, { new: true })
+
+            await InventoryModel.updateOne({ product: new mongoose.Types.ObjectId(product._id) }, { $inc: { 'details.quantity': -1 } })
+            
+            await UserModel.updateOne({ _id, 'cart._id': cartId }, { $inc: { 'cart.$.itemDetails.0.productQuantity': 1 }})
+        }
+        
+        res.status(StatusCodes.OK).json({
+            success: true,
+            data: [],
+            message: Constants.productQuantityIncreasedSuccessfully
+        })
+
+    } catch (err) {
+        next(err)
+    }
+}
+
+export const decreaseProductQuantity: RequestHandler<{ id: number }, unknown, Cart, unknown> = async (req, res, next) => { 
+    try {
+        const _id = req.user as User
+
+        const { itemDetails } = req.body
+
+        const cartId = req.body._id
+
+        if(!cartId) throw createHttpError(StatusCodes.BAD_REQUEST, Constants.cartNotFound)
+
+        const user = await UserModel.findById(_id)
+
+        if(!user) 
+            throw createHttpError(StatusCodes.NOT_FOUND, Constants.userNotFound)
+
+        if( user.cart.length === 0)
+            throw createHttpError(StatusCodes.NOT_FOUND, Constants.notFound)
+        
+        for (const itemDetail of itemDetails ) {
+            const { product } = itemDetail 
+            
+            const cart = await CartModel.findOneAndUpdate({ _id: cartId }, { $inc: { 'itemDetails.0.productQuantity': -1 } })
+
+            await InventoryModel.updateOne({ product: new mongoose.Types.ObjectId(product._id) }, { $inc: { 'details.quantity': 1 } })
+            
+            await UserModel.updateOne({_id, 'cart._id': cartId}, { $inc: { 'cart.$.itemDetails.0.productQuantity': -1 }})
+        }
+        
+        res.status(StatusCodes.OK).json({
+            success: true,
+            data: [],
+            message: Constants.productQuantityIncreasedSuccessfully
+        })
+
+    } catch (err) {
+        next(err)
     }
 }
 
