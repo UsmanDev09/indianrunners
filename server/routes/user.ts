@@ -252,4 +252,6 @@ router.get('google/redirect', passport.authenticate('google'), (req: Request, re
     // google redirect callback
 })
 
+router.get('/certificate', User.getCertificates)
+
 export default router

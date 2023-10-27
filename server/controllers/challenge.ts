@@ -2,23 +2,20 @@ import { RequestHandler } from "express"
 import createHttpError from "http-errors"
 import { StatusCodes } from "http-status-codes"
 import mongoose from "mongoose"
-import { v2 as cloudinary } from 'cloudinary'
-import { uuid } from 'uuidv4'
 
 import { Challenge as ChallengeInterface } from "../models/challenge"
 import ChallengeModel from "../models/challenge"
 import CategoryModel, { Category as ChallengeCategoryInterface } from "../models/challengeCategory"
 import LeaderboardModel from "../models/leaderboard"
 import { Constants } from "../utility/constants"
-import { User } from "../interfaces/user"
 import logger from "../config/logger"
-import { uploadImageToCloudinary } from "../helpers/helper"
+import { User as UserInterface } from "../models/user"
 
 export const createChallenge: RequestHandler<unknown, unknown, ChallengeInterface, unknown> = async (req, res, next) => {
     
     try {
-        const { type, name, activity, knockout, knockoutType, lowerLimit, upperLimit, fixedLimit, cutOffDays, cutOffHours, image, startDate, endDate, tags, price, bibNumber, featured, verified, organizationName, categories } = req?.body
-        let result;
+        const { type, name, activity, knockout, knockoutType, lowerLimit, upperLimit, fixedLimit, cutOffDays, cutOffHours, startDate, endDate, tags, price, bibNumber, featured, verified, organizationName, categories } = req?.body
+        let result: any;
 
         if (type === 'open' && lowerLimit === undefined)
             throw createHttpError(StatusCodes.BAD_REQUEST, Constants.openChallengesShouldHaveLowerLimit) 
@@ -51,13 +48,6 @@ export const createChallenge: RequestHandler<unknown, unknown, ChallengeInterfac
             throw createHttpError(StatusCodes.BAD_REQUEST, Constants.dailyKnockoutChallengesMustHaveCutOffDays)
         
         let categoryDocument: any = []
-        // cloudinary.uploader
-        // .upload("my_image.jpg")
-        // .then(result=>console.log(result));
-         
-        if(req.file) {
-            result = await uploadImageToCloudinary(req.file, 'badge')         
-        }
 
         if (categories) {
             for (let category of categories) {
@@ -87,7 +77,6 @@ export const createChallenge: RequestHandler<unknown, unknown, ChallengeInterfac
           
         await Promise.all(challengeCategoriesPromises);
         
-
         res.status(StatusCodes.OK).json({
             success: true,
             data: challenges,
@@ -102,115 +91,164 @@ export const createChallenge: RequestHandler<unknown, unknown, ChallengeInterfac
     }
 }
 
+export const addCertificateToChallenge: RequestHandler<unknown, unknown, { challengeId: number, certificateUrl: string }, unknown> = async (req, res, next) => {
+    try {
+        const _id = req.user as UserInterface 
+
+        const { challengeId, certificateUrl } = req.body
+    
+        const challenge = await ChallengeModel.findByIdAndUpdate(challengeId, { $push: { certificates: certificateUrl } })
+
+        res.status(StatusCodes.OK).json({
+            success: true,
+            data: challenge,
+            message: Constants.certificateAddedToChallenges
+        })
+
+    } catch (err) {
+        if(err instanceof Error) {
+            logger.error(err.message)
+            next(err.message)
+        }
+    }  
+}
+
 // logic not completed
 export const updateChallenge: RequestHandler<unknown, unknown, ChallengeInterface, unknown> = async (req, res, next) => { 
-    const _id = req.user as number;
+    try {
+        const _id = req.user as number;
     
-    if (!mongoose?.Types.ObjectId.isValid(_id)) {
-        throw createHttpError(StatusCodes.BAD_REQUEST, Constants.invalidId)
+        if (!mongoose?.Types.ObjectId.isValid(_id)) {
+            throw createHttpError(StatusCodes.BAD_REQUEST, Constants.invalidId)
+        }
+    
+        const challenge = ChallengeModel.findById(_id)
+    
+        if(!challenge) throw createHttpError(StatusCodes.NOT_FOUND, Constants.notFound)
+    
+        const updatedChallenge = await ChallengeModel.findByIdAndUpdate(_id, req.body)
+    
+        res.status(StatusCodes.OK).json({
+            success: true,
+            data: updatedChallenge,
+            message: Constants.challengeUpdatedSuccessfully
+        })
+    } catch (err) {
+        if (err instanceof Error) {
+            logger.error(err.message)
+            next(err.message)
+        }
     }
-
-    const challenge = ChallengeModel.findById(_id)
-
-    if(!challenge) throw createHttpError(StatusCodes.NOT_FOUND, Constants.notFound)
-
-    const updatedChallenge = await ChallengeModel.findByIdAndUpdate(_id, req.body)
-
-    res.status(StatusCodes.OK).json({
-        success: true,
-        data: updatedChallenge,
-        message: Constants.challengeUpdatedSuccessfully
-    })
 
 }
 
 export const deleteChallenge: RequestHandler< { id:number }, unknown, ChallengeInterface, unknown> = async (req, res, next) => { 
+    try {
+        const { id } = req.params;
+
+        if (!mongoose?.Types.ObjectId.isValid(id)) {
+            throw createHttpError(StatusCodes.BAD_REQUEST, Constants.invalidId)
+        }
     
-    const { id } = req.params;
-
-    if (!mongoose?.Types.ObjectId.isValid(id)) {
-        throw createHttpError(StatusCodes.BAD_REQUEST, Constants.invalidId)
+        const challenge = await ChallengeModel.findById(id)
+    
+        if(!challenge) throw createHttpError(StatusCodes.NOT_FOUND, Constants.notFound)
+    
+        await ChallengeModel.findByIdAndDelete(id)
+    
+        res.status(StatusCodes.OK).json({
+            success: true,
+            data: [],
+            message: Constants.challengeDeletedSuccessfully
+        })
+    } catch (err) {
+        if(err instanceof Error) {
+            logger.error(err)
+            next(err)
+        }
     }
-
-    const challenge = await ChallengeModel.findById(id)
-
-    if(!challenge) throw createHttpError(StatusCodes.NOT_FOUND, Constants.notFound)
-
-    await ChallengeModel.findByIdAndDelete(id)
-
-    res.status(StatusCodes.OK).json({
-        success: true,
-        data: [],
-        message: Constants.challengeDeletedSuccessfully
-    })
 
 }
 
 export const getAllChallenges: RequestHandler<unknown, unknown, ChallengeInterface, any> = async (req, res, next) => { 
-    interface PriceFilter {
-        $gte?: number;
-        $lte?: number;
+    try {
+        interface PriceFilter {
+            $gte?: number;
+            $lte?: number;
+        }
+
+        const { name, type, activity, knockout, knockoutType, sport, featured, verified, minPrice, maxPrice, page, pageSize } = req.query
+        
+
+        const filters: { [key: string]: RegExp | boolean | PriceFilter  } = {}; 
+        const sort: { [key: string]: 'asc' | 'desc' } = {}; 
+
+        if (type) 
+            filters.type = new RegExp(type, 'i') 
+
+        if (activity)
+            filters.activity = new RegExp(activity, 'i')
+
+        if (knockout) 
+            filters.knockout = knockout
+
+        if (knockoutType)
+            filters.knockoutType = new RegExp(knockoutType, 'i')
+        
+        if (sport)
+            filters.sport = new RegExp(sport, 'i')
+
+        if (featured)
+            filters.featured = featured
+
+        if (verified)
+            filters.verified = verified
+
+        if (minPrice && !isNaN(minPrice)) 
+        filters.price = { $gte: minPrice }
+
+        if (maxPrice && !isNaN(maxPrice)) {
+            filters.price = { $lte: maxPrice };
+        }
+
+        if (name === 'asc' || name === 'desc')
+            sort.name = name
+
+        const challenges = await ChallengeModel.find(filters).sort(sort).skip((page - 1) * pageSize)
+        .limit(pageSize);
+
+        res.status(StatusCodes.OK).json({
+            success: true,
+            data: challenges,
+            message: Constants.challengesFetchedSuccessfully
+        })
+    } catch (err) {
+        if(err instanceof Error){
+            logger.error(err)
+            next(err)
+        }
     }
-
-    const { name, type, activity, knockout, knockoutType, sport, featured, verified, minPrice, maxPrice, page, pageSize } = req.query
-    
-
-    const filters: { [key: string]: RegExp | boolean | PriceFilter  } = {}; 
-    const sort: { [key: string]: 'asc' | 'desc' } = {}; 
-
-    if (type) 
-        filters.type = new RegExp(type, 'i') 
-
-    if (activity)
-        filters.activity = new RegExp(activity, 'i')
-
-    if (knockout) 
-        filters.knockout = knockout
-
-    if (knockoutType)
-        filters.knockoutType = new RegExp(knockoutType, 'i')
-    
-    if (sport)
-        filters.sport = new RegExp(sport, 'i')
-
-    if (featured)
-        filters.featured = featured
-
-    if (verified)
-        filters.verified = verified
-
-    if (minPrice && !isNaN(minPrice)) 
-    filters.price = { $gte: minPrice }
-
-    if (maxPrice && !isNaN(maxPrice)) {
-        filters.price = { $lte: maxPrice };
-    }
-
-    if (name === 'asc' || name === 'desc')
-        sort.name = name
-
-    const challenges = await ChallengeModel.find(filters).sort(sort).skip((page - 1) * pageSize)
-    .limit(pageSize);
-
-    res.status(StatusCodes.OK).json({
-        success: true,
-        data: challenges,
-        message: Constants.challengesFetchedSuccessfully
-    })
 
 }
 
 export const getChallengeById: RequestHandler<{ id: number }, unknown, ChallengeInterface, ChallengeInterface> = async (req, res, next) => { 
-    const { id } = req.params
+    try {
+        const { id } = req.params
 
-    const challenge = await ChallengeModel.findById(id)
+        const challenge = await ChallengeModel.findById(id)
 
-    if (!challenge) 
-        throw createHttpError(StatusCodes.NOT_FOUND, Constants.challengeNotFound)
+        if (!challenge) 
+            throw createHttpError(StatusCodes.NOT_FOUND, Constants.challengeNotFound)
 
-    res.status(StatusCodes.OK).json({
-        success: true,
-        data: challenge,
-        message: Constants.challengesFetchedSuccessfully
-    })
+        res.status(StatusCodes.OK).json({
+            success: true,
+            data: challenge,
+            message: Constants.challengesFetchedSuccessfully
+        })
+    } catch (err) {
+        if(err instanceof Error){ 
+            logger.error(err)
+            next(err)
+        }
+    }
 }

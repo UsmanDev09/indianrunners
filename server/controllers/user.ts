@@ -212,3 +212,22 @@ export const updateProfile: RequestHandler<unknown, unknown, UserInterface, unkn
         next(error)
     }
 }
+
+export const getCertificates: RequestHandler<unknown, unknown, UserInterface, unknown> = async (req, res, next) => {
+    try {
+        const _id = req.user as User
+
+        const user = await UserModel.findById(_id) as UserInterface
+
+        res.json(StatusCodes.OK).json({
+            success: true,
+            data: user.certificates,
+            message: Constants.certificatesFetchedSuccessfully
+        })
+    } catch (err) {
+        if(err instanceof Error){
+            logger.error(err)
+            next(err)
+        }
+    }
+}

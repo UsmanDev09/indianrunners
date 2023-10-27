@@ -9,6 +9,7 @@ export const Constants = {
     invalidUserId: 'Invalid user id',
     userNotFound: 'User not found',
     tokenExpiryTimeNotFound: 'App token expiry time not found',
+    certificatesFetchedSuccessfully: 'Certificates fetched successfully',
 
     // challenge
     challengeCreatedSuccessfully: 'Challenge has been created successfully',
@@ -28,6 +29,7 @@ export const Constants = {
     dailyKnockoutChallengesMustHaveCutOffDays: 'Daily Knockout Challenges must have Cut Off Days',
     challengeNotFound: 'Challenge not found',
     selectedCategoryDoesNotExitsInChallenge: (categoryId: string) => `Selected category ${categoryId} does not exist in challenge`,
+    certificateAddedToChallenges: 'Certificate added to challenges',
 
     // category
     categoryCreatedSuccessfully: 'Category has been created successfully',
@@ -62,6 +64,7 @@ export const Constants = {
     productRemovedFromCartSuccessfully: 'Product has been removed from cart successfully', 
     productIsOutOfStock: 'Product is out of stock',
     productQuantityIsMissing: 'Product quantity is missing',
+    cartNotFound: 'Cart not found',
 
     // shipping details
     shippingDetailsAddedSuccessfully: 'Shipping details has been added successfully',

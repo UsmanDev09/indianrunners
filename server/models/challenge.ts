@@ -1,7 +1,6 @@
-import { InferSchemaType, model, Schema, Types } from 'mongoose'
+import { model, Schema, Types } from 'mongoose'
 import challengeCategorySchema, { Category } from './challengeCategory'
-import leaderboardSchema from './leaderboard'
-import userSchema, { User } from './user'
+import { User } from './user'
 
 const challengeSchema = new Schema({
     name: { type: String, required: [true, 'Challange name is required'], unique: [true, 'Challenge name is already taken']},
@@ -23,6 +22,7 @@ const challengeSchema = new Schema({
     featured: { type: Boolean },
     verified: { type: Boolean },
     organizationName: { type: String },
+    certificates: { type: String, default: [] },
     price: { type: Number, required: [true, 'Challenge price is required']},
     categories: { type: [challengeCategorySchema.schema], default: [] },
     users: [{ type: Schema.Types.ObjectId, ref: 'user'}]

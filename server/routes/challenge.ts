@@ -22,8 +22,8 @@ router.get('/', passport.authenticate('jwt', { session: false } ), Challenge.get
 
 router.get('/:id', passport.authenticate('jwt', { session: false } ), Challenge.getChallengeById)
 
+router.put('/:id/certificate', passport.authenticate('jwt', { session: false }), checkIsinRole(ROLES.ADMIN), Challenge.addCertificateToChallenge)
 
-// DOCUMENTATION
 
 /**
  * @openapi
