@@ -3,7 +3,6 @@ import { Josefin_Sans } from "next/font/google";
 import Chair from "../../Assets/Sofa.png";
 import CardList from "@/components/CardList";
 import { useRouter } from "next/router";
-import { ItemCard_Props } from "@/Interfaces";
 import { useState } from "react";
 import { ApiService, Challenge, Product } from "../api";
 
@@ -12,7 +11,8 @@ const josef = Josefin_Sans({ subsets: ["latin"] });
 export default function Slug({ items }: {items: Challenge[] | Product[] }) {
   const router = useRouter();
   const slug = (router.query.slug as string) || null;
-  const [slugItems, setSlugItems] = useState([]);
+  const [challenges, setChallenges] = useState([]);
+  const [products, setProducts] = useState([]);
 
   const slugName = slug?.length ?? 0 > 0 ? (slug?.charAt(0).toUpperCase() ?? '') + slug?.slice(1) : '';
   console.log(items)
@@ -24,11 +24,22 @@ export default function Slug({ items }: {items: Challenge[] | Product[] }) {
         picture={Chair}
       />
       
-      {items && (
+      {/* Renders challenges */}
+      {slug === 'challenges' && items && (
         <CardList
           title={`Featured ${slug}`}
-          setChallenges={setSlugItems}
+          setChallenges={setChallenges}
           challenges={items}
+          filters={true}
+        />
+      )}
+
+      {/* Renders products */}
+      {slug === 'products' && items && (
+        <CardList
+          title={`Featured ${slug}`}
+          setChallenges={setChallenges}
+          products={items}
           filters={true}
         />
       )}

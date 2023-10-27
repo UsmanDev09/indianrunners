@@ -1,22 +1,24 @@
 import Image from "next/image";
-import ItemCard from "./ItemCard";
+import ChallengeCard from "./ChallengeCard";
+import ProductCard from "./ProductCard";
 import { Challenge, Product } from "@/pages/api";
 import { Josefin_Sans } from "next/font/google";
 
-import Golf from "../Assets/golf.png";
 import Sidebar from "./Sidebar";
 
 const josef = Josefin_Sans({ subsets: ["latin"] });
 
 type ItemList_Props = {
-  title?: string;
+  title: string;
   setChallenges: Function;
-  challenges: Challenge[];
+  challenges?: Challenge[];
   filters?: boolean;
+  products?: Product[];
 };
 
 const CardList = ({
   challenges,
+  products,
   title,
   setChallenges,
   filters,
@@ -39,17 +41,21 @@ const CardList = ({
             {filters && <Sidebar setChallenges={setChallenges} />}
           </div>
           <div className={`ml-10 flex flex-wrap gap-4 justify-center ${filters}`}>
-            {challenges && challenges.length !== 0 ? (
+            {challenges && challenges.length !== 0 && (
               challenges.map((challenge, index) => (
-                <ItemCard
+                <ChallengeCard
                   key={index}
                   challenge={challenge}
                 />
               ))
-            ) : (
-              <div className="text-center text-3xl">
-                No items based on your filters
-              </div>
+            )}
+            {products && products.length !== 0 && (
+              products.map((items: any, index) => (
+                <ProductCard
+                  key={index}
+                  product={items.product}
+                />
+              ))
             )}
           </div>
         </div>

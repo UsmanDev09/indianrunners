@@ -9,7 +9,6 @@ const HeaderMenu = () => {
 
   return (
     <div className="hidden sm:flex items-center grow dark:text-white">
-      <button role="menu">
       {role === 'admin' &&
       <button>
         <Link href="/admin-panel" className={`${josef.className} underline bg-light-pink dark:bg-dark-green text-base mr-2 p-2 hover:text-white`}>
@@ -22,7 +21,12 @@ const HeaderMenu = () => {
         >
           Challenges
         </Link>
-      </button>
+        <Link
+          className={`${josef.className}  mr-2 text-base`}
+          href="/store/products"
+        >
+          Products
+        </Link>
       <button>
         <Link href="/login" className={`${josef.className} text-base mr-2`}>
           Log In

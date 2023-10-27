@@ -48,6 +48,7 @@ export const Constants = {
     productDeletedSuccessfully: 'Product has been deleted successfully',
     productFetchedSuccessfully: 'Product has been fetched successfully', 
     productDoesNotExist: 'Product does not exits',
+    productQuantityIncreasedSuccessfully: 'Product quantity increased successfully',
 
     // cart
     cartCreatedSuccessfully: 'Cart has been created successfully',
