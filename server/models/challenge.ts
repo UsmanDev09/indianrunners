@@ -30,7 +30,7 @@ const challengeSchema = new Schema({
         user: { type: Schema.Types.ObjectId, ref: 'user' },
         certificateSent: { type: Boolean, default: false }
     }],
-    designState: { type: Schema.Types.ObjectId, ref: 'designState' }
+    designState: { type: Schema.Types.ObjectId, ref: 'DesignState' }
 }, { timestamps: true })
 
 export interface Challenge extends Document {

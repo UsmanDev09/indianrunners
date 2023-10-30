@@ -210,7 +210,7 @@ export const getCertificatesByChallenge: RequestHandler<
     const { challengeId } = req.params;
 
     const challenge = await ChallengeModel.findById(challengeId)
-      .populate("designState")
+      .populate('designState')
       .exec();
 
     res.status(StatusCodes.OK).json({

@@ -55,4 +55,4 @@ export interface DesignState extends Document {
   };
 }
 
-export default model<DesignState>("DesignState", designStateSchema);
+export default model<DesignState>('DesignState', designStateSchema);
