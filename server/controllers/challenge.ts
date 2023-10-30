@@ -116,6 +116,27 @@ export const addCertificateToChallenge: RequestHandler<unknown, unknown, { chall
     }  
 }
 
+export const getCertificatesByChallenge: RequestHandler<unknown, unknown, { challengeId: number, certificateUrl: string, designState: object }, unknown> = async (req, res, next) => {
+    try {
+        const challengeId = req.params
+        
+        const challenge = await ChallengeModel.findById(challengeId).populate('designState')
+        console.log(challenge)
+
+        res.status(StatusCodes.OK).json({
+            success: true,
+            data: challenge,
+            message: Constants.certificatesFetchedSuccessfully
+        })
+
+    } catch (err) {
+        if(err instanceof Error) {
+            logger.error(err.message)
+            next(err.message)
+        }
+    }
+}
+
 // logic not completed
 export const updateChallenge: RequestHandler<unknown, unknown, ChallengeInterface, unknown> = async (req, res, next) => { 
     try {

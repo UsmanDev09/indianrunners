@@ -20,7 +20,7 @@ router.put('/', passport.authenticate('jwt', { session: false } ), checkIsinRole
 
 router.put('/:id/certificate', passport.authenticate('jwt', { session: false }), checkIsinRole(ROLES.ADMIN), Challenge.addCertificateToChallenge)
 
-router.get('/:id/certificate', passport.authenticate('jwt', { session: false }), checkIsinRole(ROLES.ADMIN), Challenge.getUsersCertificateStatus)
+router.get('/:id/certificate-status', passport.authenticate('jwt', { session: false }), checkIsinRole(ROLES.ADMIN), Challenge.getUsersCertificateStatus)
 
 // router.put('/user/:userId/challenge/:challengeId/certificate', passport.authenticate('jwt', { session: false }), checkIsinRole(ROLES.ADMIN), Challenge.assignCertificateToAUser)
 
@@ -28,6 +28,7 @@ router.get('/', passport.authenticate('jwt', { session: false } ), Challenge.get
 
 router.get('/:id', passport.authenticate('jwt', { session: false } ), Challenge.getChallengeById)
 
+router.get('/:challengeId/certificate', passport.authenticate('jwt', { session: false }, Challenge.getCertificatesByChallenge))
 
 /**
  * @openapi
