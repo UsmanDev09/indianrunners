@@ -233,11 +233,11 @@ export const getCertificates: RequestHandler<unknown, unknown, UserInterface, un
     }
 }
 
-export const assignCertificateToAUser: RequestHandler<unknown, unknown, UserInterface, unknown> = async (req, res, next) => {
+export const assignCertificateToAUser: RequestHandler<{userId: number, challengeId: number}, unknown, UserInterface, unknown> = async (req, res, next) => {
     try {
-        const userId = req.params
+        const { userId } = req.params
 
-        const challengeId = req.params
+        const { challengeId } = req.params
 
         const challenge = await ChallengeModel.findById(challengeId) 
 
@@ -245,9 +245,9 @@ export const assignCertificateToAUser: RequestHandler<unknown, unknown, UserInte
 
         await ChallengeModel.findOneAndUpdate({ _id: challengeId, userDetails: { user: userId } }, { certificatesSent: true }) 
 
-        const user = await UserModel.findByIdAndUpdate(userId, { $push: { certicates: challenge.certificate } })
+        const user = await UserModel.findByIdAndUpdate(userId, { $push: { certicates: challenge.certificate } }, {new: true})
         
-        res.status(StatusCodes.NO_CONTENT).json({
+        res.status(StatusCodes.OK).json({
             success: true,
             data: [],
             message: Constants.certificateAssignedSuccessfully

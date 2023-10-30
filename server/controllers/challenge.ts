@@ -179,13 +179,13 @@ export const addCertificateToChallenge: RequestHandler<
     const { challengeId, certificateUrl, designState } = req.body;
     console.log(designState);
     const designStateDocument = await DesignStateModel.create(designState);
-
     const challenge = await ChallengeModel.findByIdAndUpdate(challengeId, {
       $push: {
-        certificates: certificateUrl,
+        certificate: certificateUrl,
         designState: designStateDocument._id,
       },
     });
+    console.log('challenge', challenge?.certificate)
 
     res.status(StatusCodes.OK).json({
       success: true,
