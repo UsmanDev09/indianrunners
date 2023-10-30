@@ -18,11 +18,15 @@ router.put('/', passport.authenticate('jwt', { session: false } ), checkIsinRole
 
 // router.delete('/', passport.authenticate('jwt', { session: false } ), checkIsinRole(ROLES.ADMIN), Challenge.deleteChallenge)
 
+router.put('/:id/certificate', passport.authenticate('jwt', { session: false }), checkIsinRole(ROLES.ADMIN), Challenge.addCertificateToChallenge)
+
+router.get('/:id/certificate', passport.authenticate('jwt', { session: false }), checkIsinRole(ROLES.ADMIN), Challenge.getUsersCertificateStatus)
+
+// router.put('/user/:userId/challenge/:challengeId/certificate', passport.authenticate('jwt', { session: false }), checkIsinRole(ROLES.ADMIN), Challenge.assignCertificateToAUser)
+
 router.get('/', passport.authenticate('jwt', { session: false } ), Challenge.getAllChallenges)
 
 router.get('/:id', passport.authenticate('jwt', { session: false } ), Challenge.getChallengeById)
-
-router.put('/:id/certificate', passport.authenticate('jwt', { session: false }), checkIsinRole(ROLES.ADMIN), Challenge.addCertificateToChallenge)
 
 
 /**

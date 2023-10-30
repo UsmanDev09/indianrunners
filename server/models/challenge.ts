@@ -22,10 +22,13 @@ const challengeSchema = new Schema({
     featured: { type: Boolean },
     verified: { type: Boolean },
     organizationName: { type: String },
-    certificates: { type: String, default: [] },
+    certificate: { type: String },
     price: { type: Number, required: [true, 'Challenge price is required']},
     categories: { type: [challengeCategorySchema.schema], default: [] },
-    users: [{ type: Schema.Types.ObjectId, ref: 'user'}]
+    userDetails: [{ 
+        user: { type: Schema.Types.ObjectId, ref: 'user' },
+        certificateSent: { type: Boolean, default: false }
+    }]
  
 }, { timestamps: true })
 
@@ -52,7 +55,8 @@ export interface Challenge extends Document {
     organizationName: String
     price: Number
     categories: Category[]
-    users: User[]
+    certificate: String
+    userDetails: { user: User, certicateSend: Boolean }[]
 }
 
 export default model<Challenge>('Challenge', challengeSchema)

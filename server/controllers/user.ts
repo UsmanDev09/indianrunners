@@ -9,6 +9,7 @@ import logger from "../config/logger"
 import UserModel, { User } from '../models/user'
 import Otp from "../models/otp"
 
+import ChallengeModel from '../models/challenge'
 import { User as UserInterface } from "../models/user"
 import { StatusCodes } from "http-status-codes"
 import { Constants } from "../utility/constants"
@@ -228,6 +229,35 @@ export const getCertificates: RequestHandler<unknown, unknown, UserInterface, un
         if(err instanceof Error){
             logger.error(err)
             next(err)
+        }
+    }
+}
+
+export const assignCertificateToAUser: RequestHandler<unknown, unknown, UserInterface, unknown> = async (req, res, next) => {
+    try {
+        const userId = req.params
+
+        const challengeId = req.params
+
+        const challenge = await ChallengeModel.findById(challengeId) 
+
+        if(!challenge) throw createHttpError(StatusCodes.NOT_FOUND ,Constants.challengeNotFound)
+
+        await ChallengeModel.findOneAndUpdate({ _id: challengeId, userDetails: { user: userId } }, { certificatesSent: true }) 
+
+        const user = await UserModel.findByIdAndUpdate(userId, { $push: { certicates: challenge.certificate } })
+        
+        res.status(StatusCodes.NO_CONTENT).json({
+            success: true,
+            data: [],
+            message: Constants.certificateAssignedSuccessfully
+        })
+
+        
+    } catch (err) {
+        if(err instanceof Error){ 
+            logger.error(err.message)
+            next(err.message)
         }
     }
 }

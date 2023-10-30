@@ -9,7 +9,7 @@ import CategoryModel, { Category as ChallengeCategoryInterface } from "../models
 import LeaderboardModel from "../models/leaderboard"
 import { Constants } from "../utility/constants"
 import logger from "../config/logger"
-import { User as UserInterface } from "../models/user"
+import UserModel, { User as UserInterface } from "../models/user"
 
 export const createChallenge: RequestHandler<unknown, unknown, ChallengeInterface, unknown> = async (req, res, next) => {
     
@@ -163,8 +163,8 @@ export const deleteChallenge: RequestHandler< { id:number }, unknown, ChallengeI
         })
     } catch (err) {
         if(err instanceof Error) {
-            logger.error(err)
-            next(err)
+            logger.error(err.message)
+            next(err.message)
         }
     }
 
@@ -224,11 +224,61 @@ export const getAllChallenges: RequestHandler<unknown, unknown, ChallengeInterfa
         })
     } catch (err) {
         if(err instanceof Error){
-            logger.error(err)
-            next(err)
+            logger.error(err.message)
+            next(err.message)
         }
     }
 
+}
+
+export const getUsersCertificateStatus: RequestHandler<unknown, unknown, ChallengeInterface, unknown> = async (req, res, next) => { 
+    try {
+        const _id = req.params 
+
+        const challenge = await ChallengeModel.findById(_id) 
+    
+        const challengeCertificatesStatus = challenge?.userDetails
+    
+        res.status(StatusCodes.OK).json({
+            success: true,
+            data: challengeCertificatesStatus,
+            message: Constants.challengeCertificatesStatusFetchedSuccessfully
+        })
+    } catch (err) {
+        if(err instanceof Error){
+            logger.error(err.message)
+            next(err.message)
+        }
+    }
+}
+
+export const assignCertificateToAUser: RequestHandler<unknown, unknown, ChallengeInterface, unknown> = async (req, res, next) => {
+    try {
+        const userId = req.params
+
+        const challengeId = req.params
+
+        const challenge = await ChallengeModel.findById(challengeId) 
+
+        if(!challenge) throw createHttpError(StatusCodes.NOT_FOUND ,Constants.challengeNotFound)
+
+        await ChallengeModel.findOneAndUpdate({ _id: challengeId, userDetails: { user: userId } }, { certificatesSent: true }) 
+
+        const user = await UserModel.findByIdAndUpdate(userId, { $push: { certicates: challenge.certificate } })
+        
+        res.status(StatusCodes.NO_CONTENT).json({
+            success: true,
+            data: [],
+            message: Constants.certificateAssignedSuccessfully
+        })
+
+        
+    } catch (err) {
+        if(err instanceof Error){ 
+            logger.error(err.message)
+            next(err.message)
+        }
+    }
 }
 
 export const getChallengeById: RequestHandler<{ id: number }, unknown, ChallengeInterface, ChallengeInterface> = async (req, res, next) => { 
@@ -247,8 +297,8 @@ export const getChallengeById: RequestHandler<{ id: number }, unknown, Challenge
         })
     } catch (err) {
         if(err instanceof Error){ 
-            logger.error(err)
-            next(err)
+            logger.error(err.message)
+            next(err.message)
         }
     }
 }

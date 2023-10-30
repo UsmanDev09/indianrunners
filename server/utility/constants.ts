@@ -31,6 +31,8 @@ export const Constants = {
     selectedCategoryDoesNotExitsInChallenge: (categoryId: string) => `Selected category ${categoryId} does not exist in challenge`,
     certificateAddedToChallenges: 'Certificate added to challenges',
     challengeAndCategoryAlreadyExistsInCart: 'Challenge and category already exists in cart',
+    challengeCertificatesStatusFetchedSuccessfully: 'Challenge certificates status fetched successfully',
+    certificateAssignedSuccessfully: 'Certificate has been assigned successfully',
     
     // category
     categoryCreatedSuccessfully: 'Category has been created successfully',

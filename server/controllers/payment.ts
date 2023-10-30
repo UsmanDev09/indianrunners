@@ -66,9 +66,9 @@ export const initiatePayment: RequestHandler<unknown, unknown, unknown, unknown>
                     // adds user to challenges
                 
                     if (!challengeDocument.users && challenge) {
-                        await challengeModel.findByIdAndUpdate(challenge._id, { $push: {users: user._id }})
+                        await challengeModel.findByIdAndUpdate(challenge._id, { $push: { userDetails: { user: user._id } } })
                     } else if(challengeDocument && challenge) {
-                        await challengeModel.findByIdAndUpdate(challenge._id, { $push: { users: user._id} })
+                        await challengeModel.findByIdAndUpdate(challenge._id, { $push: { userDetails: { user: user._id } } })
                     }
 
                     

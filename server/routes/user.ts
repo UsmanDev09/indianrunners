@@ -5,6 +5,8 @@ import { Request, Response } from "express"
 import express from 'express'
 import passport from 'passport'
 import * as User from '../controllers/user'
+import { checkIsinRole } from "../utility/checkIsInRoles"
+import { ROLES } from "../utility/constants"
 
 const storage = multer.memoryStorage(); // Store files in memory as Buffers
 
@@ -253,5 +255,8 @@ router.get('google/redirect', passport.authenticate('google'), (req: Request, re
 })
 
 router.get('/certificate', User.getCertificates)
+
+router.put('/:userId/challenge/:challengeId/certificate', passport.authenticate('jwt', { session: false }), checkIsinRole(ROLES.ADMIN), User.assignCertificateToAUser)
+
 
 export default router
