@@ -1,20 +1,57 @@
 import passport from 'passport'
-// const GoogleStrategy = require('passport-google-oauth20').Strategy
+import GoogleStrategy from 'passport-google-oauth20'
 import { Strategy as JWTStrategy, ExtractJwt, VerifiedCallback } from 'passport-jwt';
+import jwt from 'jsonwebtoken'
+
 import env from '../utility/validateEnv'
-import UserModel from '../models/user';
+import UserModel, { User as UserInterface } from '../models/user';
 import logger from "../config/logger";
-import { User } from '../interfaces/user';
 import { Types } from 'mongoose';
 
-// passport.use(new GoogleStrategy({
-//     clientID: env.GOOGLE_CLIENT_ID,
-//     clientSecret: env.GOOGLE_CLIENT_SECRET,
-//     callbackURL: 'http://localhost:3000/auth/google/redirect',
-// }, (accessToken: string, refreshToken: string, profile: any, done: any) => {
-//     // passport callback function
-//     // save to db
-// }))
+const goolgleStrategy = GoogleStrategy.Strategy
+
+passport.serializeUser((user, done) => {
+    const token = jwt.sign(user, env.JWT_SECRET_KEY);
+    done(null, token);
+});
+
+passport.use(new goolgleStrategy({
+    clientID: '65295987407-2k7rtlh9u50b4f4tb3g7kfom57pm6mis.apps.googleusercontent.com',
+    clientSecret: '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',
+    callbackURL: 'http://localhost:3000/api/user/google/redirect',
+}, async (accessToken: string, refreshToken: string, profile: any, done: any) => {
+    try {
+        const { id, emails, displayName, picture } = profile
+
+        const user = await UserModel.findOne({ googleId: id })
+
+        if (!user) {
+            
+            const user = await UserModel.create({
+                googleId: id,
+                email: emails[0].value,
+                name: displayName,
+                profilePicture: picture,
+                authenticator: 'google'
+            })
+
+            // const token = jwt.sign({ userId: user._id }, env.JWT_SECRET_KEY, { expiresIn: '1d' }); // Change 'your-secret-key' to a strong secret key
+            done(null, user)
+        } else {
+
+            const token = jwt.sign({ userId: user._id }, env.JWT_SECRET_KEY, { expiresIn: '1d' }); // Change 'your-secret-key' to a strong secret key
+
+            done(null, token)
+        }
+    } catch (err) {
+        if(err instanceof Error) {
+            console.log(err.message)
+            done(err.message, false)
+        }
+    }
+    // passport callback function
+    // save to db
+}))
 
 type JWTToken = { 
     userId: Types.ObjectId

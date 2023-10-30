@@ -10,7 +10,7 @@ const filterRequestBody : RequestHandler<unknown, unknown, unknown, unknown> = (
     let optionalParams:string[] = []
 
     if (req.method === 'POST' && req.originalUrl === `${prefix}/users/register`) {
-        requiredParams = ['email', 'password', 'firstName', 'lastName', 'userName']
+        requiredParams = ['email', 'password', 'name']
         // optionalParams = ['dob', 'gender','weight', 'height','contact','country','state','city','role', 'profileCompleted','profilePicture', 'club','appsConnected', 'activities']
     }
     else if (req.method === 'POST' && req.originalUrl === `${prefix}/users/login`) {
