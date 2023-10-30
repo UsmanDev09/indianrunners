@@ -1,34 +1,65 @@
-import express from 'express'
-import passport from 'passport'
-import multer from 'multer'
+import express from "express";
+import passport from "passport";
+import multer from "multer";
 
-import * as Challenge from '../controllers/challenge'
-import { checkIsinRole } from "../utility/checkIsInRoles"
-import { ROLES } from "../utility/constants"
+import * as Challenge from "../controllers/challenge";
+import { checkIsinRole } from "../utility/checkIsInRoles";
+import { ROLES } from "../utility/constants";
 
 const storage = multer.memoryStorage(); // Store files in memory as Buffers
 
 const upload = multer({ storage: storage });
 
-const router = express.Router()
+const router = express.Router();
 
-router.post('/', passport.authenticate('jwt', { session: false } ), checkIsinRole(ROLES.ADMIN), Challenge.createChallenge)
+router.post(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  checkIsinRole(ROLES.ADMIN),
+  Challenge.createChallenge
+);
 
-router.put('/', passport.authenticate('jwt', { session: false } ), checkIsinRole(ROLES.ADMIN), Challenge.updateChallenge)
+router.put(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  checkIsinRole(ROLES.ADMIN),
+  Challenge.updateChallenge
+);
 
 // router.delete('/', passport.authenticate('jwt', { session: false } ), checkIsinRole(ROLES.ADMIN), Challenge.deleteChallenge)
 
-router.put('/:id/certificate', passport.authenticate('jwt', { session: false }), checkIsinRole(ROLES.ADMIN), Challenge.addCertificateToChallenge)
+router.put(
+  "/:id/certificate",
+  passport.authenticate("jwt", { session: false }),
+  checkIsinRole(ROLES.ADMIN),
+  Challenge.addCertificateToChallenge
+);
 
-router.get('/:id/certificate-status', passport.authenticate('jwt', { session: false }), checkIsinRole(ROLES.ADMIN), Challenge.getUsersCertificateStatus)
+router.get(
+  "/:id/certificate-status",
+  passport.authenticate("jwt", { session: false }),
+  Challenge.getUsersCertificateStatus
+);
 
 // router.put('/user/:userId/challenge/:challengeId/certificate', passport.authenticate('jwt', { session: false }), checkIsinRole(ROLES.ADMIN), Challenge.assignCertificateToAUser)
 
-router.get('/', passport.authenticate('jwt', { session: false } ), Challenge.getAllChallenges)
+router.get(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  Challenge.getAllChallenges
+);
 
-router.get('/:id', passport.authenticate('jwt', { session: false } ), Challenge.getChallengeById)
+router.get(
+  "/:id",
+  passport.authenticate("jwt", { session: false }),
+  Challenge.getChallengeById
+);
 
-router.get('/:challengeId/certificate', passport.authenticate('jwt', { session: false }), Challenge.getCertificatesByChallenge)
+router.get(
+  "/:challengeId/certificate",
+  passport.authenticate("jwt", { session: false }),
+  Challenge.getCertificatesByChallenge
+);
 
 /**
  * @openapi
@@ -36,30 +67,30 @@ router.get('/:challengeId/certificate', passport.authenticate('jwt', { session: 
  *  /api/challenge:
  *     post:
  *       operationId: createChallenge
- *       security: 
+ *       security:
  *         - bearerAuth: []
- *       requestBody: 
+ *       requestBody:
  *          required: true
  *          content:
  *            application/json:
  *              schema:
  *                 $ref: '#/components/schemas/Challenge'
- *       responses: 
- *         200: 
+ *       responses:
+ *         200:
  *          description: OK
- *          content: 
+ *          content:
  *             application/json:
- *                 schema: 
- *                     $ref: '#/components/schemas/ChallengeApiResponse'    
- * components: 
+ *                 schema:
+ *                     $ref: '#/components/schemas/ChallengeApiResponse'
+ * components:
  *  securitySchemes:
  *     bearerAuth:
  *       type: http
  *       scheme: bearer
  *       bearerFormat: JWT
  *  schemas:
- *    ChallengeApiResponse: 
- *      type: object  
+ *    ChallengeApiResponse:
+ *      type: object
  *      properties:
  *         success:
  *           type: boolean
@@ -72,32 +103,32 @@ router.get('/:challengeId/certificate', passport.authenticate('jwt', { session: 
  *           $ref: '#/components/schemas/Challenge'
  *    Challenge:
  *      type: object
- *      properties: 
- *          _id: 
+ *      properties:
+ *          _id:
  *              type: number
  *              example: 039812719872
- *          name: 
+ *          name:
  *              type: string
  *              example: Run 5 miles
  *          type:
  *              type: string
- *              enum: 
+ *              enum:
  *                - open
  *                - fixed
  *              example: open
  *          activity:
  *              type: string
- *              enum: 
+ *              enum:
  *                - single
  *                - multiple
  *              example: single
- *          knockout: 
+ *          knockout:
  *              type: boolean
  *              example: true
- *          knockoutType: 
+ *          knockoutType:
  *              type: string
- *              enum: 
- *                - daily 
+ *              enum:
+ *                - daily
  *                - hourly
  *              example: daily
  *          lowerLimit:
@@ -106,7 +137,7 @@ router.get('/:challengeId/certificate', passport.authenticate('jwt', { session: 
  *          upperLimit:
  *              type: number
  *              example: 10
- *          fixedLimit: 
+ *          fixedLimit:
  *              type: number
  *          cutOffDays:
  *              type: number
@@ -121,30 +152,30 @@ router.get('/:challengeId/certificate', passport.authenticate('jwt', { session: 
  *          endDate:
  *              type: string
  *              format: date
- *          sport: 
+ *          sport:
  *              type: string
  *              enum:
  *                - Walk
- *                - Run 
- *                - VirtualRun 
- *                - TrailRun 
- *                - Treadmil 
- *                - Walk 
- *                - Hike 
- *                - Ride 
- *                - MountainBikeRide 
- *                - GravelBikeRide 
- *                - VeloMobile 
- *                - VirtialRide 
- *                - HandCycle 
- *                - Swim 
- *                - CrossFit 
- *                - Elliptical 
- *                - StairStepper 
- *                - WeightTraining 
- *                - Workout 
- *                - Hiit 
- *                - Pilates 
+ *                - Run
+ *                - VirtualRun
+ *                - TrailRun
+ *                - Treadmil
+ *                - Walk
+ *                - Hike
+ *                - Ride
+ *                - MountainBikeRide
+ *                - GravelBikeRide
+ *                - VeloMobile
+ *                - VirtialRide
+ *                - HandCycle
+ *                - Swim
+ *                - CrossFit
+ *                - Elliptical
+ *                - StairStepper
+ *                - WeightTraining
+ *                - Workout
+ *                - Hiit
+ *                - Pilates
  *                - Yoga
  *          tags:
  *              type: string
@@ -166,7 +197,7 @@ router.get('/:challengeId/certificate', passport.authenticate('jwt', { session: 
  *              example: true
  *          categories:
  *              type: array
- *              items: 
+ *              items:
  *                $ref: '#/components/schemas/ChallengeCategory'
  *    ChallengeCategory:
  *        type: object
@@ -178,36 +209,35 @@ router.get('/:challengeId/certificate', passport.authenticate('jwt', { session: 
  *             type: string
  *             enum:
  *               - Walk
- *               - Run 
- *               - VirtualRun 
- *               - TrailRun 
- *               - Treadmil 
- *               - Walk 
- *               - Hike 
- *               - Ride 
- *               - MountainBikeRide 
- *               - GravelBikeRide 
- *               - VeloMobile 
- *               - VirtialRide 
- *               - HandCycle 
- *               - Swim 
- *               - CrossFit 
- *               - Elliptical 
- *               - StairStepper 
- *               - WeightTraining 
- *               - Workout 
- *               - Hiit 
- *               - Pilates 
+ *               - Run
+ *               - VirtualRun
+ *               - TrailRun
+ *               - Treadmil
+ *               - Walk
+ *               - Hike
+ *               - Ride
+ *               - MountainBikeRide
+ *               - GravelBikeRide
+ *               - VeloMobile
+ *               - VirtialRide
+ *               - HandCycle
+ *               - Swim
+ *               - CrossFit
+ *               - Elliptical
+ *               - StairStepper
+ *               - WeightTraining
+ *               - Workout
+ *               - Hiit
+ *               - Pilates
  *               - Yoga
- *             example: Yoga 
+ *             example: Yoga
  *          distance:
  *              type: number
  *              example: 1
- *          description: 
- *              type: string 
+ *          description:
+ *              type: string
  *              example: Run 50 miles a day
  */
-
 
 /**
  * @openapi
@@ -215,24 +245,24 @@ router.get('/:challengeId/certificate', passport.authenticate('jwt', { session: 
  *  /api/challenge/:id:
  *     get:
  *       operationId: getChallenge
- *       security: 
+ *       security:
  *         - bearerAuth: []
- *       responses: 
- *         200: 
+ *       responses:
+ *         200:
  *          description: OK
- *          content: 
+ *          content:
  *             application/json:
- *                 schema: 
- *                     $ref: '#/components/schemas/ChallengeApiResponse'    
- * components: 
+ *                 schema:
+ *                     $ref: '#/components/schemas/ChallengeApiResponse'
+ * components:
  *  securitySchemes:
  *     bearerAuth:
  *       type: http
  *       scheme: bearer
  *       bearerFormat: JWT
  *  schemas:
- *    ChallengeApiResponse: 
- *      type: object  
+ *    ChallengeApiResponse:
+ *      type: object
  *      properties:
  *         success:
  *           type: boolean
@@ -245,32 +275,32 @@ router.get('/:challengeId/certificate', passport.authenticate('jwt', { session: 
  *           $ref: '#/components/schemas/Challenge'
  *    Challenge:
  *      type: object
- *      properties: 
- *          _id: 
+ *      properties:
+ *          _id:
  *              type: number
  *              example: 039812719872
- *          name: 
+ *          name:
  *              type: string
  *              example: Run 5 miles
  *          type:
  *              type: string
- *              enum: 
+ *              enum:
  *                - open
  *                - fixed
  *              example: open
  *          activity:
  *              type: string
- *              enum: 
+ *              enum:
  *                - single
  *                - multiple
  *              example: single
- *          knockout: 
+ *          knockout:
  *              type: boolean
  *              example: true
- *          knockoutType: 
+ *          knockoutType:
  *              type: string
- *              enum: 
- *                - daily 
+ *              enum:
+ *                - daily
  *                - hourly
  *              example: daily
  *          lowerLimit:
@@ -279,7 +309,7 @@ router.get('/:challengeId/certificate', passport.authenticate('jwt', { session: 
  *          upperLimit:
  *              type: number
  *              example: 10
- *          fixedLimit: 
+ *          fixedLimit:
  *              type: number
  *          cutOffDays:
  *              type: number
@@ -294,30 +324,30 @@ router.get('/:challengeId/certificate', passport.authenticate('jwt', { session: 
  *          endDate:
  *              type: string
  *              format: date
- *          sport: 
+ *          sport:
  *              type: string
  *              enum:
  *                - Walk
- *                - Run 
- *                - VirtualRun 
- *                - TrailRun 
- *                - Treadmil 
- *                - Walk 
- *                - Hike 
- *                - Ride 
- *                - MountainBikeRide 
- *                - GravelBikeRide 
- *                - VeloMobile 
- *                - VirtialRide 
- *                - HandCycle 
- *                - Swim 
- *                - CrossFit 
- *                - Elliptical 
- *                - StairStepper 
- *                - WeightTraining 
- *                - Workout 
- *                - Hiit 
- *                - Pilates 
+ *                - Run
+ *                - VirtualRun
+ *                - TrailRun
+ *                - Treadmil
+ *                - Walk
+ *                - Hike
+ *                - Ride
+ *                - MountainBikeRide
+ *                - GravelBikeRide
+ *                - VeloMobile
+ *                - VirtialRide
+ *                - HandCycle
+ *                - Swim
+ *                - CrossFit
+ *                - Elliptical
+ *                - StairStepper
+ *                - WeightTraining
+ *                - Workout
+ *                - Hiit
+ *                - Pilates
  *                - Yoga
  *          tags:
  *              type: string
@@ -339,7 +369,7 @@ router.get('/:challengeId/certificate', passport.authenticate('jwt', { session: 
  *              example: true
  *          categories:
  *              type: array
- *              items: 
+ *              items:
  *                $ref: '#/components/schemas/ChallengeCategory'
  *    ChallengeCategory:
  *        type: object
@@ -351,36 +381,35 @@ router.get('/:challengeId/certificate', passport.authenticate('jwt', { session: 
  *             type: string
  *             enum:
  *               - Walk
- *               - Run 
- *               - VirtualRun 
- *               - TrailRun 
- *               - Treadmil 
- *               - Walk 
- *               - Hike 
- *               - Ride 
- *               - MountainBikeRide 
- *               - GravelBikeRide 
- *               - VeloMobile 
- *               - VirtialRide 
- *               - HandCycle 
- *               - Swim 
- *               - CrossFit 
- *               - Elliptical 
- *               - StairStepper 
- *               - WeightTraining 
- *               - Workout 
- *               - Hiit 
- *               - Pilates 
+ *               - Run
+ *               - VirtualRun
+ *               - TrailRun
+ *               - Treadmil
+ *               - Walk
+ *               - Hike
+ *               - Ride
+ *               - MountainBikeRide
+ *               - GravelBikeRide
+ *               - VeloMobile
+ *               - VirtialRide
+ *               - HandCycle
+ *               - Swim
+ *               - CrossFit
+ *               - Elliptical
+ *               - StairStepper
+ *               - WeightTraining
+ *               - Workout
+ *               - Hiit
+ *               - Pilates
  *               - Yoga
- *             example: Yoga 
+ *             example: Yoga
  *          distance:
  *              type: number
  *              example: 1
- *          description: 
- *              type: string 
+ *          description:
+ *              type: string
  *              example: Run 50 miles a day
  */
-
 
 /**
  * @openapi
@@ -388,24 +417,24 @@ router.get('/:challengeId/certificate', passport.authenticate('jwt', { session: 
  *  /api/challenge:
  *     get:
  *       operationId: getAllChallenges
- *       security: 
+ *       security:
  *         - bearerAuth: []
- *       responses: 
- *         200: 
+ *       responses:
+ *         200:
  *          description: OK
- *          content: 
+ *          content:
  *             application/json:
- *                 schema: 
- *                     $ref: '#/components/schemas/ChallengeApiResponse'    
- * components: 
+ *                 schema:
+ *                     $ref: '#/components/schemas/ChallengeApiResponse'
+ * components:
  *  securitySchemes:
  *     bearerAuth:
  *       type: http
  *       scheme: bearer
  *       bearerFormat: JWT
  *  schemas:
- *    ChallengeApiResponse: 
- *      type: object  
+ *    ChallengeApiResponse:
+ *      type: object
  *      properties:
  *         success:
  *           type: boolean
@@ -420,31 +449,31 @@ router.get('/:challengeId/certificate', passport.authenticate('jwt', { session: 
  *    Challenge:
  *      type: object
  *      properties:
- *          _id: 
+ *          _id:
  *              type: number
- *              example: 039812719872 
- *          name: 
+ *              example: 039812719872
+ *          name:
  *              type: string
  *              example: Run 5 miles
  *          type:
  *              type: string
- *              enum: 
+ *              enum:
  *                - open
  *                - fixed
  *              example: open
  *          activity:
  *              type: string
- *              enum: 
+ *              enum:
  *                - single
  *                - multiple
  *              example: single
- *          knockout: 
+ *          knockout:
  *              type: boolean
  *              example: true
- *          knockoutType: 
+ *          knockoutType:
  *              type: string
- *              enum: 
- *                - daily 
+ *              enum:
+ *                - daily
  *                - hourly
  *              example: daily
  *          lowerLimit:
@@ -453,7 +482,7 @@ router.get('/:challengeId/certificate', passport.authenticate('jwt', { session: 
  *          upperLimit:
  *              type: number
  *              example: 10
- *          fixedLimit: 
+ *          fixedLimit:
  *              type: number
  *          cutOffDays:
  *              type: number
@@ -468,30 +497,30 @@ router.get('/:challengeId/certificate', passport.authenticate('jwt', { session: 
  *          endDate:
  *              type: string
  *              format: date
- *          sport: 
+ *          sport:
  *              type: string
  *              enum:
  *                - Walk
- *                - Run 
- *                - VirtualRun 
- *                - TrailRun 
- *                - Treadmil 
- *                - Walk 
- *                - Hike 
- *                - Ride 
- *                - MountainBikeRide 
- *                - GravelBikeRide 
- *                - VeloMobile 
- *                - VirtialRide 
- *                - HandCycle 
- *                - Swim 
- *                - CrossFit 
- *                - Elliptical 
- *                - StairStepper 
- *                - WeightTraining 
- *                - Workout 
- *                - Hiit 
- *                - Pilates 
+ *                - Run
+ *                - VirtualRun
+ *                - TrailRun
+ *                - Treadmil
+ *                - Walk
+ *                - Hike
+ *                - Ride
+ *                - MountainBikeRide
+ *                - GravelBikeRide
+ *                - VeloMobile
+ *                - VirtialRide
+ *                - HandCycle
+ *                - Swim
+ *                - CrossFit
+ *                - Elliptical
+ *                - StairStepper
+ *                - WeightTraining
+ *                - Workout
+ *                - Hiit
+ *                - Pilates
  *                - Yoga
  *          tags:
  *              type: string
@@ -513,7 +542,7 @@ router.get('/:challengeId/certificate', passport.authenticate('jwt', { session: 
  *              example: true
  *          categories:
  *              type: array
- *              items: 
+ *              items:
  *                $ref: '#/components/schemas/ChallengeCategory'
  *    ChallengeCategory:
  *        type: object
@@ -525,34 +554,34 @@ router.get('/:challengeId/certificate', passport.authenticate('jwt', { session: 
  *             type: string
  *             enum:
  *               - Walk
- *               - Run 
- *               - VirtualRun 
- *               - TrailRun 
- *               - Treadmil 
- *               - Walk 
- *               - Hike 
- *               - Ride 
- *               - MountainBikeRide 
- *               - GravelBikeRide 
- *               - VeloMobile 
- *               - VirtialRide 
- *               - HandCycle 
- *               - Swim 
- *               - CrossFit 
- *               - Elliptical 
- *               - StairStepper 
- *               - WeightTraining 
- *               - Workout 
- *               - Hiit 
- *               - Pilates 
+ *               - Run
+ *               - VirtualRun
+ *               - TrailRun
+ *               - Treadmil
+ *               - Walk
+ *               - Hike
+ *               - Ride
+ *               - MountainBikeRide
+ *               - GravelBikeRide
+ *               - VeloMobile
+ *               - VirtialRide
+ *               - HandCycle
+ *               - Swim
+ *               - CrossFit
+ *               - Elliptical
+ *               - StairStepper
+ *               - WeightTraining
+ *               - Workout
+ *               - Hiit
+ *               - Pilates
  *               - Yoga
- *             example: Yoga 
+ *             example: Yoga
  *          distance:
  *              type: number
  *              example: 1
- *          description: 
- *              type: string 
+ *          description:
+ *              type: string
  *              example: Run 50 miles a day
  */
 
-export default router
+export default router;
