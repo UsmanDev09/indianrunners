@@ -1,6 +1,7 @@
 import { model, Schema, Types } from 'mongoose'
 import challengeCategorySchema, { Category } from './challengeCategory'
 import { User } from './user'
+import { DesignState as DesignStateInterface} from './designState'
 
 const challengeSchema = new Schema({
     name: { type: String, required: [true, 'Challange name is required'], unique: [true, 'Challenge name is already taken']},
@@ -57,6 +58,7 @@ export interface Challenge extends Document {
     categories: Category[]
     certificate: String
     userDetails: { user: User, certicateSend: Boolean }[]
+    designState: DesignStateInterface
 }
 
 export default model<Challenge>('Challenge', challengeSchema)

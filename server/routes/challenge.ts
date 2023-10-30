@@ -28,7 +28,7 @@ router.get('/', passport.authenticate('jwt', { session: false } ), Challenge.get
 
 router.get('/:id', passport.authenticate('jwt', { session: false } ), Challenge.getChallengeById)
 
-router.get('/:challengeId/certificate', passport.authenticate('jwt', { session: false }, Challenge.getCertificatesByChallenge))
+router.get('/:challengeId/certificate', passport.authenticate('jwt', { session: false }), Challenge.getCertificatesByChallenge)
 
 /**
  * @openapi

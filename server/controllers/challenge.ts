@@ -116,12 +116,11 @@ export const addCertificateToChallenge: RequestHandler<unknown, unknown, { chall
     }  
 }
 
-export const getCertificatesByChallenge: RequestHandler<unknown, unknown, { challengeId: number, certificateUrl: string, designState: object }, unknown> = async (req, res, next) => {
+export const getCertificatesByChallenge: RequestHandler<{ challengeId: number }, unknown, unknown, unknown> = async (req, res, next) => {
     try {
-        const challengeId = req.params
-        
-        const challenge = await ChallengeModel.findById(challengeId).populate('designState')
-        console.log(challenge)
+        const { challengeId } = req.params
+
+        const challenge = await ChallengeModel.findById(challengeId).populate('designState').exec()
 
         res.status(StatusCodes.OK).json({
             success: true,
@@ -131,6 +130,7 @@ export const getCertificatesByChallenge: RequestHandler<unknown, unknown, { chal
 
     } catch (err) {
         if(err instanceof Error) {
+            console.log(err.message)
             logger.error(err.message)
             next(err.message)
         }

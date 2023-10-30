@@ -1,6 +1,6 @@
 import { model, Schema, Types } from 'mongoose'
 
-const designState = new Schema({
+const designStateSchema = new Schema({
     imgSrc: { type: String },
     finetunes: { type: String },
     filter: { type: String },
@@ -28,29 +28,29 @@ const designState = new Schema({
 }, { timestamps: true })
 
 export interface DesignState extends Document {
-    imgSrc: String
-    finetunes: String[]
-    filter: String[]
+    imgSrc: string
+    finetunes: string[]
+    filter: string[]
     adjustments: {
         crop: {
-            ratio: String
-            ratioTitleKey: String
-            width: String
-            height: String
-            x: String
-            y: String
+            ratio: string
+            ratioTitleKey: string
+            width: string
+            height: string
+            x: string
+            y: string
         },
-        isFlippedX: String
-        isFlippedY: String
-        rotation: String
+        isFlippedX: string
+        isFlippedY: string
+        rotation: string
         },
-    annotations: String
-    resize: String
+    annotations: string
+    resize: string
     shownImageDimensions: {
-        width: String
-        height: String
-        scaledBy: String
+        width: string
+        height: string
+        scaledBy: string
     }
 }
 
-export default model<DesignState>('DesignState', designState)
+export default model<DesignState>('DesignState', designStateSchema)
