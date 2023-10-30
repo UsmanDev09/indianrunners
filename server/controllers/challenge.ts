@@ -4,6 +4,7 @@ import { StatusCodes } from "http-status-codes"
 import mongoose from "mongoose"
 
 import { Challenge as ChallengeInterface } from "../models/challenge"
+import DesignStateModel from '../models/designState'
 import ChallengeModel from "../models/challenge"
 import CategoryModel, { Category as ChallengeCategoryInterface } from "../models/challengeCategory"
 import LeaderboardModel from "../models/leaderboard"
@@ -91,13 +92,15 @@ export const createChallenge: RequestHandler<unknown, unknown, ChallengeInterfac
     }
 }
 
-export const addCertificateToChallenge: RequestHandler<unknown, unknown, { challengeId: number, certificateUrl: string }, unknown> = async (req, res, next) => {
+export const addCertificateToChallenge: RequestHandler<unknown, unknown, { challengeId: number, certificateUrl: string, designState: object }, unknown> = async (req, res, next) => {
     try {
         const _id = req.user as UserInterface 
 
-        const { challengeId, certificateUrl } = req.body
+        const { challengeId, certificateUrl, designState } = req.body
     
-        const challenge = await ChallengeModel.findByIdAndUpdate(challengeId, { $push: { certificates: certificateUrl } })
+        const designStateDocument = await DesignStateModel.create(designState)
+
+        const challenge = await ChallengeModel.findByIdAndUpdate(challengeId, { $push: { certificates: certificateUrl, designState: designStateDocument._id } })
 
         res.status(StatusCodes.OK).json({
             success: true,
