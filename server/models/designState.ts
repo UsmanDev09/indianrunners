@@ -2,12 +2,12 @@ import { model, Schema, Types } from 'mongoose'
 
 const designState = new Schema({
     imgSrc: { type: String },
-    finetunes: { type: String, default: []},
-    filter: { type: String, default: []},
+    finetunes: { type: String },
+    filter: { type: String },
     adjustments: {
         crop: {
             ratio: { type: String },
-            ratioTitleKey: { type: String},
+            ratioTitleKey: { type: String },
             width: { type: Number },
             height: { type: Number },
             x: { type: Number },
@@ -25,7 +25,6 @@ const designState = new Schema({
         height: { type: Number },
         scaledBy: { type: Number }
     }
-
 }, { timestamps: true })
 
 export interface DesignState extends Document {
