@@ -374,13 +374,39 @@ export const getUsersCertificateStatus: RequestHandler<
   try {
     const { id } = req.params;
 
-    const challenge = await ChallengeModel.findById(id);
+    // const challenge = await ChallengeModel.findOne({ _id : new mongoose.Types.ObjectId(id) }).populate('userDetails.$.user').exec();
 
-    const challengeCertificatesStatus = challenge?.userDetails;
+      const challenge : any= await ChallengeModel.aggregate([
+        {
+            $match: {
+                _id: new mongoose.Types.ObjectId(id)
+            }
+        },
+        {
+            $unwind: "$userDetails" 
+        },
+        {
+            $lookup: {
+                from: "users", 
+                localField: "userDetails.user",
+                foreignField: "_id",
+                as: "userDetails.user"
+            }
+        },
+        {
+            $unwind: "$userDetails.user" 
+        },
+        {
+            $group: {
+                _id: "$_id",
+                userDetails: { $push: "$userDetails" },
+            }
+        }
+    ]);
 
     res.status(StatusCodes.OK).json({
       success: true,
-      data: challengeCertificatesStatus,
+      data: challenge[0].userDetails,
       message: Constants.challengeCertificatesStatusFetchedSuccessfully,
     });
   } catch (err) {
