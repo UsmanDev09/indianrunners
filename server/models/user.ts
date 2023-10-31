@@ -40,7 +40,7 @@ const userSchema = new Schema({
     badges: { type: [badgeSchema.schema], default: []},
     challenges: { type: [challengeSchema.schema], default: []},
     rewardPoints: { type: Number, default: 0 },
-    certificates: { type: String, default: [] }
+    certificates: { type: [String], default: [] }
 }, { timestamps: true })
 
 export interface User extends Document {

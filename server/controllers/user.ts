@@ -2,7 +2,7 @@ import { RequestHandler } from "express"
 import bcrypt from 'bcrypt'
 import createHttpError from 'http-errors'
 import jwt from 'jsonwebtoken'
-import { Types } from "mongoose"
+import mongoose, { Types } from "mongoose"
 
 import env from '../utility/validateEnv'
 import logger from "../config/logger"
@@ -233,27 +233,23 @@ export const getCertificates: RequestHandler<unknown, unknown, UserInterface, un
     }
 }
 
-export const assignCertificateToAUser: RequestHandler<unknown, unknown, UserInterface, unknown> = async (req, res, next) => {
+export const assignCertificateToAUser: RequestHandler<{userId: number, challengeId: number }, unknown, UserInterface, unknown> = async (req, res, next) => {
     try {
-        const userId = req.params
-
-        const challengeId = req.params
+        const { userId, challengeId } = req.params
 
         const challenge = await ChallengeModel.findById(challengeId) 
-
+        console.log(challenge?.certificate)
         if(!challenge) throw createHttpError(StatusCodes.NOT_FOUND ,Constants.challengeNotFound)
 
-        await ChallengeModel.findOneAndUpdate({ _id: challengeId, userDetails: { user: userId } }, { certificatesSent: true }) 
+        await ChallengeModel.findOneAndUpdate({ _id: new mongoose.Types.ObjectId(challengeId) }, { userDetails: { user: userId, certificateSent: true } }) 
 
-        const user = await UserModel.findByIdAndUpdate(userId, { $push: { certicates: challenge.certificate } })
-        
-        res.status(StatusCodes.NO_CONTENT).json({
+        const user = await UserModel.findOneAndUpdate({ _id: new mongoose.Types.ObjectId(userId) }, { $push: { certificates: challenge.certificate } })
+
+        res.status(StatusCodes.OK).json({
             success: true,
             data: [],
             message: Constants.certificateAssignedSuccessfully
         })
-
-        
     } catch (err) {
         if(err instanceof Error){ 
             logger.error(err.message)

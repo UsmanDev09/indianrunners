@@ -175,16 +175,14 @@ export const addCertificateToChallenge: RequestHandler<
 > = async (req, res, next) => {
   try {
     const _id = req.user as UserInterface;
-    console.log(req.body);
+
     const { challengeId, certificateUrl, designState } = req.body;
-    console.log(designState);
+
     const designStateDocument = await DesignStateModel.create(designState);
 
     const challenge = await ChallengeModel.findByIdAndUpdate(challengeId, {
-      $push: {
-        certificates: certificateUrl,
-        designState: designStateDocument._id,
-      },
+      certificates: certificateUrl,
+      designState: designStateDocument._id,
     });
 
     res.status(StatusCodes.OK).json({
@@ -377,7 +375,7 @@ export const getUsersCertificateStatus: RequestHandler<
     const { id } = req.params;
 
     const challenge = await ChallengeModel.findById(id);
-    console.log(challenge);
+
     const challengeCertificatesStatus = challenge?.userDetails;
 
     res.status(StatusCodes.OK).json({
