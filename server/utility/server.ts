@@ -32,7 +32,7 @@ const server = () => {
     }))
     app.use(passport.initialize())
     // app.use(whitelistRequestBodyParams)
-
+ 
     app.use('/api/user', userRoutes)
     app.use('/api/activity', activityRoutes)
     app.use('/api/challengeCategory', challengeCategoryRoutes)
@@ -60,6 +60,7 @@ const server = () => {
 
     // error handler
     app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
+        if(error instanceof Error) console.log(error.message)
         let errorMessage = 'An unknown error occured.'
         let statusCode = 500
         if (isHttpError(error)){

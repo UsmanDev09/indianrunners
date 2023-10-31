@@ -18,6 +18,7 @@ router.put('/', passport.authenticate('jwt', { session: false } ), checkIsinRole
 
 // router.delete('/', passport.authenticate('jwt', { session: false } ), checkIsinRole(ROLES.ADMIN), Challenge.deleteChallenge)
 
+
 router.get('/', passport.authenticate('jwt', { session: false } ), Challenge.getAllChallenges)
 
 router.get('/:id', passport.authenticate('jwt', { session: false } ), Challenge.getChallengeById)

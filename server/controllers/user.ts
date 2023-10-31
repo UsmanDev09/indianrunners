@@ -57,15 +57,8 @@ export const login: RequestHandler<unknown, unknown, UserInterface, unknown> = a
 
 }
 
-export const googleLogin: RequestHandler = async (req, res, next) => {
-
-
-}
-
-
 export const register: RequestHandler = async (req, res, next) => {
     try {
-        
         const { email, password, ...userData } = req?.body
         const clubs = ["Spartans", "Vikings", "Avengers", "Ninjas"]
 

@@ -8,24 +8,8 @@ import getAccount from "@/lib/getAccount";
 import { MyGlobalContext } from "@/Hooks/useGlobalContext";
 // import startIcon from "../../public/images/star.svg";
 
-const AccountInfo = (props: any) => {
-  // const [files, setFiles] = useState(sourceImage.src);
-  const { state, dispatch } = useContext(MyGlobalContext);
-  useEffect(() => {
-    const { account } = getAccount();
-    dispatch({
-      type: "ACCOUNT_UPDATE",
-      payload: {
-        firstName: account.firstName,
-        lastName: account.lastName,
-        userName: account.userName,
-        profile: account.profile,
-        token: account.token,
-        email: account.email,
-        role: account.role,
-      },
-    });
-  }, []);
+const AccountInfo = ({user} : {user: any}) => {
+
   const handleUploadClick = (e: Event) => {
     // [...e.target.files].forEach((file) => {
     //   var reader = new FileReader();
@@ -39,17 +23,17 @@ const AccountInfo = (props: any) => {
     <div className="pt-16 md:pl-16 pl-0 flex flex-wrap justify-between w-full">
       <div className="w-full">
         <div className="flex justify-between mb-1">
-          <span className="text-base font-medium text-blue-700 dark:text-white">
+          <span className="text-base font-medium text-black dark:text-white">
             Profile Completion
           </span>
-          <span className="text-sm font-medium text-blue-700 dark:text-white">
-            {state.account.profile}%
+          <span className="text-sm font-medium text-black dark:text-white">
+            {user?.profileCompleted ? user?.profileCompleted : 0}%
           </span>
         </div>
         <div className="w-full border border-black dark:border-white rounded-full p-1 dark:bg-gray-700">
           <div
-            className="bg-pink h-2.5 rounded-full dark:bg-dark-button"
-            style={{ width: `${state.account.profile}%` }}
+            className="bg-gray-700 h-2.5 rounded-full dark:bg-dark-button"
+            style={{ width: `${user?.profileCompleted ? user?.profileCompleted : 0}% ` }}
           ></div>
         </div>
       </div>
@@ -78,7 +62,7 @@ const AccountInfo = (props: any) => {
       <div className="item-left w-full dark:text-blue-text">
         <div>
           <p className="font-unica text-[30px] py-5">
-            {state.account.firstName} {state.account.lastName}
+            {user?.name}
           </p>
           <p className="font-comfortaa">
             Short profile introduction, this is dummy placeholder text to fill
@@ -93,23 +77,18 @@ const AccountInfo = (props: any) => {
           <p className="font-unica text-[25px]">PROFILE CONTACT</p>
           <div className="flex items-center">
             <p className="text-gray-700 text-[15px] min-w-[150px]">EMAIL </p>
-            <p className="font-comfortaa">{state.account.email}</p>
+            <p className="font-comfortaa">{user?.email}</p>
           </div>
-          <div className="flex items-center">
-            <p className="text-gray-700 text-[15px] min-w-[150px]">
-              USER NAME{" "}
-            </p>
-            <p className="font-comfortaa">{state.account.userName}</p>
-          </div>
+          
         </div>
       </div>
       <div className="md:w-[20%] min-w-[250px] ">
         <div>
           <Link
             href="/profile/complete-profile"
-            className="hover:bg-[#A042E1] xs:mb-4 lg:mb-0 dark:text-blue-text hover:text-white dark:bg-dark-button dark:hover:bg-gray font-comfortaa inline-flex items-center bg-white  text-gray-800 font-semibold py-2 px-4 rounded-[12px] shadow mt-5"
+            className="text-black xs:mb-4 lg:mb-0 dark:text-blue-text hover:bg-gray-700 hover:text-white dark:bg-dark-button dark:hover:bg-gray font-comfortaa inline-flex items-center bg-white  text-gray-800 font-semibold py-2 px-4 rounded-[12px] shadow mt-5"
           >
-            <BiPencil className="text-[20px]" /> &nbsp;Complete Profile
+            <BiPencil className="text-[20px]" /> Complete Profile
           </Link>
         </div>
       </div>
