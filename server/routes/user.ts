@@ -6,6 +6,8 @@ import express from 'express'
 import passport from 'passport'
 import * as User from '../controllers/user'
 import UserModel from '../models/user'
+import jwt from 'jsonwebtoken'
+import env from '../utility/validateEnv'
 
 const storage = multer.memoryStorage(); // Store files in memory as Buffers
 
@@ -31,16 +33,16 @@ router.get('/google', passport.authenticate('google', {
 }))
 
 // callback route to redirect to
-router.get('/google/redirect', passport.authenticate('google', { session: false }), async (req: Request, res: Response, next: any) => {
+router.get('/google/redirect', passport.authenticate('google', { session: false }), async (req: any, res: Response, next: any) => {
     // google redirect callback
-    console.log(req.user)
+    const {_id} = req.user
 
-    await UserModel.findByIdAndUpdate(req.user, user._id, { })
-    // res.status(StatusCodes.OK).json({
-    //     success: true,
-    //     data: req.user,
-    //     message: Constants.userLoggedInSuccessfully
-    // })
+    const payload = {
+        userId: _id
+    }
+    const token = jwt.sign(payload, env.JWT_SECRET_KEY);
+    
+    res.redirect(`http://localhost:3000/profile?token=${token}`);
 })
 
 /**

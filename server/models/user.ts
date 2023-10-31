@@ -12,6 +12,7 @@ import { Challenge as ChallengeInterface } from './challenge'
 
 const userSchema = new Schema({
     athlete_id: { type: Number },
+    google_id: { type: Number },
     email: { type: String, required: true, unique: true },
     password: { type: String },
     name: { type: String, required: true },

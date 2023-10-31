@@ -184,10 +184,6 @@ const SignUpForm = () => {
                   type="button"
                   onClick={() => window.open('http://localhost:5000/api/user/google', '_self')}
                 >
-                  {/* <Link
-                    // href="https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=65295987407-2k7rtlh9u50b4f4tb3g7kfom57pm6mis.apps.googleusercontent.com&redirect_uri=http://localhost:3000/auth/google/redirect&scope=email%20profile&access_type=offline"
-                    href="/api/user/google"
-                  > */}
                     Sign Up with Google
                 </button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
