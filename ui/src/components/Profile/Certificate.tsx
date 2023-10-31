@@ -32,39 +32,39 @@ const Certificate = ({
   const { account } = getAccount();
   const router = useRouter();
   const cld = new Cloudinary({ cloud: { cloudName: "da39zmhtv" } });
-  const loadImage = () => {
-    const img = document.getElementById("certificate");
-    const canvas = canvasRef.current;
-    // @ts-ignore: Object is possibly 'null'.
-    const context = canvas.getContext("2d");
-    //Our first draw
-    context.drawImage(img, 0, 0, 640, 555);
-    context.font = "30px Times New Roman";
-    context.fillText(
-      " " + account.firstName + " " + account.lastName,
-      220,
-      250
-    );
-    context.fillText("Cycling Challenge", 210, 335);
-    var canvasElem = document.getElementById("myCanvas") as HTMLCanvasElement;
-    const image = canvasElem
-      .toDataURL("image/png")
-      .replace("image/png", "image/octet-stream");
-    const data = new FormData();
-    data.append("file", image);
-    data.append("upload_preset", "certificate");
-    data.append("cloud_name", "da39zmhtv");
-    data.append("public_id", `${account.firstName}_Cycling`);
-    fetch("https://api.cloudinary.com/v1_1/da39zmhtv/image/upload", {
-      method: "post",
-      body: data,
-    })
-      .then((resp) => resp.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((err) => console.log(err));
-  };
+  // const loadImage = () => {
+  //   const img = document.getElementById("certificate");
+  //   const canvas = canvasRef.current;
+  //   // @ts-ignore: Object is possibly 'null'.
+  //   const context = canvas.getContext("2d");
+  //   //Our first draw
+  //   context.drawImage(img, 0, 0, 640, 555);
+  //   context.font = "30px Times New Roman";
+  //   context.fillText(
+  //     " " + account.firstName + " " + account.lastName,
+  //     220,
+  //     250
+  //   );
+  //   context.fillText("Cycling Challenge", 210, 335);
+  //   var canvasElem = document.getElementById("myCanvas") as HTMLCanvasElement;
+  //   const image = canvasElem
+  //     .toDataURL("image/png")
+  //     .replace("image/png", "image/octet-stream");
+  //   const data = new FormData();
+  //   data.append("file", image);
+  //   data.append("upload_preset", "certificate");
+  //   data.append("cloud_name", "da39zmhtv");
+  //   data.append("public_id", `${account.firstName}_Cycling`);
+  //   fetch("https://api.cloudinary.com/v1_1/da39zmhtv/image/upload", {
+  //     method: "post",
+  //     body: data,
+  //   })
+  //     .then((resp) => resp.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
 
   const Download = () => {
     var canvas = document.getElementById("myCanvas") as HTMLCanvasElement;
@@ -130,7 +130,7 @@ const Certificate = ({
         <RiFileCopyLine
           size={80}
           color="white"
-          className="absolute left-0 top-20 m-4 rounded-lg text-lg cursor-pointer"
+          className="absolute left-20 top-0 m-4 rounded-lg text-lg cursor-pointer"
           onClick={() => {
             navigator.clipboard.writeText(
               window.location.href + "?image=" + image1
@@ -139,31 +139,36 @@ const Certificate = ({
           }}
         />
         <LinkedinShareButton
-          className="absolute left-0 top-40 m-4 rounded-lg text-lg cursor-pointer"
+          className="absolute left-40 top-0 m-4 rounded-lg text-lg cursor-pointer"
           url={window.location.href + "?image=" + image1}
         >
           <RiLinkedinBoxFill size={80} color="white"></RiLinkedinBoxFill>
         </LinkedinShareButton>
         <FacebookShareButton
-          className="absolute left-0 top-60 m-4 rounded-lg text-lg cursor-pointer"
+          className="absolute left-60 top-0 m-4 rounded-lg text-lg cursor-pointer"
           url={window.location.href + "?image=" + image1}
         >
           <RiFacebookBoxFill size={80} color="white"></RiFacebookBoxFill>
         </FacebookShareButton>
 
-        <canvas
+        {/* <canvas
           ref={canvasRef}
           id="myCanvas"
           width="640"
           height="555"
           className="absolute top-1/4 left-1/4 rounded-lg"
-        ></canvas>
+        ></canvas> */}
+        <img
+          src={image1}
+          alt=""
+          id="certificate"
+          className="absolute top-1/4 rounded-lg object-scale-down h-full"
+        ></img>
       </div>
       <img
-        src="/Certificate.png"
+        src={image1}
         alt=""
         id="certificate"
-        onLoad={loadImage}
         style={{
           display: "block",
           justifyContent: "center",
