@@ -179,11 +179,11 @@ export const addCertificateToChallenge: RequestHandler<
     const { challengeId, certificateUrl, designState } = req.body;
 
     const designStateDocument = await DesignStateModel.create(designState);
-
     const challenge = await ChallengeModel.findByIdAndUpdate(challengeId, {
       certificates: certificateUrl,
       designState: designStateDocument._id,
     });
+    console.log('challenge', challenge?.certificate)
 
     res.status(StatusCodes.OK).json({
       success: true,
