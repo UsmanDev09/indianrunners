@@ -254,7 +254,7 @@ router.get('google/redirect', passport.authenticate('google'), (req: Request, re
     // google redirect callback
 })
 
-router.get('/certificate', User.getCertificates)
+router.get('/certificate', passport.authenticate('jwt', { session: false }), User.getCertificates)
 
 router.put('/:userId/challenge/:challengeId/certificate', passport.authenticate('jwt', { session: false }), User.assignCertificateToAUser)
 
