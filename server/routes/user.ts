@@ -256,7 +256,7 @@ router.get('google/redirect', passport.authenticate('google'), (req: Request, re
 
 router.get('/certificate', passport.authenticate('jwt', { session: false }), User.getCertificates)
 
-router.put('/:userId/challenge/:challengeId/certificate/:certificateUrl', passport.authenticate('jwt', { session: false }), User.assignCertificateToAUser)
+router.put('/:userId/challenge/:challengeId/certificate', passport.authenticate('jwt', { session: false }), User.assignCertificateToAUser)
 
 
 export default router

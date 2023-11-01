@@ -235,12 +235,14 @@ export const getCertificates: RequestHandler<unknown, unknown, UserInterface, un
     }
 }
 
-export const assignCertificateToAUser: RequestHandler<{userId: number, challengeId: number, certificateUrl: number }, unknown, UserInterface, unknown> = async (req, res, next) => {
+export const assignCertificateToAUser: RequestHandler<{userId: number, challengeId: number, certificateUrl: number }, unknown, { certificateUrl: string }, unknown> = async (req, res, next) => {
     try {
-        const { userId, challengeId, certificateUrl } = req.params
+        const { userId, challengeId } = req.params
+
+        const { certificateUrl } = req.body
 
         const challenge = await ChallengeModel.findById(challengeId) 
-        console.log(challenge?.certificate)
+
         if(!challenge) throw createHttpError(StatusCodes.NOT_FOUND ,Constants.challengeNotFound)
 
         await ChallengeModel.findOneAndUpdate({ _id: new mongoose.Types.ObjectId(challengeId) }, { userDetails: { user: userId, certificateSent: true } }) 
