@@ -72,7 +72,7 @@ export default function CertificateBuilder({
           setUsers(
             chall.data.filter(
               (user: { certificateSent: boolean }) =>
-                user.certificateSent === true
+                user.certificateSent === false
             )
           );
         })
@@ -112,7 +112,7 @@ export default function CertificateBuilder({
 
   const AddCertificatetoUser = async (userId: string, url: string) => {
     const chall = await fetch(
-      `http://localhost:5000/api/user/${userId}/challenge/${challenge._id}/certificate/?certificateUrl=${url}`,
+      `http://localhost:5000/api/user/${userId}/challenge/${challenge._id}/certificate`,
       {
         method: "PUT",
         mode: "cors", // no-cors, *cors, same-origin
