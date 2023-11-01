@@ -76,8 +76,7 @@ const Certificate = ({
     link.href = image;
     link.click();
   };
-  const image1 =
-    "http://res.cloudinary.com/da39zmhtv/image/upload/v1696110639/certificates/usman_Cycling.png";
+
   return (
     <div className="justify-center">
       <button
@@ -133,20 +132,20 @@ const Certificate = ({
           className="absolute left-20 top-0 m-4 rounded-lg text-lg cursor-pointer"
           onClick={() => {
             navigator.clipboard.writeText(
-              window.location.href + "?image=" + image1
+              window.location.href + "?image=" + picture
             );
             console.log(router.query);
           }}
         />
         <LinkedinShareButton
           className="absolute left-40 top-0 m-4 rounded-lg text-lg cursor-pointer"
-          url={window.location.href + "?image=" + image1}
+          url={window.location.href + "?image=" + picture}
         >
           <RiLinkedinBoxFill size={80} color="white"></RiLinkedinBoxFill>
         </LinkedinShareButton>
         <FacebookShareButton
           className="absolute left-60 top-0 m-4 rounded-lg text-lg cursor-pointer"
-          url={window.location.href + "?image=" + image1}
+          url={window.location.href + "?image=" + picture}
         >
           <RiFacebookBoxFill size={80} color="white"></RiFacebookBoxFill>
         </FacebookShareButton>
@@ -159,14 +158,14 @@ const Certificate = ({
           className="absolute top-1/4 left-1/4 rounded-lg"
         ></canvas> */}
         <img
-          src={image1}
+          src={picture}
           alt=""
           id="certificate"
-          className="absolute top-1/4 rounded-lg object-scale-down h-full"
+          className="absolute top-1/4 rounded-lg object-scale-down h-full w-full"
         ></img>
       </div>
       <img
-        src={image1}
+        src={picture}
         alt=""
         id="certificate"
         style={{

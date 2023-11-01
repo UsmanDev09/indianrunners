@@ -2,7 +2,7 @@ import getAccount from "@/lib/getAccount";
 import { Challenge } from "@/pages/api";
 import { Cloudinary } from "@cloudinary/url-gen";
 import dynamic from "next/dynamic";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const FilerobotImageEditor = dynamic(
   () => import("react-filerobot-image-editor"),
@@ -24,12 +24,13 @@ export default function CertificateBuilder({
   const [isImgEditorShown, setIsImgEditorShown] = useState(false);
   const [loader, setLoader] = useState(false);
   const [desState, setDesState] = useState({});
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState([
+    { user: { name: "", gender: "", _id: "" } },
+  ]);
   const [userNo, setUserNo] = useState(0);
   const [URL, setURL] = useState("");
   const { account } = getAccount();
   const token = localStorage.getItem("token");
-  console.log(challenge);
 
   const fetchDesignState = async () => {
     const chall = await fetch(
@@ -39,26 +40,53 @@ export default function CertificateBuilder({
       }
     ).then((response) =>
       response.json().then((chall) => {
+        updateDesignState(chall.data.designState);
         setDesState(chall.data.designState);
         setIsImgEditorShown(true);
       })
     );
   };
 
-  const fetchUsersforCertificates = async () => {
-    const chall = await fetch(
-      `http://localhost:5000/api/challenge/${challenge._id}/certificate-status`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
+  const updateDesignState = async (designState: any) => {
+    if (users[userNo])
+      for (const key in designState.annotations) {
+        if (designState.annotations[key].id === "FullName") {
+          designState.annotations[key].text = users[userNo].user.name;
+          console.log(key, "is name text");
+        }
+        if (designState.annotations[key].id === "Gender") {
+          designState.annotations[key].text = users[userNo].user.gender;
+          console.log(key, "is Gender text");
+        }
       }
-    ).then((response) => response.json().then((chall) => setUsers(chall.data)));
   };
+  useEffect(() => {
+    const fetchUsersforCertificates = async () => {
+      const chall = await fetch(
+        `http://localhost:5000/api/challenge/${challenge._id}/certificate-status`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      ).then((response) =>
+        response.json().then((chall) => {
+          setUsers(
+            chall.data.filter(
+              (user: { certificateSent: boolean }) =>
+                user.certificateSent === true
+            )
+          );
+        })
+      );
+    };
+    fetchUsersforCertificates();
+  }, []);
 
   const AddCertificate = async (
     challenge: Challenge,
     url: string,
     desState: any
   ) => {
+    console.log(url);
     const chall = await fetch(
       `http://localhost:5000/api/challenge/${challenge._id}/certificate`,
       {
@@ -82,9 +110,9 @@ export default function CertificateBuilder({
     ).then((response) => response.json().then((chall) => console.log(chall)));
   };
 
-  const AddCertificatetoUser = async (userId: string) => {
+  const AddCertificatetoUser = async (userId: string, url: string) => {
     const chall = await fetch(
-      `http://localhost:5000/api/user/${userId}/challenge/${challenge._id}/certificate`,
+      `http://localhost:5000/api/user/${userId}/challenge/${challenge._id}/certificate/?certificateUrl=${url}`,
       {
         method: "PUT",
         mode: "cors", // no-cors, *cors, same-origin
@@ -99,26 +127,27 @@ export default function CertificateBuilder({
         referrerPolicy: "no-referrer",
         body: JSON.stringify({
           challengeId: challenge._id,
+          certificateUrl: url,
         }),
       }
     ).then((response) => response.json().then((chall) => console.log(chall)));
   };
 
-  const cld = new Cloudinary({ cloud: { cloudName: "da39zmhtv" } });
   const loadImage = (imageObj: any, state: any, userId?: string) => {
     const image = imageObj.imageBase64;
     const data = new FormData();
     data.append("file", image);
     data.append("upload_preset", "certificate");
     data.append("cloud_name", "da39zmhtv");
-    data.append("public_id", `${userId}_Cycling`);
+    data.append("public_id", `${userId ? userId : challenge._id}_certificate`);
     fetch("https://api.cloudinary.com/v1_1/da39zmhtv/image/upload", {
       method: "post",
       body: data,
     })
       .then((resp) => resp.json())
       .then((data) => {
-        setURL(data.secure_url);
+        if (userId) AddCertificatetoUser(userId, data.secure_url);
+        else AddCertificate(challenge, data.secure_url, state);
       })
       .catch((err) => console.log(err));
   };
@@ -126,13 +155,12 @@ export default function CertificateBuilder({
   const Download = (imageObj: any, state: any) => {
     const image = imageObj.imageBase64;
     var link = document.createElement("a");
-    link.download = `Certificate_${account.firstName}.png`;
+    link.download = `Certificate_${challenge._id}.png`;
     link.href = image;
     link.click();
   };
 
   const openImgEditor = () => {
-    fetchUsersforCertificates();
     setLoader(true);
     if (!template) {
       fetchDesignState();
@@ -180,21 +208,7 @@ export default function CertificateBuilder({
               for (const key in designState.annotations) {
                 if (designState.annotations[key].text === "FullName") {
                   designState.annotations[key].id = "FullName";
-                  designState.annotations[key].text = users[userNo].user;
                   console.log(key, "is name text");
-                }
-                if (designState.annotations[key].text === "Rank") {
-                  designState.annotations[key].id = "Rank";
-
-                  console.log(key, "is Rank text");
-                }
-                if (designState.annotations[key].text === "For") {
-                  designState.annotations[key].id = "For";
-                  console.log(key, "is For text");
-                }
-                if (designState.annotations[key].text === "Remarks") {
-                  designState.annotations[key].id = "Remarks";
-                  console.log(key, "is Remarks text");
                 }
                 if (designState.annotations[key].text === "Gender") {
                   designState.annotations[key].id = "Gender";
@@ -203,15 +217,15 @@ export default function CertificateBuilder({
               }
               setDesState(designState);
               loadImage(editedImageObject, designState);
-              // Download(editedImageObject, designState);
-              AddCertificate(challenge, URL, designState);
+              Download(editedImageObject, designState);
+              // AddCertificate(challenge, URL, designState);
               closeImgEditor();
             }}
             onClose={closeImgEditor}
             annotationsCommon={{
-              fill: "#ff0000",
+              fill: "#000000",
             }}
-            Text={{ text: "" }}
+            Text={{ text: "", align: "center" }}
             Rotate={{ angle: 90, componentType: "slider" }}
             Crop={{
               presetsItems: [
@@ -269,34 +283,33 @@ export default function CertificateBuilder({
           <FilerobotImageEditor
             source="/White.png"
             onSave={(editedImageObject: any, designState: any) => {
-              console.log("saved", designState, userNo);
-              for (const key in designState.annotations) {
-                if (designState.annotations[key].id === "FullName") {
-                  designState.annotations[key].text = users[userNo].user;
-                  console.log(key, "is name text");
+              console.log(
+                "saved",
+                designState,
+                userNo,
+                users[userNo]?.user._id
+              );
+              if (users[userNo]?.user?._id) {
+                loadImage(
+                  editedImageObject,
+                  designState,
+                  users[userNo].user._id
+                );
+                setUserNo(userNo + 1);
+                for (const key in designState.annotations) {
+                  if (designState.annotations[key].id === "FullName") {
+                    designState.annotations[key].text = users[userNo].user.name;
+                    console.log(key, "is name text");
+                  }
+                  if (designState.annotations[key].id === "Gender") {
+                    designState.annotations[key].text =
+                      users[userNo].user.gender;
+                    console.log(key, "is Gender text");
+                  }
                 }
-                if (designState.annotations[key].id === "Rank") {
-                  designState.annotations[key].text = users[userNo].rank;
-                  console.log(key, "is Rank text");
-                }
-                if (designState.annotations[key].id === "For") {
-                  designState.annotations[key].text = users[userNo].for;
-                  console.log(key, "is For text");
-                }
-                if (designState.annotations[key].id === "Remarks") {
-                  designState.annotations[key].text = users[userNo].remarks;
-                  console.log(key, "is Remarks text");
-                }
-                if (designState.annotations[key].id === "Gender") {
-                  designState.annotations[key].text = users[userNo].gender;
-                  console.log(key, "is Gender text");
-                }
+                setDesState(designState);
+                console.log("design state updated");
               }
-              setDesState(designState);
-              loadImage(editedImageObject, designState, users[userNo].user);
-              AddCertificatetoUser(users[userNo].user);
-              console.log(users[userNo]);
-              setUserNo(userNo + 1);
             }}
             onClose={closeImgEditor}
             tabsIds={["Annotate"]}
