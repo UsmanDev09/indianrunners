@@ -7,12 +7,94 @@ import passport from 'passport'
 import * as User from '../controllers/user'
 import { checkIsinRole } from "../utility/checkIsInRoles"
 import { ROLES } from "../utility/constants"
+import UserModel from '../models/user'
+import jwt from 'jsonwebtoken'
+import env from '../utility/validateEnv'
 
 const storage = multer.memoryStorage(); // Store files in memory as Buffers
 
 const upload = multer({ storage: storage });
 
 const router = express.Router()
+
+router.post('/login', User.login)
+
+router.post('/register', User.register)
+
+/**
+ * @openapi
+ * paths:
+ *  /api/user/password:
+ *      put: 
+ *          operationId: updatePassword
+ *          requestBody:
+ *           required: true
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   email:
+ *                     type: string
+ *                   password:
+ *                     type: string
+ *                   otp: 
+ *                     type: string
+ *          responses: 
+ *              200: 
+ *                 description: OK  
+ */
+
+/**
+ * @openapi
+ * paths:
+ *  /api/user/profile:
+ *   get: 
+ *      operationId: getProfile
+ *      responses: 
+ *          200: 
+ *             description: OK
+ *          400: 
+ *             description: BAD REQUEST
+ */
+
+
+/**
+ * @openapi
+ * paths:
+ *  /api/user/profile:
+ *      put: 
+ *          operationId: updateProfile
+ *          requestBody:
+ *           required: true
+ *           content:
+ *             multipart/form-data:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   image: 
+ *                     type:string
+ *                     format: binary
+ *                   dob:
+ *                     type: string
+ *                   gender:
+ *                     type: string
+ *                   weight: 
+ *                     type: string
+ *                   height: 
+ *                     type: string
+ *                   contact: 
+ *                     type: string
+ *                   country:
+ *                     type: string
+ *                   state: 
+ *                      type: string
+ *                   city: 
+ *                      type: string
+ *          responses: 
+ *              200: 
+ *                 description: OK  
+ */
 
 
 /**
@@ -101,10 +183,6 @@ const router = express.Router()
  */
 
 
-router.post('/login', User.login)
-
-router.post('/googleLogin', User.googleLogin)
-
 /**
  * @openapi
  * paths:
@@ -138,9 +216,6 @@ router.post('/googleLogin', User.googleLogin)
  *               200: 
  *                  description: OK  
  */
-
-
-router.post('/register', User.register)
 
 /**
  * @openapi
@@ -250,8 +325,16 @@ router.post('/google', passport.authenticate('google', {
     scope: ['profile']
 }))
 
-router.get('google/redirect', passport.authenticate('google'), (req: Request, res: Response) => {
+router.get('/google/redirect', passport.authenticate('google', { session: false }), async (req: any, res: Response, next: any) => {
     // google redirect callback
+    const {_id} = req.user
+
+    const payload = {
+        userId: _id
+    }
+    const token = jwt.sign(payload, env.JWT_SECRET_KEY);
+    
+    res.redirect(`http://localhost:3000/profile?token=${token}`);
 })
 
 router.get('/certificate', passport.authenticate('jwt', { session: false }), User.getCertificates)

@@ -12,11 +12,11 @@ import { Challenge as ChallengeInterface } from './challenge'
 
 const userSchema = new Schema({
     athlete_id: { type: Number },
+    google_id: { type: Number },
     email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    firstName: { type: String, required: true },
-    lastName: { type: String, required: true },
-    userName: { type: String, required: true, unique: true },
+    password: { type: String },
+    name: { type: String, required: true },
+    userName: { type: String, unique: true },
     dob: { type: Date },
     gender: { type: String },
     weight: { type: Number },
@@ -40,7 +40,11 @@ const userSchema = new Schema({
     badges: { type: [badgeSchema.schema], default: []},
     challenges: { type: [challengeSchema.schema], default: []},
     rewardPoints: { type: Number, default: 0 },
+<<<<<<< HEAD
     certificates: { type: [String], default: [] }
+=======
+    authenticator: { type: String, enum: ["local", "google", "facebook"], default: "local"}
+>>>>>>> bbb7ae39a57e89ca642937c6f5d0f6edde5ce40d
 }, { timestamps: true })
 
 export interface User extends Document {

@@ -26,16 +26,30 @@ var bodyParser = require("body-parser");
 const app = express();
 
 const server = () => {
-  app.use(express.json({ limit: "50mb" }));
-  app.use(express.urlencoded({ extended: false }));
-  app.use(express.urlencoded({ limit: "50mb" }));
-  app.use(
-    cors({
-      origin: "http://localhost:3000",
-    })
-  );
-  app.use(passport.initialize());
-  // app.use(whitelistRequestBodyParams)
+    app.use(express.json({ limit: "50mb" }));
+    app.use(express.urlencoded( { extended: false} ))
+    app.use(express.urlencoded({ limit: "50mb" }));
+    app.use(cors({
+        origin: 'http://localhost:3000'
+    }))
+    app.use(passport.initialize())
+    // app.use(whitelistRequestBodyParams)
+ 
+    app.use('/api/user', userRoutes)
+    app.use('/api/activity', activityRoutes)
+    app.use('/api/challengeCategory', challengeCategoryRoutes)
+    app.use('/api/challenge', challengeRoutes)
+    app.use('/api/product', productRoutes)
+    app.use('/api/inventory', inventoryRoutes)
+    app.use('/api/badge', badgeRoutes)
+    app.use('/api/cart', cartRoutes)
+    app.use('/api/shippingDetails', shippingDetailRoutes)
+    app.use('/api/orderSummary', orderSummaryRoutes)
+    app.use('/api/product/category', productCategoryRoutes)
+    app.use('/api/payment', paymentRoutes)
+    app.use('/api/notification', notificationRoutes)
+    app.use('/api/leaderboard', leaderboardRoutes)
+    app.use('/api/landingpage', landingPageRoutes)
 
   app.use("/api/user", userRoutes);
   app.use("/api/activity", activityRoutes);

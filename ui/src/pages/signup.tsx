@@ -16,15 +16,3 @@ export default function Login({ NotFoundImage }: Props) {
     </div>
   );
 }
-
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  try {
-    // By returning { props: item }, the StaticPropsDetail component
-    // will receive `item` as a prop at build time
-    const NotFoundImage = "NotFoundPicture";
-
-    return { props: { NotFoundImage } };
-  } catch (err: any) {
-    return { props: { errors: err.message } };
-  }
-};
