@@ -28,17 +28,14 @@ router.put(
 
 // router.delete('/', passport.authenticate('jwt', { session: false } ), checkIsinRole(ROLES.ADMIN), Challenge.deleteChallenge)
 
-<<<<<<< HEAD
 router.put(
   "/:id/certificate",
   passport.authenticate("jwt", { session: false }),
   checkIsinRole(ROLES.ADMIN),
   Challenge.addCertificateToChallenge
 );
-=======
 
 router.get('/', passport.authenticate('jwt', { session: false } ), Challenge.getAllChallenges)
->>>>>>> bbb7ae39a57e89ca642937c6f5d0f6edde5ce40d
 
 router.get(
   "/:id/certificate-status",
