@@ -48,7 +48,7 @@ export default function CertificateBuilder({
   };
 
   const updateDesignState = async (designState: any) => {
-    if (users[userNo])
+    if (users[userNo]?.user._id)
       for (const key in designState.annotations) {
         if (designState.annotations[key].id === "FullName") {
           designState.annotations[key].text = users[userNo].user.name;
@@ -134,6 +134,7 @@ export default function CertificateBuilder({
   };
 
   const loadImage = (imageObj: any, state: any, userId?: string) => {
+    console.log(userId,state)
     const image = imageObj.imageBase64;
     const data = new FormData();
     data.append("file", image);
@@ -286,8 +287,7 @@ export default function CertificateBuilder({
               console.log(
                 "saved",
                 designState,
-                userNo,
-                users[userNo]?.user._id
+                userNo
               );
               if (users[userNo]?.user?._id) {
                 loadImage(
