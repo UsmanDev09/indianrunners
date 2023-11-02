@@ -1,11 +1,15 @@
 import getAccount from "@/lib/getAccount";
 import { Josefin_Sans } from "next/font/google";
 import { useState, useRef } from "react";
-import {
-  AiFillCloseCircle,
-  AiOutlineCloudDownload,
-} from "react-icons/ai";
+import { AiFillCloseCircle, AiOutlineCloudDownload } from "react-icons/ai";
 import { Cloudinary } from "@cloudinary/url-gen";
+import { useRouter } from "next/router";
+import { FacebookShareButton, LinkedinShareButton } from "react-share";
+import {
+  RiFacebookBoxFill,
+  RiFileCopyLine,
+  RiLinkedinBoxFill,
+} from "react-icons/ri";
 const josef = Josefin_Sans({ subsets: ["latin"] });
 
 type ActivityCard_Props = {
@@ -26,40 +30,41 @@ const Certificate = ({
   const [display, setDisplay] = useState("none");
   const canvasRef = useRef(null);
   const { account } = getAccount();
+  const router = useRouter();
   const cld = new Cloudinary({ cloud: { cloudName: "da39zmhtv" } });
-  const loadImage = () => {
-    const img = document.getElementById("certificate");
-    const canvas = canvasRef.current;
-    // @ts-ignore: Object is possibly 'null'.
-    const context = canvas.getContext("2d");
-    //Our first draw
-    context.drawImage(img, 0, 0, 640, 555);
-    context.font = "30px Times New Roman";
-    context.fillText(
-      " " + account.firstName + " " + account.lastName,
-      220,
-      250
-    );
-    context.fillText("Cycling Challenge", 210, 335);
-    var canvasElem = document.getElementById("myCanvas") as HTMLCanvasElement;
-    const image = canvasElem
-      .toDataURL("image/png")
-      .replace("image/png", "image/octet-stream");
-    const data = new FormData();
-    data.append("file", image);
-    data.append("upload_preset", "certificate");
-    data.append("cloud_name", "da39zmhtv");
-    data.append("public_id", `${account.firstName}_Cycling`);
-    fetch("https://api.cloudinary.com/v1_1/da39zmhtv/image/upload", {
-      method: "post",
-      body: data,
-    })
-      .then((resp) => resp.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((err) => console.log(err));
-  };
+  // const loadImage = () => {
+  //   const img = document.getElementById("certificate");
+  //   const canvas = canvasRef.current;
+  //   // @ts-ignore: Object is possibly 'null'.
+  //   const context = canvas.getContext("2d");
+  //   //Our first draw
+  //   context.drawImage(img, 0, 0, 640, 555);
+  //   context.font = "30px Times New Roman";
+  //   context.fillText(
+  //     " " + account.firstName + " " + account.lastName,
+  //     220,
+  //     250
+  //   );
+  //   context.fillText("Cycling Challenge", 210, 335);
+  //   var canvasElem = document.getElementById("myCanvas") as HTMLCanvasElement;
+  //   const image = canvasElem
+  //     .toDataURL("image/png")
+  //     .replace("image/png", "image/octet-stream");
+  //   const data = new FormData();
+  //   data.append("file", image);
+  //   data.append("upload_preset", "certificate");
+  //   data.append("cloud_name", "da39zmhtv");
+  //   data.append("public_id", `${account.firstName}_Cycling`);
+  //   fetch("https://api.cloudinary.com/v1_1/da39zmhtv/image/upload", {
+  //     method: "post",
+  //     body: data,
+  //   })
+  //     .then((resp) => resp.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
 
   const Download = () => {
     var canvas = document.getElementById("myCanvas") as HTMLCanvasElement;
@@ -121,19 +126,48 @@ const Certificate = ({
             Download();
           }}
         />
-        <canvas
+        <RiFileCopyLine
+          size={80}
+          color="white"
+          className="absolute left-20 top-0 m-4 rounded-lg text-lg cursor-pointer"
+          onClick={() => {
+            navigator.clipboard.writeText(
+              window.location.href + "?image=" + picture
+            );
+            console.log(router.query);
+          }}
+        />
+        <LinkedinShareButton
+          className="absolute left-40 top-0 m-4 rounded-lg text-lg cursor-pointer"
+          url={window.location.href + "?image=" + picture}
+        >
+          <RiLinkedinBoxFill size={80} color="white"></RiLinkedinBoxFill>
+        </LinkedinShareButton>
+        <FacebookShareButton
+          className="absolute left-60 top-0 m-4 rounded-lg text-lg cursor-pointer"
+          url={window.location.href + "?image=" + picture}
+        >
+          <RiFacebookBoxFill size={80} color="white"></RiFacebookBoxFill>
+        </FacebookShareButton>
+
+        {/* <canvas
           ref={canvasRef}
           id="myCanvas"
           width="640"
           height="555"
           className="absolute top-1/4 left-1/4 rounded-lg"
-        ></canvas>
+        ></canvas> */}
+        <img
+          src={picture}
+          alt=""
+          id="certificate"
+          className="absolute top-1/4 rounded-lg object-scale-down h-full w-full"
+        ></img>
       </div>
       <img
-        src="/Certificate.png"
+        src={picture}
         alt=""
         id="certificate"
-        onLoad={loadImage}
         style={{
           display: "block",
           justifyContent: "center",
