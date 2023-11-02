@@ -54,6 +54,10 @@ const SideBar = () => {
       name: "Leaderboard",
       path: `${path.PROFILE}/leaderboard`,
     },
+    {
+      name: "Upload Activity",
+      path: `${path.PROFILE}/manual-activity`,
+    },
   ];
   return (
     <div className="w-full md:w-80 mr-32 mt-12" aria-label="Sidebar">

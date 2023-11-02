@@ -22,7 +22,7 @@ const CreateChallenge = ({ setChallenges, categories, setOpenCreateChallengeDraw
         price: '',
         categories: [] as string[],
     })
-    console.log(formData)
+
     const [isKnockoutToggleChecked, setIsKnockoutToggleChecked] = useState(false)
     const [isFeaturedToggleChecked, setIsFeaturedToggleChecked] = useState(false)
     const [isVerifiedToggleChecked, setIsVerifiedToggleChecked] = useState(false)

@@ -661,6 +661,7 @@ export interface ItemDetails {
   /**  */
   challenge?: Challenge;
   product?: Product;
+  productQuantity?: number;
 
   /**  */
   challengeCategories?: ChallengeCategory[];
@@ -939,6 +940,8 @@ export interface Product {
 
   /**  */
   image?: string;
+
+  rewardPoints?: number;
 }
 
 export interface ShippingDetailApiResponse {

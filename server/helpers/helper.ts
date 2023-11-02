@@ -9,7 +9,7 @@ import { Activity as ActivityInterface } from "../models/activity"
 import { findLeaderboardByChallengeAndCategory, updateRankingInLeaderboard, updateUserStaticticsInLeaderboard } from "../services/leaderboard"
 import logger from "../config/logger"
 
-export const updateLeaderboard = async (user: UserInterface, activities: ActivityInterface[], userChallenges: ChallengeInterface[]) => {
+export const updateLeaderboard = async (user: UserInterface, activities: ActivityInterface[] , userChallenges: ChallengeInterface[]) => {
 
     const updatePromises: Promise<void>[] = [];
 

@@ -13,7 +13,6 @@ const goolgleStrategy = GoogleStrategy.Strategy
 
 passport.serializeUser((user, done) => {
     const token = jwt.sign(user, env.JWT_SECRET_KEY);
-    console.log(token)
     done(null, token);
 });
 

@@ -24,6 +24,10 @@ router.post('/strava-realtime', Strava.postActivities);
   // Adds support for GET requests to our webhook
 router.get('/strava-realtime', Strava.getActivities)
 
+router.post('/manual', passport.authenticate("jwt", { session: false}), Strava.uploadManualActivity)
+
+router.put('/:activityId/manual-activity', passport.authenticate("jwt", { session: false}), Strava.updateManualActivityStatus)
+
 // Swagger Documentation for the /api/activity Routes
 
 /**

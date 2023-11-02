@@ -18,6 +18,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/components/Profile/AccountInfo.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/components/Profile/AccountInfo.tsx", "src/pages/profile/manual-activity.tsx"],
   "exclude": ["node_modules"]
 }
