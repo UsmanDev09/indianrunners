@@ -6,6 +6,7 @@ import AccountInfo from "../../components/Profile/AccountInfo";
 import Cookies from 'js-cookie';
 import { useContext } from 'react';
 import { MyGlobalContext } from '@/Hooks/useGlobalContext';
+import toast from "react-hot-toast";
 
 const Profile = () => {
   const router = useRouter();
@@ -25,7 +26,10 @@ const Profile = () => {
       },
     }).then(async (res) => {
       const response = await res.json()
+      if(response?.success)
       setUser(response.data)
+      else
+      toast.error("error fetching profile")
     })
 
   }, [token, user])

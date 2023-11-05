@@ -3,7 +3,7 @@ import { Challenge } from "@/pages/api";
 import { Cloudinary } from "@cloudinary/url-gen";
 import dynamic from "next/dynamic";
 import React, { useState, useEffect } from "react";
-
+import toast from "react-hot-toast";
 const FilerobotImageEditor = dynamic(
   () => import("react-filerobot-image-editor"),
   {
@@ -40,9 +40,13 @@ export default function CertificateBuilder({
       }
     ).then((response) =>
       response.json().then((chall) => {
-        updateDesignState(chall.data.designState);
+        if(chall?.success)
+        {updateDesignState(chall.data.designState);
         setDesState(chall.data.designState);
-        setIsImgEditorShown(true);
+        setIsImgEditorShown(true);}
+        else{
+          toast.error("Error fetching design state")
+        }
       })
     );
   };
@@ -69,12 +73,14 @@ export default function CertificateBuilder({
         }
       ).then((response) =>
         response.json().then((chall) => {
-          setUsers(
+          if(chall?.success){setUsers(
             chall.data.filter(
               (user: { certificateSent: boolean }) =>
                 user.certificateSent === false
             )
-          );
+          );}else{
+            toast.error("Error fetching design state")
+          }
         })
       );
     };
@@ -107,7 +113,7 @@ export default function CertificateBuilder({
           designState: desState,
         }),
       }
-    ).then((response) => response.json().then((chall) => console.log(chall)));
+    ).then((response) => response.json().then((chall) => {if(chall?.success){toast.success(chall.data)}else{toast.error(chall.message.message)}}));
   };
 
   const AddCertificatetoUser = async (userId: string, url: string) => {
@@ -130,7 +136,7 @@ export default function CertificateBuilder({
           certificateUrl: url,
         }),
       }
-    ).then((response) => response.json().then((chall) => console.log(chall)));
+    ).then((response) => response.json().then((chall) => {if(chall?.success){toast.success(chall.data) }else {toast.error(chall.message.message)}}));
   };
 
   const loadImage = (imageObj: any, state: any, userId?: string) => {
@@ -150,7 +156,7 @@ export default function CertificateBuilder({
         if (userId) AddCertificatetoUser(userId, data.secure_url);
         else AddCertificate(challenge, data.secure_url, state);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => toast.error(err));
   };
 
   const Download = (imageObj: any, state: any) => {

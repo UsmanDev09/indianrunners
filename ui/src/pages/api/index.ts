@@ -892,6 +892,24 @@ export interface Category {
   description?: string;
 }
 
+export interface Inventory {
+  product: ReactNode;
+  details:{
+  /**  */
+  size: string;
+
+  /**  */
+  quantity: number;
+
+  /**  */
+  color: string;
+  }
+
+  _id?:string
+
+  isDeleted: Boolean
+}
+
 export interface NotificationApiResponse {
   /**  */
   success?: boolean;

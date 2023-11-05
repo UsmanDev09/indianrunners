@@ -15,6 +15,6 @@ router.get('/product/:_id', passport.authenticate('jwt', { session: false } ), I
 
 router.put('/product/:_id', passport.authenticate('jwt', { session: false } ), Inventory.updateProductInInventory)
 
-router.delete('/', passport.authenticate('jwt', { session: false } ), Inventory.removeProductFromInventory)
+router.delete('/:_id', passport.authenticate('jwt', { session: false } ), Inventory.removeProductFromInventory)
 
 export default router

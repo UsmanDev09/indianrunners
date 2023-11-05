@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Key, SyntheticEvent, useContext, useEffect, useState } from "react";
 import Chair from "../Assets/chair.png";
 import NotFound from "../Assets/NotFound.jpg";
-import { Challenge_Props } from "@/Interfaces";
+import { Challenge_Props, Prod_Props } from "@/Interfaces";
 
 type ItemCard_Props = {
   title?: string;
@@ -12,7 +12,7 @@ type ItemCard_Props = {
 };
 
 type ItemDetail_Props = {
-  itemDetails: Challenge_Props[];
+  itemDetails: Challenge_Props[] & Prod_Props[];
 };
 
 const Cart = ({ title, price, picture }: ItemCard_Props) => {
@@ -82,7 +82,7 @@ const Cart = ({ title, price, picture }: ItemCard_Props) => {
                       <Image src={NotFound} alt="Apple Watch" />
                     </td>
                     <td className="px-6 py-4 font-semibold text-gray-900 dark:text-blue-text">
-                      {item.itemDetails[0].challenge.name}
+                      {item.itemDetails[0]?.challenge?item.itemDetails[0].challenge.name:item.itemDetails[0].product.name}
                     </td>
                     <td className="px-6 py-4 dark:text-blue-text">
                       <div className="flex items-center justify-center space-x-3">
@@ -111,7 +111,7 @@ const Cart = ({ title, price, picture }: ItemCard_Props) => {
                         <div>
                           <input
                             type="number"
-                            id={`product-${item.itemDetails[0].challenge.name}`}
+                            id={`product-${item.itemDetails[0]?.challenge?item.itemDetails[0].challenge.name:item.itemDetails[0]?.product.name}`}
                             className="bg-gray-50 w-14 border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:text-dark-green dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             value={0}
                             readOnly
@@ -143,7 +143,7 @@ const Cart = ({ title, price, picture }: ItemCard_Props) => {
                       </div>
                     </td>
                     <td className="px-6 py-4 font-semibold text-gray-900 dark:text-blue-text">
-                      ${item.itemDetails[0].challenge.price}
+                      ${item.itemDetails[0]?.challenge?item.itemDetails[0].challenge.price:item.itemDetails[0].product.price}
                     </td>
                     <td className="px-6 py-4">
                       <button className="font-medium text-red-600 dark:text-red-500 hover:underline dark:text-blue-text dark:bg-pink rounded p-2">
