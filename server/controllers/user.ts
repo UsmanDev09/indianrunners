@@ -33,9 +33,7 @@ export const login: RequestHandler<unknown, unknown, UserInterface, unknown> = a
         if (!verifyCredentials)
             throw createHttpError(StatusCodes.BAD_REQUEST, Constants.invalidCredentials)
 
-        const token = jwt.sign({ userId: user._id }, env.JWT_SECRET_KEY, {
-            expiresIn: '1d'
-        })
+        const token = jwt.sign({ userId: user._id }, env.JWT_SECRET_KEY)
 
         // res.setHeader('Set-Cookie', `token:${token}; HttpOnly`);
 

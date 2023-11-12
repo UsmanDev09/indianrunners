@@ -1,4 +1,4 @@
-import { InferSchemaType, model, Schema } from 'mongoose'
+import { InferSchemaType, model, Schema, Types } from 'mongoose'
 import { Queue } from 'bullmq';
 
 const activitySchema = new Schema({
@@ -17,7 +17,9 @@ const activitySchema = new Schema({
     maximumSpeed: { type: Number },
     totalAssent: {type: Number },
     caloriesBurnt: { type: Number },
-    flag: { type: String, enum: ["approved", "rejected", "underReview", "userReported"]}
+    status: { type: String, enum: ["approved", "rejected", "underReview"]},
+    app: { type: String, enum: ["strava", "gramin", "manual"]}
+    
 }, { timestamps: true })
 
 activitySchema.pre('save', async function (next) {
@@ -29,7 +31,25 @@ activitySchema.pre('save', async function (next) {
     next()
 })
 
-export type Activity = InferSchemaType<typeof activitySchema>
-
+export interface Activity extends Document {
+    _id: Types.ObjectId
+    activityId: number
+    userId: number
+    athleteId: number
+    activityType: string
+    date: string
+    startDate: string
+    endTime: string
+    elapsedTime: string
+    movingTime: string
+    distanceCovered: number
+    averageSpeed: number
+    averageMovingSpeed: number
+    maximumSpeed: number
+    totalAssent: number
+    caloriesBurnt: number
+    status: string
+    app: string
+}
 
 export default model<Activity>('Activity', activitySchema)

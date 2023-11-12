@@ -662,6 +662,7 @@ export interface ItemDetails {
   challenge?: Challenge;
   product?: Product;
   productQuantity?: number;
+  productQuantity?: number;
 
   /**  */
   challengeCategories?: ChallengeCategory[];

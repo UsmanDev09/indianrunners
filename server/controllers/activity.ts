@@ -2,6 +2,7 @@ import { RequestHandler } from "express"
 import createHttpError from 'http-errors'
 import axios from 'axios'
 import { StatusCodes } from "http-status-codes"
+import { uuid } from "uuidv4"
 
 import ActivityModel from "../models/activity"
 import UserModel from "../models/user"
@@ -68,7 +69,9 @@ export const authorizeToGetActivityFromStrava: RequestHandler<unknown, unknown, 
                     caloriesBurnt: activity.calories,
                     distanceCovered: activity.distance,
                     totalAssent: activity.total_elevation_gain,
-                    startDate: activity.start_date   // start time can be calculated from date, and end time by subtracting moving time
+                    startDate: activity.start_date,   // start time can be calculated from date, and end time by subtracting moving time
+                    status: 'approved',
+                    app: 'strava'
                 })
                 
                 userActivity.save();
@@ -132,7 +135,9 @@ export const getActivitiesFromStrava: RequestHandler<unknown, unknown, StravaInt
                         caloriesBurnt: activity.calories,
                         distanceCovered: activity.distance,
                         totalAssent: activity.total_elevation_gain,
-                        startDate: activity.start_date   // start time can be calculated from date, and end time by subtracting moving time
+                        startDate: activity.start_date,   // start time can be calculated from date, and end time by subtracting moving time
+                        status: 'approved',
+                        app: 'strava'
                     })
 
                     userActivity.save();
@@ -184,7 +189,9 @@ export const getActivitiesFromStrava: RequestHandler<unknown, unknown, StravaInt
                         caloriesBurnt: activity.calories,
                         distanceCovered: activity.distance,
                         totalAssent: activity.total_elevation_gain,
-                        startDate: activity.start_date   // start time can be calculated from date, and end time by subtracting moving time
+                        startDate: activity.start_date,   // start time can be calculated from date, and end time by subtracting moving time
+                        status: 'approved',
+                        app: 'strava'
                     })
                     
                     userActivity.save();
@@ -216,43 +223,6 @@ export const getActivitiesFromStrava: RequestHandler<unknown, unknown, StravaInt
         if(err instanceof Error) console.log(err.message)
         logger.error(err)
         // next(err)
-    }
-}
-
-
-export const postManualActivity: RequestHandler<unknown, unknown, StravaActivity, unknown> = async(req, res, next) => {
-    try { 
-        const { 
-            sport_type, start_date, start_time,
-            end_time, elapsed_time, moving_time,
-            distance, average_speed, average_moving_speed, 
-            max_speed, total_ascent, calories,
-            elev_high, elev_low,
-         } = req.body
-
-        const { id } = req.headers
-
-        if( !(sport_type || start_date || start_time || end_time || elapsed_time || moving_time || distance || 
-            average_speed || average_moving_speed || max_speed || total_ascent || calories || elev_high || elev_low))
-            throw createHttpError(400, Constants.requiredParameters)
-            
-        const activity = {
-            sport_type, start_date, start_time,
-            end_time, elapsed_time, moving_time,
-            distance, average_speed, average_moving_speed, 
-            max_speed, total_ascent, calories,
-            elev_high, elev_low,
-        }
-        const user = await UserModel.findById(id)
-
-        if(!user) throw createHttpError(StatusCodes.UNAUTHORIZED, Constants.loginToProceed)
-
-        // user.activities.push([activity])
-
-
-    } catch (error) {
-        logger.error(error)
-        next(error)
     }
 }
 
@@ -301,7 +271,6 @@ export const postActivities: RequestHandler<unknown, unknown, { object_id: numbe
                 const redundantActivity = await ActivityModel.findOne({activityId: activityData.id})
 
                 if (!redundantActivity) {
-                    console.log(redundantActivity)
                     const userActivity = new ActivityModel({
                         activityId: activityData.id,
                         athleteId: activityData.athlete.id,
@@ -314,13 +283,15 @@ export const postActivities: RequestHandler<unknown, unknown, { object_id: numbe
                         caloriesBurnt: activityData.calories,
                         distanceCovered: activityData.distance,
                         totalAssent: activityData.total_elevation_gain,
-                        startDate: activityData.start_date   // start time can be calculated from date, and end time by subtracting moving time
+                        startDate: activityData.start_date,   // start time can be calculated from date, and end time by subtracting moving time
+                        status: 'approved',
+                        app: 'strava'
                     })
                     
                     userActivity.save();
 
                     await UserModel.updateOne({ _id: user._id }, { $push: { 'activities': userActivity }})
-                    console.log('juser activity', userActivity)
+
                     const userChallenges = user.challenges
 
                     const activities = user.activities
@@ -354,3 +325,81 @@ export const getActivities: RequestHandler<unknown, unknown, unknown, {'hub.mode
         }
     }
 }
+
+export const uploadManualActivity: RequestHandler<unknown, unknown, ActivityInterface, unknown> =async (req, res, next) => { 
+    try {
+        const _id  = req.user as UserInterface
+
+        const user = await UserModel.findById(_id)
+
+        if(!user) throw createHttpError(StatusCodes.BAD_REQUEST, Constants.userNotFound)
+
+        const { activityType, elapsedTime, movingTime, maximumSpeed, averageSpeed, caloriesBurnt, distanceCovered, totalAssent, startDate   } = req.body
+        
+        const activity_id = parseInt(uuid(), 16) 
+
+        const activity = await ActivityModel.create({
+            activityId: activity_id,
+            athleteId: user.athlete_id,
+            userId: _id,
+            activityType,
+            elapsedTime,
+            movingTime,
+            maximumSpeed,
+            averageSpeed,
+            caloriesBurnt,
+            distanceCovered,
+            totalAssent,
+            startDate,   // start time can be calculated from date, and end time by subtracting moving time
+            status: 'underReview',
+            app: 'manual'
+        })
+
+        res.status(StatusCodes.OK).json({
+            success: true,
+            data: activity,
+            message: Constants.manualActivityCreatedSuccessfully
+        })
+    } catch (err: unknown) {
+        if(err instanceof Error) {
+            logger.error(err.message)
+            next(err.message)
+        }
+    }
+}
+
+
+export const updateManualActivityStatus: RequestHandler<{ activityId: number }, unknown, ActivityInterface, unknown> =async (req, res, next) => {  
+    try {
+        const _id = req.user
+
+        const user = await UserModel.findById(_id) as UserInterface
+
+        const userChallenges = user.challenges
+        
+        if(!user) throw createHttpError(StatusCodes.NOT_FOUND, Constants.userNotFound)
+
+        const activityId = req.params
+
+        const { status } = req.body
+
+        await ActivityModel.findByIdAndUpdate({ _id: activityId }, { status })
+
+        const activity = await ActivityModel.findById(_id) as ActivityInterface
+
+        if(status === 'approved')  updateLeaderboard(user, [activity], userChallenges)
+
+        res.status(StatusCodes.NO_CONTENT).json({
+            success: true,
+            data: [],
+            message: Constants.updatedManualActivityStatus
+        })
+
+    } catch (err: unknown) {
+        if(err instanceof Error) {
+            logger.error(err.message)
+            next(err.message)
+        }
+    }
+}
+

@@ -79,7 +79,9 @@ export const Constants = {
 
     // activity 
     activityCreatedSuccessfully: 'Activity created successfully', 
-    
+    manualActivityCreatedSuccessfully: 'Manual activity created successfully',
+    updatedManualActivityStatus: 'Manual activity status updated',
+
     // notification
     notificationCreatedSuccessfully: 'Notification created successfully',
     notificationsFetchedSuccessfully: 'Notifications fetched successfully', 
