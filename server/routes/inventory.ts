@@ -9,6 +9,12 @@ const router = express.Router()
 
 router.post('/', passport.authenticate('jwt', { session: false } ), Inventory.createInventory)
 
-router.delete('/', passport.authenticate('jwt', { session: false } ), Inventory.removeProductFromInventory)
+router.get('/', passport.authenticate('jwt', { session: false } ), Inventory.getAllInventories)
+
+router.get('/product/:_id', passport.authenticate('jwt', { session: false } ), Inventory.getAllProductsInInventory)
+
+router.put('/product/:_id', passport.authenticate('jwt', { session: false } ), Inventory.updateProductInInventory)
+
+router.delete('/:_id', passport.authenticate('jwt', { session: false } ), Inventory.removeProductFromInventory)
 
 export default router

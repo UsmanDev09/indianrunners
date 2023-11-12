@@ -1,40 +1,46 @@
 import { useState } from "react";
 import Image from "next/image";
-import { Challenge, ChallengeCategory } from "@/pages/api";
-import CreateChallenge from "./CreateChallenge";
-import DeleteChallenge from "./DeleteChallenge";
+import { Inventory } from "@/pages/api";
+import CreateInventory from "./CreateInventory";
+import DeleteInventory from "./DeleteInventory";
 import CertificateBuilder from "../certificateBuilder";
+import UpdateInventory from "./UpdateInventory";
 
-const Challenges = ({
-  initialChallenges,
-  categories,
-}: {
-  initialChallenges: Challenge[];
-  categories: ChallengeCategory[];
-}) => {
-  const [openCreateChallengeDrawer, setOpenCreateChallengeDrawer] = useState<
+const Inventory = ({ inventories }: { inventories: Inventory[] }) => {
+  const [openCreateInventoryDrawer, setOpenCreateInventoryDrawer] = useState<
     boolean
   >(false);
   const [openDeleteProductDrawer, setOpenDeleteProductDrawer] = useState<
     boolean
   >(false);
-  const [challengeToDelete, setChallengeToDelete] = useState<Challenge>();
-  const [challenges, setChallenges] = useState<Challenge[]>(initialChallenges);
-
+  const [openUpdateInventoryDrawer, setOpenUpdateInventoryDrawer] = useState<
+    boolean
+  >(false);
+  const [InventoryToDelete, setInventoryToDelete] = useState<Inventory>();
+  const [InventoryToUpdate, setInventoryToUpdate] = useState<Inventory>();
+  const [Inventory, setInventory] = useState<Inventory[]>(inventories);
+  console.log(inventories);
   return (
     <div className="w-full container">
-      <CreateChallenge
-        setChallenges={setChallenges}
-        categories={categories}
-        setOpenCreateChallengeDrawer={setOpenCreateChallengeDrawer}
-        openCreateChallengeDrawer={openCreateChallengeDrawer}
+      <CreateInventory
+        setInventory={setInventory}
+        setOpenCreateInventoryDrawer={setOpenCreateInventoryDrawer}
+        openCreateInventoryDrawer={openCreateInventoryDrawer}
       />
-      {challengeToDelete && (
-        <DeleteChallenge
-          setChallenges={setChallenges}
-          challenge={challengeToDelete}
+      {InventoryToDelete && (
+        <DeleteInventory
+          setInventory={setInventory}
+          Inventory={InventoryToDelete}
           setOpenDeleteProductDrawer={setOpenDeleteProductDrawer}
           openDeleteProductDrawer={openDeleteProductDrawer}
+        />
+      )}
+      {InventoryToUpdate && (
+        <UpdateInventory
+          // setInventory={setInventory}
+          Inventory={InventoryToUpdate}
+          setOpenCreateInventoryDrawer={setOpenUpdateInventoryDrawer}
+          openCreateInventoryDrawer={openUpdateInventoryDrawer}
         />
       )}
       <div className="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-dark-green dark:border-gray-700">
@@ -128,10 +134,10 @@ const Challenges = ({
             <button
               className="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-700 dark:hover:bg-gray-700 dark:focus:ring-blue-800"
               onClick={() =>
-                setOpenCreateChallengeDrawer(!openCreateChallengeDrawer)
+                setOpenCreateInventoryDrawer(!openCreateInventoryDrawer)
               }
             >
-              Add New Challenge
+              Add New Inventory
             </button>
           </div>
         </div>
@@ -160,25 +166,25 @@ const Challenges = ({
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      Image
+                      Product
                     </th>
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      Challenge Name
+                      Quantity
                     </th>
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      Description
+                      Color
                     </th>
                     <th
                       scope="col"
                       className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                     >
-                      Price
+                      Size
                     </th>
                     <th
                       scope="col"
@@ -186,16 +192,10 @@ const Challenges = ({
                     >
                       Actions
                     </th>
-                    <th
-                      scope="col"
-                      className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                    >
-                      Certificate
-                    </th>
                   </tr>
                 </thead>
-                {challenges &&
-                  challenges.map((challenge, index) => {
+                {inventories &&
+                  inventories.map((Inventory, index) => {
                     return (
                       <tbody
                         key={index}
@@ -216,34 +216,32 @@ const Challenges = ({
                             </div>
                           </td>
                           <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            <Image
-                              src={challenge.image!}
-                              width={50}
-                              height={50}
-                              alt="challenge image"
-                            />
+                            <div className="text-base font-semibold text-gray-900 dark:text-white">
+                              {Inventory.product}
+                            </div>
                           </td>
                           <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
                             <div className="text-base font-semibold text-gray-900 dark:text-white">
-                              {challenge.name}
+                              {Inventory.details.quantity}
                             </div>
                           </td>
                           <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {challenge.activity}
+                            {Inventory.details.color}
                           </td>
                           <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {challenge.price}
+                            {Inventory.details.size}
                           </td>
                           <td className="p-4 space-x-2 whitespace-nowrap">
                             <button
                               onClick={() => {
+                                console.log(Inventory);
                                 setOpenDeleteProductDrawer(
                                   !openDeleteProductDrawer
                                 ),
-                                  setChallengeToDelete(challenge);
+                                  setInventoryToDelete(Inventory);
                               }}
                               type="button"
-                              id="deleteChallengeButton"
+                              id="deleteInventoryButton"
                               data-drawer-target="drawer-delete-product-default"
                               data-drawer-show="drawer-delete-product-default"
                               aria-controls="drawer-delete-product-default"
@@ -262,20 +260,39 @@ const Challenges = ({
                                   clip-rule="evenodd"
                                 ></path>
                               </svg>
-                              Delete Challenge
+                              Delete Inventory
                             </button>
-                          </td>
-                          <td className="flex p-6 space-x-2 whitespace-nowrap">
-                            <CertificateBuilder
-                              purpose="Add Certificate"
-                              challenge={challenge}
-                              template={true}
-                            />
-                            <CertificateBuilder
-                              purpose="Send Certificate"
-                              challenge={challenge}
-                              template={false}
-                            />
+
+                            <button
+                              onClick={() => {
+                                console.log(Inventory);
+                                setOpenUpdateInventoryDrawer(
+                                  !openDeleteProductDrawer
+                                ),
+                                  setInventoryToUpdate(Inventory);
+                              }}
+                              type="button"
+                              id="deleteInventoryButton"
+                              data-drawer-target="drawer-delete-product-default"
+                              data-drawer-show="drawer-delete-product-default"
+                              aria-controls="drawer-delete-product-default"
+                              data-drawer-placement="right"
+                              className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-gray-200 dark:text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900"
+                            >
+                              <svg
+                                className="w-4 h-4 mr-2 text-gray-900 hover:text-gray-900 dark:text-gray-200"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  fill-rule="evenodd"
+                                  d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                  clip-rule="evenodd"
+                                ></path>
+                              </svg>
+                              Update Inventory
+                            </button>
                           </td>
                         </tr>
                       </tbody>
@@ -377,4 +394,4 @@ const Challenges = ({
   );
 };
 
-export default Challenges;
+export default Inventory;

@@ -662,6 +662,7 @@ export interface ItemDetails {
   challenge?: Challenge;
   product?: Product;
   productQuantity?: number;
+  productQuantity?: number;
 
   /**  */
   challengeCategories?: ChallengeCategory[];
@@ -892,6 +893,24 @@ export interface Category {
   description?: string;
 }
 
+export interface Inventory {
+  product: ReactNode;
+  details:{
+  /**  */
+  size: string;
+
+  /**  */
+  quantity: number;
+
+  /**  */
+  color: string;
+  }
+
+  _id?:string
+
+  isDeleted: Boolean
+}
+
 export interface NotificationApiResponse {
   /**  */
   success?: boolean;
@@ -940,7 +959,6 @@ export interface Product {
 
   /**  */
   image?: string;
-
   rewardPoints?: number;
 }
 

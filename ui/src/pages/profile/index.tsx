@@ -6,23 +6,15 @@ import AccountInfo from "../../components/Profile/AccountInfo";
 import Cookies from 'js-cookie';
 import { useContext } from 'react';
 import { MyGlobalContext } from '@/Hooks/useGlobalContext';
+import toast from "react-hot-toast";
 
 const Profile = () => {
   const router = useRouter();
-  const { token } = router.query;
+  const  token  = localStorage.getItem('token');
   const { state, dispatch } = useContext(MyGlobalContext);
   const [user, setUser] = useState()
 
-  if(token !== undefined && typeof token === "string") localStorage.setItem('token', JSON.stringify(token))
-  Cookies.set("token", token as string, { expires: 100, secure: true, sameSite: 'strict' });
-  // dispatch({
-  //   type: "ACCOUNT_UPDATE",
-  //   payload: {
-  //     token: token,
-  //   },
-  // });
   useEffect(() => {
-    console.log(user)
     fetch('http://localhost:5000/api/user/profile', {
       method: "GET",
       mode: "cors", // no-cors, *cors, same-origin
@@ -34,7 +26,10 @@ const Profile = () => {
       },
     }).then(async (res) => {
       const response = await res.json()
+      if(response?.success)
       setUser(response.data)
+      else
+      toast.error("error fetching profile")
     })
 
   }, [token, user])

@@ -11,7 +11,11 @@ const Activities = () => {
         <meta property="og:description" content="Certificates" />
         <meta
           property="og:image"
-          content="http://res.cloudinary.com/da39zmhtv/image/upload/v1696110639/certificates/usman_Cycling.png"
+          content={
+            window.location.search.split("image=")[1]
+              ? window.location.search.split("image=")[1]
+              : window.location.href
+          }
         />
       </Head>
       <div className="container mx-auto flex md:flex-nowrap flex-wrap xl:flex-nowrap min-h-[calc(100vh-260px)]">

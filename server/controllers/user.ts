@@ -2,13 +2,14 @@ import { RequestHandler } from "express"
 import bcrypt from 'bcrypt'
 import createHttpError from 'http-errors'
 import jwt from 'jsonwebtoken'
-import { Types } from "mongoose"
+import mongoose, { Types } from "mongoose"
 
 import env from '../utility/validateEnv'
 import logger from "../config/logger"
 import UserModel, { User } from '../models/user'
 import Otp from "../models/otp"
 
+import ChallengeModel from '../models/challenge'
 import { User as UserInterface } from "../models/user"
 import { StatusCodes } from "http-status-codes"
 import { Constants } from "../utility/constants"
@@ -201,5 +202,53 @@ export const updateProfile: RequestHandler<unknown, unknown, UserInterface, unkn
     } catch (error) {
         logger.error(error)
         next(error)
+    }
+}
+
+export const getCertificates: RequestHandler<unknown, unknown, UserInterface, unknown> = async (req, res, next) => {
+    try {
+        const _id = req.user 
+
+        const user = await UserModel.findById(_id)
+        
+        if(!user) throw createHttpError(StatusCodes.NOT_FOUND, Constants.userNotFound)
+
+        res.status(StatusCodes.OK).json({
+            success: true,
+            data: user.certificates ? user.certificates : [],
+            message: Constants.certificatesFetchedSuccessfully
+        })
+    } catch (err) {
+        if(err instanceof Error){
+            logger.error(err)
+            next(err)
+        }
+    }
+}
+
+export const assignCertificateToAUser: RequestHandler<{userId: number, challengeId: number, certificateUrl: number }, unknown, { certificateUrl: string }, unknown> = async (req, res, next) => {
+    try {
+        const { userId, challengeId } = req.params
+
+        const { certificateUrl } = req.body
+
+        const challenge = await ChallengeModel.findById(challengeId) 
+
+        if(!challenge) throw createHttpError(StatusCodes.NOT_FOUND ,Constants.challengeNotFound)
+
+        await ChallengeModel.findOneAndUpdate({ _id: new mongoose.Types.ObjectId(challengeId) }, { userDetails: { user: userId, certificateSent: true } }) 
+
+        const user = await UserModel.findOneAndUpdate({ _id: new mongoose.Types.ObjectId(userId) }, { $push: { certificates: certificateUrl } })
+
+        res.status(StatusCodes.OK).json({
+            success: true,
+            data: [],
+            message: Constants.certificateAssignedSuccessfully
+        })
+    } catch (err) {
+        if(err instanceof Error){ 
+            logger.error(err.message)
+            next(err.message)
+        }
     }
 }

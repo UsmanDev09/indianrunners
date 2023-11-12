@@ -1,7 +1,7 @@
-import { InferSchemaType, model, Schema, Types } from 'mongoose'
+import { model, Schema, Types } from 'mongoose'
 import challengeCategorySchema, { Category } from './challengeCategory'
-import leaderboardSchema from './leaderboard'
-import userSchema, { User } from './user'
+import { User } from './user'
+import { DesignState as DesignStateInterface} from './designState'
 
 const challengeSchema = new Schema({
     name: { type: String, required: [true, 'Challange name is required'], unique: [true, 'Challenge name is already taken']},
@@ -23,10 +23,14 @@ const challengeSchema = new Schema({
     featured: { type: Boolean },
     verified: { type: Boolean },
     organizationName: { type: String },
+    certificate: { type: String },
     price: { type: Number, required: [true, 'Challenge price is required']},
     categories: { type: [challengeCategorySchema.schema], default: [] },
-    users: [{ type: Schema.Types.ObjectId, ref: 'user'}]
- 
+    userDetails: [{ 
+        user: { type: Schema.Types.ObjectId, ref: 'user' },
+        certificateSent: { type: Boolean, default: false }
+    }],
+    designState: { type: Schema.Types.ObjectId, ref: 'DesignState' }
 }, { timestamps: true })
 
 export interface Challenge extends Document {
@@ -52,7 +56,9 @@ export interface Challenge extends Document {
     organizationName: String
     price: Number
     categories: Category[]
-    users: User[]
+    certificate: String
+    userDetails: { user: User, certicateSend: Boolean }[]
+    designState: DesignStateInterface
 }
 
 export default model<Challenge>('Challenge', challengeSchema)

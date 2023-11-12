@@ -66,9 +66,9 @@ export const initiatePayment: RequestHandler<unknown, unknown, unknown, unknown>
                     // adds user to challenges
                 
                     if (!challengeDocument.users && challenge) {
-                        await challengeModel.findByIdAndUpdate(challenge._id, { $push: {users: user._id }})
+                        await challengeModel.findByIdAndUpdate(challenge._id, { $push: { userDetails: { user: user._id } } })
                     } else if(challengeDocument && challenge) {
-                        await challengeModel.findByIdAndUpdate(challenge._id, { $push: { users: user._id} })
+                        await challengeModel.findByIdAndUpdate(challenge._id, { $push: { userDetails: { user: user._id } } })
                     }
 
                     
@@ -100,11 +100,10 @@ export const initiatePayment: RequestHandler<unknown, unknown, unknown, unknown>
     
                         await createNotification(type, message)
                     
-    
                         // empty cart 
                 }
             }
-            }
+        }
 
             
         
@@ -112,18 +111,17 @@ export const initiatePayment: RequestHandler<unknown, unknown, unknown, unknown>
         // const response = postReq(req, res)
         // console.log(response)
     }
-    console.log('TOTAL PRICE', totalPrice)
     await UserModel.findByIdAndUpdate(user, { rewardPoints })
 
     res.status(StatusCodes.OK).json({
         success: true,
         message: Constants.orderCreatedSuccessfully
     })
-    } catch(error: unknown) {
+} catch(error: unknown) {
         if(error instanceof Error) {
             logger.error(error.message)
             next(error.message)
         }
-    }
+}
 }
 
