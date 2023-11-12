@@ -2,7 +2,7 @@ import { ContextProvider } from "@/Context/ContextProvider";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { useEffect, useState } from "react";
-
+import {Toaster} from 'react-hot-toast'
 import Toast from '../components/Toast';
 import Layout from "@/components/Layout";
 import socket from '../socket';
@@ -38,6 +38,7 @@ export default function App({ Component, pageProps }: AppProps) {
         {notification && (
           <Toast notification={notification}/>
         )}
+        <Toaster position="top-right"/>
         <Component {...pageProps} />
       </Layout>
     </ContextProvider>

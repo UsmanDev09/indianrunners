@@ -5,6 +5,7 @@ import { Josefin_Sans } from "next/font/google";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
+import toast from "react-hot-toast";
 
 const josef = Josefin_Sans({ subsets: ["latin"] });
 
@@ -61,9 +62,11 @@ const LoginForm = () => {
             state.account.email,
             state.account.role
           );
+          toast.success("You've successfully logged in")
           router.replace("/profile");
         }
-      });
+        else toast.error(data.message.message)
+      }).catch(e=>toast.error(e));
   };
   return (
     <div

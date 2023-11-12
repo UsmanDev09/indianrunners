@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useContext, useState, useEffect } from "react";
 import Certificate from "./Profile/Certificate";
-
+import toast from "react-hot-toast";
 const josef = Josefin_Sans({ subsets: ["latin"] });
 
 type CertificateCard_Props = {
@@ -30,7 +30,7 @@ const CertificateCard = ({
       const cart = await fetch("http://localhost:5000/api/user/certificate", {
         headers: { Authorization: `Bearer ${token}` },
       }).then((response) =>
-        response.json().then((cart) => setCerts(cart.data))
+        response.json().then((cart) => {if(cart.success){setCerts(cart.data)} else {toast.error(cart.message.message)}})
       );
     };
     fetchCerts();

@@ -17,6 +17,17 @@ export type Challenge_Props = {
   };
 };
 
+export type Prod_Props = {
+  product: {
+    activity: string;
+    name?: string;
+    price?: string;
+    picture?: any;
+    type?: string;
+    _id?: string;
+  };
+};
+
 // An interface for our actions
 interface AccountAction {
   type: "ACCOUNT_UPDATE";
