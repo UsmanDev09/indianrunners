@@ -8,10 +8,12 @@ import Footer from "./Footer";
 import Logo from "./Logo";
 import HeaderMenu from "./HeaderMenu";
 import Notifications from "./Notifications";
-import CartSideBar from './CartSideBar';
+import CartSideBar from "./CartSideBar";
 import DarkMode from "./DarkMode";
 import { IoCartOutline } from "react-icons/io5";
 import { LiaUserSolid } from "react-icons/lia";
+import Cookies from "js-cookie";
+import toast from "react-hot-toast";
 
 const josef = Josefin_Sans({ subsets: ["latin"] });
 
@@ -33,6 +35,7 @@ const Layout = ({
   const [userPrefs, setUserPrefs] = useLocalStorage("userPrefs", {
     darkMode: false,
   });
+  let token = Cookies.get("token");
 
   useEffect(() => {
     setMounted(true);
@@ -41,6 +44,10 @@ const Layout = ({
       setMounted(false);
     };
   }, [userPrefs]);
+
+  useEffect(() => {
+    token = Cookies.get("token");
+  }, []);
 
   return (
     <div>
@@ -97,7 +104,7 @@ const Layout = ({
                   </div>
 
                   {/* Desktop Navbar */}
-                  <HeaderMenu />
+                  <HeaderMenu token={token} />
                   <div className="hidden sm:flex justify-between w-40">
                     <Notifications notifications={notifications} />
                     <DarkMode
@@ -105,12 +112,19 @@ const Layout = ({
                       setUserPrefs={setUserPrefs}
                     />
                     <span className="flex items-center">|</span>
-                    <button onClick={() => setShowCartSideBar(true)}>
-                      {/* <Link href="/cart" className="text-base"> */}
+                    {token && (
+                      <button onClick={() => setShowCartSideBar(true)}>
+                        {/* <Link href="/cart" className="text-base"> */}
                         <IoCartOutline className="w-8 h-8 text-icons-color dark:text-white" />
-                      {/* </Link> */}
-                      {showCartSideBar && <CartSideBar setShowCartSidebar={setShowCartSideBar} showCartSideBar={showCartSideBar} />}
-                    </button>
+                        {/* </Link> */}
+                        {showCartSideBar && (
+                          <CartSideBar
+                            setShowCartSidebar={setShowCartSideBar}
+                            showCartSideBar={showCartSideBar}
+                          />
+                        )}
+                      </button>
+                    )}
                     <button>
                       <Link href="/profile" className="text-base">
                         <LiaUserSolid className="w-8 h-8 text-icons-color dark:text-white" />
@@ -134,12 +148,26 @@ const Layout = ({
                     </Link>
                   </li>
                   <li>
-                    <Link
-                      href="/login"
-                      className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-                    >
-                      Login
-                    </Link>
+                    {token ? (
+                      <a
+                        href="#"
+                        onClick={() => {
+                          Cookies.remove("token");
+                          toast.success("Logged Out Successfully");
+                          document.location.replace("/");
+                        }}
+                        className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                      >
+                        Log out
+                      </a>
+                    ) : (
+                      <Link
+                        href="/login"
+                        className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                      >
+                        Login
+                      </Link>
+                    )}
                   </li>
                   <li>
                     <Link
