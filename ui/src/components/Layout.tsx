@@ -14,6 +14,7 @@ import { IoCartOutline } from "react-icons/io5";
 import { LiaUserSolid } from "react-icons/lia";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
+import jwt from "jsonwebtoken";
 
 const josef = Josefin_Sans({ subsets: ["latin"] });
 
@@ -22,6 +23,12 @@ type Props = {
   title?: string;
   notifications: object[];
 };
+
+interface JwtPayload {
+  exp: number;
+  iat: number;
+  userId: string;
+}
 
 const Layout = ({
   children,
@@ -46,7 +53,18 @@ const Layout = ({
   }, [userPrefs]);
 
   useEffect(() => {
-    token = Cookies.get("token");
+    token = Cookies.get("token")||'';
+    const secret=process.env.JWT_SECRET_KEY||''
+    try{
+    const {exp}=jwt.verify(token, secret) as JwtPayload
+    const seconds = new Date().getTime() / 1000
+    if(exp-seconds<=0){
+      Cookies.remove("token")
+    }
+  } catch(e){
+    console.log(e)
+    Cookies.remove("token")
+  }
   }, []);
 
   return (

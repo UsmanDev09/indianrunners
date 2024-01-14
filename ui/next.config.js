@@ -3,6 +3,9 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     domains: ['res.cloudinary.com'],
+  },
+  env:{
+    JWT_SECRET_KEY:process.env.JWT_SECRET_KEY
   }
 }
 
