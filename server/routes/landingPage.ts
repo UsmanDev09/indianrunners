@@ -8,17 +8,18 @@ import { ROLES } from "../utility/constants"
 
 const router = express.Router()
 
-const storage = multer.memoryStorage(); // Store files in memory as Buffers
+router.post('/', passport.authenticate('jwt', { session: false } ), LandingPage.addSectionsToLandingPage)
 
-const upload = multer({ storage: storage });
+router.delete('/:_id', passport.authenticate('jwt', { session: false }), LandingPage.removeSectionById)
 
-router.post('/', passport.authenticate('jwt', { session: false } ), upload.single('mainSection[image]'), LandingPage.createLandingPage)
+router.put('/:_id', passport.authenticate('jwt', { session: false } ), LandingPage.updateSectionById)
 
-router.put('/', passport.authenticate('jwt', { session: false } ), LandingPage.updateLandingPageById)
+router.put('/', passport.authenticate('jwt', { session: false }), LandingPage.updateMainSectionOfLandingPage)
 
-router.get('/:_id', passport.authenticate('jwt', { session: false } ), LandingPage.getLandingPageById)
+router.get('/signedUrl', LandingPage.getPreSignedUrlFromCloudinary)
 
-router.get('/', passport.authenticate('jwt', { session: false }), LandingPage.getAllLandingPages)
+router.get('/:_id', LandingPage.getLandingPageById)
 
+router.get('/', LandingPage.getAllLandingPages)
 
 export default router

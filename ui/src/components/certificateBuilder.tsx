@@ -34,7 +34,7 @@ export default function CertificateBuilder({
 
   const fetchDesignState = async () => {
     const chall = await fetch(
-      `http://localhost:5000/api/challenge/${challenge._id}/certificate`,
+      `${process.env.SERVER_DOMAIN}/api/challenge/${challenge._id}/certificate`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -67,7 +67,7 @@ export default function CertificateBuilder({
   useEffect(() => {
     const fetchUsersforCertificates = async () => {
       const chall = await fetch(
-        `http://localhost:5000/api/challenge/${challenge._id}/certificate-status`,
+        `${process.env.SERVER_DOMAIN}/api/challenge/${challenge._id}/certificate-status`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -94,7 +94,7 @@ export default function CertificateBuilder({
   ) => {
     console.log(url);
     const chall = await fetch(
-      `http://localhost:5000/api/challenge/${challenge._id}/certificate`,
+      `${process.env.SERVER_DOMAIN}/api/challenge/${challenge._id}/certificate`,
       {
         method: "PUT",
         mode: "cors", // no-cors, *cors, same-origin
@@ -118,7 +118,7 @@ export default function CertificateBuilder({
 
   const AddCertificatetoUser = async (userId: string, url: string) => {
     const chall = await fetch(
-      `http://localhost:5000/api/user/${userId}/challenge/${challenge._id}/certificate`,
+      `${process.env.SERVER_DOMAIN}/api/user/${userId}/challenge/${challenge._id}/certificate`,
       {
         method: "PUT",
         mode: "cors", // no-cors, *cors, same-origin

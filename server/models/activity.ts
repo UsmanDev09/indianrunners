@@ -1,4 +1,4 @@
-import { InferSchemaType, model, Schema, Types } from 'mongoose'
+import { model, Schema, Types } from 'mongoose'
 import { Queue } from 'bullmq';
 
 const activitySchema = new Schema({
@@ -19,7 +19,6 @@ const activitySchema = new Schema({
     caloriesBurnt: { type: Number },
     status: { type: String, enum: ["approved", "rejected", "underReview"]},
     app: { type: String, enum: ["strava", "gramin", "manual"]}
-    
 }, { timestamps: true })
 
 activitySchema.pre('save', async function (next) {

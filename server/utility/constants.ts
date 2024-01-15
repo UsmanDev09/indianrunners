@@ -110,7 +110,13 @@ export const Constants = {
 
     // landing page 
     landingPageSuccessfullyFetched: 'Landing Page Successfully fetched',
+    updatedMainSectionImage: 'Landing Page background image successfully updated', 
     
+    // sections
+    sectionRemovedSuccessfully: 'Section has been removed successfully',
+    sectionUpdatedSuccessfully: 'Section has been updated successfully', 
+    
+
     invalidId: 'Invalid id',
     notFound: 'Not found',
     recordFound: 'Record found',

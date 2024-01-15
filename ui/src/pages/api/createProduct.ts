@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import multer from 'multer';
 import { ApiService } from '.';
-import { deleteImageFromCloudinary, uploadImageToCloudinary } from '../../../helpers/helper';
+import { deleteImageFromCloudinary, uploadImageToCloudinary } from '../../helpers/helper';
 
 interface CustomNextApiRequest extends NextApiRequest {
   file: {

@@ -1,6 +1,6 @@
 import Banner from "@/components/Banner";
 import { Josefin_Sans } from "next/font/google";
-import Chair from "../../Assets/Sofa.png";
+import Chair from "../../assets/Sofa.png";
 import CardList from "@/components/CardList";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -11,14 +11,18 @@ const josef = Josefin_Sans({ subsets: ["latin"] });
 export default function Slug({ items }: { items: Challenge[] | Product[] }) {
   const router = useRouter();
   const slug = (router.query.slug as string) || null;
-  const [challenges, setChallenges] = useState([]);
-  const [products, setProducts] = useState([]);
+  const [_, setChallenges] = useState([]);
 
+<<<<<<< HEAD
   const slugName =
     slug?.length ?? 0 > 0
       ? (slug?.charAt(0).toUpperCase() ?? "") + slug?.slice(1)
       : "";
   console.log(items);
+=======
+  const slugName = slug?.length ?? 0 > 0 ? (slug?.charAt(0).toUpperCase() ?? '') + slug?.slice(1) : '';
+
+>>>>>>> master
   return (
     <div className={`${josef.className} flex flex-col`}>
       <Banner

@@ -27,7 +27,7 @@ const CertificateCard = ({
   useEffect(() => {
     const token = localStorage.getItem("token");
     const fetchCerts = async () => {
-      const cart = await fetch("http://localhost:5000/api/user/certificate", {
+      const cart = await fetch(`${process.env.SERVER_DOMAIN}/api/user/certificate`, {
         headers: { Authorization: `Bearer ${token}` },
       }).then((response) =>
         response.json().then((cart) => {if(cart.success){setCerts(cart.data)} else {toast.error(cart.message.message)}})

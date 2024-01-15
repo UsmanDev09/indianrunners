@@ -5,7 +5,7 @@ import * as Notification from '../controllers/notification'
 
 const router = express.Router()
 
-router.post('/', passport.authenticate('jwt', { session: false }),Notification.createNotification)
+router.post('/', passport.authenticate('jwt', { session: false }), Notification.createNotification)
 
 // router.delete('/', checkIsinRole(ROLES.ADMIN), Category.deleteCategory)
 

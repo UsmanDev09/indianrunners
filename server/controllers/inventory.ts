@@ -19,7 +19,7 @@ export const createInventory: RequestHandler<unknown, unknown, InventoryInterfac
 
         const inventory = await InventoryModel.create(req.body)        
  
-        const inventoryDocument = await InventoryModel.find({_id: inventory._id}).populate('product').exec()
+        const inventoryDocument = await InventoryModel.find({_id: inventory._id}).populate('product')
             
         res.status(StatusCodes.OK).json({
             success: true,
@@ -85,9 +85,28 @@ export const getAllProductsInInventory: RequestHandler<{ _id: number }, unknown,
 }
 
 
-export const getAllInventories: RequestHandler<unknown, unknown, InventoryInterface, unknown> = async (req, res, next) => { 
+export const getAllInventories: RequestHandler<unknown, unknown, InventoryInterface, { name: string, minPrice: number, maxPrice: number, page: number, pageSize:number  }> = async (req, res, next) => { 
+    interface PriceFilter {
+        $gte?: number;
+        $lte?: number;
+    }
 
-    const product = await InventoryModel.find({ isDeleted: false })
+    const { name, minPrice, maxPrice, page, pageSize } = req.query
+
+    const filters: { [key: string]: RegExp | boolean | PriceFilter | number  } = {}
+    const sort: { [key: string]: 'asc' | 'desc' } = {}
+    
+    if (minPrice && !isNaN(minPrice)) 
+        filters.price = { $gte: minPrice }
+
+    if (maxPrice && !isNaN(maxPrice))
+        filters.price = { $lte: maxPrice }
+
+    if (name === 'asc' || name === 'desc')
+        sort.name = name
+
+    const product = await InventoryModel.find({ isDeleted: false, ...filters }).sort().skip(((page) - 1) * (pageSize))
+                    .limit(pageSize).populate('product')
 
     if(!product) throw createHttpError(StatusCodes.BAD_REQUEST, Constants.inventoryDoesNotExist)
 

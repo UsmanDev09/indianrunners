@@ -7,12 +7,12 @@ import { uuid } from "uuidv4"
 import ActivityModel from "../models/activity"
 import UserModel from "../models/user"
 import { StravaInterface } from "../interfaces/strava"
-import { StravaActivity } from "../interfaces/stravaActivity"
 import { Constants } from "../utility/constants"
 import { User as UserInterface } from "../models/user"
 import logger from "../config/logger"
 import { updateLeaderboard } from "../helpers/helper"
 import { Activity as ActivityInterface } from "../models/activity"
+import mongoose from "mongoose"
 
 export const authorizeToGetActivityFromStrava: RequestHandler<unknown, unknown, StravaInterface, unknown> = async (req, res, next) => {
     try {
@@ -368,8 +368,26 @@ export const uploadManualActivity: RequestHandler<unknown, unknown, ActivityInte
     }
 }
 
+export const getManualActivitiesData: RequestHandler<{ activityId: number }, unknown, ActivityInterface, unknown> = async (req, res, next) => {
+    try {
 
-export const updateManualActivityStatus: RequestHandler<{ activityId: number }, unknown, ActivityInterface, unknown> =async (req, res, next) => {  
+        const activities = await ActivityModel.find({ app: 'manual'}) as unknown
+
+        res.status(StatusCodes.OK).json({
+            success: true,
+            data: activities,
+            message: Constants.updatedManualActivityStatus
+        })
+
+    } catch (err: unknown) {
+        if(err instanceof Error) {
+            logger.error(err.message)
+            next(err.message)
+        }
+    }
+}
+
+export const updateManualActivityStatus: RequestHandler<{ activityId: string }, unknown, ActivityInterface, unknown> = async (req, res, next) => {  
     try {
         const _id = req.user
 
@@ -379,19 +397,21 @@ export const updateManualActivityStatus: RequestHandler<{ activityId: number }, 
         
         if(!user) throw createHttpError(StatusCodes.NOT_FOUND, Constants.userNotFound)
 
-        const activityId = req.params
+        const { activityId } = req.params
 
         const { status } = req.body
 
-        await ActivityModel.findByIdAndUpdate({ _id: activityId }, { status })
+        await ActivityModel.findByIdAndUpdate({ _id: new mongoose.Types.ObjectId(activityId) }, { status })
 
         const activity = await ActivityModel.findById(_id) as ActivityInterface
 
         if(status === 'approved')  updateLeaderboard(user, [activity], userChallenges)
 
-        res.status(StatusCodes.NO_CONTENT).json({
+        const activities = await ActivityModel.find({ app: 'manual'}) as unknown
+
+        res.status(StatusCodes.OK).json({
             success: true,
-            data: [],
+            data: activities,
             message: Constants.updatedManualActivityStatus
         })
 

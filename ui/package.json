@@ -10,7 +10,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@cloudinary/url-gen": "^1.11.2",
+    "@cloudinary/react": "^1.11.2",
+    "@cloudinary/url-gen": "^1.14.0",
     "@types/node": "18.15.11",
     "@types/react": "18.0.33",
     "@types/react-dom": "18.0.11",
@@ -34,8 +35,10 @@
     "react-hot-toast": "^2.4.1",
     "react-icons": "^4.11.0",
     "react-share": "^4.4.1",
+    "react-slick": "^0.29.0",
     "socket.io-client": "^4.7.2",
     "swagger-axios-codegen": "^0.15.12",
+    "swiper": "^11.0.5",
     "typescript": "5.0.3",
     "uuidv4": "^6.2.13",
     "yup": "^1.2.0"

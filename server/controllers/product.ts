@@ -104,8 +104,8 @@ export const getAllProducts: RequestHandler<unknown, unknown, ProductInterface, 
     if (name === 'asc' || name === 'desc')
         sort.name = name
     
-    const products = await InventoryModel.find({ isDeleted: false, ...filters }).sort().skip((page - 1) * pageSize)
-    .limit(pageSize).populate('product').exec()
+    const products = await InventoryModel.find({ isDeleted: false, ...filters }).sort().skip(((page) - 1) * (pageSize))
+    .limit(pageSize).populate('product')
 
     res.status(StatusCodes.OK).json({
         success: true,

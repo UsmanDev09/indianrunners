@@ -1,15 +1,23 @@
-import Image from "next/image";
 import ChallengeCard from "./ChallengeCard";
 import ProductCard from "./ProductCard";
 import { Challenge, Product } from "@/pages/api";
 import { Josefin_Sans } from "next/font/google";
 
+import { Pagination, Navigation } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+
 import Sidebar from "./Sidebar";
+
 
 const josef = Josefin_Sans({ subsets: ["latin"] });
 
-type ItemList_Props = {
-  title: string;
+type CardProps = {
+title: string;
   setChallenges: Function;
   challenges?: Challenge[];
   filters?: boolean;
@@ -22,44 +30,51 @@ const CardList = ({
   title,
   setChallenges,
   filters,
-}: ItemList_Props) => {
+}: CardProps) => {
   let flex = "";
   if (!filters) {
     flex = "flex-col";
-  }
+  }  
+  console.log(products)
 
   return (
     <div>
-      <div className="container mx-auto mt-32">
-        <div
-          className={` ${josef.className} text-5xl m-4 font-bold text-center dark:text-blue-text`}
-        >
+        <div className={` ${josef.className} text-5xl m-4 font-bold text-center dark:text-blue-text`}>
           {title}
         </div>
-        <div className={`flex ${flex}`}>
-          <div>
-            {filters && <Sidebar setChallenges={setChallenges} />}
-          </div>
-          <div className={`ml-10 flex flex-wrap gap-4 justify-center ${filters}`}>
-            {challenges && challenges.length !== 0 && (
-              challenges.map((challenge, index) => (
+        <div>
+          {filters && <Sidebar setChallenges={setChallenges} />}
+        </div>
+        <Swiper
+          // onSwiper={setSwiperRef}
+          slidesPerView={4}
+          spaceBetween={10}
+          pagination={{
+            type: 'fraction',
+          }}
+          navigation={true}
+          modules={[Pagination, Navigation]}
+          className="mySwiper"
+        >
+          {challenges && challenges.length !== 0 && (
+            challenges.map((challenge, index) => (
+              <SwiperSlide key={index}>
                 <ChallengeCard
-                  key={index}
                   challenge={challenge}
                 />
-              ))
-            )}
-            {products && products.length !== 0 && (
-              products.map((items: any, index) => (
+              </SwiperSlide>
+            ))
+          )}
+          {products && (
+            products.map((product: any, index) => (
+              <SwiperSlide key={index}>
                 <ProductCard
-                  key={index}
-                  product={items.product}
+                  product={product.product}
                 />
-              ))
-            )}
-          </div>
-        </div>
-      </div>
+              </SwiperSlide>
+            ))
+          )}
+        </Swiper>
     </div>
   );
 };

@@ -68,7 +68,7 @@ console.log(cart)
   
   const removeFromCart = async () => {
     const token = localStorage.getItem("token");
-    const response = await fetch("http://localhost:5000/api/cart/challenge", {
+    const response = await fetch(`${process.env.SERVER_DOMAIN}/api/cart/challenge`, {
       method: "PUT",
       mode: "cors", // no-cors, *cors, same-origin
       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -90,7 +90,7 @@ console.log(cart)
 
   const addToCart = async () => {
     const token = localStorage.getItem("token");
-    const response = await fetch("http://localhost:5000/api/cart/challenge", {
+    const response = await fetch(`${process.env.SERVER_DOMAIN}/api/cart/challenge`, {
       method: "POST",
       mode: "cors", // no-cors, *cors, same-origin
       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -130,7 +130,7 @@ console.log(cart)
                 <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                       <button onClick={() => setOpenPopupToSelectCategories(!openPopupToSelectCategories)} type="button" className="absolute top-3 right-2.5 text-gray-300 bg-gray-700 dark:bg-dark-green rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center " data-modal-hide="crypto-modal">
                           <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                           </svg>
                           <span className="sr-only">Close modal</span>
                       </button>
@@ -164,7 +164,7 @@ console.log(cart)
               <li>{category.name}</li>
               <button onClick={() => handleRemoveSelectedCategory(category._id!) } type="button" className="inline-flex items-center p-1 ml-2 text-sm text-blue-400 bg-transparent rounded-sm hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-blue-300" data-dismiss-target="#badge-dismiss-default" aria-label="Remove">
                   <svg className="w-2 h-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                  <path stroke="currentColor" strokeLinecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                   </svg>
                   <span className="sr-only">Remove badge</span>
               </button>
@@ -172,7 +172,7 @@ console.log(cart)
             )
           })}
           <button onClick={() => setOpenPopupToSelectCategories(!openPopupToSelectCategories)} type="button" data-modal-target="crypto-modal" data-modal-toggle="crypto-modal" className="mt-4 text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700">
-            <svg aria-hidden="true" className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+            <svg aria-hidden="true" className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
             Select Categories
           </button>
         </div> 

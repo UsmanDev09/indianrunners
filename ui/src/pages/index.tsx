@@ -1,47 +1,56 @@
-import { useState } from "react";
-import Banner from "@/components/Banner";
+import { useState, useEffect } from "react";
+import Image from "next/image";
 import { Josefin_Sans } from "next/font/google";
+import axios from 'axios';
 
-
+import { LandingPage } from "@/types";
 import socket from '../socket';
-import Chair from "../Assets/chair.png";
-import Prod2 from "../Assets/Prod2.png";
-import NotFound from "../Assets/NotFound.jpg";
-import Prod3 from "../Assets/Prod3.png";
-
-import Prod4 from "../Assets/Prod4.png";
-import Prod1 from "../Assets/Prod1.png";
 
 import CardList from "@/components/CardList";
 
 const josef = Josefin_Sans({ subsets: ["latin"] });
 
-const ItemCards = [
-  { name: "Weekly Basketball Championship", price: "$42.00", picture: Prod1 },
-  { name: "Cycling for a month challenge", price: "$30.00", picture: Prod2 },
-  { name: "Daily Skating Challenge", price: "$51.00", picture: Prod3},
-  { name: "Monthly Fitness Challenge", price: "$80.00", picture: Prod4 },
-];
-
 export default function Home() {
   const [isConnected, setIsConnected] = useState(socket.connected);
-  const [chall, setchall] = useState([]);
-  
+  const [challenges, setChallenges] = useState([]);
+  const [landingPage, setLandingPage] = useState<LandingPage>();
+
+  const fetchLandingPageData = async () => {
+    const { data: { data } } = await axios.get(`${process.env.SERVER_DOMAIN}/api/landingpage`);
+
+    setLandingPage(data);
+  }
+
+  useEffect(() => {
+    fetchLandingPageData()
+  }, [])
 
   return (
     <div className={josef.className}>
-      <Banner
-        introduction="Lorem Ipsum Dolor Sit Amet"
-        title="Lorem Ipsum Dolor Sit Ammet "
-        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Magna in est adipiscing in phasellus non in justo."
-        picture={Chair}
-      />
+
+      <div className="flex items-center justify-center h-80vh bg-cover bg-center relative">
+          <Image
+           className="w-full h-[90vh]" 
+           width={0}
+           height={0}
+           sizes={"100vw"}
+           src={landingPage?.mainSection?.image && landingPage?.mainSection?.image}
+           alt="image"
+         /> 
+      </div>
       <div className=" p-8 dark:bg-dark-gray-800 border-gray mt-10">
-        {/* <CardList
-          title="Featured Challenges"
-          setChallenges={setchall}
-          ItemCard_List={ItemCards}
-        /> */}
+        {landingPage?.sections && landingPage?.sections.map((section: any, index: number) => {   
+          console.log('sec',section)
+          return (
+            <CardList
+              key={index}
+              title={section.heading}
+              setChallenges={setChallenges}
+              challenges={section.challenges}
+              products={section.products}
+            />
+          )
+        })}
 
       </div>
     </div>
