@@ -1,7 +1,7 @@
 import { GetStaticProps } from "next";
 import Layout from "@/components/Layout";
 import { Josefin_Sans } from "next/font/google";
-import NotFoundPicture from "../Assets/NotFound.jpg";
+import NotFoundPicture from "../assets/NotFound.jpg";
 import LoginForm from "@/components/Forms/LoginForm";
 import { useState } from "react";
 const josef = Josefin_Sans({ subsets: ["latin"] });

@@ -24,7 +24,7 @@ export const getServerSideProps = async (context: any) => {
       token = tokenMatch[1];
     }
 
-    const response = await fetch("http://localhost:5000/api/inventory", {
+    const response = await fetch(`${process.env.SERVER_DOMAIN}/api/inventory`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((response) => response.json())

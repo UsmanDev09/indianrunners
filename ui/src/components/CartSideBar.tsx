@@ -1,102 +1,47 @@
+import { useEffect, useState } from "react";
 import { Cart } from "@/pages/api";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { Challenge } from "@/pages/api";
 import Image from "next/image";
+import { Challenge } from "@/pages/api";
+
+import { getCartAPI, removeChallengeFromCartAPI, removeProductFromCartAPI, increaseProductQuantityAPI, decreaseProductQuantityAPI } from '../api/cart';
+
 
 const CartSideBar = ({ setShowCartSidebar, showCartSideBar } : { setShowCartSidebar : (showCartSideBar: boolean) => void, showCartSideBar: boolean }) => {
     const [cart, setCart] = useState<Cart[]>([])
     const [loading, setLoading] = useState(false)
 
-    const token = localStorage.getItem('token')
-
     const fetchCart = async () => {
-        const token = localStorage.getItem('token')
-        const cart  = fetch("http://localhost:5000/api/cart", {
-            method: "GET",
-            mode: "cors", // no-cors, *cors, same-origin
-            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: "same-origin", // include, *same-origin, omit
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${token}`
-            },
-            referrerPolicy: "no-referrer",
-          })
-            .then((res) => res.json())
-            .then(res => setCart(res.data))
+        getCartAPI().then(res => setCart(res.data))
     }
 
-    const removeChallengeFromCart = async (challenge: Challenge | undefined, _id: number) => {
+    const removeChallengeFromCart = async (challenge: Challenge, _id: number) => {
         setLoading(true)
-        const response  = fetch("http://localhost:5000/api/cart/challenge", {
-            method: "DELETE",
-            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: "same-origin", // include, *same-origin, omit
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
-            referrerPolicy: "no-referrer",
-            body: JSON.stringify({ itemDetails: [{ challenge: { _id: challenge?._id } } ], _id}),
-          }).then((res) => {
+        removeChallengeFromCartAPI(challenge, _id).then(() => {
             fetchCart()
             setLoading(false)
         })
-
-
     }
 
-    const removeProductFromCart = async (productId: number | undefined, _id: number) => {
+    const removeProductFromCart = async (productId: number, _id: number) => {
         setLoading(true)
-        const response  = fetch("http://localhost:5000/api/cart/product", {
-            method: "DELETE",
-            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: "same-origin", // include, *same-origin, omit
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
-            referrerPolicy: "no-referrer",
-            body: JSON.stringify({ itemDetails: [{ product: { _id: productId } } ], _id}),
-          }).then((res) => {
+        removeProductFromCartAPI(productId, _id).then(() => {
             fetchCart()
             setLoading(false)
           })
-
     }
 
-    const increaseProductQuantity = async (productId: number | undefined, _id: number) => {
+    const increaseProductQuantity = async (productId: number, _id: number) => {
         setLoading(true)
-        const response  = fetch("http://localhost:5000/api/cart/product/increase-quantity", {
-            method: "PUT",
-            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: "same-origin", // include, *same-origin, omit
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
-            referrerPolicy: "no-referrer",
-            body: JSON.stringify({ itemDetails: [{ product: { _id: productId } } ], _id}),
-        }).then((res) => {
+        increaseProductQuantityAPI(productId, _id).then((res) => {
             fetchCart()   
             setLoading(false)
         })
     }
 
-    const decreaseProductQuantity = async (productId: number | undefined, _id: number) => {
+    const decreaseProductQuantity = async (productId: number, _id: number) => {
         setLoading(true)
-        const response  = fetch("http://localhost:5000/api/cart/product/decrease-quantity", {
-            method: "PUT",
-            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: "same-origin", // include, *same-origin, omit
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
-            referrerPolicy: "no-referrer",
-            body: JSON.stringify({ itemDetails: [{ product: { _id: productId } } ], _id}),
-        }).then((res) => {
+        decreaseProductQuantityAPI(productId, _id).then((res) => {
             fetchCart()
             setLoading(false)
         })
@@ -125,7 +70,7 @@ const CartSideBar = ({ setShowCartSidebar, showCartSideBar } : { setShowCartSide
                                     <span className="absolute -inset-0.5"></span>
                                     <span className="sr-only">Close panel</span>
                                     <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                    <path strokeLinecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                                     </svg>
                                 </button>
                                 </div>

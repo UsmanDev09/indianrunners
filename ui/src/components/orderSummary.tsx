@@ -18,7 +18,7 @@ const OrderSummary = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     const order = async () => {
-      await fetch("http://localhost:5000/api/orderSummary", {
+      await fetch(`${process.env.SERVER_DOMAIN}/api/orderSummary`, {
         headers: { Authorization: `Bearer ${token}` },
       })
         .then(function(res) {

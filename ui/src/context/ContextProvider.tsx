@@ -1,6 +1,6 @@
 import { MyGlobalContext } from "@/Hooks/useGlobalContext";
 import { AccountContextType, initialState } from "@/Interfaces";
-import { accountReducer } from "@/Reducers/reducers";
+import { accountReducer } from "@/reducers/reducers";
 import { PropsWithChildren, createContext, useReducer, useState } from "react";
 
 export const ContextProvider = (props: PropsWithChildren) => {

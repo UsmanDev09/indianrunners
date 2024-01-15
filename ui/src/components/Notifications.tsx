@@ -51,7 +51,7 @@ const Notifications = ({ notifications }: Props) => {
       setMounted(false);
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [showNotifications, handleClickOutside]);
+  }, [showNotifications]);
 
   return (
     <>
