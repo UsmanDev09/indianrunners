@@ -26,6 +26,8 @@ router.get('/strava-realtime', Strava.getActivities)
 
 router.post('/manual', passport.authenticate("jwt", { session: false}), Strava.uploadManualActivity)
 
+router.get('/manual', passport.authenticate("jwt", { session: false}), Strava.getManualActivitiesData)
+
 router.put('/:activityId/manual-activity', passport.authenticate("jwt", { session: false}), Strava.updateManualActivityStatus)
 
 // Swagger Documentation for the /api/activity Routes
