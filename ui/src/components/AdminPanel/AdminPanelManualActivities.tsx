@@ -1,16 +1,68 @@
 import { useState } from "react"
 import Image from "next/image"
-import { ChallengeCategory } from "@/pages/api"
-import CreateChallengeCategory from "./CreateChallengeCategories"
+import { Activity } from "@/pages/api"
 
 
-const ChallengeCategories = ({ initialChallengeCategories } : { initialChallengeCategories: ChallengeCategory[] } ) => {
-    const [openCreateChallengeCategoriesDrawer, setOpenCreateChallengeCategoriesDrawer] = useState<boolean>(false)
-    const [challengeCategories, setChallengeCategories] = useState<ChallengeCategory[]>(initialChallengeCategories)
+const AdminPanelManualActivities = ({ initialActivities } : { initialActivities: Activity[] } ) => {
+    const [openUpdateProductDrawer, setOpenUpdateProductDrawer] = useState<boolean>(false)
+    const [activities, setActivities] = useState<Activity[]>(initialActivities)
+
+    const token = localStorage.getItem('token')
+
+    const approveActivity = async (activity: Activity) => {
+        try {
+            const response = await fetch(`${process.env.SERVER_DOMAIN}/api/activity/${activity._id}/manual-activity`, {
+              method: 'PUT',
+              body: JSON.stringify({status: 'approved'}),
+              headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${token}`,
+                },
+              });
+              
+              const activities  = await response.json()
+  
+            if (response.ok) {
+              setOpenUpdateProductDrawer(false)
+              setActivities(activities.data)
+            } else {
+              console.error('Failed to approve activity');
+            }
+          } catch (error) {
+              if(error instanceof Error){
+               console.log(error.message)
+              }
+          }
+    }
+
+    const rejectActivity = async (activity: Activity) => {
+        try {
+            const response = await fetch(`${process.env.SERVER_DOMAIN}/api/activity/${activity._id}/manual-activity`, {
+              method: 'PUT',
+              body: JSON.stringify({status: 'rejected'}),
+              headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${token}`,
+                },
+              });
+              
+              const activities  = await response.json()
+  
+            if (response.ok) {
+              setOpenUpdateProductDrawer(false)
+              setActivities(activities.data)
+            } else {
+              console.error('Failed to reject activity');
+            }
+          } catch (error) {
+              if(error instanceof Error){
+               console.log(error.message)
+              }
+          }
+    }
 
     return (
         <div className='w-full container'>
-            <CreateChallengeCategory setChallengeCategories={setChallengeCategories} setOpenCreateChallengeCategoriesDrawer={setOpenCreateChallengeCategoriesDrawer} openCreateChallengeCategoriesDrawer={openCreateChallengeCategoriesDrawer} />
             <div className="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-dark-green dark:border-gray-700">
                 <div className="mb-1">
                     <div className="mb-4">
@@ -36,7 +88,7 @@ const ChallengeCategories = ({ initialChallengeCategories } : { initialChallenge
                             </li>
                             </ol>
                         </nav>
-                        <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">All products</h1>
+                        <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">All activities</h1>
                     </div>
                     <div className="items-center justify-between block sm:flex md:divide-x md:divide-gray-300 dark:divide-gray-700">
                         <div className="flex items-center mb-4 sm:mb-0">
@@ -47,9 +99,6 @@ const ChallengeCategories = ({ initialChallengeCategories } : { initialChallenge
                                 </div>
                             </form>
                         </div>
-                        <button className='text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800' onClick={() => setOpenCreateChallengeCategoriesDrawer(!openCreateChallengeCategoriesDrawer)}>
-                            Add New Challenge Category
-                        </button>
                     </div>
                 </div>
             </div>
@@ -67,20 +116,35 @@ const ChallengeCategories = ({ initialChallengeCategories } : { initialChallenge
                                             </div>
                                         </th>
                                         <th scope="col" className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                            Challenge Name
+                                            Activity Type
                                         </th>
                                         <th scope="col" className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                            Description
+                                            Average Speed
                                         </th>
                                         <th scope="col" className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                            Activity
+                                            Distance Covered
                                         </th>
                                         <th scope="col" className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                            Distance
+                                            Elapsed Time
+                                        </th>
+                                        <th scope="col" className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
+                                            Maximum Speed
+                                        </th>
+                                        <th scope="col" className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
+                                            Moving Time
+                                        </th>
+                                        <th scope="col" className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
+                                            Total Ascent
+                                        </th>
+                                        <th scope="col" className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
+                                            Status
+                                        </th>
+                                        <th scope="col" className="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
+                                            Actions
                                         </th>
                                     </tr>
                                 </thead>
-                                {challengeCategories && challengeCategories.map((challengeCategory, index) => {
+                                {activities && activities.map((activity: Activity, index) => {
                                     return (
                                         <tbody key={index} className="bg-white divide-y divide-gray-300 dark:bg-dark-green dark:divide-gray-700">
                                             <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
@@ -91,12 +155,27 @@ const ChallengeCategories = ({ initialChallengeCategories } : { initialChallenge
                                                         <label htmlFor="checkbox" className="sr-only">checkbox</label>
                                                     </div>
                                                 </td>
-                                                <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
-                                                    <div className="text-base font-semibold text-gray-900 dark:text-white">{challengeCategory.name}</div>
+                                            
+                                                <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">{activity.activityType}</td>
+                                                <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">{activity.averageSpeed}</td>
+                                                <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">{activity.distanceCovered}</td>
+                                                <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">{activity.elapsedTime}</td>
+                                                <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">{activity.maximumSpeed}</td>
+                                                <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">{activity.movingTime}</td>
+                                                <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">{activity.totalAssent}</td>
+                                                <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">{activity.status}</td>
+
+
+                                                <td className="p-4 space-x-2 whitespace-nowrap">
+                                                    <button disabled={activity.status !== 'underReview'} onClick={() => approveActivity(activity)} type="button"  className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-gray-200 dark:text-white rounded-lg bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-primary-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
+                                                        <svg className="w-4 h-4 mr-2 text-gray-900 group-hover:text-gray-900 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path><path fillRule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd"></path></svg>
+                                                        Approve
+                                                    </button>
+                                                    <button disabled={activity.status !== 'underReview'} onClick={() => rejectActivity(activity)} type="button" id="deleteProductButton" data-drawer-target="drawer-delete-product-default" data-drawer-show="drawer-delete-product-default" aria-controls="drawer-delete-product-default" data-drawer-placement="right" className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-gray-200 dark:text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900">
+                                                        <svg className="w-4 h-4 mr-2 text-gray-900 hover:text-gray-900 dark:text-gray-200" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                                                        Reject
+                                                    </button>
                                                 </td>
-                                                <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">{challengeCategory.description}</td>
-                                                <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">{challengeCategory.activity}</td>
-                                                <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">{challengeCategory.distance}</td>                                               
                                             </tr>
                                         </tbody> 
                                     )
@@ -132,4 +211,4 @@ const ChallengeCategories = ({ initialChallengeCategories } : { initialChallenge
         )
 }
 
-export default ChallengeCategories
+export default AdminPanelManualActivities
