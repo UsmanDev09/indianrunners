@@ -15,7 +15,7 @@ const Profile = () => {
   const [user, setUser] = useState()
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/user/profile', {
+    fetch(`${process.env.SERVER_DOMAIN}/api/user/profile`, {
       method: "GET",
       mode: "cors", // no-cors, *cors, same-origin
       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached

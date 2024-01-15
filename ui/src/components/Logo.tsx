@@ -24,14 +24,14 @@ return (
                 className="text-5xl sm:text-3xl md:text-5xl text-center sm:text-left font-bold grow"
                 href="/"
             >
-                <Image src='/white_logo.svg' width={88} height={50} alt='Indian runners'/>
+                <Image data-testid="logo" src='/white_logo.svg' width={88} height={50} alt='Indian runners'/>
             </Link>
         ) : (
             <Link
                 className="text-5xl sm:text-3xl md:text-5xl text-center sm:text-left font-bold grow"
                 href="/"
             >
-                <Image src='/black_logo.svg' width={88} height={50} alt='Indian runners'/>
+                <Image data-testid='logo' src='/black_logo.svg' width={88} height={50} alt='Indian runners'/>
             </Link> 
         )
     )

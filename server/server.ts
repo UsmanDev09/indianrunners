@@ -1,5 +1,7 @@
 import "dotenv/config"
 import "./auth/index"
+import "./cache/index"
+
 import { Worker } from 'bullmq'
 import mongoose from "mongoose"
 import createHttpError from "http-errors"
@@ -22,15 +24,12 @@ const app = server();
 
 const port = env.SERVER_PORT || 5000;
 
-
-
 mongoose
 .connect(env.MONGO_CONNECTION_STRING)
 .then(() => {
   logger.info("Mongoose connected");
 })
 .catch(logger.error)
-
 
 const serverConnection = app.listen(port, () => {
   logger.info(`Server started on port: ${port}`)

@@ -43,7 +43,7 @@ export const ProfileForm: React.FC<{}> = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     const fetchprofile = async () => {
-      const profile = await fetch("http://localhost:5000/api/user/profile", {
+      const profile = await fetch(`${process.env.SERVER_DOMAIN}/api/user/profile`, {
         headers: { Authorization: `Bearer ${token}` },
       }).then((response) =>
         response.json().then((profile) => setProfile(profile.data))
@@ -73,7 +73,7 @@ export const ProfileForm: React.FC<{}> = () => {
         onSubmit={async (values, actions) => {
           console.log({ values, actions });
           const token = localStorage.getItem("token");
-          await fetch("http://localhost:5000/api/user/profile", {
+          await fetch(`${process.env.SERVER_DOMAIN}/api/user/profile`, {
             method: "PUT",
             mode: "cors", // no-cors, *cors, same-origin
             cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached

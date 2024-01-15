@@ -581,6 +581,8 @@ export interface Activity {
 
   /**  */
   totalAssent?: number;
+
+  status: string;
 }
 
 export interface CreateBadgeApiResponse {

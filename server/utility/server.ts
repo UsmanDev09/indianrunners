@@ -21,14 +21,14 @@ import swaggerDocs from "./swagger";
 import leaderboardRoutes from "../routes/leaderboard";
 import inventoryRoutes from "../routes/inventory";
 import landingPageRoutes from "../routes/landingPage";
-var bodyParser = require("body-parser");
+// var bodyParser = require("body-parser");
 
 const app = express();
 
 const server = () => {
-    app.use(express.json({ limit: "50mb" }));
+    app.use(express.json());
     app.use(express.urlencoded( { extended: false} ))
-    app.use(express.urlencoded({ limit: "50mb" }));
+    app.use(express.urlencoded());
     app.use(cors({
         origin: 'http://localhost:3000'
     }))
@@ -51,44 +51,28 @@ const server = () => {
     app.use('/api/leaderboard', leaderboardRoutes)
     app.use('/api/landingpage', landingPageRoutes)
 
-  app.use("/api/user", userRoutes);
-  app.use("/api/activity", activityRoutes);
-  app.use("/api/challengeCategory", challengeCategoryRoutes);
-  app.use("/api/challenge", challengeRoutes);
-  app.use("/api/product", productRoutes);
-  app.use("/api/inventory", inventoryRoutes);
-  app.use("/api/badge", badgeRoutes);
-  app.use("/api/cart", cartRoutes);
-  app.use("/api/shippingDetails", shippingDetailRoutes);
-  app.use("/api/orderSummary", orderSummaryRoutes);
-  app.use("/api/product/category", productCategoryRoutes);
-  app.use("/api/payment", paymentRoutes);
-  app.use("/api/notification", notificationRoutes);
-  app.use("/api/leaderboard", leaderboardRoutes);
-  app.use("/api/landingpage", landingPageRoutes);
+    swaggerDocs(app, 5000);
 
-  swaggerDocs(app, 5000);
-
-  app.get("/");
-  // no endpoint
-  app.use((req, res, next) => {
-    next(createHttpError(404, Constants.routeNotFound));
-  });
-
-  // error handler
-  app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
-    let errorMessage = "An unknown error occured.";
-    let statusCode = 500;
-    if (isHttpError(error)) {
-      errorMessage = error.message;
-      statusCode = error.status;
-    }
-    res.status(statusCode).json({
-      success: false,
-      message: error,
+    app.get("/");
+    // no endpoint
+    app.use((req, res, next) => {
+      next(createHttpError(404, Constants.routeNotFound));
     });
-  });
-  return app;
+  
+    // error handler
+    app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
+      let errorMessage = "An unknown error occured.";
+      let statusCode = 500;
+      if (isHttpError(error)) {
+        errorMessage = error.message;
+        statusCode = error.status;
+      }
+      res.status(statusCode).json({
+        success: false,
+        message: error,
+      });
+    });
+    return app; 
 };
 
 export default server;

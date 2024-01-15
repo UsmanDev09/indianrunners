@@ -21,7 +21,7 @@ const LoginForm = () => {
   const submitForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    await fetch("http://localhost:5000/api/user/login", {
+    await fetch(`${process.env.SERVER_DOMAIN}localhost:5000/api/user/login`, {
       method: "POST",
       mode: "cors", // no-cors, *cors, same-origin
       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -124,6 +124,7 @@ const LoginForm = () => {
                   className="w-full mt-2 text-white bg-gray-700 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                   type="button"
                   onClick={() => window.open('http://localhost:5000/api/user/google', '_self')}
+                  data-testid="login-with-google"
                 >
                     Log In with Google
                 </button>

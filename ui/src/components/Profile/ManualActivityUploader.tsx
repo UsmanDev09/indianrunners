@@ -30,7 +30,7 @@ const ManualActivityUploader = () => {
         e.preventDefault();
         const token = localStorage.getItem('token');
 
-        fetch('http://localhost:5000/api/activity/manual', {
+        fetch(`${process.env.SERVER_DOMAIN}/api/activity/manual`, {
             method: "POST",
             mode: "cors", // no-cors, *cors, same-origin
             cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached

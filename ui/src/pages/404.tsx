@@ -1,6 +1,6 @@
 import { GetStaticProps } from "next";
 import { Josefin_Sans } from "next/font/google";
-import NotFoundPicture from "../Assets/NotFound.jpg";
+import NotFoundPicture from "../assets/NotFound.jpg";
 const josef = Josefin_Sans({ subsets: ["latin"] });
 import Image from "next/image";
 import Banner404 from "@/components/Banner404";
