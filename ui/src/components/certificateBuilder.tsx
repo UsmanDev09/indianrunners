@@ -113,7 +113,7 @@ export default function CertificateBuilder({
           designState: desState,
         }),
       }
-    ).then((response) => response.json().then((chall) => {if(chall?.success){toast.success(chall.data)}else{toast.error(chall.message.message)}}));
+    ).then((response) => response.json().then((chall) => {if(chall?.success){toast.success('Challenge Added successfully')}else{toast.error(chall.message.message)}}));
   };
 
   const AddCertificatetoUser = async (userId: string, url: string) => {
