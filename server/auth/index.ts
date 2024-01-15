@@ -79,7 +79,6 @@ const options = {
 
 export default passport.use(new JWTStrategy(options, async(token: JWTToken, done: VerifiedCallback) => {
     try {
-        console.log('tk', token.userId)
         const user = await UserModel.findById(token.userId)
 
         if (user) done(null, token.userId) 
