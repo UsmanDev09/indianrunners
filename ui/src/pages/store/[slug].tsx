@@ -13,16 +13,8 @@ export default function Slug({ items }: { items: Challenge[] | Product[] }) {
   const slug = (router.query.slug as string) || null;
   const [_, setChallenges] = useState([]);
 
-<<<<<<< HEAD
-  const slugName =
-    slug?.length ?? 0 > 0
-      ? (slug?.charAt(0).toUpperCase() ?? "") + slug?.slice(1)
-      : "";
-  console.log(items);
-=======
   const slugName = slug?.length ?? 0 > 0 ? (slug?.charAt(0).toUpperCase() ?? '') + slug?.slice(1) : '';
 
->>>>>>> master
   return (
     <div className={`${josef.className} flex flex-col`}>
       <Banner

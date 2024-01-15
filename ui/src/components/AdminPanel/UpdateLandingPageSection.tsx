@@ -67,7 +67,7 @@ const UpdateLandingPageSection = ({
         const { name, value } = e.target;
         
         if(name === 'products') {
-          const foundProducts = products.find((product) => product._id === (value));
+          const foundProducts = products.find((product) => String(product._id) === (value));
           if(foundProducts) {
               if(!selectedProducts.some((product: Product) => product._id === foundProducts._id)) {
                   console.log('selected')
@@ -76,7 +76,7 @@ const UpdateLandingPageSection = ({
             }
             setFormData({ ...formData, products: [...formData.products, value] });
         } else if(name === 'challenges') { 
-          const foundChallenges = challenges.find((challenge) => challenge._id === (value));
+          const foundChallenges = challenges.find((challenge) => String(challenge._id) === (value));
           if(foundChallenges) {
             if(!selectedChallenges.some((category) => category._id === foundChallenges._id)) {
                 setSelectedChallenges([...selectedChallenges, foundChallenges])
@@ -100,7 +100,7 @@ const UpdateLandingPageSection = ({
 
       const handleRemoveSelectedChallenge = (challengeIdToRemove: number | string | undefined) => {
         const challenges = selectedChallenges.filter((challenge) => challenge._id !== challengeIdToRemove)
-        const formDataChallengeIds = formData.challenges.filter((challengeId) => challengeId === challengeIdToRemove)
+        const formDataChallengeIds = formData.challenges.filter((challengeId: string | number | undefined) => challengeId === challengeIdToRemove)
         setFormData({ ...formData, challenges: formDataChallengeIds });
   
         setSelectedChallenges(challenges)

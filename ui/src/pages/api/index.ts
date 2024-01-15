@@ -552,6 +552,7 @@ export interface ActivityApiResponse {
 }
 
 export interface Activity {
+  _id: any;
   /**  */
   activityId?: number;
 
@@ -947,6 +948,7 @@ export interface ProductApiResponse {
 }
 
 export interface Product {
+  product: any;
   /**  */
   _id?: number;
 

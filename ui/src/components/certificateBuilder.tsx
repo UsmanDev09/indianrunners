@@ -1,9 +1,11 @@
 import getAccount from "@/lib/getAccount";
 import { Challenge } from "@/pages/api";
 import { Cloudinary } from "@cloudinary/url-gen";
+import Cookies from "js-cookie";
 import dynamic from "next/dynamic";
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
+
 const FilerobotImageEditor = dynamic(
   () => import("react-filerobot-image-editor"),
   {
@@ -30,7 +32,7 @@ export default function CertificateBuilder({
   const [userNo, setUserNo] = useState(0);
   const [URL, setURL] = useState("");
   const { account } = getAccount();
-  const token = localStorage.getItem("token");
+  const token = Cookies.get("token");
 
   const fetchDesignState = async () => {
     const chall = await fetch(

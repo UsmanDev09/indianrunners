@@ -31,7 +31,7 @@ const CreateChallenge = ({ setChallenges, categories, setOpenCreateChallengeDraw
     const handleInputChange = (e: React.ChangeEvent<EventTarget & (HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement) >) => {
         const { name, value } = e.target;
         if(name === 'categories') {
-            const foundCategories = categories.find((category) => category._id === value);
+            const foundCategories = categories.find((category) => String(category._id) === value);
             if(foundCategories) {
                 if(!selectedCategories.some((category: ChallengeCategory) => category._id === foundCategories._id)) {
                     console.log('selected')

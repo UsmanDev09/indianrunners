@@ -1,5 +1,5 @@
 import { AccountContextType } from "@/Interfaces";
-
+import Cookies from "js-cookie";
 const getAccount = (): AccountContextType => {
   const account = {
     account: {
@@ -7,7 +7,7 @@ const getAccount = (): AccountContextType => {
       lastName: localStorage.getItem("lastName"),
       userName: localStorage.getItem("userName"),
       profile: localStorage.getItem("profile"),
-      token: localStorage.getItem("token"),
+      token: Cookies.get("token")||null,
       email: localStorage.getItem("email"),
       role: localStorage.getItem("role"),
     },

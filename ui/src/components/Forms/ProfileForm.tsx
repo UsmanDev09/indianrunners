@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 
 import { Josefin_Sans } from "next/font/google";
-
+import Cookies from "js-cookie";
 const josef = Josefin_Sans({ subsets: ["latin"] });
 
 import React from "react";
@@ -41,7 +41,7 @@ export const ProfileForm: React.FC<{}> = () => {
     city: "",
   });
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
     const fetchprofile = async () => {
       const profile = await fetch(`${process.env.SERVER_DOMAIN}/api/user/profile`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -72,7 +72,7 @@ export const ProfileForm: React.FC<{}> = () => {
         enableReinitialize={true}
         onSubmit={async (values, actions) => {
           console.log({ values, actions });
-          const token = localStorage.getItem("token");
+          const token = Cookies.get("token");
           await fetch(`${process.env.SERVER_DOMAIN}/api/user/profile`, {
             method: "PUT",
             mode: "cors", // no-cors, *cors, same-origin
@@ -100,7 +100,7 @@ export const ProfileForm: React.FC<{}> = () => {
                     lastName: localStorage.getItem("lastName"),
                     userName: localStorage.getItem("userName"),
                     profile: data?.data,
-                    token: localStorage.getItem("token"),
+                    token: Cookies.get("token"),
                     email: localStorage.getItem("email"),
                     role: localStorage.getItem("role"),
                   },

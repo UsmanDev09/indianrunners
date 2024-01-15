@@ -4,7 +4,7 @@ import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { useContext, useState } from "react";
-
+import Cookies from "js-cookie";
 const josef = Josefin_Sans({ subsets: ["latin"] });
 
 
@@ -67,7 +67,7 @@ console.log(cart)
   };
   
   const removeFromCart = async () => {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
     const response = await fetch(`${process.env.SERVER_DOMAIN}/api/cart/challenge`, {
       method: "PUT",
       mode: "cors", // no-cors, *cors, same-origin
@@ -89,7 +89,7 @@ console.log(cart)
   };
 
   const addToCart = async () => {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
     const response = await fetch(`${process.env.SERVER_DOMAIN}/api/cart/challenge`, {
       method: "POST",
       mode: "cors", // no-cors, *cors, same-origin

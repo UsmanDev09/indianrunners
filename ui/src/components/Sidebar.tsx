@@ -2,6 +2,8 @@ import { MyGlobalContext } from "@/Hooks/useGlobalContext";
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import Searchimg from "./Vector.svg";
+import Cookies from "js-cookie";
+
 type Sidebar_Props = {
   title?: string;
   price?: string;
@@ -32,7 +34,7 @@ const Sidebar = ({
   const [maxprice, setmaxprice] = useState("");
 
   const filterChallenges = () => {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
     console.log(ctype);
     const params = {
       name: name,

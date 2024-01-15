@@ -30,7 +30,7 @@ const CreateCustomizedLandingPage = ({ setSections, setOpenCreateCustomizedLandi
 
           setFormData({ ...formData, products: [...formData.products, value] });
         } else if(name === 'challenges') { 
-          const foundChallenges = challenges.find((challenge) => challenge._id === (value));
+          const foundChallenges = challenges.find((challenge) => String(challenge._id) === (value));
           if(foundChallenges) {
               if(!selectedChallenges.some((category) => category._id === foundChallenges._id)) {
                   setSelectedChallenges([...selectedChallenges, foundChallenges])
