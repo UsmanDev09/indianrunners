@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import useLocalStorage from "@/Hooks/useLocalStorage";
+import useLocalStorage from "@/hooks/useLocalStorage";
 import { useEffect } from "react";
 
 type userPrefs = {

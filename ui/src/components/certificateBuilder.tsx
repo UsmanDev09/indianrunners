@@ -58,11 +58,9 @@ export default function CertificateBuilder({
       for (const key in designState.annotations) {
         if (designState.annotations[key].id === "FullName") {
           designState.annotations[key].text = users[userNo].user.name;
-          console.log(key, "is name text");
         }
         if (designState.annotations[key].id === "Gender") {
           designState.annotations[key].text = users[userNo].user.gender;
-          console.log(key, "is Gender text");
         }
       }
   };
@@ -94,7 +92,6 @@ export default function CertificateBuilder({
     url: string,
     desState: any
   ) => {
-    console.log(url);
     const chall = await fetch(
       `${process.env.SERVER_DOMAIN}/api/challenge/${challenge._id}/certificate`,
       {
@@ -142,7 +139,6 @@ export default function CertificateBuilder({
   };
 
   const loadImage = (imageObj: any, state: any, userId?: string) => {
-    console.log(userId,state)
     const image = imageObj.imageBase64;
     const data = new FormData();
     data.append("file", image);
@@ -213,15 +209,12 @@ export default function CertificateBuilder({
           <FilerobotImageEditor
             source="/White.png"
             onSave={(editedImageObject: any, designState: any) => {
-              console.log("saved", designState);
               for (const key in designState.annotations) {
                 if (designState.annotations[key].text === "FullName") {
                   designState.annotations[key].id = "FullName";
-                  console.log(key, "is name text");
                 }
                 if (designState.annotations[key].text === "Gender") {
                   designState.annotations[key].id = "Gender";
-                  console.log(key, "is Gender text");
                 }
               }
               setDesState(designState);
@@ -292,11 +285,6 @@ export default function CertificateBuilder({
           <FilerobotImageEditor
             source="/White.png"
             onSave={(editedImageObject: any, designState: any) => {
-              console.log(
-                "saved",
-                designState,
-                userNo
-              );
               if (users[userNo]?.user?._id) {
                 loadImage(
                   editedImageObject,
@@ -307,16 +295,13 @@ export default function CertificateBuilder({
                 for (const key in designState.annotations) {
                   if (designState.annotations[key].id === "FullName") {
                     designState.annotations[key].text = users[userNo].user.name;
-                    console.log(key, "is name text");
                   }
                   if (designState.annotations[key].id === "Gender") {
                     designState.annotations[key].text =
                       users[userNo].user.gender;
-                    console.log(key, "is Gender text");
                   }
                 }
                 setDesState(designState);
-                console.log("design state updated");
               }
             }}
             onClose={closeImgEditor}

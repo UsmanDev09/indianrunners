@@ -8,7 +8,7 @@ type HeaderMenu_Props = {
   token?: string;
 };
 const HeaderMenu = ({ token }: HeaderMenu_Props) => {
-  const role = localStorage.getItem("role");
+  const role = Cookies.get("role");
 
   return (
     <div className="hidden sm:flex items-center grow dark:text-white">
@@ -36,17 +36,16 @@ const HeaderMenu = ({ token }: HeaderMenu_Props) => {
       </Link>
       <button>
         {token ? (
-          <a
-            href="#"
+          <Link
+            href="/login"
             onClick={() => {
               Cookies.remove("token");
               toast.success("Logged Out Successfully");
-              document.location.replace("/");
             }}
             className={`${josef.className} text-base mr-2`}
           >
             Log out
-          </a>
+          </Link>
         ) : (
           <Link href="/login" className={`${josef.className} text-base mr-2`}>
             Log In

@@ -1,5 +1,3 @@
-import { MyGlobalContext } from "@/Hooks/useGlobalContext";
-import setAccount from "@/lib/setAccount";
 import Cookies from "js-cookie";
 import { Josefin_Sans } from "next/font/google";
 import Link from "next/link";
@@ -11,7 +9,6 @@ const josef = Josefin_Sans({ subsets: ["latin"] });
 
 const LoginForm = () => {
   const router = useRouter();
-  const { state, dispatch } = useContext(MyGlobalContext);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -39,29 +36,9 @@ const LoginForm = () => {
       })
       .then(function(data) {
         if (data?.success) {
-          Cookies.set("token", data.data.token as string, { expires: 1, secure: true, sameSite: 'strict' });
-          dispatch({
-            type: "ACCOUNT_UPDATE",
-            payload: {
-              firstName: data?.data?.user?.firstName,
-              lastName: data?.data?.user?.lastName,
-              userName: data?.data?.user?.userName,
-              profile: data?.data?.user?.profileCompleted,
-              token: data.data.token,
-              email: data?.data?.user?.email,
-              role: data?.data?.user?.role,
-            },
-          });
-
-          setAccount(
-            state.account.firstName,
-            state.account.lastName,
-            state.account.userName,
-            state.account.profile,
-            state.account.token,
-            state.account.email,
-            state.account.role
-          );
+          Cookies.set("token", data.data.token as string);
+          Cookies.set("role", data?.data?.user?.role as string);
+          
           toast.success("You've successfully logged in")
           router.replace("/profile");
         }

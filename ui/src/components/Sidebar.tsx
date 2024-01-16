@@ -1,4 +1,3 @@
-import { MyGlobalContext } from "@/Hooks/useGlobalContext";
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import Searchimg from "./Vector.svg";
@@ -22,7 +21,6 @@ const Sidebar = ({
   setChallenges,
 }: Sidebar_Props) => {
   const [button, setbutton] = useState("Add to cart");
-  const { dispatch } = useContext(MyGlobalContext);
   const [name, setName] = useState("");
   const [ctype, setcType] = useState("");
   const [activity, setactivity] = useState("");
@@ -35,7 +33,6 @@ const Sidebar = ({
 
   const filterChallenges = () => {
     const token = Cookies.get("token");
-    console.log(ctype);
     const params = {
       name: name,
       type: ctype,

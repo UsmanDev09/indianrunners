@@ -134,7 +134,6 @@ const Certificate = ({
             navigator.clipboard.writeText(
               window.location.href + "?image=" + picture
             );
-            console.log(router.query);
           }}
         />
         <LinkedinShareButton

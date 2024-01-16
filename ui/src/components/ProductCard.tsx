@@ -1,4 +1,3 @@
-import { MyGlobalContext } from "@/Hooks/useGlobalContext";
 import { ChallengeCategory, Product } from "@/pages/api";
 import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
@@ -9,8 +8,6 @@ const josef = Josefin_Sans({ subsets: ["latin"] });
 
 
 const ProductCard = ({ product } : { product: Product  }) => {
-  console.log(product)
-  const { dispatch } = useContext(MyGlobalContext);
   const [selectedCategories, setSelectedCategories] = useState([])
   const [openPopupToSelectCategories, setOpenPopupToSelectCategories] = useState(false)
   const [cart, setCart] = useState< {product: { _id: number }, productQuantity: number}[]>([ {product: { _id: 0 }, productQuantity: 0}]);
@@ -60,7 +57,6 @@ const ProductCard = ({ product } : { product: Product  }) => {
   };
 
   const addToCart = async (productId: number | undefined) => {
-    console.log(cart)
     const token = Cookies.get("token");
     const response = await fetch(`${process.env.SERVER_DOMAIN}/api/cart/product`, {
       method: "POST",

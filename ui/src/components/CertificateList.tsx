@@ -1,4 +1,3 @@
-import { MyGlobalContext } from "@/Hooks/useGlobalContext";
 import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
@@ -24,9 +23,9 @@ const CertificateCard = ({
   _id,
 }: CertificateCard_Props) => {
   const [certs, setCerts] = useState([]);
-  const { dispatch } = useContext(MyGlobalContext);
   useEffect(() => {
     const token = Cookies.get("token");
+    
     const fetchCerts = async () => {
       const cart = await fetch(`${process.env.SERVER_DOMAIN}/api/user/certificate`, {
         headers: { Authorization: `Bearer ${token}` },
