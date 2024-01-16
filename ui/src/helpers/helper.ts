@@ -28,8 +28,6 @@ export const uploadImageToCloudinary = async (file: any, preSignedData: any) => 
 
     const response = await axios.post(preSignedData.uploadUrl + `?timestamp=${preSignedData.timestamp}&signature=${preSignedData.signature}&api_key=467594938555567`, formData);
     
-    console.log('Image uploaded successfully!', response.data);
-
     return response.data.secure_url
   } catch (error) {
     console.error('Error uploading image:', error);
