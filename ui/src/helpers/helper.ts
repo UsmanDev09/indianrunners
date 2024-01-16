@@ -1,5 +1,6 @@
 import axios from "axios";
 import toast from "react-hot-toast";
+import cloudinary from "../../configs/cloudinary";
 
 export const getPreSignedUrlFromCloudinary = async () => {
   try {
@@ -28,8 +29,6 @@ export const uploadImageToCloudinary = async (file: any, preSignedData: any) => 
 
     const response = await axios.post(preSignedData.uploadUrl + `?timestamp=${preSignedData.timestamp}&signature=${preSignedData.signature}&api_key=467594938555567`, formData);
     
-    console.log('Image uploaded successfully!', response.data);
-
     return response.data.secure_url
   } catch (error) {
     console.error('Error uploading image:', error);
@@ -39,13 +38,13 @@ export const uploadImageToCloudinary = async (file: any, preSignedData: any) => 
 
 
 
-// export const deleteImageFromCloudinary = async(result: any) => {
-//     result = await cloudinary.uploader.destroy(result.public._id, (error: Error, result: any) => {
-//         if (error) {
-//           console.error(error);
-//         } else {
-//           console.info(result);
-//         }
-//       });
-//   return result
-// }
+export const deleteImageFromCloudinary = async(result: any) => {
+    result = await cloudinary.uploader.destroy(result.public._id, (error: Error, result: any) => {
+        if (error) {
+          console.error(error);
+        } else {
+          console.info(result);
+        }
+      });
+  return result
+}

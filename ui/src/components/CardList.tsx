@@ -21,7 +21,7 @@ title: string;
   setChallenges: Function;
   challenges?: Challenge[];
   filters?: boolean;
-  products?: Product[];
+  products?: Product[]|Challenge[];
 };
 
 const CardList = ({
@@ -35,7 +35,6 @@ const CardList = ({
   if (!filters) {
     flex = "flex-col";
   }  
-  console.log(products)
 
   return (
     <div>

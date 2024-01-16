@@ -1,9 +1,9 @@
 import { Product } from "@/pages/api";
 import { FormEvent, useState } from "react";
 import Image from "next/image";
+import toast from "react-hot-toast";
 
 const UpdateProduct = ({ setProducts, product, setOpenUpdateProductDrawer, openUpdateProductDrawer } : { setProducts: (products: Product[]) => void, product: Product, setOpenUpdateProductDrawer : (action: boolean) => void, openUpdateProductDrawer: boolean }) => {
-    console.log(product)
     const [formData, setFormData] = useState({
         _id: product._id,
         name: product.name,
@@ -60,7 +60,7 @@ const UpdateProduct = ({ setProducts, product, setOpenUpdateProductDrawer, openU
           }
         } catch (error) {
             if(error instanceof Error){
-             console.log(error.message)
+             toast.error(error.message)
             }
         }
       };

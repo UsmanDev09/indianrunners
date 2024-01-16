@@ -1,4 +1,3 @@
-import getAccount from "@/lib/getAccount";
 import { Josefin_Sans } from "next/font/google";
 import { useState, useRef } from "react";
 import { AiFillCloseCircle, AiOutlineCloudDownload } from "react-icons/ai";
@@ -29,7 +28,6 @@ const Certificate = ({
 }: ActivityCard_Props) => {
   const [display, setDisplay] = useState("none");
   const canvasRef = useRef(null);
-  const { account } = getAccount();
   const router = useRouter();
   const cld = new Cloudinary({ cloud: { cloudName: "da39zmhtv" } });
   // const loadImage = () => {
@@ -72,7 +70,7 @@ const Certificate = ({
       .toDataURL("image/png")
       .replace("image/png", "image/octet-stream");
     var link = document.createElement("a");
-    link.download = `Certificate_${account.firstName}.png`;
+    link.download = `Certificate_${_id}.png`;
     link.href = image;
     link.click();
   };
@@ -134,7 +132,6 @@ const Certificate = ({
             navigator.clipboard.writeText(
               window.location.href + "?image=" + picture
             );
-            console.log(router.query);
           }}
         />
         <LinkedinShareButton

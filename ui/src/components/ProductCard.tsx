@@ -1,16 +1,13 @@
-import { MyGlobalContext } from "@/Hooks/useGlobalContext";
 import { ChallengeCategory, Product } from "@/pages/api";
 import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { useContext, useState } from "react";
-
+import Cookies from "js-cookie";
 const josef = Josefin_Sans({ subsets: ["latin"] });
 
 
 const ProductCard = ({ product } : { product: Product  }) => {
-  console.log(product)
-  const { dispatch } = useContext(MyGlobalContext);
   const [selectedCategories, setSelectedCategories] = useState([])
   const [openPopupToSelectCategories, setOpenPopupToSelectCategories] = useState(false)
   const [cart, setCart] = useState< {product: { _id: number }, productQuantity: number}[]>([ {product: { _id: 0 }, productQuantity: 0}]);
@@ -35,7 +32,7 @@ const ProductCard = ({ product } : { product: Product  }) => {
   };
   
   const removeFromCart = async (cartId: number, productId: number) => {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
     const response = await fetch(`${process.env.SERVER_DOMAIN}/api/cart/challenge`, {
       method: "PUT",
       mode: "cors", // no-cors, *cors, same-origin
@@ -60,8 +57,7 @@ const ProductCard = ({ product } : { product: Product  }) => {
   };
 
   const addToCart = async (productId: number | undefined) => {
-    console.log(cart)
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
     const response = await fetch(`${process.env.SERVER_DOMAIN}/api/cart/product`, {
       method: "POST",
       mode: "cors", // no-cors, *cors, same-origin

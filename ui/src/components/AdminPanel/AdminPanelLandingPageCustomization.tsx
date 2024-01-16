@@ -3,13 +3,14 @@ import { useState } from "react";
 
 import { Challenge, Product } from "@/pages/api";
 import toast from "react-hot-toast";
+import Cookies from "js-cookie";
 
+import { Inventory } from "@/types";
 import { Loader } from "../Loader";
 import UpdateLandingPageSection from './UpdateLandingPageSection';
 import CreateCustomizedLandingPage from './CreateCustomizedLandingPage';
 import axios from '../../api/index';
 import { uploadImageToCloudinary, getPreSignedUrlFromCloudinary } from "../../helpers/helper";
-import { Inventory } from "@/types";
 
 const AdminPanelLandingPageCustomization = ({ landingpage } : { landingpage: any}) => {
     const [openCreateCustomizedlandingPageDrawer, setOpenCreateCustomizedLandingPageDrawer] = useState<boolean>(false);
@@ -19,7 +20,7 @@ const AdminPanelLandingPageCustomization = ({ landingpage } : { landingpage: any
     const [backgroundImageUrl, setBackgroundImageUrl] = useState(landingpage.mainSection.image);
     const [loading, setLoading] = useState<boolean>(false);
     
-    const token = localStorage.getItem('token');
+    const token = Cookies.get('token');
 
     const uploadLandingPageBackgroundToCloudinary = async (e: any) => {
         try {

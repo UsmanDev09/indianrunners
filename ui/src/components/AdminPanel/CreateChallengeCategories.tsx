@@ -38,7 +38,6 @@ const CreateChallengeCategories = ({ setChallengeCategories, setOpenCreateChalle
           });
 
           const challengeCategories = await response.json() 
-          console.log(challengeCategories)
           if (response.ok) {
             setChallengeCategories(challengeCategories)
             setOpenCreateChallengeCategoriesDrawer(false)
@@ -47,7 +46,6 @@ const CreateChallengeCategories = ({ setChallengeCategories, setOpenCreateChalle
           }
         } catch (error) {
             if(error instanceof Error){
-                console.log(error.message)
                 console.error('Error creating challenge:', error.message);
             }
         }

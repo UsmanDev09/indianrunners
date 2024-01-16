@@ -1,10 +1,10 @@
-import { MyGlobalContext } from "@/Hooks/useGlobalContext";
 import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { useContext, useState, useEffect } from "react";
 import Certificate from "./Profile/Certificate";
 import toast from "react-hot-toast";
+import Cookies from "js-cookie";
 const josef = Josefin_Sans({ subsets: ["latin"] });
 
 type CertificateCard_Props = {
@@ -23,9 +23,9 @@ const CertificateCard = ({
   _id,
 }: CertificateCard_Props) => {
   const [certs, setCerts] = useState([]);
-  const { dispatch } = useContext(MyGlobalContext);
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
+    
     const fetchCerts = async () => {
       const cart = await fetch(`${process.env.SERVER_DOMAIN}/api/user/certificate`, {
         headers: { Authorization: `Bearer ${token}` },

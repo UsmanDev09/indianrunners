@@ -3,7 +3,7 @@ import SideBar from "../../components/AdminPanel/Sidebar";
 import AdminPanelManualActivities from "@/components/AdminPanel/AdminPanelManualActivities";
 
 const ManualActivites = ({ activities }: { activities: any }) => {
-  console.log(activities);
+
   return (
     <div className="flex w-full container mx-auto">
       <SideBar />

@@ -4,8 +4,6 @@ import Image from "next/image";
 // import sourceImage from "../../public/images/default-image.jpg";
 import { AiOutlinePlus } from "react-icons/ai";
 import { BiPencil } from "react-icons/bi";
-import getAccount from "@/lib/getAccount";
-import { MyGlobalContext } from "@/Hooks/useGlobalContext";
 // import startIcon from "../../public/images/star.svg";
 
 const AccountInfo = ({user} : {user: any}) => {

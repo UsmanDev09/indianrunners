@@ -1,15 +1,13 @@
-import { MyGlobalContext } from "@/Hooks/useGlobalContext";
 import { ChallengeCategory, Challenge } from "@/pages/api";
 import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { useContext, useState } from "react";
-
+import Cookies from "js-cookie";
 const josef = Josefin_Sans({ subsets: ["latin"] });
 
 
 const ItemCard = ({ challenge }: { challenge: Challenge }) => {
-  const { dispatch } = useContext(MyGlobalContext);
   const [selectedCategories, setSelectedCategories] = useState([])
   const [openPopupToSelectCategories, setOpenPopupToSelectCategories] = useState(false)
   const [cart, setCart] = useState<{ challenge: { _id: number }, challengeCategories: {_id: number }[]  }>({ challenge: { _id: 0 }, challengeCategories: [] });
@@ -18,7 +16,6 @@ const ItemCard = ({ challenge }: { challenge: Challenge }) => {
   const handleRemoveSelectedCategory = (categoryId: number) => {
     const filteredChallengeCategories = cart?.challengeCategories.filter((category) => category._id !== categoryId )
     const filteredChallengeCategoriesForDisplaying = cartForDisplaying?.itemDetails.categories ?  cartForDisplaying?.itemDetails.categories.filter((category) => category._id !== categoryId ) : []
-    console.log(filteredChallengeCategories)
     if(filteredChallengeCategories) 
       setCart({
         ...cart,
@@ -34,7 +31,6 @@ const ItemCard = ({ challenge }: { challenge: Challenge }) => {
       })
 
   }
-console.log(cart)
   const addCategoriesToCart = (challengeId: number, categoryId: number) => {
     if(cart?.challenge._id === challengeId) {
       setCart({
@@ -67,7 +63,7 @@ console.log(cart)
   };
   
   const removeFromCart = async () => {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
     const response = await fetch(`${process.env.SERVER_DOMAIN}/api/cart/challenge`, {
       method: "PUT",
       mode: "cors", // no-cors, *cors, same-origin
@@ -89,7 +85,7 @@ console.log(cart)
   };
 
   const addToCart = async () => {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
     const response = await fetch(`${process.env.SERVER_DOMAIN}/api/cart/challenge`, {
       method: "POST",
       mode: "cors", // no-cors, *cors, same-origin

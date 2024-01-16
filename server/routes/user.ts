@@ -276,7 +276,7 @@ router.get('/otp', User.otp)
  *                 description: OK  
  */
 
-router.put('/profile', passport.authenticate('jwt', { session: false }), upload.single('image'), User.updateProfile)
+router.put('/profile', passport.authenticate('jwt', { session: false }), User.updateProfile)
 
 /**
  * @openapi

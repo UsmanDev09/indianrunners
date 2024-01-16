@@ -27,7 +27,7 @@ export const getServerSideProps = (async (context: any) => {
         }
 
     const response = await ApiService.getAllProducts({}, token)
-        console.log(response)
+
     if(response.data)
         products = response.data
     else 

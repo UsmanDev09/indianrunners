@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
 
         const response = await ApiService.createChallengeCategory(params, req.headers.authorization); // Assuming you store the token in a cookie
-        console.log('RES',response)
+        
         res.status(200).json(response.data);
     }  catch(err) {
         if(err instanceof Error) {

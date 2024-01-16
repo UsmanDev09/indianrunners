@@ -1,11 +1,9 @@
-import { MyGlobalContext } from "@/Hooks/useGlobalContext";
-import setAccount from "@/lib/setAccount";
 import { Josefin_Sans } from "next/font/google";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Key, useContext, useEffect, useState } from "react";
+import { Key, useEffect, useState } from "react";
 import { Challenge_Props } from "@/Interfaces";
-
+import Cookies from "js-cookie";
 const josef = Josefin_Sans({ subsets: ["latin"] });
 type ItemDetail_Props = {
   itemDetails: Challenge_Props[];
@@ -14,9 +12,8 @@ type ItemDetail_Props = {
 const OrderSummary = () => {
   const router = useRouter();
   const [data, setData] = useState([]);
-  const { state, dispatch } = useContext(MyGlobalContext);
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
     const order = async () => {
       await fetch(`${process.env.SERVER_DOMAIN}/api/orderSummary`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -30,7 +27,6 @@ const OrderSummary = () => {
     };
     order();
   }, []);
-  console.log(data);
   return (
     <div
       className={`${josef.className} drop-shadow-md p-12 dark:text-blue-text`}

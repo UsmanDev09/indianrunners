@@ -1,9 +1,10 @@
 import { Challenge } from "@/pages/api";
 import { Inventory } from "@/types";
 import { FormEvent, useState, useEffect } from "react"; 
+import Cookies from "js-cookie";
 
 const CreateCustomizedLandingPage = ({ setSections, setOpenCreateCustomizedLandingPageDrawer, openCreateCustomizedlandingPageDrawer } : { setSections: (sections: any[]) => void, setOpenCreateCustomizedLandingPageDrawer : (action: boolean) => void, openCreateCustomizedlandingPageDrawer: boolean }) => {
-    const token = localStorage.getItem('token')
+    const token = Cookies.get('token')
     const [inventory, setInventory] = useState<Inventory[]>([])
     const [selectedInventory, setSelectedInventtory] = useState<Inventory[]>([])
     const [challenges, setChallenges] = useState<Challenge[]>([])
@@ -23,14 +24,13 @@ const CreateCustomizedLandingPage = ({ setSections, setOpenCreateCustomizedLandi
           const foundProducts = inventory.find((inventory) => inventory._id === (value));
           if(foundProducts) {
               if(!selectedInventory.some((product: Inventory) => product._id === foundProducts._id)) {
-                  console.log('selected')
                   setSelectedInventtory([...selectedInventory, foundProducts])
               }
           }
 
           setFormData({ ...formData, products: [...formData.products, value] });
         } else if(name === 'challenges') { 
-          const foundChallenges = challenges.find((challenge) => challenge._id === (value));
+          const foundChallenges = challenges.find((challenge) => String(challenge._id) === (value));
           if(foundChallenges) {
               if(!selectedChallenges.some((category) => category._id === foundChallenges._id)) {
                   setSelectedChallenges([...selectedChallenges, foundChallenges])
@@ -61,11 +61,10 @@ const CreateCustomizedLandingPage = ({ setSections, setOpenCreateCustomizedLandi
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
     
-        let token = localStorage.getItem('token');
+        let token = Cookies.get('token');
    
 
         try {
-          console.log(formData)
           const response = await fetch(`${process.env.SERVER_DOMAIN}/api/landingpage`, {
             method: 'POST',
             body: JSON.stringify(formData),
@@ -77,7 +76,6 @@ const CreateCustomizedLandingPage = ({ setSections, setOpenCreateCustomizedLandi
 
           const landingPage = await response.json() 
           if (response.ok) {
-            console.log(landingPage)
             setSections(landingPage.data[0].sections)
             setOpenCreateCustomizedLandingPageDrawer(false)
           } else {

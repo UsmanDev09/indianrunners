@@ -27,14 +27,12 @@ const CreateChallenge = ({ setChallenges, categories, setOpenCreateChallengeDraw
     const [isFeaturedToggleChecked, setIsFeaturedToggleChecked] = useState(false)
     const [isVerifiedToggleChecked, setIsVerifiedToggleChecked] = useState(false)
     const [selectedCategories, setSelectedCategories] = useState<ChallengeCategory[]>([])
-    console.log(selectedCategories)
     const handleInputChange = (e: React.ChangeEvent<EventTarget & (HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement) >) => {
         const { name, value } = e.target;
         if(name === 'categories') {
-            const foundCategories = categories.find((category) => category._id === value);
+            const foundCategories = categories.find((category) => String(category._id) === value);
             if(foundCategories) {
                 if(!selectedCategories.some((category: ChallengeCategory) => category._id === foundCategories._id)) {
-                    console.log('selected')
                     setSelectedCategories([...selectedCategories, foundCategories])
                 }
             }            
@@ -118,7 +116,6 @@ const CreateChallenge = ({ setChallenges, categories, setOpenCreateChallengeDraw
           }
         } catch (error) {
             if(error instanceof Error){
-                console.log(error.message)
                 console.error('Error creating challenge:', error.message);
             }
         }
@@ -235,7 +232,6 @@ const CreateChallenge = ({ setChallenges, categories, setOpenCreateChallengeDraw
                     <div>
                         <label htmlFor="categories" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categories</label>
                         {selectedCategories && selectedCategories.map((category) => {
-                            console.log(category)
                             return (<span key={category._id} id="badge-dismiss-default" className="inline-flex items-center px-2 py-1 mr-2 text-sm font-medium text-gray-800 bg-gray-100 rounded dark:bg-gray-700 dark:text-gray-300">
                             {category.name}
                             <button onClick={() => handleRemoveSelectedCategory(category._id) } type="button" className="inline-flex items-center p-1 ml-2 text-sm text-blue-400 bg-transparent rounded-sm hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-blue-300" data-dismiss-target="#badge-dismiss-default" aria-label="Remove">

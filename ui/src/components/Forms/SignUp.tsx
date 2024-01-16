@@ -35,9 +35,6 @@ const SignUpForm = () => {
       .then(function(res) {
         return res.json();
       })
-      .then(function(data) {
-        console.log(JSON.stringify(data));
-      });
   };
 
   return (

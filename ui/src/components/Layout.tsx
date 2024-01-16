@@ -3,7 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { Josefin_Sans } from "next/font/google";
 
-import useLocalStorage from "@/Hooks/useLocalStorage";
+import useLocalStorage from "@/hooks/useLocalStorage";
 import Footer from "./Footer";
 import Logo from "./Logo";
 import HeaderMenu from "./HeaderMenu";
@@ -56,13 +56,12 @@ const Layout = ({
     token = Cookies.get("token")||'';
     const secret=process.env.JWT_SECRET_KEY||''
     try{
-    const {exp}=jwt.verify(token, secret) as JwtPayload
+    const { exp } = jwt.verify(token, secret) as JwtPayload
     const seconds = new Date().getTime() / 1000
     if(exp-seconds<=0){
       Cookies.remove("token")
     }
   } catch(e){
-    console.log(e)
     Cookies.remove("token")
   }
   }, []);
@@ -167,17 +166,16 @@ const Layout = ({
                   </li>
                   <li>
                     {token ? (
-                      <a
-                        href="#"
+                      <Link
+                        href="/login"
                         onClick={() => {
                           Cookies.remove("token");
                           toast.success("Logged Out Successfully");
-                          document.location.replace("/");
                         }}
                         className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                       >
                         Log out
-                      </a>
+                      </Link>
                     ) : (
                       <Link
                         href="/login"

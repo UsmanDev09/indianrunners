@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Cookies from 'js-cookie';
 
 const ProtectedRoute = ({ children } : { children: React.ReactNode }) => {
   const router = useRouter();
 
-  const isAuthenticated = localStorage.getItem('token') ? true : false;
+  const isAuthenticated = Cookies.get('token') ? true : false;
 
   useEffect(() => {
     if (!isAuthenticated) {

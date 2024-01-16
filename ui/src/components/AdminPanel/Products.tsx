@@ -13,7 +13,7 @@ const Products = ({ initialProducts } : { initialProducts: Product[] } ) => {
     const [productToUpdate, setProductToUpdate] = useState<Product>()
     const [productToDelete, setProductToDelete] = useState<Product>()
     const [products, setProducts] = useState<Product[]>(initialProducts)
-    console.log('products', products)
+
     return (
         <div className='w-full container'>
             <CreateProduct setProducts={setProducts} setOpenCreateProductDrawer={setOpenCreateProductDrawer} openCreateProductDrawer={openCreateProductDrawer} />
@@ -104,7 +104,7 @@ const Products = ({ initialProducts } : { initialProducts: Product[] } ) => {
                                                     </div>
                                                 </td>
                                                 <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                    <Image src={productDetails.product.image ?? '/default-profile-image.png'} width={50} height={50} alt='product image' />
+                                                    <Image src={productDetails.product.image || '/default-profile-image.png'} width={50} height={50} alt='product image' />
                                                 </td>
                                                 <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
                                                     <div className="text-base font-semibold text-gray-900 dark:text-white">{productDetails.product.name}</div>

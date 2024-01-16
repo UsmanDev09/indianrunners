@@ -49,7 +49,6 @@ export function axios(configs: IRequestConfig, resolve: (p: any) => void, reject
     return serviceOptions.axios
       .request(configs)
       .then(res => {
-        console.log('res', res)
         resolve(res.data);
       })
       .catch(err => {
@@ -331,7 +330,7 @@ export class ApiService {
   static createProduct(
     params: {
       /** requestBody */
-      body?: Product;
+      body?: any;
     } = {} as any,
     token: any,
     options: IRequestOptions = {}
@@ -552,6 +551,7 @@ export interface ActivityApiResponse {
 }
 
 export interface Activity {
+  _id: any;
   /**  */
   activityId?: number;
 
@@ -947,6 +947,7 @@ export interface ProductApiResponse {
 }
 
 export interface Product {
+  product: any;
   /**  */
   _id?: number;
 

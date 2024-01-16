@@ -1,4 +1,3 @@
-import { ContextProvider } from "@/context/ContextProvider";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { useEffect, useState } from "react";
@@ -38,7 +37,6 @@ export default function App({ Component, pageProps }: AppProps) {
   }, []);
   
   return (
-    <ContextProvider>
       <Layout notifications={notifications && notifications.length > 5 ? notifications.splice(0, 5) : notifications}>
         {notification && (
           <Toast notification={notification}/>
@@ -46,6 +44,5 @@ export default function App({ Component, pageProps }: AppProps) {
         <Toaster position="top-right"/>
         <Component {...pageProps} />
       </Layout>
-    </ContextProvider>
   );
 }

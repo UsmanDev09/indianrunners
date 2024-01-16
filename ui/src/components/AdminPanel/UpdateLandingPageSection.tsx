@@ -1,5 +1,7 @@
 import { Challenge, Product } from "@/pages/api";
+import Cookies from "js-cookie";
 import { FormEvent, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const UpdateLandingPageSection = ({ 
         setSections,
@@ -24,7 +26,7 @@ const UpdateLandingPageSection = ({
     const [selectedProducts, setSelectedProducts] = useState<Product[]>(formData.products)
     const [selectedChallenges, setSelectedChallenges] = useState<Challenge[]>(formData.challenges)
 
-    const token = localStorage.getItem('token');
+    const token = Cookies.get('token');
 
     const fetchProducts = async () => {
         try {
@@ -67,16 +69,15 @@ const UpdateLandingPageSection = ({
         const { name, value } = e.target;
         
         if(name === 'products') {
-          const foundProducts = products.find((product) => product._id === (value));
+          const foundProducts = products.find((product) => String(product._id) === (value));
           if(foundProducts) {
               if(!selectedProducts.some((product: Product) => product._id === foundProducts._id)) {
-                  console.log('selected')
                   setSelectedProducts([...selectedProducts, foundProducts])
               }
             }
             setFormData({ ...formData, products: [...formData.products, value] });
         } else if(name === 'challenges') { 
-          const foundChallenges = challenges.find((challenge) => challenge._id === (value));
+          const foundChallenges = challenges.find((challenge) => String(challenge._id) === (value));
           if(foundChallenges) {
             if(!selectedChallenges.some((category) => category._id === foundChallenges._id)) {
                 setSelectedChallenges([...selectedChallenges, foundChallenges])
@@ -100,7 +101,7 @@ const UpdateLandingPageSection = ({
 
       const handleRemoveSelectedChallenge = (challengeIdToRemove: number | string | undefined) => {
         const challenges = selectedChallenges.filter((challenge) => challenge._id !== challengeIdToRemove)
-        const formDataChallengeIds = formData.challenges.filter((challengeId) => challengeId === challengeIdToRemove)
+        const formDataChallengeIds = formData.challenges.filter((challengeId: string | number | undefined) => challengeId === challengeIdToRemove)
         setFormData({ ...formData, challenges: formDataChallengeIds });
   
         setSelectedChallenges(challenges)
@@ -139,7 +140,7 @@ const UpdateLandingPageSection = ({
           }
         } catch (error) {
             if(error instanceof Error){
-             console.log(error.message)
+             toast.error(error.message)
             }
         }
       };
@@ -161,7 +162,6 @@ const UpdateLandingPageSection = ({
                     <div>
                         <label htmlFor="products" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Products</label>
                         {selectedProducts && selectedProducts.map((product) => {
-                          console.log(product)
                             return (<span key={product._id} id="badge-dismiss-default" className="inline-flex items-center px-2 py-1 mr-2 text-sm font-medium text-gray-800 bg-gray-100 rounded dark:bg-gray-700 dark:text-gray-300">
                             {product?.name ? product?.name :  product?.product?.name}
                             <button onClick={() => handleRemoveSelectedProduct(product._id) } type="button" className="inline-flex items-center p-1 ml-2 text-sm text-blue-400 bg-transparent rounded-sm hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-blue-300" data-dismiss-target="#badge-dismiss-default" aria-label="Remove">
@@ -187,7 +187,6 @@ const UpdateLandingPageSection = ({
                     <div>
                         <label htmlFor="challenges" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categories</label>
                         {selectedChallenges && selectedChallenges.map((challenge) => {
-                          console.log('challenge', challenge)
                             return (<span key={challenge._id} id="badge-dismiss-default" className="inline-flex items-center px-2 py-1 mr-2 text-sm font-medium text-gray-800 bg-gray-100 rounded dark:bg-gray-700 dark:text-gray-300">
                             {challenge.name}
                             <button onClick={() => handleRemoveSelectedChallenge(challenge._id) } type="button" className="inline-flex items-center p-1 ml-2 text-sm text-blue-400 bg-transparent rounded-sm hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-blue-300" data-dismiss-target="#badge-dismiss-default" aria-label="Remove">
