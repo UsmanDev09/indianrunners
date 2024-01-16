@@ -35,7 +35,6 @@ const CardList = ({
   if (!filters) {
     flex = "flex-col";
   }  
-  console.log(products)
 
   return (
     <div>
