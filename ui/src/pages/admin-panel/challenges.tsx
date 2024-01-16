@@ -3,7 +3,6 @@ import Challenges from '../../components/AdminPanel/Challenges'
 import { ApiService, Challenge, ChallengeCategory, Product } from '../api'
 
 const AdminPanelChallenges = ({challenges, categories}: {challenges: Challenge[], categories: ChallengeCategory[]}) => {
-    console.log(categories)
     return (
         <div className="flex w-full container mx-auto">
             <SideBar />

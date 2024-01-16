@@ -2,7 +2,6 @@ import Inventory from "@/components/AdminPanel/Inventory";
 import SideBar from "../../components/AdminPanel/Sidebar";
 
 const AdminPanelInventory = ({ inventory }: { inventory: any }) => {
-  console.log(inventory);
   return (
     <div className="flex w-full container mx-auto">
       <SideBar />

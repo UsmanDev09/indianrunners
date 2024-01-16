@@ -40,7 +40,6 @@ export default function Home() {
       </div>
       <div className=" p-8 dark:bg-dark-gray-800 border-gray mt-10">
         {landingPage?.sections && landingPage?.sections.map((section: any, index: number) => {   
-          console.log('sec',section)
           return (
             <CardList
               key={index}

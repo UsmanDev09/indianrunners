@@ -1,17 +1,12 @@
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
+import toast from "react-hot-toast";
 
 import ProfileSideBar from "../../components/Profile/ProfileSideBar";
 import AccountInfo from "../../components/Profile/AccountInfo";
-import Cookies from 'js-cookie';
-import { useContext } from 'react';
-import { MyGlobalContext } from '@/Hooks/useGlobalContext';
-import toast from "react-hot-toast";
 
 const Profile = () => {
-  const router = useRouter();
-  const  token  = localStorage.getItem('token');
-  const { state, dispatch } = useContext(MyGlobalContext);
+  const  token  = Cookies.get('token');
   const [user, setUser] = useState()
 
   useEffect(() => {
@@ -26,10 +21,8 @@ const Profile = () => {
       },
     }).then(async (res) => {
       const response = await res.json()
-      if(response?.success)
-      setUser(response.data)
-      else
-      toast.error("error fetching profile")
+      if(response?.success) setUser(response.data)
+      else toast.error("Error fetching profile")
     })
 
   }, [token, user])

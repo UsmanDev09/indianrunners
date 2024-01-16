@@ -31,14 +31,12 @@ export default async function handler(req: any, res: any) {
         const { name, price, description, rewardPoints } = req.body;
         const file = req.file; 
         const result = await uploadImageToCloudinary(file, 'product')         
-        console.log('BODY',result)
         const params = {
           body:  {
             name, price, description, rewardPoints, image: result?.secure_url
           }
         }
         const response = await ApiService.createProduct(params, req.headers.authorization)
-        console.log(response)
         if(!response.success)
           await deleteImageFromCloudinary(result)
 

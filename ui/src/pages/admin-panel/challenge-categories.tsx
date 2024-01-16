@@ -27,7 +27,7 @@ export const getServerSideProps = (async (context: any) => {
         }
 
     const response = await ApiService.getAllChallengeCategory({}, token)
-        console.log(response)
+
     if(response.data)
         challengeCategories = response.data
     else 

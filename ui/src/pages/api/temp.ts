@@ -49,7 +49,6 @@ export function axios(configs: IRequestConfig, resolve: (p: any) => void, reject
     return serviceOptions.axios
       .request(configs)
       .then(res => {
-        console.log('res', res)
         resolve(res.data);
       })
       .catch(err => {

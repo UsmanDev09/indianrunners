@@ -66,7 +66,6 @@ export const getServerSideProps = async (context: any) => {
     else if (slugs === "products")
       response = await ApiService.getAllProducts({}, token);
     else response = [];
-    console.log(response);
     if (response.data) items = response.data;
     else items = [];
 
