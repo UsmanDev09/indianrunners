@@ -13,7 +13,7 @@ const Products = ({ initialProducts } : { initialProducts: Product[] } ) => {
     const [productToUpdate, setProductToUpdate] = useState<Product>()
     const [productToDelete, setProductToDelete] = useState<Product>()
     const [products, setProducts] = useState<Product[]>(initialProducts)
-    console.log('products', products)
+
     return (
         <div className='w-full container'>
             <CreateProduct setProducts={setProducts} setOpenCreateProductDrawer={setOpenCreateProductDrawer} openCreateProductDrawer={openCreateProductDrawer} />

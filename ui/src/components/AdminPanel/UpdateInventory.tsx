@@ -81,7 +81,6 @@ const UpdateInventory = ({
       }
     } catch (error) {
       if (error instanceof Error) {
-        console.log(error.message);
         toast.error(error.message);
       }
     }

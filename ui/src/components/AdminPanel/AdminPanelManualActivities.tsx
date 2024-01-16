@@ -1,13 +1,14 @@
 import { useState } from "react"
-import Image from "next/image"
 import { Activity } from "@/pages/api"
+import Cookies from "js-cookie"
+import toast from "react-hot-toast"
 
 
 const AdminPanelManualActivities = ({ initialActivities } : { initialActivities: Activity[] } ) => {
     const [openUpdateProductDrawer, setOpenUpdateProductDrawer] = useState<boolean>(false)
     const [activities, setActivities] = useState<Activity[]>(initialActivities)
 
-    const token = localStorage.getItem('token')
+    const token = Cookies.get('token')
 
     const approveActivity = async (activity: Activity) => {
         try {
@@ -30,7 +31,7 @@ const AdminPanelManualActivities = ({ initialActivities } : { initialActivities:
             }
           } catch (error) {
               if(error instanceof Error){
-               console.log(error.message)
+               toast.error(error.message)
               }
           }
     }
@@ -56,7 +57,7 @@ const AdminPanelManualActivities = ({ initialActivities } : { initialActivities:
             }
           } catch (error) {
               if(error instanceof Error){
-               console.log(error.message)
+               toast.error(error.message)
               }
           }
     }

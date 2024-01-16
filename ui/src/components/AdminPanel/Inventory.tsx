@@ -13,7 +13,7 @@ const Inventory = ({ inventories }: { inventories: Inventory[] }) => {
   const [InventoryToDelete, setInventoryToDelete] = useState<Inventory>();
   const [InventoryToUpdate, setInventoryToUpdate] = useState<Inventory>();
   const [Inventory, setInventory] = useState<Inventory[]>(inventories);
-  console.log(inventories);
+
   return (
     <div className="w-full container">
       <CreateInventory
@@ -228,7 +228,6 @@ const Inventory = ({ inventories }: { inventories: Inventory[] }) => {
                           <td className="p-4 space-x-2 whitespace-nowrap">
                             <button
                               onClick={() => {
-                                console.log(Inventory);
                                 setOpenDeleteProductDrawer(
                                   !openDeleteProductDrawer
                                 ),
@@ -259,7 +258,6 @@ const Inventory = ({ inventories }: { inventories: Inventory[] }) => {
 
                             <button
                               onClick={() => {
-                                console.log(Inventory);
                                 setOpenUpdateInventoryDrawer(
                                   !openDeleteProductDrawer
                                 ),

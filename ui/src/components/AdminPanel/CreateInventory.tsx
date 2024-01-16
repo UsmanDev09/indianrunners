@@ -39,7 +39,6 @@ const CreateInventory = ({
     >
   ) => {
     const { name, value } = e.target;
-    console.log(name, value);
     setFormData({ ...formData, [name]: value });
   };
 
@@ -72,7 +71,6 @@ const CreateInventory = ({
       });
 
       const Inventory = await response.json();
-      console.log(Inventory);
       if (response.ok) {
         toast.success('inventory created successfully')
         setInventory(Inventory);
@@ -82,7 +80,6 @@ const CreateInventory = ({
       }
     } catch (error) {
       if (error instanceof Error) {
-        console.log(error.message);
         toast.error(error.message);
       }
     }

@@ -13,11 +13,9 @@ const CreateProduct = ({ setProducts, setOpenCreateProductDrawer, openCreateProd
         const { name, value, type } = e.target;
 
       if (type === 'file') {
-        console.log('file')
         const fileInput = e.target as HTMLInputElement;
         if (fileInput.files && fileInput.files.length > 0) {
             const file = fileInput.files[0];
-            console.log(file)
             setFormData({ ...formData, [name]: file });
         }
       } else {
@@ -63,7 +61,6 @@ const CreateProduct = ({ setProducts, setOpenCreateProductDrawer, openCreateProd
           }
         } catch (error) {
             if(error instanceof Error){
-                console.log(error.message)
                 console.error('Error creating product:', error.message);
             }
         }
