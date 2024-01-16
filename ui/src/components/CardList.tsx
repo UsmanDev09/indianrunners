@@ -21,7 +21,7 @@ title: string;
   setChallenges: Function;
   challenges?: Challenge[];
   filters?: boolean;
-  products?: Product[];
+  products?: Product[]|Challenge[];
 };
 
 const CardList = ({

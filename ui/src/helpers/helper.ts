@@ -1,5 +1,6 @@
 import axios from "axios";
 import toast from "react-hot-toast";
+import cloudinary from "../../configs/cloudinary";
 
 export const getPreSignedUrlFromCloudinary = async () => {
   try {
@@ -37,13 +38,13 @@ export const uploadImageToCloudinary = async (file: any, preSignedData: any) => 
 
 
 
-// export const deleteImageFromCloudinary = async(result: any) => {
-//     result = await cloudinary.uploader.destroy(result.public._id, (error: Error, result: any) => {
-//         if (error) {
-//           console.error(error);
-//         } else {
-//           console.info(result);
-//         }
-//       });
-//   return result
-// }
+export const deleteImageFromCloudinary = async(result: any) => {
+    result = await cloudinary.uploader.destroy(result.public._id, (error: Error, result: any) => {
+        if (error) {
+          console.error(error);
+        } else {
+          console.info(result);
+        }
+      });
+  return result
+}

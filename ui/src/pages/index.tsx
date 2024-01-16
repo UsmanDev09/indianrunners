@@ -34,7 +34,7 @@ export default function Home() {
            width={0}
            height={0}
            sizes={"100vw"}
-           src={landingPage?.mainSection?.image && landingPage?.mainSection?.image}
+           src={landingPage?.mainSection?.image! && landingPage?.mainSection?.image!}
            alt="image"
          /> 
       </div>

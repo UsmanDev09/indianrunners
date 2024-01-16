@@ -1,4 +1,3 @@
-import getAccount from "@/lib/getAccount";
 import { Challenge } from "@/pages/api";
 import { Cloudinary } from "@cloudinary/url-gen";
 import Cookies from "js-cookie";
@@ -31,7 +30,7 @@ export default function CertificateBuilder({
   ]);
   const [userNo, setUserNo] = useState(0);
   const [URL, setURL] = useState("");
-  const { account } = getAccount();
+
   const token = Cookies.get("token");
 
   const fetchDesignState = async () => {

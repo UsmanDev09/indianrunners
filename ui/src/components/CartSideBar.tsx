@@ -103,7 +103,7 @@ const CartSideBar = ({ setShowCartSidebar, showCartSideBar } : { setShowCartSide
                                                         <p className="text-gray-500"></p>
 
                                                         <div className="flex">
-                                                            <button onClick={() => {if(cartDetails.itemDetails) removeChallengeFromCart(cartDetails.itemDetails[0]?.challenge, cartDetails._id)} } className="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
+                                                            <button onClick={() => {if(cartDetails.itemDetails) removeChallengeFromCart(cartDetails.itemDetails[0]?.challenge!, cartDetails._id)} } className="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -138,12 +138,12 @@ const CartSideBar = ({ setShowCartSidebar, showCartSideBar } : { setShowCartSide
                                                         </div>
                                                     <div className="flex flex-1 justify-between text-xl">
                                                         <div className="">
-                                                            <button disabled={loading} className="text-3xl" onClick={() => increaseProductQuantity(cartDetails?.itemDetails?.[0]?.product?._id, cartDetails._id)}>+</button>
-                                                            <button disabled={loading} className="text-3xl" onClick={() => decreaseProductQuantity(cartDetails?.itemDetails?.[0]?.product?._id, cartDetails._id)}>-</button>
+                                                            <button disabled={loading} className="text-3xl" onClick={() => increaseProductQuantity(cartDetails?.itemDetails?.[0]?.product?._id!, cartDetails._id)}>+</button>
+                                                            <button disabled={loading} className="text-3xl" onClick={() => decreaseProductQuantity(cartDetails?.itemDetails?.[0]?.product?._id!, cartDetails._id)}>-</button>
                                                         </div>
                                                         <div className="">
                                                             <p className="text-right">{cartDetails?.itemDetails?.[0]?.productQuantity ? cartDetails?.itemDetails?.[0]?.productQuantity : 0}</p>
-                                                            <button disabled={loading} onClick={() => {if(cartDetails.itemDetails) removeProductFromCart(cartDetails.itemDetails[0]?.product && cartDetails.itemDetails[0]?.product._id, cartDetails._id)} } className="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
+                                                            <button disabled={loading} onClick={() => {if(cartDetails.itemDetails) removeProductFromCart(cartDetails.itemDetails[0]?.product! && cartDetails.itemDetails[0]?.product._id!, cartDetails._id)} } className="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
                                                         </div>
                                                     </div>
                                                     </div>

@@ -330,7 +330,7 @@ export class ApiService {
   static createProduct(
     params: {
       /** requestBody */
-      body?: Product;
+      body?: any;
     } = {} as any,
     token: any,
     options: IRequestOptions = {}

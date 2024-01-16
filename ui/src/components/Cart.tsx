@@ -2,7 +2,7 @@ import { Key, useEffect, useState } from "react";
 import Image from "next/image";
 import { Challenge_Props, Prod_Props } from "@/Interfaces";
 
-import { getCart } from '../api/cart'
+import { getCartAPI } from '../api/cart'
 import NotFound from "../assets/NotFound.jpg";
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -40,7 +40,7 @@ const Cart = ({ title, price, picture }: ItemCard_Props) => {
   };
   
   const fetchCart = async () => {
-    getCart().then((response) => setCart(response.data));
+    getCartAPI().then((response) => setCart(response.data));
   };
 
   useEffect(() => {
