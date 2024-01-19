@@ -21,6 +21,8 @@ import swaggerDocs from "./swagger";
 import leaderboardRoutes from "../routes/leaderboard";
 import inventoryRoutes from "../routes/inventory";
 import landingPageRoutes from "../routes/landingPage";
+import checkoutRoutes from "../routes/checkout";
+
 // var bodyParser = require("body-parser");
 
 const app = express();
@@ -50,6 +52,7 @@ const server = () => {
     app.use('/api/notification', notificationRoutes)
     app.use('/api/leaderboard', leaderboardRoutes)
     app.use('/api/landingpage', landingPageRoutes)
+    app.use('/api/checkout', checkoutRoutes)
 
     swaggerDocs(app, 5000);
 

@@ -10,16 +10,40 @@ import toast from "react-hot-toast";
 
 const josef = Josefin_Sans({ subsets: ["latin"] });
 
+import React from "react";
+import { useFormik } from 'formik';
+
+import { useRouter } from "next/router";
+
+// Shape of form values
+interface ProfileFormValues {
+  dob: string;
+  gender: string;
+  weight: string;
+  height: string;
+  contact: string;
+  shippingDetail: {
+    address: string
+    state: string
+    city: string
+  }
+  // address: string;
+  // state: string;
+  // city: string;
+}
+// Aside: You may see InjectedFormikProps<OtherProps, FormValues> instead of what comes below in older code.. InjectedFormikProps was artifact of when Formik only exported a HoC. It is also less flexible as it MUST wrap all props (it passes them through).
 export const ProfileForm: React.FC<{}> = () => {
   const [profile, setProfile] = useState({
     dob: new Date(),
     gender: "",
-    weight: 0,
-    height: 0,
-    contact: 0,
-    country: "",
-    state: "",
-    city: "",
+    weight: "",
+    height: "",
+    contact: "",
+    shippingDetail: {
+      address: "",
+      state: "",
+      city: "",
+    }
   });
   
   const router = useRouter();
@@ -183,7 +207,7 @@ export const ProfileForm: React.FC<{}> = () => {
                     htmlFor="country"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Country
+                    Address
                   </label>
                   <input
                     id="country"

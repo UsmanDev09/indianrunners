@@ -300,10 +300,9 @@ export interface AuthorizeStravaResponse {
     password?: string;
   
     /**  */
-    firstName?: string;
+    name?: string;
   
     /**  */
-    lastName?: string;
   
     /**  */
     userName?: string;
@@ -346,6 +345,8 @@ export interface AuthorizeStravaResponse {
   
     /**  */
     appsConnected?: string;
+
+    shippingDetail: ShippingDetail;
   }
   
   export interface Category {

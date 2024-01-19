@@ -20,7 +20,7 @@ export const addShippingDetailsToUser: RequestHandler<unknown, unknown, productC
         if(!user) 
             throw createHttpError(StatusCodes.NOT_FOUND, Constants.notFound)
         
-        user.shippingDetail.push(shippingDetails)
+        user.shippingDetail = shippingDetails
 
         await user.save()
         

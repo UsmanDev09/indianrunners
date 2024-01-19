@@ -70,7 +70,7 @@ export const register: RequestHandler = async (req, res, next) => {
 
         const club = clubs[Math.random() * clubs.length]
 
-        const newUser = await createUser({ email, password, club, ...userData })
+        const newUser = await createUser({ email, password: hashedPassword, club, ...userData })
 
         const subject = 'Thankyou for registering with us'
         const text = 'You are registered'
@@ -173,26 +173,24 @@ export const getProfile: RequestHandler<unknown, unknown, UserInterface, unknown
 export const updateProfile: RequestHandler<unknown, unknown, UserInterface, unknown> = async (req, res, next) => {
     
     try {
-        let result
          
-        if(req.file) {
-            result = await uploadImageToCloudinary(req.file, 'badge')         
-        }
 
+        console.log(req.body)
         const _id = req.user as Types.ObjectId
-        const  { dob, weight, gender, height, contact, country, state, city } = req.body
-        const profile : (keyof UserInterface)[]= ['dob', 'gender', 'weight', 'height', 'contact', 'country', 'state', 'city', 'role', 'profilePicture'];
+        const  { dob, weight, gender, height, contact, shippingDetail } = req.body
+        const profile : (keyof UserInterface)[]= ['dob', 'gender', 'weight', 'height', 'contact', 'address', 'state', 'city', 'profilePicture'];
         
-        let profileCompletedAttributes = 5
+        let profileCompletedAttributes = 3
         
         profile.map((attribute) => {
             if(req?.body[attribute]) 
                 profileCompletedAttributes++
         })
 
-        let profileCompleted = profileCompletedAttributes/16 * 100
-        
-        await updateUserById(_id, { ...req.body, profileCompleted, profilePicture: result?.secure_url})
+        let profileCompleted = profileCompletedAttributes/11 * 100
+        console.log(profileCompleted)
+
+        await UserModel.findByIdAndUpdate(_id, { ...req.body, shippingDetail, profileCompleted })
 
         res.status(StatusCodes.OK).json({
             success: true,

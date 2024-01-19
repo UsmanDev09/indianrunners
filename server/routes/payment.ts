@@ -5,6 +5,8 @@ import passport from 'passport'
 
 const router = express.Router()
 
-router.post('/', passport.authenticate('jwt', { session: false }), Payment.initiatePayment)
+router.post('/', Payment.initiatePayment)
+
+router.put('/', passport.authenticate('jwt', { session: false }), Payment.updateDatabaseAfterPaymentVerified)
 
 export default router

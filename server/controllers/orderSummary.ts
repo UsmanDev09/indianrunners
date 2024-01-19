@@ -1,22 +1,27 @@
 import { RequestHandler } from "express"
-import createHttpError from "http-errors"
 import { StatusCodes } from "http-status-codes"
-import mongoose from "mongoose"
 
 import { Constants } from "../utility/constants"
+import UserModel from "../models/user"
 import { User } from "../interfaces/user"
-import { Response } from "../interfaces/response"
 import { OrderSummary } from "../interfaces/orderSummary"
 import logger from "../config/logger"
+import createHttpError from "http-errors"
+import { Cart } from "../interfaces/cart"
 
 export const getOrderSummary: RequestHandler<unknown, unknown, OrderSummary, unknown> = async (req, res, next) => {
      try {
         
-        const user = req.user as User
+        const userId = req.user as User
         
-        const cart = user.cart
+        const user = await UserModel.findById(userId)
 
-        const shippingDetails = user.shippingDetails
+        if(!user) throw createHttpError(StatusCodes.NOT_FOUND, Constants.userNotFound)
+
+
+        const cart = user.cart as any
+
+        const shippingDetails = user.shippingDetail
  
         const orderDetails: OrderSummary = {
             cart, 

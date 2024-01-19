@@ -116,6 +116,12 @@ export const Constants = {
     sectionRemovedSuccessfully: 'Section has been removed successfully',
     sectionUpdatedSuccessfully: 'Section has been updated successfully', 
     
+    // payment
+    paymentVerifiedSuccessfully: 'Payment has been verified successfully',
+
+    // order
+    orderNotFound: 'Order not found',
+    orderAlreadyPlaced: 'Order has already been placed',
 
     invalidId: 'Invalid id',
     notFound: 'Not found',

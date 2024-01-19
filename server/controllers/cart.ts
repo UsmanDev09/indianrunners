@@ -19,6 +19,7 @@ export const addChallengeToCart: RequestHandler<unknown, unknown, Cart, unknown>
         const _id = req.user as User
 
         const { itemType, itemDetails } = req.body
+        console.log(itemDetails)
 
         if (itemType !== 'challenge') throw createHttpError(StatusCodes.BAD_REQUEST, Constants.itemTypeIsWrong)
 
@@ -29,31 +30,28 @@ export const addChallengeToCart: RequestHandler<unknown, unknown, Cart, unknown>
 
         const userCart = user.cart as any
 
-        const mongoose = require('mongoose'); // Import Mongoose if you haven't already
 
-        // Assuming challengeIdToCheck and categoryIdToCheck are numbers from req.body
+        // check if challenge is already present in cart
 
-        const isChallengeAndCategoryPresent = user.cart.some(cartItem => {
-            let itemDetailsObj = itemDetails as any
-            return (
+        // const isChallengeAndCategoryPresent = user.cart.some(cartItem => {
+        //     let itemDetailsObj = itemDetails as any
+        //     return (
+        //         cartItem.itemDetails.some(itemDetail => {
+        //             let itemDetailObject = itemDetail as any
+        //             const challengeIdInCart = new mongoose.Types.ObjectId(itemDetailObject.challenge && itemDetailObject.challenge._id);
+        //             const categoryIdInCart = new mongoose.Types.ObjectId(itemDetailObject.challengeCategories && itemDetailObject.challengeCategories[0]._id);
+        //            console.log(categoryIdInCart, itemDetailObject[0].challengeCategories[0]._id)
+        //             return (
+        //                 challengeIdInCart.equals(new mongoose.Types.ObjectId(itemDetailsObj[0].challenge._id)) &&
+        //                 categoryIdInCart.equals(new mongoose.Types.ObjectId(itemDetailsObj[0].challengeCategories[0]._id))
+        //             );
+        //         })
+        //     );
+        // });
 
-                cartItem.itemDetails.some(itemDetail => {
-                    // Convert ObjectID to a number for comparison
-                    let itemDetailObject = itemDetail as any
-                    const challengeIdInCart = new mongoose.Types.ObjectId(itemDetailObject.challenge && itemDetailObject.challenge._id);
-                    const categoryIdInCart = new mongoose.Types.ObjectId(itemDetailObject.challengeCategories && itemDetailObject.challengeCategories[0]._id);
-                   console.log(categoryIdInCart, itemDetailsObj[0].challengeCategories[0]._id)
-                    return (
-                        challengeIdInCart.equals(new mongoose.Types.ObjectId(itemDetailsObj[0].challenge._id)) &&
-                        categoryIdInCart.equals(new mongoose.Types.ObjectId(itemDetailsObj[0].challengeCategories[0]._id))
-                    );
-                })
-            );
-        });
-
-        if (isChallengeAndCategoryPresent) {
-            throw createHttpError(StatusCodes.BAD_REQUEST, Constants.challengeAndCategoryAlreadyExistsInCart);
-        }
+        // if (isChallengeAndCategoryPresent) {
+        //     throw createHttpError(StatusCodes.BAD_REQUEST, Constants.challengeAndCategoryAlreadyExistsInCart);
+        // }
 
         
                 
@@ -258,6 +256,7 @@ export const decreaseProductQuantity: RequestHandler<{ id: number }, unknown, Ca
         const _id = req.user as User
 
         const { itemDetails } = req.body
+        console.log(itemDetails, req.body)
 
         const cartId = req.body._id
 
@@ -298,7 +297,7 @@ export const removeProductFromCart: RequestHandler<{ id: number }, unknown, Cart
         const _id = req.user as User
         
         const { itemDetails } = req.body
-
+console.log(itemDetails)
         const cartId = req.body._id
 
         const user = await UserModel.findById(_id)
@@ -322,8 +321,10 @@ export const removeProductFromCart: RequestHandler<{ id: number }, unknown, Cart
             message: Constants.productRemovedFromCartSuccessfully
         })
     } catch (error) {
-        logger.error(error)
-        next(error)
+        if(error instanceof Error){
+            logger.error(error.message)
+            next(error.message)
+        }
     }
 }
 

@@ -37,6 +37,7 @@ const serverConnection = app.listen(port, () => {
 
 socket.attach(serverConnection)
 
+
 cloudinary.config({ 
   cloud_name: env.CLOUDINARY_CLOUD_NAME, 
   api_key: env.CLOUDINARY_API_KEY , 
