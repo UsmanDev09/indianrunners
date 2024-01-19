@@ -4,22 +4,25 @@ import { Josefin_Sans } from "next/font/google";
 import Cookies from "js-cookie";
 import { useFormik } from 'formik';
 import { useRouter } from "next/router";
-
-import axios from '../../api/index';
 import toast from "react-hot-toast";
 
+import axios from '../../api/index';
+
 const josef = Josefin_Sans({ subsets: ["latin"] });
+
 
 export const ProfileForm: React.FC<{}> = () => {
   const [profile, setProfile] = useState({
     dob: new Date(),
     gender: "",
-    weight: 0,
-    height: 0,
-    contact: 0,
-    country: "",
-    state: "",
-    city: "",
+    weight: "",
+    height: "",
+    contact: "",
+    shippingDetail: {
+      address: "",
+      state: "",
+      city: "",
+    }
   });
   
   const router = useRouter();
@@ -31,9 +34,11 @@ export const ProfileForm: React.FC<{}> = () => {
     weight: profile.weight,
     height: profile.height,
     contact: profile.contact,
-    country: profile.country,
-    state: profile.state,
-    city: profile.city,
+    shippingDetail: {
+      address: profile.shippingDetail.address,
+      state: profile.shippingDetail.state,
+      city: profile.shippingDetail.city,
+    }
   };
 
   const fetchProfile = async () => {
@@ -48,9 +53,11 @@ export const ProfileForm: React.FC<{}> = () => {
         weight: data.weight,
         height: data.height,
         contact: data.contact,
-        country: data.country,
-        state: data.state,
-        city: data.city,
+        shippingDetail: {
+          address: data.address,
+          state: data.state,
+          city: data.city,
+        }
       };
 
       // Set the form values
@@ -77,9 +84,11 @@ export const ProfileForm: React.FC<{}> = () => {
         weight: values.weight,
         height: values.height,
         contact: values.contact,
-        country: values.country,
-        state: values.state,
-        city: values.city,
+        shippingDetail: {
+          address: values.shippingDetail.address,
+          state: values.shippingDetail.state,
+          city: values.shippingDetail.city,
+        }
 
       })
 
@@ -183,14 +192,14 @@ export const ProfileForm: React.FC<{}> = () => {
                     htmlFor="country"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Country
+                    Address
                   </label>
                   <input
                     id="country"
                     name="country"
                     placeholder="Country"
                     onChange={formik.handleChange}
-                    value={formik.values.country}
+                    value={formik.values.shippingDetail.address}
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   />
 
@@ -205,7 +214,7 @@ export const ProfileForm: React.FC<{}> = () => {
                     name="state"
                     placeholder="State"
                     onChange={formik.handleChange}
-                    value={formik.values.state}
+                    value={formik.values.shippingDetail.state}
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   />
 
@@ -220,7 +229,7 @@ export const ProfileForm: React.FC<{}> = () => {
                     name="city"
                     placeholder="City"
                     onChange={formik.handleChange}
-                    value={formik.values.city}
+                    value={formik.values.shippingDetail.city}
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   />
 

@@ -1,10 +1,10 @@
-import { InferSchemaType, model, Schema, Types } from 'mongoose'
+import { model, Schema, Types } from 'mongoose'
 import activitySchema from './activity'
 import cartSchema from './cart'
 import shippingDetail from './shippingDetail'
 import badgeSchema from './badge'
 import challengeSchema from './challenge'
-import { ShippingDetails } from '../interfaces/shippingDetail'
+import { ShippingDetail } from '../interfaces/shippingDetail'
 import { Activity as ActivityInterface } from './activity'
 import { Cart as CartInterface } from './cart'
 import { Badge as BadgeInterface } from './badge'
@@ -22,9 +22,9 @@ const userSchema = new Schema({
     weight: { type: Number },
     height: { type: Number },
     contact: { type: Number },
-    country: { type: String },
-    state: { type: String },
-    city: {type: String },
+    // address: { type: String },
+    // state: { type: String },
+    // city: {type: String },
     role: { type: String, enum: ["admin", "user"], default: 'user' },
     profileCompleted: { type: Number },
     profilePicture: { type: String },
@@ -36,7 +36,7 @@ const userSchema = new Schema({
     expires_in: { type: Number },
     activities: { type: [activitySchema.schema], default: [] },
     cart: { type: [cartSchema.schema], default: []},
-    shippingDetail: { type: [shippingDetail.schema], default: []},
+    shippingDetail: { type: shippingDetail.schema },
     badges: { type: [badgeSchema.schema], default: []},
     challenges: { type: [challengeSchema.schema], default: []},
     rewardPoints: { type: Number, default: 0 },
@@ -55,9 +55,9 @@ export interface User extends Document {
     dob: Date 
     gender: string
     weight: number
-    height: number
+    height: number    
     contact: number
-    country: string
+    address: string    
     state: string
     city: string
     role: string
@@ -71,11 +71,11 @@ export interface User extends Document {
     expires_in: number
     activities: ActivityInterface[]
     cart: CartInterface[]
-    shippingDetail: ShippingDetails[]
     badges: BadgeInterface[]
     challenges: ChallengeInterface[]
     rewardPoints: number
     certificates: string[]
+    shippingDetail: ShippingDetail
     
 }
 

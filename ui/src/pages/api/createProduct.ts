@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import multer from 'multer';
 import { ApiService } from '.';
-import { deleteImageFromCloudinary, uploadImageToCloudinary } from '../../helpers/helper';
+import { uploadImageToCloudinary } from '../../helpers/helper';
 
 interface CustomNextApiRequest extends NextApiRequest {
   file: {
@@ -37,8 +37,8 @@ export default async function handler(req: any, res: any) {
           }
         }
         const response = await ApiService.createProduct(params, req.headers.authorization)
-        if(!response.success)
-          await deleteImageFromCloudinary(result)
+        // if(!response.success)
+          // await deleteImageFromCloudinary(result)
 
         res.status(200).json(response.data);
       });

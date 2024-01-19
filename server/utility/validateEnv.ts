@@ -9,7 +9,10 @@ const env = cleanEnv(process.env, {
     JWT_SECRET_KEY: str(),
     CLOUDINARY_API_KEY: str(),
     CLOUDINARY_API_SECRET: str(),
-    CLOUDINARY_CLOUD_NAME: str()
+    CLOUDINARY_CLOUD_NAME: str(),
+    RAZOR_PAY_API_KEY: str(),
+    RAZOR_PAY_API_SECRET: str(),
+    CLIENT_DOMAIN: str(),
 })
 
 export default env;

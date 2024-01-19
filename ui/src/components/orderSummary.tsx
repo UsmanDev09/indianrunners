@@ -1,36 +1,59 @@
 import { Josefin_Sans } from "next/font/google";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { Key, useEffect, useState } from "react";
-import { Challenge_Props } from "@/Interfaces";
 import Cookies from "js-cookie";
+import { Key, useEffect, useState, useRef } from "react";
+import toast from "react-hot-toast";
+import { useSearchParams } from 'next/navigation'
+
+import axios from '../api/index';
+
+import { Challenge_Props } from "@/Interfaces";
+
+
 const josef = Josefin_Sans({ subsets: ["latin"] });
+
 type ItemDetail_Props = {
   itemDetails: Challenge_Props[];
 };
 
 const OrderSummary = () => {
-  const router = useRouter();
+  const isInitialRender = useRef(true);
+
   const [data, setData] = useState([]);
-  useEffect(() => {
-    const token = Cookies.get("token");
-    const order = async () => {
-      await fetch(`${process.env.SERVER_DOMAIN}/api/orderSummary`, {
-        headers: { Authorization: `Bearer ${token}` },
+
+  const token = Cookies.get('token');
+
+  const searchParams = useSearchParams()
+ 
+  const orderId = searchParams.get('orderId')
+
+  const updateDatabaseAfterPaymentVerified = async () => {
+    const { data : { success, message } } = await axios.put('api/payment', { orderId });
+
+    
+    if(success) toast.success(message);
+    
+    else toast.error(message);
+  }
+
+  const fetchOrderSummary = async () => {
+    await fetch(`${process.env.SERVER_DOMAIN}/api/orderSummary`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then(function(res) {
+        return res.json();
       })
-        .then(function(res) {
-          return res.json();
-        })
-        .then(function(data) {
-          if (data?.success) setData(data?.data?.cart);
-        });
-    };
-    order();
+      .then(function(data) {
+        if (data?.success) setData(data?.data?.cart);
+      });
+  };
+
+  useEffect(() => {
+      updateDatabaseAfterPaymentVerified()
+      fetchOrderSummary();
   }, []);
+  
   return (
-    <div
-      className={`${josef.className} drop-shadow-md p-12 dark:text-blue-text`}
-    >
+    <div className={`${josef.className} drop-shadow-md p-12 dark:text-blue-text`}>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase dark:text-gray-400 dark:bg-pink">
@@ -50,7 +73,7 @@ const OrderSummary = () => {
             </tr>
           </thead>
           <tbody>
-            {data?.map(
+            {/* {data?.map(
               (item: ItemDetail_Props, index: Key | null | undefined) =>
                 item && (
                   <tr
@@ -74,7 +97,7 @@ const OrderSummary = () => {
                     </td>
                   </tr>
                 )
-            )}
+            )} */}
           </tbody>
         </table>
       </div>

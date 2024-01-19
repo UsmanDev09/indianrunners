@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useContext, useState } from "react";
 import Cookies from "js-cookie";
+import { Loader } from "./Loader";
 const josef = Josefin_Sans({ subsets: ["latin"] });
 
 
@@ -12,6 +13,7 @@ const ItemCard = ({ challenge }: { challenge: Challenge }) => {
   const [openPopupToSelectCategories, setOpenPopupToSelectCategories] = useState(false)
   const [cart, setCart] = useState<{ challenge: { _id: number }, challengeCategories: {_id: number }[]  }>({ challenge: { _id: 0 }, challengeCategories: [] });
   const [cartForDisplaying, setCartForDisplaying] = useState<{ itemDetails: { challenge: Challenge | null, categories: ChallengeCategory[] }}>()
+  const [loading, setLoading] = useState(false);
 
   const handleRemoveSelectedCategory = (categoryId: number) => {
     const filteredChallengeCategories = cart?.challengeCategories.filter((category) => category._id !== categoryId )
@@ -85,6 +87,7 @@ const ItemCard = ({ challenge }: { challenge: Challenge }) => {
   };
 
   const addToCart = async () => {
+    setLoading(true)
     const token = Cookies.get("token");
     const response = await fetch(`${process.env.SERVER_DOMAIN}/api/cart/challenge`, {
       method: "POST",
@@ -105,6 +108,7 @@ const ItemCard = ({ challenge }: { challenge: Challenge }) => {
     }).then((response) => response.json().then((cart) => { 
       setCart({ challenge: { _id: 0 }, challengeCategories: [] })
       setCartForDisplaying({itemDetails: {challenge: null, categories: [] }})
+      setLoading(false)
     })).catch((err) => console.log(err));
   
   };
@@ -117,7 +121,7 @@ const ItemCard = ({ challenge }: { challenge: Challenge }) => {
           width={200}
           height={200}
           src={challenge.image ?? '/defaut-profile-image.png'}
-          alt="product image"
+          alt="challenge image"
         />
       </Link>
       <div className="px-5 pb-5">
@@ -179,8 +183,9 @@ const ItemCard = ({ challenge }: { challenge: Challenge }) => {
           >
             INR. {challenge.price}
           </span>
-          <button type="submit" onClick={addToCart} className={`${josef.className} text-white cursor bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-blue-800`}>
-            Add to cart
+          <button type="submit" onClick={addToCart} className={`${josef.className} flex text-white cursor bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-40 py-2.5 justify-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-blue-800`}>
+            <span className="mr-2"> {loading && <Loader width={4} height={4} /> } </span> 
+            <p>Add to cart</p>
           </button>
         </div>
       </div>

@@ -35,6 +35,6 @@ export const sendEmail = (subject: string, text: string, html: string, email: st
 
 export const updateUser = (email: string, hashPassword: string) => UserModel.findOneAndUpdate({ email }, { password: hashPassword } )
 
-export const updateUserById = (_id: Types.ObjectId, user: UserInterface) => UserModel.findByIdAndUpdate(_id, { user })
+export const updateUserById = (_id: Types.ObjectId, user: UserInterface) => UserModel.findByIdAndUpdate(_id, { $set: user })
 
 export const addChallengesToUserProfile = (user: UserInterface, challenge: ChallengeInterface) => UserModel.findByIdAndUpdate(user._id, {$push: { 'challenges': challenge }})

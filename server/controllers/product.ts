@@ -92,7 +92,7 @@ export const getAllProducts: RequestHandler<unknown, unknown, ProductInterface, 
 
     const { name, minPrice, maxPrice, page, pageSize } = req.query
 
-    const filters: { [key: string]: RegExp | boolean | PriceFilter | number  } = {}
+    const filters: any = {}
     const sort: { [key: string]: 'asc' | 'desc' } = {}
     
     if (minPrice && !isNaN(minPrice)) 
@@ -104,13 +104,16 @@ export const getAllProducts: RequestHandler<unknown, unknown, ProductInterface, 
     if (name === 'asc' || name === 'desc')
         sort.name = name
     
-    const products = await InventoryModel.find({ isDeleted: false, ...filters }).sort().skip(((page) - 1) * (pageSize))
-    .limit(pageSize).populate('product')
+    const products: any = await InventoryModel.find({ isDeleted: false}).skip(((page) - 1) * (pageSize))
+        .limit(pageSize).populate('product')
+
+    const sortedAndFilteredDocuments = products
+        .sort((a: any, b: any) => (sort.name === 'asc' ? a.product.name.localeCompare(b.product.name) : b.product.name.localeCompare(a.product.name)))
 
     res.status(StatusCodes.OK).json({
         success: true,
-        data: products,
-        message: Constants.productCreatedSuccessfully
+        data: sortedAndFilteredDocuments,
+        message: Constants.productFetchedSuccessfully
     })
 
 }

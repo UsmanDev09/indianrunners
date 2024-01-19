@@ -32,6 +32,7 @@ export const getServerSideProps = async (context: any) => {
 
     if (response.data) landingpage = response.data;
     else landingpage = [];
+
   }
 
   return { props: { landingpage } };

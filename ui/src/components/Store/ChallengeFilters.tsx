@@ -1,26 +1,9 @@
-import Image from "next/image";
-import { useContext, useEffect, useState } from "react";
-import Searchimg from "./Vector.svg";
+import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
-type Sidebar_Props = {
-  title?: string;
-  price?: string;
-  picture?: any;
-  type?: string;
-  _id?: string;
-  setChallenges: Function;
-};
 
-const Sidebar = ({
-  title,
-  price,
-  picture,
-  type,
-  _id,
-  setChallenges,
-}: Sidebar_Props) => {
-  const [button, setbutton] = useState("Add to cart");
+
+const ChallengeFilters = ({ setChallenges } : { setChallenges: Function }) => {
   const [name, setName] = useState("");
   const [ctype, setcType] = useState("");
   const [activity, setactivity] = useState("");
@@ -50,12 +33,11 @@ const Sidebar = ({
         {
           headers: { Authorization: `Bearer ${token}` },
         }
-      ).then((response) =>
-        response.json().then((chall) => setChallenges(chall.data))
-      );
+      ).then((response) => {
+        response.json().then((chall) => {console.log('chall', chall),setChallenges(chall.data)})
+    });
     };
     fetchChallenges();
-    setbutton("Added");
   };
 
   useEffect(() => {
@@ -331,4 +313,4 @@ const Sidebar = ({
   );
 };
 
-export default Sidebar;
+export default ChallengeFilters;

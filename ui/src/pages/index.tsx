@@ -30,7 +30,7 @@ export default function Home() {
 
       <div className="flex items-center justify-center h-80vh bg-cover bg-center relative">
           <Image
-           className="w-full h-[90vh]" 
+           className="w-full h-[80vh]" 
            width={0}
            height={0}
            sizes={"100vw"}

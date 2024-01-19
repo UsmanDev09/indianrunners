@@ -300,10 +300,9 @@ export interface AuthorizeStravaResponse {
     password?: string;
   
     /**  */
-    firstName?: string;
+    name?: string;
   
     /**  */
-    lastName?: string;
   
     /**  */
     userName?: string;
@@ -346,10 +345,13 @@ export interface AuthorizeStravaResponse {
   
     /**  */
     appsConnected?: string;
+
+    shippingDetail: ShippingDetail;
   }
   
   export interface Category {
     /**  */
+    _id: number;
     name?: string;
   
     /**  */
@@ -524,7 +526,7 @@ export interface AuthorizeStravaResponse {
     'Total Distance' = 'Total Distance',
     'Multiple Activities' = 'Multiple Activities'
   }
-  export type ItemType = Challenge | Product;
+  export type ItemType = 'challenge' | 'product';
   export enum EnumChallengeType {
     'open' = 'open',
     'fixed' = 'fixed'

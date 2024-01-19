@@ -1,20 +1,23 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 import { Josefin_Sans } from "next/font/google";
 import Link from "next/link";
+import toast from "react-hot-toast";
 
 const josef = Josefin_Sans({ subsets: ["latin"] });
 
 const SignUpForm = () => {
 
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    name: "",
     userName: "",
     email: "",
     password: "",
     confirmpassword: "",
   });
+
+  const router = useRouter();
 
   const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -35,6 +38,14 @@ const SignUpForm = () => {
       .then(function(res) {
         return res.json();
       })
+      .then(function(data) {
+        if(data.success) {
+          toast.success('User created successfully');
+          router.replace('/login');
+        } else {
+          toast.error('Either the user already exists, or the username/email is already taken')
+        }
+      });
   };
 
   return (
@@ -55,32 +66,17 @@ const SignUpForm = () => {
                     id="firstName"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Your First Name
+                    Your Full Name
                   </label>
                   <input
                     onChange={(e) =>
-                      setFormData({ ...formData, firstName: e.target.value })
+                      setFormData({ ...formData, name: e.target.value })
                     }
                     type="text"
-                    name="firstname"
-                    id="firstname"
+                    name="name"
+                    id="name"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="name@company.com"
-                  />
-                </div>
-                <div>
-                  <label
-                    id="lastName"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Your Last Name
-                  </label>
-                  <input
-                    onChange={(e) =>
-                      setFormData({ ...formData, lastName: e.target.value })
-                    }
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="name@company.com"
+                    placeholder="Prasanth"
                   />
                 </div>
                 <div>
@@ -124,6 +120,7 @@ const SignUpForm = () => {
                     onChange={(e) =>
                       setFormData({ ...formData, password: e.target.value })
                     }
+                    type="password"
                     placeholder="••••••••"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   />
@@ -136,6 +133,7 @@ const SignUpForm = () => {
                     Confirm password
                   </label>
                   <input
+                    type="password"
                     onChange={(e) =>
                       setFormData({
                         ...formData,
