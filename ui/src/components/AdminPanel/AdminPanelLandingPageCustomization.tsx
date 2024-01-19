@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { useState } from "react";
+import Image from "next/image";
 
 import { Challenge, Product } from "@/pages/api";
 import toast from "react-hot-toast";
@@ -83,7 +83,7 @@ const AdminPanelLandingPageCustomization = ({ landingpage } : { landingpage: any
 
     return (
         <div className="w-full container mt-10">
-             <CreateCustomizedLandingPage
+             {/* <CreateCustomizedLandingPage
                 setSections={setSections}
                 setOpenCreateCustomizedLandingPageDrawer={setOpenCreateCustomizedLandingPageDrawer}
                 openCreateCustomizedlandingPageDrawer={openCreateCustomizedlandingPageDrawer}
@@ -95,7 +95,7 @@ const AdminPanelLandingPageCustomization = ({ landingpage } : { landingpage: any
                     setOpenUpdateLandingPageSectionDrawer={setOpenUpdateLandingPageSectionDrawer} 
                     openUpdateLandingPageSectionDrawer={openUpdateLandingPageSectionDrawer} 
                 />
-            }
+            } */}
             {/* {challengeToDelete && (
                 <DeleteCustomizedLandingPage
                 setChallenges={setChallenges}

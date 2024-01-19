@@ -351,6 +351,7 @@ export interface AuthorizeStravaResponse {
   
   export interface Category {
     /**  */
+    _id: number;
     name?: string;
   
     /**  */
@@ -525,7 +526,7 @@ export interface AuthorizeStravaResponse {
     'Total Distance' = 'Total Distance',
     'Multiple Activities' = 'Multiple Activities'
   }
-  export type ItemType = Challenge | Product;
+  export type ItemType = 'challenge' | 'product';
   export enum EnumChallengeType {
     'open' = 'open',
     'fixed' = 'fixed'

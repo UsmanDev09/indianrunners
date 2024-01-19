@@ -1,9 +1,11 @@
-import { ChallengeCategory, Product } from "@/pages/api";
+import { Product } from "@/pages/api";
 import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
-import Link from "next/link";
-import { useContext, useState } from "react";
+import {  useState } from "react";
 import Cookies from "js-cookie";
+
+import { Loader } from "./Loader";
+
 const josef = Josefin_Sans({ subsets: ["latin"] });
 
 
@@ -11,7 +13,7 @@ const ProductCard = ({ product } : { product: Product  }) => {
   const [selectedCategories, setSelectedCategories] = useState([])
   const [openPopupToSelectCategories, setOpenPopupToSelectCategories] = useState(false)
   const [cart, setCart] = useState< {product: { _id: number }, productQuantity: number}[]>([ {product: { _id: 0 }, productQuantity: 0}]);
-  const [cartForDisplaying, setCartForDisplaying] = useState<{}>()
+  const [loading, setLoading] = useState(false);
 
   const addProductsToCartForDisplaying = (product: Product) => {
     // if(cartForDisplaying?.itemDetails.challenge === challenge) {
@@ -57,7 +59,10 @@ const ProductCard = ({ product } : { product: Product  }) => {
   };
 
   const addToCart = async (productId: number | undefined) => {
+    setLoading(true);
+
     const token = Cookies.get("token");
+
     const response = await fetch(`${process.env.SERVER_DOMAIN}/api/cart/product`, {
       method: "POST",
       mode: "cors", // no-cors, *cors, same-origin
@@ -79,17 +84,17 @@ const ProductCard = ({ product } : { product: Product  }) => {
       }),
     }).then((response) => response.json().then((cart) => { 
       setCart([ { product: { _id: 0 }, productQuantity: 0 }])
-    //   setCartForDisplaying({itemDetails: {challenge: null, categories: [] }})
-    })).catch((err) => console.log(err));
+      setLoading(false);
+    })).catch((err) => { setLoading(false) ,console.log(err)});
   
   };
 
   return (
     <div className="w-[300px] sm:w-[360px] h-[350px] relative max-w-sm bg-white dark:bg-dark-card shadow-xl rounded-lg dark:border-gray-700">
         <Image
-          className="p-8 rounded-t-lg m-auto"
-          width={250}
-          height={250}
+          className="p-8  rounded-t-lg m-auto"
+          width={200}
+          height={200}
           src={product?.image ? product?.image : '/defaut-profile-image.png'}
           alt="product image"
         />
@@ -124,8 +129,9 @@ const ProductCard = ({ product } : { product: Product  }) => {
           >
             INR. {product?.price}
           </span>
-          <button type="submit" onClick={() => addToCart(product._id)} className={`${josef.className} text-white cursor bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-blue-800`}>
-            Add to cart
+          <button type="submit" onClick={() => addToCart(product._id)} className={`${josef.className} flex text-white cursor bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-40 py-2.5 justify-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-blue-800`}>
+            <span className="mr-2"> {loading && <Loader width={4} height={4} /> } </span> 
+            <p > Add to cart </p>
           </button>
         </div>
       </div>

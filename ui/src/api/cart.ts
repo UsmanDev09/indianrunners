@@ -16,22 +16,18 @@ export const removeProductFromCartAPI = (productId: number, _id: number) =>
   api
     .delete(`${process.env.SERVER_DOMAIN}/api/cart/product`, {
         data: {
-            itemDetails: { itemDetails: [{ product: { _id: productId } } ], _id}
+            itemDetails: [{ product: { _id: productId } } ], _id
         }
     })
 
 export const increaseProductQuantityAPI = (productId: number, _id: number) =>
   api
     .put(`${process.env.SERVER_DOMAIN}/api/cart/product/increase-quantity`, {
-        data: {
-         itemDetails: [{ product: { _id: productId } } ], _id 
-        }
+        itemDetails: [{ product: { _id: productId } } ], _id
     })
 
 export const decreaseProductQuantityAPI = (productId: number, _id: number) =>
     api
       .put(`${process.env.SERVER_DOMAIN}/api/cart/product/decrease-quantity`, {
-          data: {
            itemDetails: [{ product: { _id: productId } } ], _id 
-          }
       })

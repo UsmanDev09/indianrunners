@@ -1,9 +1,14 @@
 import { Josefin_Sans } from "next/font/google";
 import Cookies from "js-cookie";
-import { Key, useEffect, useState } from "react";
+import { Key, useEffect, useState, useRef } from "react";
+import toast from "react-hot-toast";
+import { useSearchParams } from 'next/navigation'
+
+import axios from '../api/index';
 
 import { Challenge_Props } from "@/Interfaces";
-import Cookies from "js-cookie";
+
+
 const josef = Josefin_Sans({ subsets: ["latin"] });
 
 type ItemDetail_Props = {
@@ -11,9 +16,24 @@ type ItemDetail_Props = {
 };
 
 const OrderSummary = () => {
+  const isInitialRender = useRef(true);
+
   const [data, setData] = useState([]);
 
   const token = Cookies.get('token');
+
+  const searchParams = useSearchParams()
+ 
+  const orderId = searchParams.get('orderId')
+
+  const updateDatabaseAfterPaymentVerified = async () => {
+    const { data : { success, message } } = await axios.put('api/payment', { orderId });
+
+    
+    if(success) toast.success(message);
+    
+    else toast.error(message);
+  }
 
   const fetchOrderSummary = async () => {
     await fetch(`${process.env.SERVER_DOMAIN}/api/orderSummary`, {
@@ -28,10 +48,10 @@ const OrderSummary = () => {
   };
 
   useEffect(() => {
-    fetchOrderSummary();
+      updateDatabaseAfterPaymentVerified()
+      fetchOrderSummary();
   }, []);
   
-  console.log(data);
   return (
     <div className={`${josef.className} drop-shadow-md p-12 dark:text-blue-text`}>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -53,7 +73,7 @@ const OrderSummary = () => {
             </tr>
           </thead>
           <tbody>
-            {data?.map(
+            {/* {data?.map(
               (item: ItemDetail_Props, index: Key | null | undefined) =>
                 item && (
                   <tr
@@ -77,7 +97,7 @@ const OrderSummary = () => {
                     </td>
                   </tr>
                 )
-            )}
+            )} */}
           </tbody>
         </table>
       </div>
