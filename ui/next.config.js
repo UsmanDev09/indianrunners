@@ -8,13 +8,13 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: ['res.cloudinary.com'],
+    domains: ["res.cloudinary.com"],
   },
   env: {
     SERVER_DOMAIN: process.env.SERVER_DOMAIN,
     JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
-    RAZOR_PAY_API_KEY: process.env.RAZOR_PAY_API_KEY
-  }
-}
+    RAZOR_PAY_API_KEY: process.env.RAZOR_PAY_API_KEY,
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

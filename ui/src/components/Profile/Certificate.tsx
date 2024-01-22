@@ -64,14 +64,13 @@ const Certificate = ({
   //     .catch((err) => console.log(err));
   // };
 
-  const Download = () => {
-    var canvas = document.getElementById("myCanvas") as HTMLCanvasElement;
-    const image = canvas
-      .toDataURL("image/png")
-      .replace("image/png", "image/octet-stream");
+   const Download =async () => {
+    const image = await fetch(picture)
+    const imageBlog = await image.blob()
+    const imageURL = URL.createObjectURL(imageBlog)
     var link = document.createElement("a");
     link.download = `Certificate_${_id}.png`;
-    link.href = image;
+    link.href = imageURL;
     link.click();
   };
 

@@ -671,6 +671,7 @@ export interface ItemDetails {
 }
 
 export interface Challenge {
+  designState?: JSX.Element;
   /**  */
   name?: string;
 
