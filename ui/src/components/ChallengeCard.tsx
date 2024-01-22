@@ -105,7 +105,8 @@ const ChallengeCard = ({ challenge }: { challenge: Challenge }) => {
         itemType: "challenge",
         itemDetails: [cart]
       }),
-    }).then((response) => response.json().then((cart) => { 
+    }).then((response) => response.json().then((cart) => {
+      console.log(cart)
       setCart({ challenge: { _id: 0 }, challengeCategories: [] })
       setCartForDisplaying({itemDetails: {challenge: null, categories: [] }})
       setLoading(false)

@@ -266,11 +266,13 @@ const Challenges = ({
                             </button>
                           </td>
                           <td className="flex p-6 space-x-2 whitespace-nowrap">
-                            <CertificateBuilder
-                              purpose="Add Certificate"
-                              challenge={challenge}
-                              template={true}
-                            />
+                            {!challenge.designState && (
+                              <CertificateBuilder
+                                purpose="Add Certificate"
+                                challenge={challenge}
+                                template={true}
+                              />
+                            )}
                             <CertificateBuilder
                               purpose="Send Certificate"
                               challenge={challenge}

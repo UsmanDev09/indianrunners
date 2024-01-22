@@ -1,6 +1,7 @@
 import { Category, Challenge, ChallengeCategory } from "@/pages/api";
 import { Datepicker } from 'flowbite-react';
 import { FormEvent, useState } from "react"; 
+import toast from "react-hot-toast";
 
 const CreateChallenge = ({ setChallenges, categories, setOpenCreateChallengeDrawer, openCreateChallengeDrawer } : { setChallenges: (challenge: Challenge[]) => void, categories: ChallengeCategory[], setOpenCreateChallengeDrawer : (action: boolean) => void, openCreateChallengeDrawer: boolean }) => {
     const [formData, setFormData] = useState({
@@ -112,11 +113,11 @@ const CreateChallenge = ({ setChallenges, categories, setOpenCreateChallengeDraw
             setChallenges(challenges)
             setOpenCreateChallengeDrawer(false)
           } else {
-            console.error('Failed to create challenge');
+            toast.error('Failed to create challenge');
           }
         } catch (error) {
             if(error instanceof Error){
-                console.error('Error creating challenge:', error.message);
+                toast.error(error.message);
             }
         }
       };
