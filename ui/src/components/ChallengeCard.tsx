@@ -8,7 +8,7 @@ import { Loader } from "./Loader";
 const josef = Josefin_Sans({ subsets: ["latin"] });
 
 
-const ItemCard = ({ challenge }: { challenge: Challenge }) => {
+const ChallengeCard = ({ challenge }: { challenge: Challenge }) => {
   const [selectedCategories, setSelectedCategories] = useState([])
   const [openPopupToSelectCategories, setOpenPopupToSelectCategories] = useState(false)
   const [cart, setCart] = useState<{ challenge: { _id: number }, challengeCategories: {_id: number }[]  }>({ challenge: { _id: 0 }, challengeCategories: [] });
@@ -114,7 +114,7 @@ const ItemCard = ({ challenge }: { challenge: Challenge }) => {
   };
 
   return (
-    <div className="w-[300px] sm:w-[360px] h-[400px] relative max-w-sm bg-white dark:bg-dark-card shadow-xl rounded-lg dark:border-gray-700">
+    <div className="w-[300px] sm:w-[360px] h-[400px] relative max-w-sm bg-white border border-gray-200 dark:bg-dark-card rounded-lg dark:border-gray-600">
       <Link href="#">
         <Image
           className="p-8 rounded-t-lg m-auto"
@@ -193,4 +193,4 @@ const ItemCard = ({ challenge }: { challenge: Challenge }) => {
   );
 };
 
-export default ItemCard;
+export default ChallengeCard;
