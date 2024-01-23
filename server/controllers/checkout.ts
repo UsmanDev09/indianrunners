@@ -7,6 +7,7 @@ import ProductModel from '../models/product'
 import UserModel from '../models/user'
 import createHttpError from "http-errors"
 
+
 export const createCheckout: RequestHandler<unknown, unknown, { totalPrice: number }, unknown> = async (req, res, next) => {
     try {
 

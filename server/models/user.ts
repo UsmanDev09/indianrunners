@@ -21,7 +21,7 @@ const userSchema = new Schema({
     gender: { type: String },
     weight: { type: Number },
     height: { type: Number },
-    contact: { type: Number },
+    // contact: { type: Number },
     // address: { type: String },
     // state: { type: String },
     // city: {type: String },

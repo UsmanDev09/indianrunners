@@ -741,6 +741,7 @@ export interface Challenge {
 
 export interface ChallengeCategory {
   /**  */
+  image?: string; 
   name?: string;
 
   /**  */

@@ -1,22 +1,8 @@
-import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
-// import sourceImage from "../../public/images/default-image.jpg";
-import { AiOutlinePlus } from "react-icons/ai";
 import { BiPencil } from "react-icons/bi";
-// import startIcon from "../../public/images/star.svg";
 
 const AccountInfo = ({user} : {user: any}) => {
 
-  const handleUploadClick = (e: Event) => {
-    // [...e.target.files].forEach((file) => {
-    //   var reader = new FileReader();
-    //   reader.onload = function (evt) {
-    //     setFiles(evt.target.result);
-    //   };
-    //   reader.readAsDataURL(file);
-    // });
-  };
   return (
     <div className="pt-16 md:pl-16 pl-0 flex flex-wrap justify-between w-full">
       <div className="w-full">
@@ -25,7 +11,7 @@ const AccountInfo = ({user} : {user: any}) => {
             Profile Completion
           </span>
           <span className="text-sm font-medium text-black dark:text-white">
-            {user?.profileCompleted ? user?.profileCompleted : 0}%
+            {user?.profileCompleted ? Math.floor(user?.profileCompleted) : 0}%
           </span>
         </div>
         <div className="w-full border border-black dark:border-white rounded-full p-1 dark:bg-gray-700">
@@ -35,49 +21,62 @@ const AccountInfo = ({user} : {user: any}) => {
           ></div>
         </div>
       </div>
-      <div className="md:w-[20%] min-w-[180px] ">
-        {/* <div className="relative">
-          {/* <img
-            src={files}
-            alt="Icon"
-            className="rounded-lg w-[180px] h-[180px]"
-          /> */}
-        {/* <label
-            htmlFor="contained-button-file"
-            className="absolute ml-[40px] -mt-5 font-comfortaa bg-white dark:bg-pink dark:text-blue-text hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 rounded-[12px] shadow"
-          >
-            <input
-              accept=".png,.jpg"
-              id="contained-button-file"
-              type="file"
-              style={{ display: "none" }}
-              // onChange={handleUploadClick}
-            />
-            Change
-          </label>
-        </div> */}
-      </div>{" "}
+
       <div className="item-left w-full dark:text-blue-text">
-        <div>
-          <p className="font-unica text-[30px] py-5">
-            {user?.name}
-          </p>
-          <p className="font-comfortaa">
-            Short profile introduction, this is dummy placeholder text to fill
-            out this text box --- Lorem ipsum dolor sit amet, consectetur
-            adipiscing elit. Aenean dolor sem, tincidunt et bibendum non,
-            convallis eget mauris. Suspendisse in gravida lorem. Nulla massa
-            enim, ultricies at dictum non, placerat vel tellus.{" "}
-          </p>
+
+      <div className="py-8">
+          <p className="font-unica text-[25px]">PROFILE CONTACT</p>
+          <div className="flex flex-col items-start">
+            <p className="text-gray-700 min-w-[150px]">NAME </p>
+            <p className="font-unica mb-4">
+              {user?.name}
+            </p>
+            <p className="text-gray-700 text-[15px] min-w-[150px]">EMAIL </p>
+            <p className="font-comfortaa mb-4">{user?.email}</p>
+            <p className="text-gray-700 text-[15px] min-w-[150px]">USER NAME </p>
+            <p className="font-comfortaa mb-4">
+              {user?.userName}
+            </p>
+            <p className="text-gray-700 text-[15px] min-w-[150px]">REWARD POINTS </p>
+
+            <p className="font-comfortaa">
+              {user?.rewardPoints}
+            </p>
+          </div>
         </div>
 
         <div className="py-8">
-          <p className="font-unica text-[25px]">PROFILE CONTACT</p>
-          <div className="flex items-center">
-            <p className="text-gray-700 text-[15px] min-w-[150px]">EMAIL </p>
-            <p className="font-comfortaa">{user?.email}</p>
+          <p className="font-unica text-[25px]">SHIPPING DETAILS</p>
+          <div className="flex flex-col items-start">
+            {user?.shippingDetail?.country && (
+              <div>
+                <p className="text-gray-700 min-w-[150px]">COUNTRY </p>
+                <p className="font-unica mb-4"> {user?.shippingDetail.country}</p>
+              </div>
+            )}
+            {user?.shippingDetail?.city && (
+              <div>
+                <p className="text-gray-700 text-[15px] min-w-[150px]">CITY </p>
+                <p className="font-comfortaa mb-4">{user?.shippingDetail?.city}</p>
+              </div>
+            )}
+            {user?.shippingDetails?.address && (
+              <div>
+                <p className="text-gray-700 text-[15px] min-w-[150px]">ADDRESS </p>
+                <p className="font-comfortaa mb-4">
+                  {user?.shippingDetail?.address}
+                </p>
+              </div>
+            )}
+            {user?.shippingDetail?.contact && (
+              <div>
+                <p className="text-gray-700 text-[15px] min-w-[150px]">CONTACT </p>
+                <p className="font-comfortaa">
+                  {user.shippingDetail.contact}
+                </p>
+              </div>
+            )}
           </div>
-          
         </div>
       </div>
       <div className="md:w-[20%] min-w-[250px] ">

@@ -6,9 +6,7 @@ import { Cart, User } from "@/types";
 
 import axios from '../api/index';
 
-
 const josef = Josefin_Sans({ subsets: ["latin"] });
-
 
 export default function Checkout() {
   const [cartDetails, setCartDetails] = useState<Cart[]>([]);
@@ -25,11 +23,14 @@ export default function Checkout() {
     setUserProfile(data);
   }
   
-  const processPayment = async () => {
-    // get order id from checkout endpoint
+  const processPayment = async (values: any) => {
+    const { data: { data : profile} } = await axios.put('/api/user/profile', {
+      shippingDetail: values
+    }) 
+    // get order id from checkout endpoint 
     const { data: { data } } = await axios.post('/api/checkout')
-
-    // send contact info in separate endpoint
+    console.log(data)
+    // send contact info in separate endpoint 
     // send order id in payment endpoint 
     const options = {
       key: process.env.RAZOR_PAY_API_KEY,
