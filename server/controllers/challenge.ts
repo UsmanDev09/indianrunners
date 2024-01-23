@@ -22,28 +22,14 @@ export const createChallenge: RequestHandler<
 > = async (req, res, next) => {
   try {
     const {
-      type,
-      name,
-      activity,
-      knockout,
-      knockoutType,
-      lowerLimit,
-      upperLimit,
-      fixedLimit,
-      cutOffDays,
-      cutOffHours,
-      startDate,
-      endDate,
-      tags,
-      price,
-      bibNumber,
-      featured,
-      verified,
-      organizationName,
-      categories,
-    } = req?.body;
-    let result: any;
+      type,name, activity, knockout, knockoutType, lowerLimit, upperLimit,fixedLimit, 
+      cutOffDays, cutOffHours, startDate, endDate, tags, price, bibNumber, featured, verified, 
+      organizationName, categories,
+    } = req.body;
 
+    let result: any
+    let image;
+    console.log(req.body)
     if (type === "open" && lowerLimit === undefined)
       throw createHttpError(
         StatusCodes.BAD_REQUEST,
@@ -108,17 +94,26 @@ export const createChallenge: RequestHandler<
       );
 
     let categoryDocument: any = [];
+    let activityType: String;
+    const cloudinaryURL = 'https://res.cloudinary.com/dpzlhahzg/image/upload/v1705994180/challenges'
 
     if (categories) {
       for (let category of categories) {
+        console.log(category)
         const categoryRecord = await CategoryModel.findById(category);
+        activityType = categoryRecord?.activity!;
+        image = `${cloudinaryURL}/${activityType.toLowerCase()}.png`;
         categoryDocument.push(categoryRecord);
       }
     }
 
+    
+    
+
     const challenge = await ChallengeModel.create({
       type,
       name,
+      image,
       activity,
       knockout,
       knockoutType,
@@ -136,7 +131,7 @@ export const createChallenge: RequestHandler<
       verified,
       organizationName,
       categories: categoryDocument,
-      image: result?.secure_url,
+      // image: result?.secure_url,
     });
 
     const challenges = await ChallengeModel.find();

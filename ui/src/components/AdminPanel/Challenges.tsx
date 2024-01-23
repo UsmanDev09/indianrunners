@@ -196,6 +196,7 @@ const Challenges = ({
                 </thead>
                 {challenges &&
                   challenges.map((challenge, index) => {
+                    console.log(challenge)
                     return (
                       <tbody
                         key={index}

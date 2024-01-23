@@ -9,9 +9,13 @@ import { Constants } from "../utility/constants"
 import { User } from "../interfaces/user"
 
 export const createCategory: RequestHandler<unknown, unknown, ChallengeCategoryInterface, unknown> = async (req, res, next) => {
-     try {
-        const category = await CategoryModel.create(req.body)        
+    try {
+        const cloudinaryURL = 'https://res.cloudinary.com/dpzlhahzg/image/upload/v1705994180/challenges'
         
+        let image = `${cloudinaryURL}/${req.body.activity.toLowerCase()}.png`;
+        
+        const category = await CategoryModel.create({ image, ...req.body })        
+
         const categories = await CategoryModel.find()
 
         res.status(StatusCodes.OK).json({

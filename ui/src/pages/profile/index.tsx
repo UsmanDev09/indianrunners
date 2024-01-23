@@ -25,7 +25,7 @@ const Profile = () => {
       else toast.error("Error fetching profile")
     })
 
-  }, [token, user])
+  }, [token])
   return (
     <div className="container mx-auto flex md:flex-nowrap flex-wrap">
       <ProfileSideBar />

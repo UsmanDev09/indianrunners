@@ -62,7 +62,7 @@ const Layout = ({
       Cookies.remove("token")
     }
   } catch(e){
-    Cookies.remove("token")
+    // Cookies.remove("token")
   }
   }, []);
 

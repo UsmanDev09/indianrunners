@@ -2,16 +2,14 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 import { Cart, ChallengeCategory } from '@/types';
-import axios from '../../api/index';
 
 export const CartSummary = ( { cartDetails } : { cartDetails: Cart[] }) => {
-
 
     return (
         <div className="bg-gray-200 w-1/2 pl-10 dark:bg-gray-700">
             {cartDetails.length > 0  ? cartDetails.map((cart, index) => {
-                                        console.log(cart)
-
+                console.log(cart)
+                
                 if(cart.itemType === 'product') { 
                 return(
                     <li key={index} className="flex py-6 w-[60%]">
@@ -51,7 +49,6 @@ export const CartSummary = ( { cartDetails } : { cartDetails: Cart[] }) => {
                     </div>
                 </li> 
                 )} else if(cart.itemType === 'challenge') {
-                    // cartDetails.map((cart) => {
                         return (
                             <div key={cart?.itemDetails?.[0]?.challenge?._id} className='w-[60%]'>
                                 {cart.itemDetails?.[0].challengeCategories?.map((category: ChallengeCategory, index: number) => {
@@ -81,7 +78,6 @@ export const CartSummary = ( { cartDetails } : { cartDetails: Cart[] }) => {
                                 })}
                             </div>
                         )
-                    // })
                 }
             }) : (
                 <p> No items in your cart! </p>

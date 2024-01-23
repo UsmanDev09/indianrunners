@@ -107,8 +107,6 @@ export const addChallengeToCart: RequestHandler<unknown, unknown, Cart, unknown>
         if(error instanceof Error) {
             logger.error(error.message)
             next(error.message)
-        } else {
-            next(error)
         }
     }
 }
