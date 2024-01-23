@@ -5,13 +5,13 @@ const Sidebar = () => {
     <div className="">
       <aside
         id="sidebar"
-        className=" z-20 flex flex-col flex-shrink-0 hidden w-64 h-full font-normal duration-75 lg:flex transition-width dark:bg-sidebar-blue"
+        className=" z-20 flex flex-col flex-shrink-0 hidden w-64 h-full font-normal duration-75 lg:flex transition-width  dark:bg-sidebar-blue"
         aria-label="Sidebar"
       >
-        <div className="relative flex flex-col flex-1 min-h-0 pt-0 bg-white  border-gray-200 dark:bg-sidebar-blue dark:border-gray-700">
+        <div className="relative flex flex-col flex-1 min-h-0 pt-0 dark:bg-sidebar-blue dark:border-gray-700">
           <div className="flex flex-col flex-1 pt-5 pb-4 overflow-y-auto">
             <div className="flex-1 px-3 space-y-1 bg-white divide-y divide-gray-200 dark:bg-sidebar-blue dark:divide-gray-700">
-              <ul className="pb-2 space-y-2">
+              <ul className="pb-2 space-y-2 bg-gray-200">
                 <li>
                   <form action="#" method="GET" className="lg:hidden">
                     <label htmlFor="mobile-search" className="sr-only">
@@ -66,7 +66,7 @@ const Sidebar = () => {
                   <li>
                     <Link
                       href="/admin-panel/products"
-                      className="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-white dark:hover:bg-gray-700 bg-gray-100 dark:bg-gray-700"
+                      className="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-white dark:hover:bg-gray-700 dark:bg-gray-700"
                     >
                       Products
                     </Link>
@@ -74,7 +74,7 @@ const Sidebar = () => {
                   <li>
                     <Link
                       href="/admin-panel/challenges"
-                      className="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-white dark:hover:bg-gray-700 bg-gray-100 dark:bg-gray-700"
+                      className="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-white dark:hover:bg-gray-700 dark:bg-gray-700"
                     >
                       Challenges
                     </Link>
@@ -82,7 +82,7 @@ const Sidebar = () => {
                   <li>
                     <Link
                       href="/admin-panel/challenge-categories"
-                      className="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-white dark:hover:bg-gray-700 bg-gray-100 dark:bg-gray-700"
+                      className="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-white dark:hover:bg-gray-700  dark:bg-gray-700"
                     >
                       Challenge Categories
                     </Link>
@@ -90,7 +90,7 @@ const Sidebar = () => {
                   <li>
                     <Link
                       href="/admin-panel/challenges"
-                      className="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-white dark:hover:bg-gray-700 bg-gray-100 dark:bg-gray-700"
+                      className="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-white dark:hover:bg-gray-700 dark:bg-gray-700"
                     >
                       Badges
                     </Link>
@@ -98,7 +98,7 @@ const Sidebar = () => {
                   <li>
                     <Link
                       href="/admin-panel/users"
-                      className="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-white dark:hover:bg-gray-700 bg-gray-100 dark:bg-gray-700"
+                      className="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-white dark:hover:bg-gray-700  dark:bg-gray-700"
                     >
                       Users
                     </Link>
@@ -106,7 +106,7 @@ const Sidebar = () => {
                   <li>
                     <Link
                       href="/admin-panel/inventory"
-                      className="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-white dark:hover:bg-gray-700 bg-gray-100 dark:bg-gray-700"
+                      className="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-white dark:hover:bg-gray-700 dark:bg-gray-700"
                     >
                       Inventories
                     </Link>
