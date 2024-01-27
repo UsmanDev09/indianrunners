@@ -1,6 +1,7 @@
 import { FormEvent, useState } from "react";
 // import { Josefin_Sans } from "next/font/google";
 import { Datepicker } from 'flowbite-react';
+import Cookies from "js-cookie";
 
 // const josef = Josefin_Sans({ subsets: ["latin"] });
 const ManualActivityUploader = () => {
@@ -28,7 +29,7 @@ const ManualActivityUploader = () => {
 
     const submitForm = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const token = localStorage.getItem('token');
+        const token = Cookies.get('token');
 
         fetch(`${process.env.SERVER_DOMAIN}/api/activity/manual`, {
             method: "POST",

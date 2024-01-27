@@ -11,7 +11,7 @@ const ConnectApp = () => {
   useEffect(() => {
     try {
       if (code) {
-        fetch(`${process.env.SERVER_DOMAIN}localhost:5000/api/activity`, {
+        fetch(`${process.env.SERVER_DOMAIN}/api/activity`, {
           method: "POST",
           mode: "cors",
           cache: "no-cache",
