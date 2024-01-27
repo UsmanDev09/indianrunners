@@ -17,7 +17,7 @@ const AdminPanelLandingPageCustomization = ({ landingpage } : { landingpage: any
     const [openUpdateLandingPageSectionDrawer ,setOpenUpdateLandingPageSectionDrawer] = useState(false);
     const [sectionToUpdate, setSectionToUpdate] = useState()
     const [sections, setSections] = useState(landingpage?.sections);
-    const [backgroundImageUrl, setBackgroundImageUrl] = useState(landingpage.mainSection.image);
+    const [backgroundImageUrl, setBackgroundImageUrl] = useState(landingpage?.mainSection?.image);
     const [loading, setLoading] = useState<boolean>(false);
     
     const token = Cookies.get('token');
