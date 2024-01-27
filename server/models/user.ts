@@ -61,6 +61,7 @@ export interface User extends Document {
     state: string
     city: string
     role: string
+    country: string
     profileCompleted: number
     profilePicture: string | undefined
     club: string

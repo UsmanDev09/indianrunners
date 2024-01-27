@@ -10,12 +10,12 @@ import UserModel, { User } from '../models/user'
 import Otp from "../models/otp"
 
 import ChallengeModel from '../models/challenge'
+import shippingDetailModel from "../models/shippingDetail"
 import { User as UserInterface } from "../models/user"
 import { StatusCodes } from "http-status-codes"
 import { Constants } from "../utility/constants"
 import { createUser, findUser, findUserById, sendEmail, updateUser, updateUserById } from "../services/user"
 import { createNotification } from "../services/notification"
-import { uploadImageToCloudinary } from "../helpers/helper"
 
 export const login: RequestHandler<unknown, unknown, UserInterface, unknown> = async (req, res, next) => {
    
@@ -177,7 +177,7 @@ export const updateProfile: RequestHandler<unknown, unknown, UserInterface, unkn
 
         console.log(req.body)
         const _id = req.user as Types.ObjectId
-        const  { dob, weight, gender, height, contact, shippingDetail } = req.body
+        const  { dob, weight, gender, height, contact, country, state, address, city } = req.body
         const profile : (keyof UserInterface)[]= ['dob', 'gender', 'weight', 'height', 'contact', 'address', 'state', 'city', 'profilePicture'];
         
         let profileCompletedAttributes = 3
@@ -190,7 +190,9 @@ export const updateProfile: RequestHandler<unknown, unknown, UserInterface, unkn
         let profileCompleted = profileCompletedAttributes/11 * 100
         console.log(profileCompleted)
 
-        await UserModel.findByIdAndUpdate(_id, { ...req.body, shippingDetail, profileCompleted })
+        const shippingDetailDocument = await shippingDetailModel.create({ contact, country, state, address, city })
+
+        await UserModel.findByIdAndUpdate(_id, { ...req.body, shippingDetail: shippingDetailDocument, profileCompleted })
 
         res.status(StatusCodes.OK).json({
             success: true,
