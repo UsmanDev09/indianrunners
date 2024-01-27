@@ -56,11 +56,11 @@ const handleCityChange = (cityName: string) => {
     gender: profile.gender,
     weight: profile.weight,
     height: profile.height,
-      contact: profile.shippingDetail.contact,
-      address: profile.shippingDetail.address,
-      state: profile.shippingDetail.state,
-      city: profile.shippingDetail.city,
-      country: profile.shippingDetail.country
+      contact: profile.shippingDetail?.contact,
+      address: profile.shippingDetail?.address,
+      state: profile.shippingDetail?.state,
+      city: profile.shippingDetail?.city,
+      country: profile.shippingDetail?.country
     
   };
 
@@ -74,11 +74,11 @@ const handleCityChange = (cityName: string) => {
         gender: data.gender,
         weight: data.weight,
         height: data.height,
-          contact: data.shippingDetail.contact,
-          address: data.shippingDetail.address,
-          state: data.shippingDetail.state,
-          city: data.shippingDetail.city,
-          country: data.shippingDetail.country
+          contact: data.shippingDetail?.contact,
+          address: data.shippingDetail?.address,
+          state: data.shippingDetail?.state,
+          city: data.shippingDetail?.city,
+          country: data.shippingDetail?.country
         
       };
       console.log(formik.values)

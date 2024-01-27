@@ -1,6 +1,11 @@
 import { FormEvent, useState } from "react";
 // import { Josefin_Sans } from "next/font/google";
 import { Datepicker } from 'flowbite-react';
+<<<<<<< HEAD
+import toast from "react-hot-toast";
+=======
+>>>>>>> 2824d61... bugs resolved
+import Cookies from "js-cookie";
 
 // const josef = Josefin_Sans({ subsets: ["latin"] });
 const ManualActivityUploader = () => {
@@ -26,9 +31,18 @@ const ManualActivityUploader = () => {
         setFormData({ ...formData, [name]: value });
     }
 
-    const submitForm = (e: FormEvent<HTMLFormElement>) => {
+    const submitForm = async (e: FormEvent<HTMLFormElement> & {target :HTMLFormElement}) => {
         e.preventDefault();
-        const token = localStorage.getItem('token');
+        const token = Cookies.get('token');
+<<<<<<< HEAD
+    try{
+      const response=  await fetch(`${process.env.SERVER_DOMAIN}/api/activity/manual`, {
+          method: "POST",
+          mode: "cors", // no-cors, *cors, same-origin
+          cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+          credentials: "same-origin", // include, *same-origin, omit
+          headers: {
+=======
 
         fetch(`${process.env.SERVER_DOMAIN}/api/activity/manual`, {
             method: "POST",
@@ -36,11 +50,25 @@ const ManualActivityUploader = () => {
             cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
             credentials: "same-origin", // include, *same-origin, omit
             headers: {
+>>>>>>> 2824d61... bugs resolved
               "Content-Type": "application/json",
               "Authorization": `Bearer ${token}`
-            },
-            body: JSON.stringify(formData)
-        })
+          },
+          body: JSON.stringify(formData)
+      })
+        const activity = response.json() 
+
+        if (response.ok) {
+            e.target.reset()
+            toast.success('Submitted successfully');
+        } else {
+          toast.error('Failed to add activity');
+        }
+      } catch (error) {
+          if(error instanceof Error){
+              toast.error(error.message);
+          }
+      }
     }
 
     return (

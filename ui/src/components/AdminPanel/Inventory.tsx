@@ -1,12 +1,12 @@
 import { useState } from "react";
 import Image from "next/image";
-import { Inventory } from "@/pages/api";
+import { Inventory, Product } from "@/pages/api";
 import CreateInventory from "./CreateInventory";
 import DeleteInventory from "./DeleteInventory";
 import CertificateBuilder from "../certificateBuilder";
 import UpdateInventory from "./UpdateInventory";
 
-const Inventory = ({ inventories }: { inventories: Inventory[] }) => {
+const Inventory = ({ inventories, products }: { inventories: Inventory[],products: Product[]}) => {
   const [openCreateInventoryDrawer, setOpenCreateInventoryDrawer] = useState<boolean>(false);
   const [openDeleteProductDrawer, setOpenDeleteProductDrawer] = useState<boolean>(false);
   const [openUpdateInventoryDrawer, setOpenUpdateInventoryDrawer] = useState<boolean>(false);
@@ -20,6 +20,7 @@ const Inventory = ({ inventories }: { inventories: Inventory[] }) => {
         setInventory={setInventory}
         setOpenCreateInventoryDrawer={setOpenCreateInventoryDrawer}
         openCreateInventoryDrawer={openCreateInventoryDrawer}
+        products={products}
       />
       {InventoryToDelete && (
         <DeleteInventory

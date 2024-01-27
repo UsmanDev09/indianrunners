@@ -14,17 +14,15 @@ type Props = {
 
 export default function OrderHistoryPage({ token, cart }: Props) {
   return (
-    <div className={josef.className}>
-      <Banner
-        introduction="Home &rarr; Cart &rarr; Order Summary"
-        title="Please review your order summary"
-      />
+    <div className="container mx-auto mt-0 md:pl-16 sm:pl-8 flex md:flex-nowrap flex-wrap min-h-[calc(100vh-260px)]">
+      <ProfileSideBar />
       <OrderSummary />
     </div>
   );
 }
 
 import { GetServerSideProps } from "next";
+import ProfileSideBar from "@/components/Profile/ProfileSideBar";
 
 export const getServerSideProps: GetServerSideProps = async ({}) => {
   try {

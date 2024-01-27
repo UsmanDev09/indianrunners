@@ -154,7 +154,8 @@ export const updateDatabaseAfterPaymentVerified: RequestHandler<unknown, unknown
                             
                                 await createNotification(type, message)
                             
-                                // empty cart 
+                                // empty cart
+                                await UserModel.findByIdAndUpdate(_id, { cart: []})
                         }
                     }
                 }

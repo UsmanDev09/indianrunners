@@ -92,7 +92,7 @@ const Products = ({ initialProducts } : { initialProducts: Product[] } ) => {
                                     </tr>
                                 </thead>
                                 {products && products.map((productDetails, index) => {
-                                    
+                                    console.log(productDetails)
                                     return (
                                         <tbody key={index} className="bg-white divide-y divide-gray-300 dark:bg-dark-green dark:divide-gray-700">
                                             <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
@@ -104,13 +104,13 @@ const Products = ({ initialProducts } : { initialProducts: Product[] } ) => {
                                                     </div>
                                                 </td>
                                                 <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                    <Image src={productDetails.product.image || '/default-profile-image.png'} width={50} height={50} alt='product image' />
+                                                    <Image src={productDetails?.product?.image || '/default-profile-image.png'} width={50} height={50} alt='product image' />
                                                 </td>
                                                 <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
-                                                    <div className="text-base font-semibold text-gray-900 dark:text-white">{productDetails.product.name}</div>
+                                                    <div className="text-base font-semibold text-gray-900 dark:text-white">{productDetails?.name}</div>
                                                 </td>
-                                                <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">{productDetails.product.description}</td>
-                                                <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">{productDetails.product.price}</td>
+                                                <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">{productDetails?.description}</td>
+                                                <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">{productDetails?.price}</td>
                                                 <td className="p-4 space-x-2 whitespace-nowrap">
                                                     <button onClick={() => {setOpenUpdateProductDrawer(!openUpdateProductDrawer), setProductToUpdate(productDetails)} } type="button"  className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-gray-200 dark:text-white rounded-lg bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-primary-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
                                                         <svg className="w-4 h-4 mr-2 text-gray-900 group-hover:text-gray-900 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path><path fillRule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd"></path></svg>
