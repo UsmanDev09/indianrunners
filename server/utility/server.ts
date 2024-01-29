@@ -22,7 +22,6 @@ import leaderboardRoutes from "../routes/leaderboard";
 import inventoryRoutes from "../routes/inventory";
 import landingPageRoutes from "../routes/landingPage";
 import checkoutRoutes from "../routes/checkout";
-import env from "./validateEnv";
 
 // var bodyParser = require("body-parser");
 
@@ -33,7 +32,7 @@ const server = () => {
     app.use(express.urlencoded( {limit: '50mb', extended: false} ))
     app.use(express.urlencoded());
     app.use(cors({
-        origin: env.CLIENT_DOMAIN
+        origin: 'http://localhost:3000'
     }))
     app.use(passport.initialize())
     // app.use(whitelistRequestBodyParams)
