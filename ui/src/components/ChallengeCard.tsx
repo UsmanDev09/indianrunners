@@ -115,7 +115,7 @@ const ChallengeCard = ({ challenge }: { challenge: Challenge }) => {
   };
 
   return (
-    <div className="w-[300px] sm:w-[360px] h-[400px] relative max-w-sm bg-white border border-gray-200 dark:bg-dark-card rounded-lg dark:border-gray-600">
+    <div className="w-[300px] sm:w-[360px] h-[400px] relative max-w-sm bg-white border border-gray-200 dark:bg-dark-card rounded-lg dark:border-gray-600 m-8">
       <Link href="#">
         <Image
           className="p-8 rounded-t-lg m-auto"

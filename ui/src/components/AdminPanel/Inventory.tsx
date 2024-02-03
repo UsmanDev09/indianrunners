@@ -13,7 +13,7 @@ const Inventory = ({ inventories, products }: { inventories: Inventory[],product
   const [InventoryToDelete, setInventoryToDelete] = useState<Inventory>();
   const [InventoryToUpdate, setInventoryToUpdate] = useState<Inventory>();
   const [Inventory, setInventory] = useState<Inventory[]>(inventories);
-
+console.log(Inventory)
   return (
     <div className="w-full container">
       <CreateInventory
@@ -189,8 +189,8 @@ const Inventory = ({ inventories, products }: { inventories: Inventory[],product
                     </th>
                   </tr>
                 </thead>
-                {inventories &&
-                  inventories.map((Inventory, index) => {
+                {Inventory &&
+                  Inventory.map((Inventory, index) => {
                     return (
                       <tbody
                         key={index}
