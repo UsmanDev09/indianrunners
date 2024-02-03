@@ -7,7 +7,7 @@
     "SetupTestFrameworkScriptFile": "./test/setup.js"
   },
   "scripts": {
-    "start": "nodemon server.ts",
+    "start": "nodemon ./api/index.ts",
     "lint": "eslint . --ext .ts",
     "test": "jest"
   },
