@@ -15,7 +15,7 @@ export const CartSummary = ( { cartDetails } : { cartDetails: Cart[] }) => {
                     <li key={index} className="flex py-6 w-[60%]">
                     <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                     <Image
-                        src={cart?.itemDetails?.[0]?.product?.image ?? '/default-profile-image'}
+                        src={cart?.itemDetails?.[0]?.product?.image || '/images.jpeg'}
                         width={100}
                         height={100}
                         alt="product image"

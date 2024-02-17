@@ -83,7 +83,7 @@ const CartSideBar = ({ setShowCartSidebar, showCartSideBar } : { setShowCartSide
                                         return cartDetails.itemType === 'challenge' ? (
                                             <li key={index} className="flex py-6">
                                                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                                                    <Image src={cartDetails.itemDetails?.[0]?.challenge?.image ?? '/default-profile-image.png'} width={100} height={100} alt="chalenge image"/>
+                                                    <Image src={cartDetails.itemDetails?.[0]?.challenge?.image || '/images.jpeg'} width={100} height={100} alt="chalenge image"/>
                                                 </div>
 
                                                 <div className="ml-4 flex flex-1 flex-col">
@@ -112,7 +112,7 @@ const CartSideBar = ({ setShowCartSidebar, showCartSideBar } : { setShowCartSide
                                             <li key={index} className="flex py-6">
                                                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                                 <Image
-                                                    src={cartDetails.itemDetails?.[0]?.product?.image ?? '/default-profile-image'}
+                                                    src={cartDetails.itemDetails?.[0]?.product?.image || '/images.jpeg'}
                                                     width={100}
                                                     height={100}
                                                     alt="product image"
@@ -157,10 +157,10 @@ const CartSideBar = ({ setShowCartSidebar, showCartSideBar } : { setShowCartSide
                         </div>
 
                         <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-                        <div className="flex justify-between text-base font-medium text-gray-900">
+                        {/* <div className="flex justify-between text-base font-medium text-gray-900">
                             <p>Subtotal</p>
                             <p>$262.00</p>
-                        </div>
+                        </div> */}
                         <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                         <div className="mt-6">
                             <Link href="/checkout" className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Checkout</Link>
