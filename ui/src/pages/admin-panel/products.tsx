@@ -3,7 +3,7 @@ import Products from '../../components/AdminPanel/Products'
 import { ApiService, Product } from '../api'
 
 const AdminPanelProducts = ({products}: {products: Product[]}) => {
-    
+    console.log(products)
     return (
         <div className="flex w-full container mx-auto">
             <SideBar />

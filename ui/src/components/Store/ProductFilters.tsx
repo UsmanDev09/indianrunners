@@ -37,7 +37,7 @@ const ProductFilters = ({ setProducts } : { setProducts: Function }) => {
     maxprice,
   ]);
   return (
-    <div className="dark:bg-white rounded w-0 sm:w-1/2 z-50">
+    <div className="dark:bg-white rounded w-0 sm:w-max z-50">
       <button
         data-drawer-target="default-sidebar"
         data-drawer-toggle="default-sidebar"

@@ -90,7 +90,7 @@ const ProductCard = ({ product } : { product: Product  }) => {
   };
 
   return (
-    <div className="w-[300px] sm:w-[360px] h-[350px] relative max-w-sm bg-white border border-gray-200 dark:bg-dark-card rounded-lg dark:border-gray-600">
+    <div className="w-[300px] sm:w-[360px] h-[350px] relative max-w-sm bg-white border border-gray-200 dark:bg-dark-card rounded-lg dark:border-gray-600 m-8">
         <Image
           className="p-8  rounded-t-lg m-auto"
           width={200}

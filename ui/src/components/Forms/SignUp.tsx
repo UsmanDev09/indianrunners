@@ -22,7 +22,7 @@ const SignUpForm = () => {
   const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    fetch("http://localhost:5000/api/user/register", {
+    fetch(`${process.env.SERVER_DOMAIN}/api/user/register`, {
       method: "POST",
       mode: "cors", // no-cors, *cors, same-origin
       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached

@@ -27,12 +27,16 @@ const OrderSummary = () => {
   const orderId = searchParams.get('orderId')
 
   const updateDatabaseAfterPaymentVerified = async () => {
+    try{
     const { data : { success, message } } = await axios.put('api/payment', { orderId });
 
     
     if(success) toast.success(message);
     
     else toast.error(message);
+  }catch(e:any){
+    toast.error("Error fetching orderId")
+  }
   }
 
   const fetchOrderSummary = async () => {
@@ -73,7 +77,7 @@ const OrderSummary = () => {
             </tr>
           </thead>
           <tbody>
-            {/* {data?.map(
+            {data?.map(
               (item: ItemDetail_Props, index: Key | null | undefined) =>
                 item && (
                   <tr
@@ -97,7 +101,7 @@ const OrderSummary = () => {
                     </td>
                   </tr>
                 )
-            )} */}
+            )}
           </tbody>
         </table>
       </div>

@@ -32,7 +32,7 @@ const DeleteInventory = ( {setInventory, Inventory, setOpenDeleteProductDrawer, 
           if (response.ok) {
             toast.success('product deleted successfully')
             setOpenDeleteProductDrawer(false)
-            setInventory(products)
+            setInventory(products.data)
           } else {
             toast.error('Failed to delete product');
           }

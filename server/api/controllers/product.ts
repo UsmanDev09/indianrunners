@@ -90,7 +90,7 @@ export const getAllProducts: RequestHandler<unknown, unknown, ProductInterface, 
         $lte?: number;
     }
 
-    const { name, minPrice, maxPrice, page, pageSize } = req.query
+    const { name, minPrice, maxPrice, page=1, pageSize=10 } = req.query
 
     const filters: any = {}
     const sort: { [key: string]: 'asc' | 'desc' } = {}
@@ -104,15 +104,15 @@ export const getAllProducts: RequestHandler<unknown, unknown, ProductInterface, 
     if (name === 'asc' || name === 'desc')
         sort.name = name
     
-    const products: any = await InventoryModel.find({ isDeleted: false}).skip(((page) - 1) * (pageSize))
-        .limit(pageSize).populate('product')
+    const products: any = await ProductModel.find({ isDeleted: false}).skip(((page) - 1) * (pageSize))
+        .limit(pageSize)
 
-    const sortedAndFilteredDocuments = products
-        .sort((a: any, b: any) => (sort.name === 'asc' ? a.product.name.localeCompare(b.product.name) : b.product.name.localeCompare(a.product.name)))
+    // const sortedAndFilteredDocuments = products
+    //     .sort((a: any, b: any) => (sort.name === 'asc' ? a.product.name.localeCompare(b.product.name) : b.product.name.localeCompare(a.product.name)))
 
     res.status(StatusCodes.OK).json({
         success: true,
-        data: sortedAndFilteredDocuments,
+        data: products,
         message: Constants.productFetchedSuccessfully
     })
 

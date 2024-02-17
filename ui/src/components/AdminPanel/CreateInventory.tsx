@@ -1,4 +1,4 @@
-import { Inventory } from "@/pages/api";
+import { Inventory, Product } from "@/pages/api";
 import { Datepicker } from "flowbite-react";
 import { FormEvent, useState } from "react";
 import toast from "react-hot-toast";
@@ -7,10 +7,12 @@ const CreateInventory = ({
   setInventory,
   setOpenCreateInventoryDrawer,
   openCreateInventoryDrawer,
+  products
 }: {
   setInventory: (Inventory: Inventory[]) => void;
   setOpenCreateInventoryDrawer: (action: boolean) => void;
   openCreateInventoryDrawer: boolean;
+  products?: Product[]
 }) => {
   const [formData, setFormData] = useState({
     size: "",
@@ -29,7 +31,7 @@ const CreateInventory = ({
         newData.details[key] = data[key];
       }
     });
-    newData.product = "65340352ee590c66344d4643";
+    newData.product = newData?.details?.products||'';
     return newData;
   };
 
@@ -54,6 +56,7 @@ const CreateInventory = ({
       }
     }
     const filteredFormData = FormatValues(formData);
+
     try {
       const response = await fetch(`${process.env.SERVER_DOMAIN}/api/inventory`, {
         method: "POST",
@@ -73,10 +76,10 @@ const CreateInventory = ({
       const Inventory = await response.json();
       if (response.ok) {
         toast.success('inventory created successfully')
-        setInventory(Inventory);
+        setInventory(Inventory.data);
         setOpenCreateInventoryDrawer(false);
       } else {
-        toast.error("Failed to create Inventory");
+        toast.error(Inventory?.message?.message);
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -122,6 +125,22 @@ const CreateInventory = ({
       </button>
       <form action="#" encType="multipart/form-data" className=" h-full mb-32">
         <div className="space-y-4">
+        <div>
+          <label
+              htmlFor="size"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Choose a product
+            </label>
+          <select id="products" name="products" onChange={handleInputChange} className="mt-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+          <option selected>Choose a product</option>
+          {products && products.map((category, index) => {
+              return (
+                <option key={category._id} value={category._id}>{category.name}</option>
+            )
+          })}
+          </select>
+          </div>
           <div>
             <label
               htmlFor="size"
@@ -135,7 +154,7 @@ const CreateInventory = ({
               onChange={handleInputChange}
               id="rewardpoints"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              placeholder="20"
+              placeholder="XS"
               required
             />
           </div>
@@ -164,12 +183,12 @@ const CreateInventory = ({
               Color
             </label>
             <input
-              type="color"
+              type="text"
               name="color"
               onChange={handleInputChange}
               id="rewardpoints"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              placeholder="20"
+              placeholder="Blue"
               required
             />
           </div>
