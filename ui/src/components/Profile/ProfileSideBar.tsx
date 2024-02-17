@@ -23,28 +23,12 @@ const SideBar = () => {
       path: `${path.PROFILE}`,
     },
     {
-      name: "Billing and payment",
-      path: `${path.PROFILE}/payment`,
-    },
-    {
-      name: "Order History",
-      path: `${path.PROFILE}/order-history`,
-    },
-    {
-      name: "Addresses",
-      path: `${path.PROFILE}/address`,
-    },
-    {
       name: "Connected Apps",
       path: `${path.PROFILE}/apps/exchange_token`,
     },
     {
       name: "Activities",
       path: `${path.PROFILE}/activities`,
-    },
-    {
-      name: "Badges",
-      path: `${path.PROFILE}/badges`,
     },
     {
       name: "Certificates",
@@ -60,7 +44,10 @@ const SideBar = () => {
     },
   ];
   return (
-    <div className="w-full md:w-80 mr-32 mt-12 bg-gray-200 p-10" aria-label="Sidebar">
+    <div
+      className="w-full md:w-80 mr-32 mt-12 bg-gray-200 p-10"
+      aria-label="Sidebar"
+    >
       <div className="xs:overflow-y-auto md:overflow-y-clip xl:overflow-y-auto md:w-auto py-4">
         <ul className="space-y-2 dark:text-blue-text">
           <li className="flex items-center border-b-2 border-black pb-3">
