@@ -95,7 +95,7 @@ const ProductCard = ({ product } : { product: Product  }) => {
           className="p-8  rounded-t-lg m-auto"
           width={200}
           height={200}
-          src={product?.image ? product?.image : '/defaut-profile-image.png'}
+          src={product?.image || '/images.jpeg'}
           alt="product image"
         />
       <div className="px-5 pb-5">

@@ -90,7 +90,7 @@ export const getAllProducts: RequestHandler<unknown, unknown, ProductInterface, 
         $lte?: number;
     }
 
-    const { name, minPrice, maxPrice, page=1, pageSize=10 } = req.query
+    const { name='asc', minPrice, maxPrice, page=1, pageSize=10 } = req.query
 
     const filters: any = {}
     const sort: { [key: string]: 'asc' | 'desc' } = {}
@@ -107,12 +107,12 @@ export const getAllProducts: RequestHandler<unknown, unknown, ProductInterface, 
     const products: any = await ProductModel.find({ isDeleted: false}).skip(((page) - 1) * (pageSize))
         .limit(pageSize)
 
-    // const sortedAndFilteredDocuments = products
-    //     .sort((a: any, b: any) => (sort.name === 'asc' ? a.product.name.localeCompare(b.product.name) : b.product.name.localeCompare(a.product.name)))
+    const sortedAndFilteredDocuments = products
+        .sort((a: any, b: any) => (sort.name === 'asc' ? a.name?.localeCompare(b.name) : b.name?.localeCompare(a.name)))
 
     res.status(StatusCodes.OK).json({
         success: true,
-        data: products,
+        data: sortedAndFilteredDocuments,
         message: Constants.productFetchedSuccessfully
     })
 

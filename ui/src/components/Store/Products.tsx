@@ -8,7 +8,7 @@ export const Products = ({ title, setProducts, products } : { title: string, set
             <ProductFilters setProducts={setProducts} />
             <div className='flex flex-col sm:flex-row mx-auto justify-center flex-wrap'>
                 {products && products.map((inventory: any, index) => {
-                    return <ProductCard key={index} product={inventory.product} />
+                    return <ProductCard key={index} product={inventory} />
                 })}
             </div>
         </div>

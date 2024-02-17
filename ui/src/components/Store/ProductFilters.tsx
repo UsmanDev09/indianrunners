@@ -133,14 +133,14 @@ const ProductFilters = ({ setProducts } : { setProducts: Function }) => {
                 className="w-full h-2 accent-green bg-pink rounded-lg appearance-none cursor-pointer"
               />
             </li> */}
-            <li className="pt-12">
+            {/* <li className="pt-12">
               <button
                 className="text-white rounded bg-pink w-full text-2xl"
                 onClick={filterProducts}
               >
                 Apply Filters
               </button>
-            </li>
+            </li> */}
           </ul>
         </div>
       </aside>

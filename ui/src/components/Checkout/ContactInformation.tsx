@@ -159,7 +159,6 @@ export const ContactInformation = ( { userProfile, setShouldProcessPayment, proc
             
             <button type="submit" disabled={Object.keys(formik.errors).length > 0} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium  text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Pay Now</button>
             {Object.keys(formik.touched).length > 0 && Object.keys(formik.errors).length > 0 && <p className="text-red-500 text-sm mt-1">Please fill all fields</p>}
-            <h1>EMPTY CART, COMPLETE PROFILE</h1>
         </form>
     )
 }

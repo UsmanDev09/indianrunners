@@ -212,7 +212,7 @@ console.log(Inventory)
                           </td>
                           <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             <div className="text-base font-semibold text-gray-900 dark:text-white">
-                              {Inventory.product.name}
+                              {Inventory?.product?.name}
                             </div>
                           </td>
                           <td className="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">

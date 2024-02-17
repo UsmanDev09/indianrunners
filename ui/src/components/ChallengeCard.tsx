@@ -86,7 +86,7 @@ const ChallengeCard = ({ challenge }: { challenge: Challenge }) => {
   
   };
 
-  const addToCart = async () => {
+  const addToCart = async (challengeId: number | undefined, categories:any) => {
     setLoading(true)
     const token = Cookies.get("token");
     const response = await fetch(`${process.env.SERVER_DOMAIN}/api/cart/challenge`, {
@@ -103,7 +103,10 @@ const ChallengeCard = ({ challenge }: { challenge: Challenge }) => {
       referrerPolicy: "no-referrer",
       body: JSON.stringify({
         itemType: "challenge",
-        itemDetails: [cart]
+        itemDetails: [{
+          challenge: { _id: challengeId },
+          challengeCategories: categories
+      }]
       }),
     }).then((response) => response.json().then((cart) => {
       console.log(cart)
@@ -184,7 +187,7 @@ const ChallengeCard = ({ challenge }: { challenge: Challenge }) => {
           >
             INR. {challenge.price}
           </span>
-          <button type="submit" onClick={addToCart} className={`${josef.className} flex text-white cursor bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-40 py-2.5 justify-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-blue-800`}>
+          <button type="submit" onClick={()=>addToCart(challenge._id, challenge.categories)} className={`${josef.className} flex text-white cursor bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-40 py-2.5 justify-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-blue-800`}>
             <span className="mr-2"> {loading && <Loader width={4} height={4} /> } </span> 
             <p>Add to cart</p>
           </button>
