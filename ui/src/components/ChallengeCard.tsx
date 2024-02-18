@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useContext, useState } from "react";
 import Cookies from "js-cookie";
+import toast from "react-hot-toast";
 import { Loader } from "./Loader";
 const josef = Josefin_Sans({ subsets: ["latin"] });
 
@@ -88,6 +89,11 @@ const ChallengeCard = ({ challenge }: { challenge: Challenge }) => {
 
   const addToCart = async (challengeId: number | undefined, categories:any) => {
     setLoading(true)
+    if(categories.length === 0) {
+      toast.error('Please select a category')
+      return;
+    }
+
     const token = Cookies.get("token");
     const response = await fetch(`${process.env.SERVER_DOMAIN}/api/cart/challenge`, {
       method: "POST",

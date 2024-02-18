@@ -16,7 +16,7 @@ export const getServerSideProps = async (context: any) => {
   const cookieHeader = context.req.headers.cookie;
   const tokenRegex = /token=([^;]*)/;
   let activities;
-
+  
   if (cookieHeader) {
     const tokenMatch = cookieHeader.match(tokenRegex);
 
@@ -27,12 +27,11 @@ export const getServerSideProps = async (context: any) => {
 
     const response = await fetch(`${process.env.SERVER_DOMAIN}/api/activity/manual`, {
       method: 'GET',
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((response) => response.json())
-      .then((activities) => activities);
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    
+    }).then(res => res.json())
 
-    if (response.data) activities = response.data;
+    if (response) activities = response.data;
     else activities = [];
   }
 

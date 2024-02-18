@@ -91,13 +91,13 @@ const OrderSummary = () => {
                       Challenge
                     </th>
                     <td className="px-6 py-4">
-                      {item.itemDetails[0].challenge.name}
+                      {item.itemDetails?.[0]?.challenge?.name}
                     </td>
                     <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-                      {item.itemDetails[0].challenge.activity}
+                      {item.itemDetails?.[0]?.challenge?.activity}
                     </td>
                     <td className="px-6 py-4">
-                      ${item.itemDetails[0].challenge.price}
+                      ${item.itemDetails?.[0]?.challenge?.price}
                     </td>
                   </tr>
                 )

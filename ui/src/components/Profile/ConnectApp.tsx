@@ -2,11 +2,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { User } from "@/types";
 
 const ConnectApp = () => {
   const router = useRouter();
   const { code } = router.query;
+  const [user, setUser] = useState<User>();
   const token = Cookies.get("token");
   useEffect(() => {
     try {
@@ -27,10 +30,29 @@ const ConnectApp = () => {
           }),
         }).then((activities) => console.log(activities));
       }
+      
     } catch (err) {
       if (err instanceof Error) console.error(err);
     }
   }, [code, token]);
+
+  useEffect(() => {
+    fetch(`${process.env.SERVER_DOMAIN}/api/user/profile`, {
+      method: "GET",
+      mode: "cors", // no-cors, *cors, same-origin
+      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: "same-origin", // include, *same-origin, omit
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+    }).then(async (res) => {
+      const response = await res.json()
+      if(response?.success) setUser(response.data)
+      else toast.error("Error fetching profile")
+    })
+    console.log(user)
+  }, [token])
 
   return (
     <div className="w-full h-auto ml-8  mt-8 max-w-sm p-4 rounded-lg  sm:p-6  dark:border-gray-700 dark:text-white">
@@ -40,7 +62,7 @@ const ConnectApp = () => {
       <p className="text-sm font-normal text-gray-500 dark:text-gray-400">
         Connect with one of our available wallet providers or create a new one.
       </p>
-      <ul className="my-4 space-y-3">
+      <ul className="my-4 flex justify-between items-center">
         <li>
           <Link
             href="https://www.strava.com/oauth/authorize?client_id=113257&response_type=code&redirect_uri=http://localhost:3000/profile/apps/exchange_token&approval_prompt=force&scope=activity:read_all"
@@ -52,30 +74,9 @@ const ConnectApp = () => {
             <span className="flex-1 ml-3 whitespace-nowrap">Strava</span>
           </Link>
         </li>
+        {user?.appsConnected === 'Strava' && <button className="bg-green-500 p-3 mt-0">Connected</button>}
       </ul>
-      <div>
-        <a
-          href="#"
-          className="inline-flex items-center text-xs font-normal text-gray-500 hover:underline dark:text-gray-400"
-        >
-          <svg
-            className="w-3 h-3 mr-2"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 20 20"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M7.529 7.988a2.502 2.502 0 0 1 5 .191A2.441 2.441 0 0 1 10 10.582V12m-.01 3.008H10M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-            />
-          </svg>
-          Why do I need to connect with my wallet?
-        </a>
-      </div>
+      
     </div>
   );
 };
