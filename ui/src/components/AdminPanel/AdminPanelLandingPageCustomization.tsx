@@ -83,19 +83,19 @@ const AdminPanelLandingPageCustomization = ({ landingpage } : { landingpage: any
 
     return (
         <div className="w-full container mt-10">
-             {/* <CreateCustomizedLandingPage
+            <CreateCustomizedLandingPage
                 setSections={setSections}
                 setOpenCreateCustomizedLandingPageDrawer={setOpenCreateCustomizedLandingPageDrawer}
                 openCreateCustomizedlandingPageDrawer={openCreateCustomizedlandingPageDrawer}
-            />
-            {sectionToUpdate && 
+            /> 
+            {/* {sectionToUpdate && 
                 <UpdateLandingPageSection 
                     setSections={setSections} 
                     section={sectionToUpdate} 
                     setOpenUpdateLandingPageSectionDrawer={setOpenUpdateLandingPageSectionDrawer} 
                     openUpdateLandingPageSectionDrawer={openUpdateLandingPageSectionDrawer} 
                 />
-            } */}
+            }  */}
             {/* {challengeToDelete && (
                 <DeleteCustomizedLandingPage
                 setChallenges={setChallenges}
@@ -112,7 +112,7 @@ const AdminPanelLandingPageCustomization = ({ landingpage } : { landingpage: any
                         </h3>
                         {loading ? <Loader /> : 
                             <div className="w-full">
-                                <Image src={backgroundImageUrl ? backgroundImageUrl : '/default-profile-image.png'} width={1400} height={80} alt='product image' />
+                                <Image src={backgroundImageUrl && backgroundImageUrl} width={1400} height={80} alt='No image has been selected' />
                             </div>
                         }
 
@@ -165,12 +165,12 @@ const AdminPanelLandingPageCustomization = ({ landingpage } : { landingpage: any
                                                         <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">{section?.type}</td>
                                                         <td>    
                                                             <div className="flex flex-wrap gap-2">
-                                                                {section.type === 'product' ? section.products.map((inventory: Inventory, index:number) => {
+                                                                {section.type === 'product' ? section.products?.map((inventory: Inventory, index:number) => {
                                                                     return (
                                                                         <td key={index} >
                                                                             <div>
                                                                                 <span className="bg-gray-200 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">
-                                                                                    {inventory?.product?.name}
+                                                                                    {inventory?.name}
                                                                                 </span>
                                                                             </div>
                                                                         </td>

@@ -78,7 +78,7 @@ const CardList = ({
             products.map((product: any, index) => (
               <SwiperSlide key={index} className="!flex justify-center items-center">
                 <ProductCard
-                  product={product.product}
+                  product={product}
                 />
               </SwiperSlide>
             ))

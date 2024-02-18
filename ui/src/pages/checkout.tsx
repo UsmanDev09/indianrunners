@@ -24,9 +24,9 @@ export default function Checkout() {
   }
   
   const processPayment = async (values: any) => {
-    const { data: { data : profile} } = await axios.put('/api/user/profile', {
-      shippingDetail: values
-    }) 
+    // const { data: { data : profile} } = await axios.put('/api/user/profile', {
+    //   shippingDetail: values
+    // }) 
     // get order id from checkout endpoint 
     const { data: { data } } = await axios.post('/api/checkout')
     console.log(data)

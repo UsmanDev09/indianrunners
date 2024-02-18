@@ -5,6 +5,7 @@ import {  useState } from "react";
 import Cookies from "js-cookie";
 
 import { Loader } from "./Loader";
+import toast from "react-hot-toast";
 
 const josef = Josefin_Sans({ subsets: ["latin"] });
 
@@ -60,7 +61,7 @@ const ProductCard = ({ product } : { product: Product  }) => {
 
   const addToCart = async (productId: number | undefined) => {
     setLoading(true);
-
+    console.log('addding to cart')
     const token = Cookies.get("token");
 
     const response = await fetch(`${process.env.SERVER_DOMAIN}/api/cart/product`, {
@@ -83,9 +84,17 @@ const ProductCard = ({ product } : { product: Product  }) => {
         }]
       }),
     }).then((response) => response.json().then((cart) => { 
+      if(!cart.success) toast.error(cart.message.message)
       setCart([ { product: { _id: 0 }, productQuantity: 0 }])
       setLoading(false);
-    })).catch((err) => { setLoading(false) ,console.log(err)});
+    })).catch((err) => { 
+      console.log('err', err)
+      setLoading(false) 
+      if(err instanceof Error) {
+        console.log(err.message)
+        toast.error(err.message)
+      }
+    });
   
   };
 

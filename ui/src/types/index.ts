@@ -366,6 +366,7 @@ export interface AuthorizeStravaResponse {
   
   export interface Inventory {
     product: Product;
+    name: string;
     details:{
     /**  */
     size: string;

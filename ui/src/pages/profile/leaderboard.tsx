@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-comment-textnodes */
 import Image from "next/image";
 import { Josefin_Sans } from "next/font/google";
 import ProfileSideBar from "@/components/Profile/ProfileSideBar";
@@ -7,6 +8,7 @@ import { ApiService, Leaderboard } from "../api";
 const josef = Josefin_Sans({ subsets: ["latin"] });
 
 const Leaderboard = ({ leaderboards }: { leaderboards: Leaderboard[] }) => {
+  console.log(leaderboards)
   return (
     <div className="container mx-auto flex md:flex-nowrap flex-wrap">
       <ProfileSideBar />
@@ -32,32 +34,35 @@ const Leaderboard = ({ leaderboards }: { leaderboards: Leaderboard[] }) => {
                   </h2>
 
                   <ul>
-                    <li className="flex items-center justify-between py-2">
-                      <div className="flex">
-                        <span className="text-gray-600 mr-2 flex items-center ">
-                          {leaderboard.userDetails?.rank}
-                        </span>
-                        <Image
-                          src="/chelsea.png"
-                          width={32}
-                          height={32}
-                          alt="Club Logo"
-                        />
-                      </div>
-                      <div className="flex items-center">
-                        <div>
-                          <p className="font-semibold">
-                            {leaderboard.userDetails?.user?.firstName}
-                          </p>
-                          <p className="text-sm text-gray-500">
-                            {leaderboard.userDetails?.user?.club}
-                          </p>
+                    {leaderboard.userDetails && leaderboard.userDetails.map((userDetail: any, index: number) => (
+                      <li key={index} className="flex items-center justify-between py-2">
+                        <div className="flex">
+                          <span className="text-gray-600 mr-2 flex items-center ">
+                            {userDetail?.rank}
+                          </span>
+                          <Image
+                            src="/chelsea.png"
+                            width={32}
+                            height={32}
+                            alt="Club Logo"
+                          />
                         </div>
-                      </div>
-                      <span className="text-gray-600">
-                        {leaderboard.userDetails?.distance}
-                      </span>
-                    </li>
+                        <div className="flex items-center">
+                          <div>
+                            <p className="font-semibold">
+
+                              {userDetail?.user?.name}
+                            </p>
+                            <p className="text-sm text-gray-500">
+                              {userDetail?.user?.[0]?.club}
+                            </p>
+                          </div>
+                        </div>
+                        <span className="text-gray-600">
+                          {userDetail?.distance}
+                        </span>
+                      </li>
+                  ))}
                   </ul>
                   <div className="w-full text-end mt-4">
                     <Link
@@ -93,7 +98,7 @@ export const getServerSideProps = async (context: any) => {
     }
 
     const response = await ApiService.getLeaderboards({}, token);
-
+    console.log(response)
     if (response.data) leaderboards = response.data;
     else leaderboards = [];
 

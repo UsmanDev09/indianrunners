@@ -795,7 +795,7 @@ export interface Leaderboard {
   _id?: number;
 
   /**  */
-  userDetails?: UserDetails;
+  userDetails?: UserDetails[];
 
   /**  */
   challenge?: Challenge;
