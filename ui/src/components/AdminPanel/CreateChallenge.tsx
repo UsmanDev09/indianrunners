@@ -111,6 +111,25 @@ const CreateChallenge = ({ setChallenges, categories, setOpenCreateChallengeDraw
     
           if (response.ok) {
             setChallenges(challenges)
+            setFormData({
+                name: '',
+                type: '',
+                activity: '',
+                knockout: false,
+                knockoutType: '',
+                lowerLimit: '',
+                upperLimit: '',
+                fixedLimit: '',
+                cutOffDays: '',
+                cutOffHours: '',
+                startDate: new Date(),
+                endDate: new Date(),
+                sport: '',
+                featured: false,
+                verified: false,
+                price: '',
+                categories: [] as string[],
+            })
             setOpenCreateChallengeDrawer(false)
           } else {
             toast.error('Failed to create challenge');
