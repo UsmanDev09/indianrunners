@@ -13,6 +13,7 @@ const nextConfig = {
     SERVER_DOMAIN: process.env.SERVER_DOMAIN,
     JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
     RAZOR_PAY_API_KEY: process.env.RAZOR_PAY_API_KEY,
+    // CLIENT_URL: process.env.CLIENT_URL
   },
 };
 

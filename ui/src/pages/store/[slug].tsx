@@ -58,7 +58,6 @@ export default function Slug({ items }: { items: Challenge[] | Product[] }) {
     </div>
   );
 }
-
 export const getServerSideProps = async (context: any) => {
   const cookieHeader = context.req.headers.cookie;
   const tokenRegex = /token=([^;]*)/;

@@ -40,7 +40,7 @@ const LoginForm = () => {
           Cookies.set("role", data?.data?.user?.role as string);
           
           toast.success("You've successfully logged in")
-          router.replace("/profile");
+          router.push("/profile");
         }
         else toast.error(data.message.message)
       }).catch(e=>toast.error(e));

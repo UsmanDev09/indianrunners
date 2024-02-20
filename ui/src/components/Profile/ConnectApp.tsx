@@ -65,7 +65,7 @@ const ConnectApp = () => {
       <ul className="my-4 flex justify-between items-center">
         <li>
           <Link
-            href="https://www.strava.com/oauth/authorize?client_id=113257&response_type=code&redirect_uri=http://localhost:3000/profile/apps/exchange_token&approval_prompt=force&scope=activity:read_all"
+            href={`https://www.strava.com/oauth/authorize?client_id=113257&response_type=code&redirect_uri=${process.env.CLIENT_URL}/profile/apps/exchange_token&approval_prompt=force&scope=activity:read_all`}
             className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
           >
             <button className="flex items-center bg-gray-100 hover:bg-gray-200 rounded-lg xl:mb-0 mb-2">
