@@ -35,7 +35,7 @@ export const serviceOptions: ServiceOptions = {};
 export function axios(configs: IRequestConfig, resolve: (p: any) => void, reject: (p: any) => void, token: any): Promise<any> {
 
   const axiosInstance = axiosStatic.create({
-    baseURL: 'http://localhost:5000', // Set your API base URL here
+    baseURL: process.env.SERVER_DOMAIN, // Set your API base URL here
     // You can add more configurations like headers, timeout, etc., if needed
   });
 
