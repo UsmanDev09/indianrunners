@@ -16,7 +16,7 @@ const Sidebar = () => {
             .getElementById("default-sidebar")
             ?.classList.toggle("w-64");
         }}
-        className="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+        className="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:bg-gray-700 dark:focus:ring-gray-600"
       >
         <span className="sr-only">Open sidebar</span>
         <svg
@@ -35,22 +35,22 @@ const Sidebar = () => {
       </button>
       <aside
         id="default-sidebar"
-        className=" z-20 sm:block sm:w-64 flex flex-col flex-shrink-0 transition-transform w-0 -translate-x-full sm:translate-x-0 h-full font-normal duration-75 lg:flex transition-width  dark:bg-sidebar-blue"
+        className=" z-20 sm:block sm:w-64 flex flex-col flex-shrink-0 transition-transform w-0 -translate-x-full sm:translate-x-0 h-full font-normal duration-75 lg:flex transition-width dark:text-white dark:hover:bg-gray-700 dark:bg-gray-700"
         aria-label="Sidebar"
       >
-        <div className="relative flex flex-col flex-1 min-h-0 pt-0 dark:bg-sidebar-blue dark:border-gray-700">
+        <div className="relative flex flex-col flex-1 min-h-0 pt-0 dark:text-white dark:hover:bg-gray-700 dark:bg-gray-700">
           <div className="flex flex-col flex-1 pt-5 pb-4 overflow-y-auto">
             <div className="flex-1 px-3 space-y-1 bg-white divide-y divide-gray-200 dark:bg-sidebar-blue dark:divide-gray-700">
-              <ul className="pb-2 space-y-2 bg-gray-200">
+              <ul className="pb-2 space-y-2 ">
                 <li>
                   <form action="#" method="GET" className="lg:hidden">
                     <label htmlFor="mobile-search" className="sr-only">
                       Search
                     </label>
                     <div className="relative">
-                      <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                      <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none dark:bg-gray-700">
                         <svg
-                          className="w-5 h-5 text-gray-500"
+                          className="w-5 h-5 text-gray-500 dark:bg-gray-200"
                           fill="currentColor"
                           viewBox="0 0 20 20"
                           xmlns="http://www.w3.org/2000/svg"
@@ -66,7 +66,7 @@ const Sidebar = () => {
                         type="text"
                         name="email"
                         id="mobile-search"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-200 dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-100 dark:text-gray-100 dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         placeholder="Search"
                       />
                     </div>
@@ -75,7 +75,7 @@ const Sidebar = () => {
                 <li>
                   <Link
                     href="/admin-panel/dashboard"
-                    className="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700"
+                    className="flex items-center p-2   text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-white dark:hover:bg-gray-700 dark:bg-gray-700"
                   >
                     <svg
                       className="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
@@ -92,7 +92,7 @@ const Sidebar = () => {
                   </Link>
                 </li>
 
-                <ul id="dropdown-crud" className="space-y-2 py-2">
+                <ul id="dropdown-crud" className="space-y-2 py-2  dark:hover:bg-gray-700 dark:bg-gray-700">
                   <li>
                     <Link
                       href="/admin-panel/products"
@@ -145,10 +145,10 @@ const Sidebar = () => {
                 <li>
                   <Link
                     href="/admin-panel/landing-page"
-                    className="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
+                    className="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:bg-gray-700"
                   >
                     <svg
-                      className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                      className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-white dark:hover:bg-gray-700 dark:bg-gray-700"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                       xmlns="http://www.w3.org/2000/svg"
@@ -170,7 +170,7 @@ const Sidebar = () => {
                 <li>
                   <Link
                     href='/admin-panel/activity-approvals'
-                    className="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
+                    className="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:bg-gray-700"
                   >
                     <svg
                       className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
