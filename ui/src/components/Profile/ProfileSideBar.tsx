@@ -51,7 +51,7 @@ const SideBar = () => {
       <div className="xs:overflow-y-auto md:overflow-y-clip xl:overflow-y-auto md:w-auto py-4">
         <ul className="space-y-2 dark:text-blue-text">
           <li className="flex items-center border-b-2 border-black pb-3">
-            <Link href={`${path.HOMEPAGE}`} className="font-comfortaa">
+            <Link href={`${path.HOMEPAGE}`} className="font-comfortaa ">
               Home
             </Link>
             &nbsp;

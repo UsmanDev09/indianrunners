@@ -41,7 +41,7 @@ const Sidebar = () => {
         <div className="relative flex flex-col flex-1 min-h-0 pt-0 dark:text-white dark:hover:bg-gray-700 dark:bg-gray-700">
           <div className="flex flex-col flex-1 pt-5 pb-4 overflow-y-auto">
             <div className="flex-1 px-3 space-y-1 bg-white divide-y divide-gray-200 dark:bg-sidebar-blue dark:divide-gray-700">
-              <ul className="pb-2 space-y-2 bg-gray-700">
+              <ul className="pb-2 space-y-2 ">
                 <li>
                   <form action="#" method="GET" className="lg:hidden">
                     <label htmlFor="mobile-search" className="sr-only">
