@@ -87,7 +87,7 @@ const SideBar = () => {
                 <li key={index} className="mt-2 ">
                   <Link
                     href={ele.path}
-                    className="flex items-center p-2 xs:bg-gray-100 xs:ml-2 xl:ml-0 dark:bg-dark-button dark:hover:bg-dark text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100 focus:bg-gray-100 dark:hover:bg-gray-700 dark:focus:bg-gray-700 dark: text-white"
+                    className="flex items-center p-2 xs:bg-gray-100 xs:ml-2 xl:ml-0 dark:bg-gray-900 dark:hover:bg-dark text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100 focus:bg-gray-100 dark:hover:bg-gray-700 dark:focus:bg-gray-700 dark: text-white"
                   >
                     <span className={"flex-1 whitespace-nowrap "}>
                       {ele.name}
