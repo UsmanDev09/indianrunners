@@ -19,6 +19,7 @@ const SideBar = () => {
 
   const profileArray = [
     {
+     
       name: "Account Information",
       path: `${path.PROFILE}`,
     },
@@ -45,12 +46,12 @@ const SideBar = () => {
   ];
   return (
     <div
-      className="w-full md:w-80 mr-32 mt-12 bg-gray-200 p-10 "
+      className="w-full md:w-80 mr-32 mt-12 bg-gray-200 p-10 dark:text-white dark:bg-gray-700 "
       aria-label="Sidebar"
     >
       <div className="xs:overflow-y-auto md:overflow-y-clip xl:overflow-y-auto md:w-auto py-4 ">
-        <ul className="space-y-2 dark:text-blue-text">
-          <li className="flex items-center border-b-2  border-black pb-3 dark:text-blue-text
+        <ul className="space-y-2 dark:text-white">
+          <li className="flex items-center border-b-2  border-black pb-3 
           ">
             <Link href={`${path.HOMEPAGE}`} className="font-comfortaa">
               Home
@@ -78,15 +79,15 @@ const SideBar = () => {
             </Link>
           </li>
           <li className="font-unica text-2xl pt-2">PROFILE</li>
-          <div className="flex md:flex-col sm:flex-row overflow-auto scrollbar">
+          <div className="flex md:flex-col sm:flex-row overflow-auto scrollbar ">
             {profileArray.map((ele, index) => {
               let flag = checkPath(ele.path);
 
               return (
-                <li key={index} className="mt-2">
+                <li key={index} className="mt-2 ">
                   <Link
                     href={ele.path}
-                    className="flex items-center p-2 xs:bg-gray-100 xs:ml-2 xl:ml-0 dark:bg-dark-button dark:hover:bg-gray text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100 focus:bg-gray-100 dark:hover:bg-gray-700 dark:focus:bg-gray-700 "
+                    className="flex items-center p-2 xs:bg-gray-100 xs:ml-2 xl:ml-0 dark:bg-dark-button dark:hover:bg-dark text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100 focus:bg-gray-100 dark:hover:bg-gray-700 dark:focus:bg-gray-700 dark: text-white"
                   >
                     <span className={"flex-1 whitespace-nowrap "}>
                       {ele.name}
