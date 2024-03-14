@@ -58,7 +58,7 @@ const OrderSummary = () => {
   
   return (
     <div className={`${josef.className} drop-shadow-md p-12 dark:text-blue-text`}>
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg hover:bg-gray-300">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase dark:text-gray-400 dark:bg-pink">
             <tr>

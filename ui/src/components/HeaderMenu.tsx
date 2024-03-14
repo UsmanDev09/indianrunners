@@ -11,7 +11,7 @@ const HeaderMenu = ({ token }: HeaderMenu_Props) => {
   const role = Cookies.get("role");
 
   return (
-    <div className="hidden sm:flex items-center grow dark:text-white">
+    <div className="hidden sm:flex  items-center grow dark:text-white">
       {role === "admin" && (
         <button>
           <Link
@@ -22,17 +22,18 @@ const HeaderMenu = ({ token }: HeaderMenu_Props) => {
           </Link>
         </button>
       )}
+     <ul className="flex flex-row mt-4">
       <Link
         className={`${josef.className}  mr-2 text-base`}
         href="/store/challenges"
       >
-        Challenges
+                <li className="mr-2 text-base hover:bg-gray-300">Challanges</li>
       </Link>
       <Link
         className={`${josef.className}  mr-2 text-base`}
         href="/store/products"
       >
-        Products
+        <li className="mr-2 text-base hover:bg-gray-300">Product</li>
       </Link>
       <button>
         {token ? (
@@ -44,14 +45,15 @@ const HeaderMenu = ({ token }: HeaderMenu_Props) => {
             }}
             className={`${josef.className} text-base mr-2`}
           >
-            Log out
+        <li className="mr-2 text-base hover:bg-gray-300">LogOut</li>
           </Link>
         ) : (
-          <Link href="/login" className={`${josef.className} text-base mr-2`}>
-            Log In
+          <Link href="/login" className={`${josef.className} text-base mr-2 `}>
+           <li className="mr-2 text-base hover:bg-gray-300">LogIn</li>
           </Link>
         )}
       </button>
+      </ul>
     </div>
   );
 };
