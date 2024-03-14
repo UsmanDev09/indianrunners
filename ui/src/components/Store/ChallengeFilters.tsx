@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
-
-
-const ChallengeFilters = ({ setChallenges } : { setChallenges: Function }) => {
+const ChallengeFilters = ({ setChallenges }: { setChallenges: Function }) => {
   const [name, setName] = useState("");
   const [ctype, setcType] = useState("");
   const [activity, setactivity] = useState("");
@@ -29,13 +27,17 @@ const ChallengeFilters = ({ setChallenges } : { setChallenges: Function }) => {
     };
     const fetchChallenges = async () => {
       const chall = fetch(
-        `${process.env.SERVER_DOMAIN}/api/challenge?${new URLSearchParams(params)}`,
+        `${process.env.SERVER_DOMAIN}/api/challenge?${new URLSearchParams(
+          params
+        )}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       ).then((response) => {
-        response.json().then((chall) => {console.log('chall', chall),setChallenges(chall.data)})
-    });
+        response.json().then((chall) => {
+          console.log("chall", chall), setChallenges(chall.data);
+        });
+      });
     };
     fetchChallenges();
   };
@@ -85,15 +87,19 @@ const ChallengeFilters = ({ setChallenges } : { setChallenges: Function }) => {
 
       <aside
         id="default-sidebar"
-        className="w-64 shadow-2xl rounded h-full transition-transform -translate-x-full sm:translate-x-0 bg-white"
+        className="w-64 shadow-2xl rounded-md h-full transition-transform -translate-x-full sm:translate-x-0 bg-white"
         aria-label="Sidebar"
       >
         <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-          <div className="text-center text-3xl">Filters</div>
+          <div className=" dark:text-gray-200 text-center text-3xl">
+            Filters
+          </div>
 
           <ul className="space-y-2 font-medium">
             <li>
-              <div className="text-center m-2">Sort by Name</div>
+              <div className="dark:text-gray-200 text-center m-2">
+                Sort by Name
+              </div>
               <div className="flex items-center mb-4">
                 <input
                   onClick={() => setName("asc")}
@@ -122,7 +128,7 @@ const ChallengeFilters = ({ setChallenges } : { setChallenges: Function }) => {
               </div>
             </li>
             <li>
-              <div className="text-center m-2">Type</div>
+              <div className="dark:text-gray-200 text-center m-2">Type</div>
               <div className="flex items-center mb-4">
                 <input
                   onClick={() => setcType("open")}
@@ -151,7 +157,7 @@ const ChallengeFilters = ({ setChallenges } : { setChallenges: Function }) => {
               </div>
             </li>
             <li className="pt-8">
-              <div className="text-center m-2">Activity</div>
+              <div className="dark:text-gray-200 text-center m-2">Activity</div>
               <div className="flex items-center mb-4">
                 <input
                   onClick={() => setactivity("single")}
@@ -180,7 +186,10 @@ const ChallengeFilters = ({ setChallenges } : { setChallenges: Function }) => {
               </div>
             </li>
             <li className="pt-8">
-              <div className="text-center m-2"> Knockout </div>
+              <div className="dark:text-gray-200 text-center m-2">
+                {" "}
+                Knockout{" "}
+              </div>
               <div className="flex items-center mb-4">
                 <input
                   onClick={() =>
@@ -231,7 +240,9 @@ const ChallengeFilters = ({ setChallenges } : { setChallenges: Function }) => {
               </div>
             </li>
             <li className="pt-8">
-              <div className="text-center pt-2">Other checks</div>
+              <div className="dark:text-gray-200 text-center pt-2">
+                Other checks
+              </div>
               <div className="flex">
                 <div className="flex items-center mt-4">
                   <input
@@ -272,10 +283,10 @@ const ChallengeFilters = ({ setChallenges } : { setChallenges: Function }) => {
               </div>
             </li>
             <li className="pt-8">
-              <label className="block mb-2 text-sm font-medium text-gray-900">
+              <label className="block mb-2 text-center font-semibold text-gray-900 dark:text-gray-200">
                 Min-max range
               </label>
-              Minimum Price: {minprice}
+              <p className="dark:text-gray-200">Minimum Price: {minprice}</p>
               <input
                 id="minimum"
                 type="range"
@@ -284,9 +295,9 @@ const ChallengeFilters = ({ setChallenges } : { setChallenges: Function }) => {
                 onChange={(e) => {
                   setminprice(e.target.value);
                 }}
-                className="w-full h-2 accent-green bg-pink rounded-lg appearance-none cursor-pointer"
+                className="my-1 p-2 w-full h-2 accent-green bg-pink rounded-lg appearance-none cursor-pointer"
               />
-              Maximum Price: {maxprice}
+              <p className="dark:text-gray-200">Maximum Price: {maxprice}</p>
               <input
                 id="maximum"
                 type="range"
@@ -295,7 +306,7 @@ const ChallengeFilters = ({ setChallenges } : { setChallenges: Function }) => {
                 onChange={(e) => {
                   setmaxprice(e.target.value);
                 }}
-                className="w-full h-2 accent-green bg-pink rounded-lg appearance-none cursor-pointer"
+                className="my-1 p-2 w-full h-2 accent-green bg-pink rounded-lg appearance-none cursor-pointer"
               />
             </li>
             <li className="pt-12">
