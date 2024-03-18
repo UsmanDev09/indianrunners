@@ -120,14 +120,14 @@ export const ProfileForm: React.FC<{}> = () => {
     <div className={`place-content-center ${josef.className} `}>
       <form
         onSubmit={formik.handleSubmit}
-        className="flex flex-col items-center bg-prod rounded justify-center h-screen w-screen dark:bg-dark-green"
+        className="flex flex-col items-center bg-prod rounded justify-center h-screen w-screen dark:bg-dark"
       >
-        <section className="bg-gray-50 dark:bg-gray-900 sm:w-1/2 ">
-          <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-            <div className="w-full bg-white dark:bg-violet  drop-shadow-md rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+        <section className="bg-gray-50 dark:bg-gray-800 sm:w-1/2 ">
+          <div className="flex flex-col items-center justify-center  py-8 mx-auto md:h-screen lg:py-0 "style={{ marginTop: "60px" }}>
+            <div className="w-full bg-white dark:bg-gray-800  drop-shadow-md rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 ">
               <div className="p-6 space-y md:space-y-2 sm:px-8 ">
-                <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                  Complete Your Profile
+                <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white font-bold">
+                 Complete Your Profile
                 </h1>
                 <label
                   htmlFor="dob"
@@ -141,7 +141,7 @@ export const ProfileForm: React.FC<{}> = () => {
                   placeholder="Date of Birth"
                   onChange={formik.handleChange}
                   value={String(formik.values.dob)}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-200 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:text-white"
                 />
 
                 <label
@@ -156,7 +156,7 @@ export const ProfileForm: React.FC<{}> = () => {
                   placeholder="Gender"
                   onChange={formik.handleChange}
                   value={formik.values.gender}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:text-white"
                 />
 
                 <label
@@ -172,7 +172,7 @@ export const ProfileForm: React.FC<{}> = () => {
                   placeholder="Weight"
                   onChange={formik.handleChange}
                   value={formik.values.weight}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:text-white"
                 />
 
                 <label
@@ -188,7 +188,7 @@ export const ProfileForm: React.FC<{}> = () => {
                   placeholder="Height"
                   onChange={formik.handleChange}
                   value={formik.values.height}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:text-white"
                 />
 
                 <label
@@ -204,7 +204,7 @@ export const ProfileForm: React.FC<{}> = () => {
                   placeholder="Contact"
                   onChange={formik.handleChange}
                   value={formik.values.contact}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:text-white"
                 />
 
                 <label
@@ -219,7 +219,7 @@ export const ProfileForm: React.FC<{}> = () => {
                   placeholder="Address"
                   onChange={formik.handleChange}
                   value={formik.values.address}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:text-white"
                 />
 
                 {/* <label
@@ -275,7 +275,7 @@ export const ProfileForm: React.FC<{}> = () => {
                       Country
                     </label>
                     <select
-                      className="mr-3 dark:bg-gray-700 border-gray-400 text-gray-500 w-full rounded-lg "
+                      className="mr-3 dark:bg-gray-700 border-gray-400 text-gray-500 w-full rounded-lg dark:text-white"
                       name="country"
                       onChange={(e) => {
                         formik.handleChange(e),
@@ -294,7 +294,7 @@ export const ProfileForm: React.FC<{}> = () => {
                       ))}
                     </select>
                     {formik.touched.country && formik.errors.country ? (
-                      <div className="text-red-500 text-sm mt-1">
+                      <div className="text-red-500 text-sm mt-1 ">
                         {formik.errors.country}
                       </div>
                     ) : null}
@@ -308,7 +308,7 @@ export const ProfileForm: React.FC<{}> = () => {
                         State
                       </label>
                       <select
-                        className="mr-3 dark:bg-gray-700 w-full rounded-lg border-gray-400 text-gray-500 "
+                        className="mr-3 dark:bg-gray-700 w-full rounded-lg border-gray-400 text-gray-500 dark:text-white"
                         name="state"
                         onChange={(e) => {
                           formik.handleChange(e),
@@ -339,7 +339,7 @@ export const ProfileForm: React.FC<{}> = () => {
                         City
                       </label>
                       <select
-                        className=" dark:bg-gray-700 w-full rounded-lg border-gray-400 text-gray-500 mb-4"
+                        className=" dark:bg-gray-700 w-full rounded-lg border-gray-400 text-gray-500 mb-4 dark:text-white"
                         name="city"
                         onChange={(e) => {
                           formik.handleChange(e),
@@ -370,7 +370,7 @@ export const ProfileForm: React.FC<{}> = () => {
                 </div>
                 <button
                   type="submit"
-                  className="w-full mt-2 text-white bg-gray-300 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  className="w-full mt-2 text-white bg-gray-300 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-500 dark:hover:bg-gray-700 dark:focus:ring-primary-800"
                 >
                   Submit
                 </button>
