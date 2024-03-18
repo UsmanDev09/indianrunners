@@ -7,13 +7,32 @@ import { Challenge } from "@/pages/api";
 import { getCartAPI, removeChallengeFromCartAPI, removeProductFromCartAPI, increaseProductQuantityAPI, decreaseProductQuantityAPI } from '../api/cart';
 
 
-const CartSideBar = ({ setShowCartSidebar, showCartSideBar } : { setShowCartSidebar : (showCartSideBar: boolean) => void, showCartSideBar: boolean }) => {
-    const [cart, setCart] = useState<Cart[]>([])
-    const [loading, setLoading] = useState(false)
+const CartSideBar = ({ setShowCartSidebar, showCartSideBar }: { setShowCartSidebar: (showCartSideBar: boolean) => void, showCartSideBar: boolean }) => {
+    const [cart, setCart] = useState<Cart[]>([]);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        if (showCartSideBar) {
+            fetchCart();
+        }
+    }, [showCartSideBar]);
 
     const fetchCart = async () => {
-        getCartAPI().then(res => setCart(res.data))
-    }
+        setLoading(true);
+        try {
+            const res = await getCartAPI();
+            setCart(res.data);
+        } catch (error) {
+            console.error('Error fetching cart:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleCheckoutClick = async () => {
+        setShowCartSidebar(false); 
+       window.location.href = '/checkout'; 
+    };
 
     const removeChallengeFromCart = async (challenge: Challenge, _id: number) => {
         setLoading(true)
@@ -164,8 +183,10 @@ const CartSideBar = ({ setShowCartSidebar, showCartSideBar } : { setShowCartSide
                         </div> */}
                         <p className="mt-0.5 text-sm text-gray-500 dark:text-white">Shipping and taxes calculated at checkout.</p>
                         <div className="mt-6">
-                            <Link href="/checkout" className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 dark:text-white">Checkout</Link>
-                        </div>
+                <button onClick={handleCheckoutClick} className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 dark:text-white">
+                    Checkout
+                </button>
+            </div>
                         <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                             <p>
                             or
