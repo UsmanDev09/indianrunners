@@ -13,7 +13,7 @@ const AccountInfo = ({ user }: { user: any }) => {
             {user?.profileCompleted ? Math.floor(user?.profileCompleted) : 0}%
           </span>
         </div>
-        <div className="w-full border border-black dark:border-white rounded-full p-1 dark:bg-gray-200">
+        <div className="w-full border border-black dark:border-white rounded-full p-1 dark:bg-gray-900">
           <div
             className="bg-gray-700 h-2.5 rounded-full dark:bg-dark-button"
             style={{
