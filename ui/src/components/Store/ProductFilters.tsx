@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
-
-
-const ProductFilters = ({ setProducts } : { setProducts: Function }) => {
+const ProductFilters = ({ setProducts }: { setProducts: Function }) => {
   const [name, setName] = useState("");
   const [minprice, setminprice] = useState("");
   const [maxprice, setmaxprice] = useState("");
@@ -18,24 +16,24 @@ const ProductFilters = ({ setProducts } : { setProducts: Function }) => {
 
     const fetchProducts = async () => {
       const chall = fetch(
-        `${process.env.SERVER_DOMAIN}/api/product?${new URLSearchParams(params)}`,
+        `${process.env.SERVER_DOMAIN}/api/product?${new URLSearchParams(
+          params
+        )}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       ).then((response) => {
-        response.json().then((products) => {console.log('chall', products), setProducts(products.data)})
-    });
+        response.json().then((products) => {
+          console.log("chall", products), setProducts(products.data);
+        });
+      });
     };
     fetchProducts();
   };
 
   useEffect(() => {
     filterProducts();
-  }, [
-    name,
-    minprice,
-    maxprice,
-  ]);
+  }, [name, minprice, maxprice]);
   return (
     <div className="dark:bg-white rounded w-0 sm:w-max z-50">
       <button
@@ -68,17 +66,18 @@ const ProductFilters = ({ setProducts } : { setProducts: Function }) => {
 
       <aside
         id="default-sidebar"
-        className="w-64 shadow-2xl rounded h-full transition-transform -translate-x-full sm:translate-x-0 bg-white"
+        className="w-64 shadow-2xl rounded-md h-full transition-transform -translate-x-full sm:translate-x-0 bg-white"
         aria-label="Sidebar"
       >
         <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-          <div className="text-center text-3xl">Filters</div>
+          <div className="dark:text-gray-200 text-center text-3xl">Filters</div>
 
           <ul className="space-y-2 font-medium">
-          <li>
-              <div className="text-center m-2">Sort by Name</div>
-             
-            
+            <li>
+              <div className="dark:text-gray-200 text-center m-2">
+                Sort by Name
+              </div>
+
               <div className="flex items-center mb-4">
                 <input
                   onClick={() => setName("asc")}

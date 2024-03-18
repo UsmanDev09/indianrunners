@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { BiPencil } from "react-icons/bi";
 
-const AccountInfo = ({user} : {user: any}) => {
-
+const AccountInfo = ({ user }: { user: any }) => {
   return (
     <div className="pt-16 md:pl-16 pl-0 flex flex-wrap justify-between w-full dark;  ">
       <div className="w-full">
@@ -17,31 +16,34 @@ const AccountInfo = ({user} : {user: any}) => {
         <div className="w-full border border-black dark:border-white rounded-full p-1 dark:bg-gray-200">
           <div
             className="bg-gray-700 h-2.5 rounded-full dark:bg-dark-button"
-            style={{ width: `${user?.profileCompleted ? user?.profileCompleted : 0}% ` }}
+            style={{
+              width: `${user?.profileCompleted ? user?.profileCompleted : 0}% `,
+            }}
           ></div>
         </div>
       </div>
 
       <div className="item-left w-full dark:text-blue-text">
-
-      <div className="py-8">
+        <div className="py-8">
           <p className="font-unica text-[25px] font-bold">PROFILE CONTACT</p>
           <div className="flex flex-col items-start">
-            <p className="text-gray-700 min-w-[150px] dark:text-white font-bold">NAME </p>
-            <p className="font-unica mb-4">
-              {user?.name}
+            <p className="text-gray-700 min-w-[150px] dark:text-white font-bold">
+              NAME{" "}
             </p>
-            <p className="text-gray-700 text-[15px] min-w-[150px] dark:text-white font-bold">EMAIL </p>
-           <p className="font-comfortaa mb-4">{user?.email}</p>
-            <p className="text-gray-700 text-[15px] min-w-[150px] dark:text-white font-bold">USER NAME </p>
-            <p className="font-comfortaa mb-4">
-              {user?.userName}
+            <p className="font-unica mb-4">{user?.name}</p>
+            <p className="text-gray-700 text-[15px] min-w-[150px] dark:text-white font-bold">
+              EMAIL{" "}
             </p>
-            <p className="text-gray-700 text-[15px] min-w-[150px] dark:text-white font-bold">REWARD POINTS </p>
+            <p className="font-comfortaa mb-4">{user?.email}</p>
+            <p className="text-gray-700 text-[15px] min-w-[150px] dark:text-white font-bold">
+              USER NAME{" "}
+            </p>
+            <p className="font-comfortaa mb-4">{user?.userName}</p>
+            <p className="text-gray-700 text-[15px] min-w-[150px] dark:text-white font-bold">
+              REWARD POINTS{" "}
+            </p>
 
-            <p className="font-comfortaa">
-              {user?.rewardPoints}
-            </p>
+            <p className="font-comfortaa">{user?.rewardPoints}</p>
           </div>
         </div>
 
@@ -51,18 +53,25 @@ const AccountInfo = ({user} : {user: any}) => {
             {user?.shippingDetail?.country && (
               <div>
                 <p className="text-gray-700 min-w-[150px]">COUNTRY </p>
-                <p className="font-unica mb-4"> {user?.shippingDetail.country}</p>
+                <p className="font-unica mb-4">
+                  {" "}
+                  {user?.shippingDetail.country}
+                </p>
               </div>
             )}
             {user?.shippingDetail?.city && (
               <div>
                 <p className="text-gray-700 text-[15px] min-w-[150px]">CITY </p>
-                <p className="font-comfortaa mb-4">{user?.shippingDetail?.city}</p>
+                <p className="font-comfortaa mb-4">
+                  {user?.shippingDetail?.city}
+                </p>
               </div>
             )}
             {user?.shippingDetails?.address && (
               <div>
-                <p className="text-gray-700 text-[15px] min-w-[150px]">ADDRESS </p>
+                <p className="text-gray-700 text-[15px] min-w-[150px]">
+                  ADDRESS{" "}
+                </p>
                 <p className="font-comfortaa mb-4">
                   {user?.shippingDetail?.address}
                 </p>
@@ -70,10 +79,10 @@ const AccountInfo = ({user} : {user: any}) => {
             )}
             {user?.shippingDetail?.contact && (
               <div>
-                <p className="text-gray-700 text-[15px] min-w-[150px]">CONTACT </p>
-                <p className="font-comfortaa">
-                  {user.shippingDetail.contact}
+                <p className="text-gray-700 text-[15px] min-w-[150px]">
+                  CONTACT{" "}
                 </p>
+                <p className="font-comfortaa">{user.shippingDetail.contact}</p>
               </div>
             )}
           </div>
