@@ -45,7 +45,7 @@ const SideBar = () => {
   ];
   return (
     <div
-      className="w-full md:w-80 mr-32 mt-12 bg-gray-200 dark:bg-gray-700 p-10"
+      className="w-full md:w-80 mr-32 mt-12 bg-gray-200 p-10 dark:bg-gray-700"
       aria-label="Sidebar"
     >
       <div className="xs:overflow-y-auto md:overflow-y-clip xl:overflow-y-auto md:w-auto py-4">

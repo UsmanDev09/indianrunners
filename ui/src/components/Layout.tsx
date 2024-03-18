@@ -122,17 +122,17 @@ const Layout = ({
 
                   {/* Desktop Navbar */}
                   <HeaderMenu token={token} />
-                  <div className="hidden sm:flex justify-between w-40">
+                  <div className="hidden sm:flex justify-between w-40 ">
                     <Notifications notifications={notifications} />
                     <DarkMode
                       userPrefs={userPrefs}
                       setUserPrefs={setUserPrefs}
                     />
-                    <span className="flex items-center">|</span>
+                    <span className="flex items-center ">|</span>
                     {token && (
                       <button onClick={() => setShowCartSideBar(true)}>
                         {/* <Link href="/cart" className="text-base"> */}
-                        <IoCartOutline className="w-8 h-8 text-icons-color dark:text-white" />
+                        <IoCartOutline className="w-8 h-8 text-icons-color dark:text-white hover:bg-gray-300" />
                         {/* </Link> */}
                         {showCartSideBar && (
                           <CartSideBar
@@ -144,7 +144,7 @@ const Layout = ({
                     )}
                     <button>
                       <Link href="/profile" className="text-base">
-                        <LiaUserSolid className="w-8 h-8 text-icons-color dark:text-white" />
+                        <LiaUserSolid className="w-8 h-8 text-icons-color dark:text-white hover:bg-gray-300" />
                       </Link>
                     </button>
                   </div>

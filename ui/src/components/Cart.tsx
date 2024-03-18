@@ -49,7 +49,7 @@ const Cart = ({ title, price, picture }: ItemCard_Props) => {
 
   return (
     <ProtectedRoute>
-      <div className="mt-12 container mx-auto ">
+      <div className="mt-12 container mx-auto  ">
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table className="w-full text-sm text-left text-gray-500 ">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-dark dark:text-gray-400">
