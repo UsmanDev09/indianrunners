@@ -3,39 +3,37 @@ import Image from "next/image";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { useEffect } from "react";
 
-type userPrefs = {
-    darkMode: boolean
-}
+type UserPrefs = {
+  darkMode: boolean;
+};
 
 type Props = {
-    userPrefs: userPrefs
-    setUserPrefs: (userPrefs: userPrefs ) => void
-}
+  userPrefs: UserPrefs;
+  setUserPrefs: (userPrefs: UserPrefs) => void;
+};
 
 const Logo = ({ userPrefs, setUserPrefs }: Props) => {
+  // useEffect(() => {
+  //   setUserPrefs(userPrefs);
+  // }, []);
 
-    useEffect(() => {
+  const logoSrc = userPrefs.darkMode ? "/white_logo.svg" : "/black_logo.svg";
+  const logoAlt = "Indian Runners";
 
-    }, [userPrefs])
-return (
-    userPrefs.darkMode ? 
-        (
-            <Link
-                className="text-5xl sm:text-3xl md:text-5xl text-center sm:text-left font-bold grow"
-                href="/"
-            >
-                <Image data-testid="logo" src='/white_logo.svg' width={88} height={50} alt='Indian runners'/>
-            </Link>
-        ) : (
-            <Link
-                className="text-5xl sm:text-3xl md:text-5xl text-center sm:text-left font-bold grow"
-                href="/"
-            >
-                <Image data-testid='logo' src='/black_logo.svg' width={88} height={50} alt='Indian runners'/>
-            </Link> 
-        )
-    )
-    
-}
+  return (
+    <Link
+      className="text-5xl sm:text-3xl md:text-5xl text-center sm:text-left font-bold grow"
+      href="/"
+    >
+      <Image
+        data-testid="logo"
+        src={logoSrc}
+        width={88}
+        height={50}
+        alt={logoAlt}
+      />
+    </Link>
+  );
+};
 
 export default Logo;
