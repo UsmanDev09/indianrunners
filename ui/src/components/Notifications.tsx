@@ -58,7 +58,7 @@ const Notifications = ({ notifications }: Props) => {
       <button
         ref={iconRef}
         onClick={onClickNotifications}
-        className="flex items-center hover:bg-gray-300"
+        className="flex items-center"
       >
         <IoIosNotificationsOutline className="w-8 h-8 mt-1 text-icons-color dark:text-white" />
       </button>

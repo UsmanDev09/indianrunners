@@ -11,31 +11,22 @@ const HeaderMenu = ({ token }: HeaderMenu_Props) => {
   const role = Cookies.get("role");
 
   return (
-    <div className="hidden sm:flex  items-center grow dark:text-white">
-      {role === "admin" && (
-        <button>
+    <div className="hidden sm:flex items-center grow dark:text-white pb-5">
+      <ul className="flex flex-row mt-4 ">
+        {role === "admin" && (
           <Link
             href="/admin-panel"
-            className={`${josef.className} underline bg-light-pink dark:bg-dark-green text-base mr-2 p-2 hover:text-white`}
+            className={`${josef.className}  mr-8 hover:text-white`}
           >
-            Admin Panel
+            <li className="hover:underline text-lg">Admin Panel</li>
           </Link>
-        </button>
-      )}
-     <ul className="flex flex-row mt-4">
-      <Link
-        className={`${josef.className}  mr-2 text-base`}
-        href="/store/challenges"
-      >
-                <li className="mr-2 text-base hover:bg-gray-300">Challanges</li>
-      </Link>
-      <Link
-        className={`${josef.className}  mr-2 text-base`}
-        href="/store/products"
-      >
-        <li className="mr-2 text-base hover:bg-gray-300">Product</li>
-      </Link>
-      <button>
+        )}
+        <Link className={`${josef.className} text-lg`} href="/store/challenges">
+          <li className="mr-8 text-lg hover:underline">Challanges</li>
+        </Link>
+        <Link className={`${josef.className} text-lg`} href="/store/products">
+          <li className="mr-8 text-lg hover:underline">Product</li>
+        </Link>
         {token ? (
           <Link
             href="/login"
@@ -43,16 +34,15 @@ const HeaderMenu = ({ token }: HeaderMenu_Props) => {
               Cookies.remove("token");
               toast.success("Logged Out Successfully");
             }}
-            className={`${josef.className} text-base mr-2`}
+            className={`${josef.className} text-lg`}
           >
-        <li className="mr-2 text-base hover:bg-gray-300">LogOut</li>
+            <li className="mr-8 text-lg hover:underline">LogOut</li>
           </Link>
         ) : (
-          <Link href="/login" className={`${josef.className} text-base mr-2 `}>
-           <li className="mr-2 text-base hover:bg-gray-300">LogIn</li>
+          <Link href="/login" className={`${josef.className} text-lg `}>
+            <li className="mr-8 text-lg hover:underline">LogIn</li>
           </Link>
         )}
-      </button>
       </ul>
     </div>
   );

@@ -31,6 +31,7 @@ const Logo = ({ userPrefs, setUserPrefs }: Props) => {
         width={88}
         height={50}
         alt={logoAlt}
+        className="pt-1"
       />
     </Link>
   );

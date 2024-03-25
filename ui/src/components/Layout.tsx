@@ -53,17 +53,17 @@ const Layout = ({
   }, [userPrefs]);
 
   useEffect(() => {
-    token = Cookies.get("token")||'';
-    const secret=process.env.JWT_SECRET_KEY||''
-    try{
-    const { exp } = jwt.verify(token, secret) as JwtPayload
-    const seconds = new Date().getTime() / 1000
-    if(exp-seconds<=0){
-      Cookies.remove("token")
+    token = Cookies.get("token") || "";
+    const secret = process.env.JWT_SECRET_KEY || "";
+    try {
+      const { exp } = jwt.verify(token, secret) as JwtPayload;
+      const seconds = new Date().getTime() / 1000;
+      if (exp - seconds <= 0) {
+        Cookies.remove("token");
+      }
+    } catch (e) {
+      // Cookies.remove("token")
     }
-  } catch(e){
-    // Cookies.remove("token")
-  }
   }, []);
 
   return (
@@ -122,17 +122,19 @@ const Layout = ({
 
                   {/* Desktop Navbar */}
                   <HeaderMenu token={token} />
-                  <div className="hidden sm:flex justify-between w-40 ">
+                  <div className="hidden sm:flex justify-between w-40 item-center">
                     <Notifications notifications={notifications} />
                     <DarkMode
                       userPrefs={userPrefs}
                       setUserPrefs={setUserPrefs}
                     />
-                    <span className="flex items-center ">|</span>
+                    <span className="flex items-center dark:text-white ">
+                      |
+                    </span>
                     {token && (
                       <button onClick={() => setShowCartSideBar(true)}>
                         {/* <Link href="/cart" className="text-base"> */}
-                        <IoCartOutline className="w-8 h-8 text-icons-color dark:text-white hover:bg-gray-300" />
+                        <IoCartOutline className="w-8 h-8 text-icons-color dark:text-white " />
                         {/* </Link> */}
                         {showCartSideBar && (
                           <CartSideBar
@@ -144,7 +146,7 @@ const Layout = ({
                     )}
                     <button>
                       <Link href="/profile" className="text-base">
-                        <LiaUserSolid className="w-8 h-8 text-icons-color dark:text-white hover:bg-gray-300" />
+                        <LiaUserSolid className="w-8 h-8 text-icons-color dark:text-white " />
                       </Link>
                     </button>
                   </div>
@@ -195,13 +197,12 @@ const Layout = ({
                     )}
                   </li>
                   <li>
-                    
-                      <Link
-                        href="/admin-panel"
-                        className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-                      >
-                        Admin Panel
-                      </Link>
+                    <Link
+                      href="/admin-panel"
+                      className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                    >
+                      Admin Panel
+                    </Link>
                   </li>
                   <li>
                     <Link
