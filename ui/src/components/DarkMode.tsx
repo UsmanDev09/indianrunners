@@ -10,7 +10,7 @@ type Props = {
 const DarkMode = ({ userPrefs, setUserPrefs }: Props) => {
   return (
     <button
-      className="flex flex-row justify-start items-center cursor-pointer hover:bg-gray-300"
+      className="flex flex-row justify-start items-center cursor-pointer "
       onClick={() => {
         document.documentElement.classList.toggle("dark");
         setUserPrefs({ darkMode: !userPrefs.darkMode });
