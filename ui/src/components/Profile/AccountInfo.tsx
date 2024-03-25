@@ -9,13 +9,13 @@ const AccountInfo = ({ user }: { user: any }) => {
           <span className="text-base font-medium text-black dark:text-white">
             Profile Completion
           </span>
-          <span className="text-sm font-medium text-dark dark: text-white">
+          <span className="text-sm font-medium text-dark dark:text-white">
             {user?.profileCompleted ? Math.floor(user?.profileCompleted) : 0}%
           </span>
         </div>
-        <div className="w-full border border-black dark:border-white rounded-full p-1 dark:bg-gray-900">
+        <div className="w-full border border-black dark:border-white rounded-full p-1 dark:bg-gray-full">
           <div
-            className="bg-gray-700 h-2.5 rounded-full dark:bg-dark-button"
+            className="bg-gray-700 h-2.5 rounded-full dark:bg-gray-200"
             style={{
               width: `${user?.profileCompleted ? user?.profileCompleted : 0}% `,
             }}
