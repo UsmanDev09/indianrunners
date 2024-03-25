@@ -16,7 +16,7 @@ const HeaderMenu = ({ token }: HeaderMenu_Props) => {
         {role === "admin" && (
           <Link
             href="/admin-panel"
-            className={`${josef.className}  mr-8 hover:text-white`}
+            className={`${josef.className}  mr-8 hover:underline`}
           >
             <li className="hover:underline text-lg">Admin Panel</li>
           </Link>
