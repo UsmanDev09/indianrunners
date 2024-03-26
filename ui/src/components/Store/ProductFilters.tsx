@@ -69,12 +69,14 @@ const ProductFilters = ({ setProducts }: { setProducts: Function }) => {
         className="w-64 shadow-2xl rounded-md h-full transition-transform -translate-x-full sm:translate-x-0 bg-white"
         aria-label="Sidebar"
       >
-        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-          <div className="dark:text-gray-200 text-center text-3xl">Filters</div>
+        <div className="h-full p-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+          <div className="dark:text-gray-200 font-semibold text-center text-4xl p-4">
+            Filters
+          </div>
 
           <ul className="space-y-2 font-medium">
             <li>
-              <div className="dark:text-gray-200 text-center m-2">
+              <div className="dark:text-gray-200 text-lg text-center mb-4">
                 Sort by Name
               </div>
 
@@ -87,7 +89,7 @@ const ProductFilters = ({ setProducts }: { setProducts: Function }) => {
                   name="default-Name"
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 />
-                <label className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                <label className="ml-2 text-base font-medium text-gray-900 dark:text-gray-200">
                   Ascending
                 </label>
               </div>
@@ -100,7 +102,7 @@ const ProductFilters = ({ setProducts }: { setProducts: Function }) => {
                   name="default-Name"
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 />
-                <label className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                <label className="ml-2 text-base font-medium text-gray-900 dark:text-gray-200">
                   Descending
                 </label>
               </div>
