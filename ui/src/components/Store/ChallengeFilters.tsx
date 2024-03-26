@@ -90,14 +90,14 @@ const ChallengeFilters = ({ setChallenges }: { setChallenges: Function }) => {
         className="w-64 shadow-2xl rounded-md h-full transition-transform -translate-x-full sm:translate-x-0 bg-white"
         aria-label="Sidebar"
       >
-        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-          <div className=" dark:text-gray-200 text-center text-3xl">
+        <div className="h-full p-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+          <div className=" dark:text-gray-200 font-semibold text-center text-4xl p-4">
             Filters
           </div>
 
           <ul className="space-y-2 font-medium">
             <li>
-              <div className="dark:text-gray-200 text-center m-2">
+              <div className="dark:text-gray-200 text-center m-3 text-lg">
                 Sort by Name
               </div>
               <div className="flex items-center mb-4">
@@ -109,7 +109,7 @@ const ChallengeFilters = ({ setChallenges }: { setChallenges: Function }) => {
                   name="default-Name"
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 />
-                <label className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                <label className="ml-2 text-base font-medium text-gray-900 dark:text-gray-200">
                   Ascending
                 </label>
               </div>
@@ -122,13 +122,15 @@ const ChallengeFilters = ({ setChallenges }: { setChallenges: Function }) => {
                   name="default-Name"
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 />
-                <label className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                <label className="ml-2 text-base font-medium text-gray-900 dark:text-gray-200">
                   Descending
                 </label>
               </div>
             </li>
             <li>
-              <div className="dark:text-gray-200 text-center m-2">Type</div>
+              <div className="dark:text-gray-200 text-lg text-center m-4">
+                Type
+              </div>
               <div className="flex items-center mb-4">
                 <input
                   onClick={() => setcType("open")}
@@ -138,8 +140,8 @@ const ChallengeFilters = ({ setChallenges }: { setChallenges: Function }) => {
                   name="default-type"
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 />
-                <label className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                  open
+                <label className="ml-2 text-base font-medium text-gray-900 dark:text-gray-200">
+                  Open
                 </label>
               </div>
               <div className="flex items-center">
@@ -151,13 +153,15 @@ const ChallengeFilters = ({ setChallenges }: { setChallenges: Function }) => {
                   name="default-type"
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 />
-                <label className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                  fixed
+                <label className="ml-2 text-base font-medium text-gray-900 dark:text-gray-200">
+                  Fixed
                 </label>
               </div>
             </li>
             <li className="pt-8">
-              <div className="dark:text-gray-200 text-center m-2">Activity</div>
+              <div className="dark:text-gray-200 text-lg text-center mb-4">
+                Activity
+              </div>
               <div className="flex items-center mb-4">
                 <input
                   onClick={() => setactivity("single")}
@@ -167,8 +171,8 @@ const ChallengeFilters = ({ setChallenges }: { setChallenges: Function }) => {
                   name="default-activity"
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 />
-                <label className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                  single
+                <label className="ml-2 text-base font-medium text-gray-900 dark:text-gray-200">
+                  Single
                 </label>
               </div>
               <div className="flex items-center">
@@ -180,17 +184,16 @@ const ChallengeFilters = ({ setChallenges }: { setChallenges: Function }) => {
                   name="default-activity"
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 />
-                <label className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                  multiple
+                <label className="ml-2 text-base font-medium text-gray-900 dark:text-gray-200">
+                  Multiple
                 </label>
               </div>
             </li>
             <li className="pt-8">
-              <div className="dark:text-gray-200 text-center m-2">
-                {" "}
-                Knockout{" "}
+              <div className="dark:text-gray-200 text-center text-lg mb-4">
+                Knockout
               </div>
-              <div className="flex items-center mb-4">
+              <div className="flex items-center mb-4 ">
                 <input
                   onClick={() =>
                     knockout == ""
@@ -204,13 +207,13 @@ const ChallengeFilters = ({ setChallenges }: { setChallenges: Function }) => {
                   value=""
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 />
-                <label className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                  Enable knockout
+                <label className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-200">
+                  Enable Knockout
                 </label>
               </div>
             </li>
             <li>
-              <div className="flex">
+              <div className="flex flex-col gap-y-2">
                 <div className="flex items-center pr-2">
                   <input
                     onClick={() => setktype("single")}
@@ -220,8 +223,8 @@ const ChallengeFilters = ({ setChallenges }: { setChallenges: Function }) => {
                     name="default-knockout"
                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                   />
-                  <label className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                    single
+                  <label className="ml-2 text-base font-medium text-gray-900 dark:text-gray-200">
+                    Single
                   </label>
                 </div>
                 <div className="flex items-center">
@@ -233,17 +236,17 @@ const ChallengeFilters = ({ setChallenges }: { setChallenges: Function }) => {
                     name="default-knockout"
                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                   />
-                  <label className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                    multiple
+                  <label className="ml-2 text-base font-medium text-gray-900 dark:text-gray-200">
+                    Multiple
                   </label>
                 </div>
               </div>
             </li>
             <li className="pt-8">
-              <div className="dark:text-gray-200 text-center pt-2">
+              <div className="dark:text-gray-200 text-lg text-center pt-2">
                 Other checks
               </div>
-              <div className="flex">
+              <div className="">
                 <div className="flex items-center mt-4">
                   <input
                     onClick={() =>
@@ -258,11 +261,11 @@ const ChallengeFilters = ({ setChallenges }: { setChallenges: Function }) => {
                     value=""
                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                   />
-                  <label className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  <label className="ml-2 text-base font-medium text-gray-900 dark:text-gray-200">
                     Verified
                   </label>
                 </div>
-                <div className="flex items-center mt-4 ml-4">
+                <div className="flex items-center mt-4 ">
                   <input
                     onClick={() =>
                       featured == "false"
@@ -276,17 +279,19 @@ const ChallengeFilters = ({ setChallenges }: { setChallenges: Function }) => {
                     value=""
                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                   />
-                  <label className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  <label className="ml-2 text-base font-medium text-gray-900 dark:text-gray-200">
                     Featured
                   </label>
                 </div>
               </div>
             </li>
             <li className="pt-8">
-              <label className="block mb-2 text-center font-semibold text-gray-900 dark:text-gray-200">
+              <label className="block mb-2 text-center font-semibold  dark:text-gray-200 text-lg">
                 Min-max range
               </label>
-              <p className="dark:text-gray-200">Minimum Price: {minprice}</p>
+              <p className="dark:text-gray-200 text-base">
+                Minimum Price: {minprice}
+              </p>
               <input
                 id="minimum"
                 type="range"
@@ -295,9 +300,11 @@ const ChallengeFilters = ({ setChallenges }: { setChallenges: Function }) => {
                 onChange={(e) => {
                   setminprice(e.target.value);
                 }}
-                className="my-1 p-2 w-full h-2 accent-green bg-pink rounded-lg appearance-none cursor-pointer"
+                className="my-1 p-[9px] w-full h-1 accent-green bg-pink rounded-full border-black border cursor-pointer"
               />
-              <p className="dark:text-gray-200">Maximum Price: {maxprice}</p>
+              <p className="dark:text-gray-200 text-base">
+                Maximum Price: {maxprice}
+              </p>
               <input
                 id="maximum"
                 type="range"
@@ -306,12 +313,12 @@ const ChallengeFilters = ({ setChallenges }: { setChallenges: Function }) => {
                 onChange={(e) => {
                   setmaxprice(e.target.value);
                 }}
-                className="my-1 p-2 w-full h-2 accent-green bg-pink rounded-lg appearance-none cursor-pointer"
+                className="my-1 p-[9px] w-full h-1 accent-green bg-pink rounded-full border-black border cursor-pointer"
               />
             </li>
             <li className="pt-12">
               <button
-                className="text-white rounded bg-pink w-full text-2xl"
+                className="text-black dark:text-white rounded bg-pink w-full text-2xl hover:underline"
                 onClick={filterChallenges}
               >
                 Apply Filters
