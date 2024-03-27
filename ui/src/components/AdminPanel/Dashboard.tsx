@@ -702,7 +702,7 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="grid w-full grid-cols-1 gap-4 mt-4 xl:grid-cols-2 2xl:grid-cols-3">
-          <div className="items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:flex dark:border-gray-700 sm:p-6 dark:bg-sidebar-blue">
+          <div className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:flex dark:border-gray-700 sm:p-6 dark:bg-sidebar-blue">
             <div className="w-full">
               <h3 className="text-base font-normal text-gray-500 dark:text-gray-400">
                 New products
@@ -916,7 +916,7 @@ const Dashboard = () => {
                 </p>
                 <a
                   href="#"
-                  className="inline-flex items-center text-xs font-medium text-primary-700 sm:text-sm dark:text-primary-500"
+                  className="inline-flex items-center text-xs font-medium text-primary-700 sm:text-sm dark:text-gray-300"
                 >
                   4 replies
                   <svg
@@ -1243,7 +1243,7 @@ const Dashboard = () => {
                   <div className="flex items-center p-3 mb-3.5 border border-gray-200 dark:border-gray-700 rounded-lg">
                     <div className="flex items-center justify-center w-10 h-10 mr-3 rounded-lg bg-primary-100 dark:bg-primary-900">
                       <svg
-                        className="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300"
+                        className="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-gray-200"
                         fill="currentColor"
                         viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg"
@@ -1539,7 +1539,7 @@ const Dashboard = () => {
                     >
                       <svg
                         aria-hidden="true"
-                        className="w-6 h-6 rotate-90"
+                        className="w-6 h-6 rotate-90 dark:text-gray-200"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg"
@@ -1550,7 +1550,7 @@ const Dashboard = () => {
                     </button>
                   </div>
                 </form>
-                <span className="inline-flex items-center text-xs font-medium cursor-pointer hover:underline text-primary-700 sm:text-sm dark:text-primary-500">
+                <span className="inline-flex items-center text-xs font-medium cursor-pointer hover:underline text-primary-700 sm:text-sm dark:text-gray-300">
                   Hide thread
                   <svg
                     className="w-5 h-5 ml-1"
@@ -2059,7 +2059,7 @@ const Dashboard = () => {
                 </p>
                 <a
                   href="https://flowbite.com/blocks/"
-                  className="inline-flex items-center text-xs font-medium hover:underline text-primary-700 sm:text-sm dark:text-primary-500"
+                  className="inline-flex items-center text-xs font-medium hover:underline text-primary-700 sm:text-sm dark:text-gray-300"
                 >
                   Go to Flowbite Blocks
                   <svg
